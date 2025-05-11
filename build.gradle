@@ -58,6 +58,10 @@ tasks.register("setVersion") {
 
 jacocoTestReport {
   dependsOn test
+
+  reports {
+    xml.required = true
+  }
 }
 
 sonar {

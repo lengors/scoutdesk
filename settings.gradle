@@ -2,6 +2,12 @@ pluginManagement {
   repositories {
     gradlePluginPortal()
   }
+
+  String sonarqubeVersion = settings.ext.getProperty("sonarqubeVersion")
+
+  plugins {
+    id "org.sonarqube" version sonarqubeVersion
+  }
 }
 
-rootProject.name = 'demo'
+rootProject.name = "demo"

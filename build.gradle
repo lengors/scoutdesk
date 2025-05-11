@@ -15,6 +15,7 @@ apply plugin: "org.checkerframework"
 group = "io.github.lengors"
 
 String javaVersion = properties["javaVersion"] ?: "21"
+String checkstyleToolVersion = properties["checkstyleToolVersion"] ?: "10.23.1"
 
 java {
 	toolchain {
@@ -70,6 +71,10 @@ tasks.register("setVersion") {
       .collect(Collectors.joining(System.lineSeparator()))
     propertiesFile.write(text)
   }
+}
+
+checkstyle {
+  toolVersion = checkstyleToolVersion
 }
 
 checkerFramework {

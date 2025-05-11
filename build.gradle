@@ -1,11 +1,13 @@
+import java.util.stream.Collectors
+
 plugins {
-	id 'java'
+  id 'java'
   id 'checkstyle'
 }
 
 group = 'io.github.lengors'
 
-def javaVersion = project.properties['javaVersion'] ?: '21'
+String javaVersion = properties['javaVersion'] ?: '21'
 
 java {
 	toolchain {
@@ -24,9 +26,30 @@ repositories {
 }
 
 dependencies {
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
   useJUnitPlatform()
+}
+
+tasks.register('setVersion') {
+  doLast {
+    String newVersion = findProperty("newVersion")
+    if (newVersion == null) throw new IllegalAccessException("newVersion not set")
+    def propertiesFile = file("gradle.properties")
+    def version = "^\\s*version\\s*=\\s*(.*?)\\s*\$"
+    def text = propertiesFile
+      .readLines()
+      .stream()
+      .map { line ->
+        line.replaceAll(version) { matcher ->
+          if (matcher.size() < 2) throw new IllegalStateException("$line does not match $version")
+          String matchedLine = matcher[0]
+          String matchedVersion = matcher[1]
+          matchedLine.replace(matchedVersion, newVersion)
+        }
+      }
+      .collect(Collectors.joining(System.lineSeparator()))
+    propertiesFile.write(text)
+  }
 }

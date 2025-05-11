@@ -5,14 +5,17 @@ plugins {
   id "jacoco"
   id "checkstyle"
   id "org.sonarqube"
-	id 'org.checkerframework'
+	id "org.checkerframework"
+	id "org.springframework.boot"
+	id "io.spring.dependency-management"
 }
 
-apply plugin: 'org.checkerframework'
+apply plugin: "org.checkerframework"
 
 group = "io.github.lengors"
 
 String javaVersion = properties["javaVersion"] ?: "21"
+String checkstyleToolVersion = properties["checkstyleToolVersion"] ?: "10.23.1"
 
 java {
 	toolchain {
@@ -28,9 +31,20 @@ configurations {
 
 repositories {
 	mavenCentral()
+  maven { url "https://repo.spring.io/milestone" }
+  maven { url "https://repo.spring.io/snapshot" }
+}
+
+compileJava {
+  options.compilerArgs += [
+    "-AignoreInvalidAnnotationLocations"
+  ]
 }
 
 dependencies {
+  implementation "org.springframework.boot:spring-boot-starter"
+	testImplementation "org.springframework.boot:spring-boot-starter-test"
+	testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 }
 
 test {
@@ -59,9 +73,13 @@ tasks.register("setVersion") {
   }
 }
 
+checkstyle {
+  toolVersion = checkstyleToolVersion
+}
+
 checkerFramework {
 	checkers = [
-		'org.checkerframework.checker.nullness.NullnessChecker',
+		"org.checkerframework.checker.nullness.NullnessChecker",
 	]
 }
 

@@ -55,10 +55,6 @@ https://www.oracle.com/java/technologies/javase/codeconventions-contents.html
     <property name="optional" value="true" />
   </module>
 
-  <!-- Checks that a package-info.java file exists for each package.     -->
-  <!-- See https://checkstyle.org/checks/javadoc/javadocpackage.html#JavadocPackage -->
-  <module name="JavadocPackage" />
-
   <!-- Checks whether files end with a new line.                        -->
   <!-- See https://checkstyle.org/checks/misc/newlineatendoffile.html -->
   <module name="NewlineAtEndOfFile" />
@@ -182,7 +178,9 @@ https://www.oracle.com/java/technologies/javase/codeconventions-contents.html
     <!-- See https://checkstyle.org/checks/design/index.html -->
     <module name="DesignForExtension" />
     <module name="FinalClass" />
-    <module name="HideUtilityClassConstructor" />
+    <module name="HideUtilityClassConstructor">
+      <property name="ignoreAnnotatedBy" value="SpringBootApplication" />
+    </module>
     <module name="InterfaceIsType" />
     <module name="VisibilityModifier" />
 

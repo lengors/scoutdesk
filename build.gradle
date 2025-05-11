@@ -5,7 +5,10 @@ plugins {
   id "jacoco"
   id "checkstyle"
   id "org.sonarqube"
+	id 'org.checkerframework'
 }
+
+apply plugin: 'org.checkerframework'
 
 group = "io.github.lengors"
 
@@ -54,6 +57,12 @@ tasks.register("setVersion") {
       .collect(Collectors.joining(System.lineSeparator()))
     propertiesFile.write(text)
   }
+}
+
+checkerFramework {
+	checkers = [
+		'org.checkerframework.checker.nullness.NullnessChecker',
+	]
 }
 
 jacocoTestReport {

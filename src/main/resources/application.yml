@@ -8,3 +8,12 @@ spring:
   threads:
     virtual:
       enabled: true
+  security:
+    role:
+      mappings:
+        admin:
+          - "Demo Admins"
+        developer:
+          - "Demo Developers"
+        user:
+          - "Demo Users"

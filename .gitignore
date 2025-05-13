@@ -62,6 +62,7 @@ out/
 
 ### VS Code ###
 .vscode/
+.github/copilot-instructions.md
 
 ### Fleet ###
 .fleet/

@@ -18,8 +18,6 @@ import io.github.lengors.scoutdesk.domain.spring.security.services.ProxiedAuthen
 import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikCustomHeaders;
 import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAuthentication;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 
 /**
  * Converter for Authentik proxied authentication.
@@ -31,7 +29,6 @@ import lombok.experimental.FieldDefaults;
  * @author lengors
  */
 @Service
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationConverter {
 
   /**

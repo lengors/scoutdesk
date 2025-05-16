@@ -8,12 +8,31 @@ spring:
   threads:
     virtual:
       enabled: true
+  liquibase:
+    change-log: classpath:/db/db.changelog-master.yml
+    url: jdbc:${DATABASE_URL:postgresql://localhost:5432/scoutdesk}
+    user: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:}
+  datasource:
+    url: jdbc:${DATABASE_URL:postgresql://localhost:5432/scoutdesk}
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: validate
   security:
     role:
       mappings:
         admin:
-          - "Demo Admins"
+          - "Scoutdesk Admins"
         developer:
-          - "Demo Developers"
+          - "Scoutdesk Developers"
         user:
-          - "Demo Users"
+          - "Scoutdesk Users"
+  http:
+    codecs:
+      max-in-memory-size: ${HTTP_CODEC_MAX_IN_MEMORY_SIZE:16MB}
+
+webscout:
+  client:
+    url: ${WEBSCOUT_CLIENT_URL:http://localhost:8080}

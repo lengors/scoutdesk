@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 
 /**
  * Configures the authentication filter for proxied authentication.
@@ -22,7 +21,6 @@ import lombok.experimental.FieldDefaults;
  */
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @ConditionalOnBean(value = ProxiedAuthenticationConverter.class)
 public class ProxiedAuthenticationFilterConfigurerAdapter
     extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {

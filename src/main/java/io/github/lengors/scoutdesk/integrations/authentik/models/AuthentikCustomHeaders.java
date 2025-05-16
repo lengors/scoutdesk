@@ -1,5 +1,7 @@
 package io.github.lengors.scoutdesk.integrations.authentik.models;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * Utility class for Authentik custom headers.
  *
@@ -8,7 +10,8 @@ package io.github.lengors.scoutdesk.integrations.authentik.models;
  *
  * @author lengors
  */
-public final class AuthentikCustomHeaders {
+@UtilityClass
+public class AuthentikCustomHeaders {
 
   /**
    * Header for the username of the authenticated user.
@@ -24,11 +27,4 @@ public final class AuthentikCustomHeaders {
    * Header for the unique identifier of the authenticated user.
    */
   public static final String NAME = "x-authentik-uid";
-
-  /**
-   * Private constructor to prevent instantiation.
-   */
-  private AuthentikCustomHeaders() {
-    throw new UnsupportedOperationException("Utility class cannot be instantiated");
-  }
 }

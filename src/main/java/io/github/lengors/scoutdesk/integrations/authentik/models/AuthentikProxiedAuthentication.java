@@ -3,6 +3,7 @@ package io.github.lengors.scoutdesk.integrations.authentik.models;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.security.core.Authentication;
@@ -38,7 +39,7 @@ public record AuthentikProxiedAuthentication(
   public String getName() {
     return Optional
         .ofNullable(username)
-        .orElse(""); // TODO: use StringUtils.EMPTY
+        .orElse(StringUtils.EMPTY);
   }
 
   /**

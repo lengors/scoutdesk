@@ -92,13 +92,16 @@ https://www.oracle.com/java/technologies/javase/codeconventions-contents.html
   <!-- </module> -->
 
   <module name="TreeWalker">
+    <module name="SuppressWarningsHolder" />
 
     <!-- Checks for Javadoc comments.                     -->
     <!-- See https://checkstyle.org/checks/javadoc/index.html -->
     <module name="InvalidJavadocPosition" />
     <module name="JavadocMethod" />
     <module name="JavadocType" />
-    <module name="JavadocVariable" />
+    <module name="JavadocVariable">
+      <property name="accessModifiers" value="public, protected, package" />
+    </module>
     <module name="JavadocStyle" />
     <module name="MissingJavadocType">
       <property name="scope" value="protected" />
@@ -138,7 +141,10 @@ https://www.oracle.com/java/technologies/javase/codeconventions-contents.html
     <module name="EmptyForIteratorPad" />
     <module name="GenericWhitespace" />
     <module name="MethodParamPad" />
-    <module name="NoWhitespaceAfter" />
+    <module name="NoWhitespaceAfter">
+      <property name="tokens"
+        value="AT, INC, DEC, UNARY_MINUS, UNARY_PLUS, BNOT, LNOT, DOT, ARRAY_DECLARATOR, INDEX_OP" />
+    </module>
     <module name="NoWhitespaceBefore" />
     <module name="OperatorWrap" />
     <module name="ParenPad" />
@@ -165,6 +171,7 @@ https://www.oracle.com/java/technologies/javase/codeconventions-contents.html
     <module name="EqualsHashCode" />
     <module name="HiddenField">
       <property name="ignoreConstructorParameter" value="true" />
+      <property name="ignoreSetter" value="true" />
     </module>
     <module name="IllegalInstantiation" />
     <module name="InnerAssignment" />
@@ -179,7 +186,7 @@ https://www.oracle.com/java/technologies/javase/codeconventions-contents.html
     <module name="DesignForExtension" />
     <module name="FinalClass" />
     <module name="HideUtilityClassConstructor">
-      <property name="ignoreAnnotatedBy" value="SpringBootApplication" />
+      <property name="ignoreAnnotatedBy" value="SpringBootApplication, UtilityClass" />
     </module>
     <module name="InterfaceIsType" />
     <module name="VisibilityModifier" />
@@ -197,4 +204,6 @@ https://www.oracle.com/java/technologies/javase/codeconventions-contents.html
       <property name="optional" value="true" />
     </module>
   </module>
+
+  <module name="SuppressWarningsFilter" />
 </module>

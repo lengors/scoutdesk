@@ -28,5 +28,6 @@ public record UserRoleProperties(
    */
   @ConstructorBinding
   public UserRoleProperties {
+    // Empty constructor for Spring Boot configuration binding
   }
 }

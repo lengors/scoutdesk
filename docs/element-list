@@ -14,6 +14,10 @@ io.github.lengors.scoutdesk.domain.scrapers.specifications.exceptions.models
 io.github.lengors.scoutdesk.domain.scrapers.specifications.filters
 io.github.lengors.scoutdesk.domain.scrapers.specifications.models
 io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories
+io.github.lengors.scoutdesk.domain.scrapers.strategies.commands.models
+io.github.lengors.scoutdesk.domain.scrapers.strategies.filters
+io.github.lengors.scoutdesk.domain.scrapers.strategies.models
+io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories
 io.github.lengors.scoutdesk.domain.spring.core.services
 io.github.lengors.scoutdesk.domain.spring.security.models
 io.github.lengors.scoutdesk.domain.spring.security.properties

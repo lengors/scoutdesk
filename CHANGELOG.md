@@ -1,3 +1,8 @@
+# [v1.0.0-dev.6](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.5...1.0.0-dev.6) (2025-05-17)
+
+## 🐛 Bug Fixes
+- [`c325770`](https://github.com/lengors/scoutdesk/commit/c325770)  Fix database username&#x27;s environment variable name
+
 # [v1.0.0-dev.5](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.4...1.0.0-dev.5) (2025-05-17)
 
 ## ✨ New Features

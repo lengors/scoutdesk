@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/lengors/protoscout-schemas/refs/tags/v1.0.2/src/io/github/lengors/protoscout/domain/scrapers/specifications/models/scraper-specification.yml
+---
+name: "test"
+settings:
+  defaults:
+    url:
+      location: "https://example.com"
+    gates:
+      - "default"
+  timezone: "UTC"
+  locale: "en-GB"
+  requirements:
+    - name: "description"
+      type: "text"
+    - name: "brand_description"
+      type: "text"
+handlers:
+  - name: "default"
+    gates:
+      requires:
+        - "default"
+    action:
+      returns:
+        brand:
+          description:
+            jexl: "inputs.brand_description + '-' + searchTerm"
+        description:
+          jexl: "inputs.description + '-' + searchTerm"
+        price: "0.5 EUR"

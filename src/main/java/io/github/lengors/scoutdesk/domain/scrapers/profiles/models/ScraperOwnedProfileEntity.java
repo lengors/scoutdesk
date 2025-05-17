@@ -2,8 +2,10 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.models;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
@@ -11,6 +13,7 @@ import org.checkerframework.framework.qual.TypeUseLocation;
 import org.springframework.data.annotation.PersistenceCreator;
 
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
+import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyEntity;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -18,6 +21,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.Table;
@@ -57,6 +61,10 @@ public final class ScraperOwnedProfileEntity {
   @NotNull
   private ScraperOwnedSpecificationEntity specification;
 
+  @ManyToMany(mappedBy = "profiles")
+  @NotNull
+  private Set<ScraperOwnedStrategyEntity> strategies;
+
   /**
    * Creates a new instance of the {@link ScraperOwnedProfileEntity}.
    *
@@ -64,21 +72,41 @@ public final class ScraperOwnedProfileEntity {
    * @param inputs        The input parameters for the profile
    * @param specification The specification reference for the profile
    */
-  @PersistenceCreator
   @SuppressWarnings({ "nullness" })
   public ScraperOwnedProfileEntity(
       final @NotNull ScraperOwnedProfileReference reference,
       final @NotNull Map<@NotNull String, @NotNull String> inputs,
       final @NotNull ScraperOwnedSpecificationEntity specification) {
+    this(reference, inputs, specification, new HashSet<>());
+    this.specification.addProfile(this);
+  }
+
+  @PersistenceCreator
+  private ScraperOwnedProfileEntity(
+      final @NotNull ScraperOwnedProfileReference reference,
+      final @NotNull Map<@NotNull String, @NotNull String> inputs,
+      final @NotNull ScraperOwnedSpecificationEntity specification,
+      final @NotNull Set<ScraperOwnedStrategyEntity> strategies) {
     this.reference = reference;
     this.inputs = inputs;
     this.specification = specification;
-    this.specification.addProfile(this);
+    this.strategies = strategies;
   }
 
   @SuppressWarnings({ "unused", "initialization" })
   private ScraperOwnedProfileEntity() {
     // Empty constructor for JPA
+  }
+
+  /**
+   * Adds a strategy to the profile.
+   *
+   * @param strategy The strategy to add
+   */
+  public void addStrategy(final @NotNull ScraperOwnedStrategyEntity strategy) {
+    if (strategies.add(strategy)) {
+      strategy.addProfile(this);
+    }
   }
 
   @Override
@@ -119,9 +147,29 @@ public final class ScraperOwnedProfileEntity {
     return specification;
   }
 
+  /**
+   * Returns the set of strategies associated with the profile.
+   *
+   * @return The set of strategies associated with the profile
+   */
+  public Set<ScraperOwnedStrategyEntity> getStrategies() {
+    return Collections.unmodifiableSet(strategies);
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(reference);
+  }
+
+  /**
+   * Removes a strategy from the profile.
+   *
+   * @param strategy The strategy to remove
+   */
+  public void removeStrategy(final @NotNull ScraperOwnedStrategyEntity strategy) {
+    if (strategies.remove(strategy)) {
+      strategy.removeProfile(this);
+    }
   }
 
   /**

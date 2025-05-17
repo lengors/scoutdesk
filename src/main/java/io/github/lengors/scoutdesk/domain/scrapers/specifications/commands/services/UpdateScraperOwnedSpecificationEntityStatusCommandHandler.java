@@ -1,5 +1,6 @@
 package io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.services;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +24,9 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.S
  * @author lengors
  */
 @Service
+@SuppressWarnings("LineLength")
 class UpdateScraperOwnedSpecificationEntityStatusCommandHandler implements
-    CommandHandler<UpdateScraperOwnedSpecificationEntityStatusCommand, ScraperOwnedSpecificationFilter, Void> {
+    CommandHandler<UpdateScraperOwnedSpecificationEntityStatusCommand, ScraperOwnedSpecificationFilter, @Nullable Void> {
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
   private final CommandService commandService;
 
@@ -37,7 +39,7 @@ class UpdateScraperOwnedSpecificationEntityStatusCommandHandler implements
 
   @Override
   @Transactional
-  public Void handle(
+  public @Nullable Void handle(
       final UpdateScraperOwnedSpecificationEntityStatusCommand command,
       final ScraperOwnedSpecificationFilter input) {
     final var entity = commandService.executeCommand(new FindScraperOwnedSpecificationEntityCommand(), input);

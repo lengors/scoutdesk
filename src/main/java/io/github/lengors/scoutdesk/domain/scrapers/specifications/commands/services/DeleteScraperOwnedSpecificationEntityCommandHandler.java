@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.serv
 
 import java.util.Objects;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +26,8 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteS
  * @author lengors
  */
 @Service
-class DeleteScraperOwnedSpecificationEntityCommandHandler
-    implements CommandHandler<DeleteScraperOwnedSpecificationEntityCommand, ScraperOwnedSpecificationEntity, Void> {
+class DeleteScraperOwnedSpecificationEntityCommandHandler implements
+    CommandHandler<DeleteScraperOwnedSpecificationEntityCommand, ScraperOwnedSpecificationEntity, @Nullable Void> {
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
   private final CommandService commandService;
 
@@ -39,7 +40,7 @@ class DeleteScraperOwnedSpecificationEntityCommandHandler
 
   @Override
   @Transactional
-  public Void handle(
+  public @Nullable Void handle(
       final DeleteScraperOwnedSpecificationEntityCommand command,
       final ScraperOwnedSpecificationEntity input) {
     if (input

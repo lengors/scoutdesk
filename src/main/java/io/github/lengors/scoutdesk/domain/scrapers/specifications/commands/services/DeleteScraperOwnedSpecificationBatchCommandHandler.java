@@ -1,5 +1,6 @@
 package io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.services;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +21,8 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
  * @author lengors
  */
 @Service
-class DeleteScraperOwnedSpecificationBatchCommandHandler
-    implements CommandHandler<DeleteScraperOwnedSpecificationBatchCommand, ScraperOwnedSpecificationBatchFilter, Void> {
+class DeleteScraperOwnedSpecificationBatchCommandHandler implements
+    CommandHandler<DeleteScraperOwnedSpecificationBatchCommand, ScraperOwnedSpecificationBatchFilter, @Nullable Void> {
   private final CommandService commandService;
 
   DeleteScraperOwnedSpecificationBatchCommandHandler(@Lazy final CommandService commandService) {
@@ -30,7 +31,7 @@ class DeleteScraperOwnedSpecificationBatchCommandHandler
 
   @Override
   @Transactional
-  public Void handle(
+  public @Nullable Void handle(
       final DeleteScraperOwnedSpecificationBatchCommand command,
       final ScraperOwnedSpecificationBatchFilter input) {
     final var entities = commandService.executeCommand(new FindScraperOwnedSpecificationEntityBatchCommand(), input);

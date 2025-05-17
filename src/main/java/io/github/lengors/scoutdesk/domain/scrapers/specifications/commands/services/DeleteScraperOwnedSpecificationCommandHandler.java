@@ -1,5 +1,6 @@
 package io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.services;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
  */
 @Service
 class DeleteScraperOwnedSpecificationCommandHandler
-    implements CommandHandler<DeleteScraperOwnedSpecificationCommand, ScraperOwnedSpecificationFilter, Void> {
+    implements CommandHandler<DeleteScraperOwnedSpecificationCommand, ScraperOwnedSpecificationFilter, @Nullable Void> {
   private final CommandService commandService;
 
   DeleteScraperOwnedSpecificationCommandHandler(@Lazy final CommandService commandService) {
@@ -30,7 +31,7 @@ class DeleteScraperOwnedSpecificationCommandHandler
 
   @Override
   @Transactional
-  public Void handle(
+  public @Nullable Void handle(
       final DeleteScraperOwnedSpecificationCommand command,
       final ScraperOwnedSpecificationFilter input) {
     final var entity = commandService.executeCommand(new FindScraperOwnedSpecificationEntityCommand(), input);

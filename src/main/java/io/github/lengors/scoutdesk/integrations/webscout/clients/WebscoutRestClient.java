@@ -4,13 +4,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import io.github.lengors.protoscout.domain.scrapers.specifications.models.ScraperSpecification;
 import io.github.lengors.scoutdesk.integrations.webscout.properties.WebscoutClientConnectionDetails;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Client for interacting with the Webscout REST API for scraper specifications.
@@ -20,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author lengors
  */
-@Slf4j
 @Component
 public class WebscoutRestClient {
 
@@ -32,6 +32,8 @@ public class WebscoutRestClient {
   private static final ParameterizedTypeReference<List<ScraperSpecification>> TYPE_REFERENCE_LIST = new ParameterizedTypeReference<>() {
   };
 
+  private static final Logger LOG = LoggerFactory.getLogger(WebscoutRestClient.class);
+
   private static final String BASE_PATH = "api/v1/scrapers/specifications";
 
   private final RestClient restClient;
@@ -39,7 +41,7 @@ public class WebscoutRestClient {
   WebscoutRestClient(
       final WebscoutClientConnectionDetails webscoutClientConnectionDetails,
       final RestClient.Builder restClientBuilder) {
-    log.info("Setting {} up: {}", getClass().getSimpleName(), webscoutClientConnectionDetails.url());
+    LOG.info("Setting {} up: {}", getClass().getSimpleName(), webscoutClientConnectionDetails.url());
     this.restClient = restClientBuilder
         .baseUrl(webscoutClientConnectionDetails.url())
         .build();

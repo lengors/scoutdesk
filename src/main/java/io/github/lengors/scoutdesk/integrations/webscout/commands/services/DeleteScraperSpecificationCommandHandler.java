@@ -6,8 +6,6 @@ import io.github.lengors.protoscout.domain.scrapers.specifications.models.Scrape
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.integrations.webscout.clients.WebscoutRestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteScraperSpecificationCommand;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Handles deletion of a single scraper specification via the Webscout REST
@@ -19,10 +17,13 @@ import lombok.RequiredArgsConstructor;
  * @author lengors
  */
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class DeleteScraperSpecificationCommandHandler
     implements CommandHandler<DeleteScraperSpecificationCommand, String, ScraperSpecification> {
   private final WebscoutRestClient webscoutRestClient;
+
+  DeleteScraperSpecificationCommandHandler(final WebscoutRestClient webscoutRestClient) {
+    this.webscoutRestClient = webscoutRestClient;
+  }
 
   @Override
   public ScraperSpecification handle(final DeleteScraperSpecificationCommand command, final String input) {

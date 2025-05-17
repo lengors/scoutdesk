@@ -1,7 +1,5 @@
 package io.github.lengors.scoutdesk.domain.spring.security.models;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * Utility class for user role names.
  *
@@ -9,7 +7,6 @@ import lombok.experimental.UtilityClass;
  *
  * @author lengors
  */
-@UtilityClass
 public final class UserRoleNames {
 
   /**
@@ -26,4 +23,8 @@ public final class UserRoleNames {
    * Role name for regular users.
    */
   public static final String USER = "USER";
+
+  private UserRoleNames() {
+    throw new UnsupportedOperationException("Utility class cannot be instantiated");
+  }
 }

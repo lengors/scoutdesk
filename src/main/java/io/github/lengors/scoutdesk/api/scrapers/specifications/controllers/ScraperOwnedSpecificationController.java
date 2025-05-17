@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.api.scrapers.specifications.controllers;
 
 import java.util.List;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -35,8 +36,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Controller for managing owned scraper specifications via the API.
@@ -48,11 +47,14 @@ import lombok.RequiredArgsConstructor;
  */
 @RestController
 @PreAuthorize("hasRole('DEVELOPER')")
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.PARAMETER })
 @RequestMapping({ "/api/v1/scrapers/specifications", "/api/scrapers/specifications" })
 class ScraperOwnedSpecificationController {
   private final CommandService commandService;
+
+  ScraperOwnedSpecificationController(final @NonNull CommandService commandService) {
+    this.commandService = commandService;
+  }
 
   @DeleteMapping("/{name}")
   @ResponseStatus(HttpStatus.NO_CONTENT)

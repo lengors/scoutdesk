@@ -16,8 +16,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
 import io.github.lengors.scoutdesk.domain.text.services.FuzzyScorer;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Handles retrieval of a batch of owned scraper specification entities by
@@ -30,13 +28,17 @@ import lombok.RequiredArgsConstructor;
  * @author lengors
  */
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @SuppressWarnings("LineLength")
 class FindScraperOwnedSpecificationEntityBatchCommandHandler implements
     CommandHandler<FindScraperOwnedSpecificationEntityBatchCommand, ScraperOwnedSpecificationBatchFilter, List<ScraperOwnedSpecificationEntity>> {
   private static final ScraperOwnedSpecificationStatus IGNORE_STATUS = ScraperOwnedSpecificationStatus.DELETED;
 
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
+
+  FindScraperOwnedSpecificationEntityBatchCommandHandler(
+      final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository) {
+    this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
+  }
 
   @Override
   @Transactional(readOnly = true)

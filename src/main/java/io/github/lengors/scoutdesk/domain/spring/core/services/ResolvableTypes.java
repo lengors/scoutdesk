@@ -6,8 +6,6 @@ import java.util.stream.Stream;
 
 import org.springframework.core.ResolvableType;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * Utility class for working with Spring's {@link ResolvableType}.
  *
@@ -15,8 +13,10 @@ import lombok.experimental.UtilityClass;
  *
  * @author lengors
  */
-@UtilityClass
-public class ResolvableTypes {
+public final class ResolvableTypes {
+  private ResolvableTypes() {
+    throw new UnsupportedOperationException("Utility class cannot be instantiated");
+  }
 
   /**
    * Compares two {@link ResolvableType} instances.
@@ -26,7 +26,7 @@ public class ResolvableTypes {
    * @return A negative integer, zero, or a positive integer as the left type is
    *         less than, equal to, or greater than the right type
    */
-  public int compare(final ResolvableType left, final ResolvableType right) {
+  public static int compare(final ResolvableType left, final ResolvableType right) {
     if (left.isAssignableFrom(right) && right.isAssignableFrom(left)) {
       return 0;
     } else if (left.isAssignableFrom(right)) {
@@ -45,7 +45,7 @@ public class ResolvableTypes {
    * @return A stream of {@link ResolvableType} instances representing the type
    *         hierarchy
    */
-  public Stream<ResolvableType> flat(final ResolvableType implementation) {
+  public static Stream<ResolvableType> flat(final ResolvableType implementation) {
     if (Objects.equals(implementation, ResolvableType.NONE)) {
       return Stream.empty();
     }

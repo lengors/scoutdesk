@@ -1,6 +1,7 @@
 package io.github.lengors.scoutdesk.domain.scrapers.specifications.models;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -16,12 +17,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * Entity representing a scraper specification owned by a user.
@@ -30,15 +25,10 @@ import lombok.ToString;
  *
  * @author lengors
  */
-@Getter
 @Entity
-@ToString
-@EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(onConstructor_ = { @PersistenceCreator }, access = AccessLevel.PRIVATE)
-@DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.FIELD })
 @Table(name = "scraper_owned_specifications")
-public class ScraperOwnedSpecificationEntity {
+@DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.FIELD, TypeUseLocation.PARAMETER })
+public final class ScraperOwnedSpecificationEntity {
   @EmbeddedId
   @AttributeOverride(name = "owner", column = @Column(name = "owner"))
   @AttributeOverride(name = "name", column = @Column(name = "name"))
@@ -47,9 +37,16 @@ public class ScraperOwnedSpecificationEntity {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status", nullable = false)
-  @EqualsAndHashCode.Exclude
   @NotNull
   private ScraperOwnedSpecificationStatus status;
+
+  @PersistenceCreator
+  private ScraperOwnedSpecificationEntity(
+      final @NotNull ScraperOwnedSpecificationReference reference,
+      final @NotNull ScraperOwnedSpecificationStatus status) {
+    this.reference = reference;
+    this.status = status;
+  }
 
   /**
    * Constructor for creating a scraper owned specification entity.
@@ -58,6 +55,23 @@ public class ScraperOwnedSpecificationEntity {
    */
   public ScraperOwnedSpecificationEntity(final @NotNull ScraperOwnedSpecificationReference reference) {
     this(reference, ScraperOwnedSpecificationStatus.ACTIVE);
+  }
+
+  @SuppressWarnings({ "unused", "nullness" })
+  private ScraperOwnedSpecificationEntity() {
+    reference = null;
+    status = null;
+  }
+
+  @Override
+  public boolean equals(final @Nullable Object object) {
+    if (this == object) {
+      return true;
+    }
+    if (!(object instanceof ScraperOwnedSpecificationEntity entity)) {
+      return false;
+    }
+    return Objects.equals(reference, entity.reference);
   }
 
   /**
@@ -70,11 +84,39 @@ public class ScraperOwnedSpecificationEntity {
   }
 
   /**
+   * Getter for the reference of the specification.
+   *
+   * @return The reference of the specification.
+   */
+  public @NotNull ScraperOwnedSpecificationReference getReference() {
+    return reference;
+  }
+
+  /**
+   * Getter for the status of the specification.
+   *
+   * @return The status of the specification.
+   */
+  public @NotNull ScraperOwnedSpecificationStatus getStatus() {
+    return status;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(reference);
+  }
+
+  /**
    * Sets the status of the specification.
    *
    * @param status The new status of the specification.
    */
   public void setStatus(final @NotNull ScraperOwnedSpecificationStatus status) {
     this.status = status;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("ScraperOwnedSpecificationEntity(reference=%s, status=%s)", reference, status);
   }
 }

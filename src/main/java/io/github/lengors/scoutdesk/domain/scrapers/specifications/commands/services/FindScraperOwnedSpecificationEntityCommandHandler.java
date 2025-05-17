@@ -10,8 +10,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Handles retrieval of a single owned scraper specification entity using a
@@ -24,11 +22,15 @@ import lombok.RequiredArgsConstructor;
  * @author lengors
  */
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @SuppressWarnings("LineLength")
 class FindScraperOwnedSpecificationEntityCommandHandler implements
     CommandHandler<FindScraperOwnedSpecificationEntityCommand, ScraperOwnedSpecificationFilter, ScraperOwnedSpecificationEntity> {
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
+
+  FindScraperOwnedSpecificationEntityCommandHandler(
+      final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository) {
+    this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
+  }
 
   @Override
   @Transactional(readOnly = true)

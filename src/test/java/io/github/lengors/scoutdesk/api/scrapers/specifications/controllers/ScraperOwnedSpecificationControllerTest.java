@@ -23,9 +23,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.S
 import io.github.lengors.scoutdesk.integrations.webscout.clients.WebscoutRestClient;
 import io.github.lengors.scoutdesk.testing.utilities.ResourceUtils;
 import io.github.lengors.scoutdesk.testing.utilities.TestSuite;
-import lombok.Getter;
 
-@Getter
 @TestSuite.Defaults
 class ScraperOwnedSpecificationControllerTest implements TestSuite {
 
@@ -49,6 +47,26 @@ class ScraperOwnedSpecificationControllerTest implements TestSuite {
     this.webscoutRestClient = webscoutRestClient;
     this.platformTransactionManager = platformTransactionManager;
     this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
+  }
+
+  @Override
+  public PlatformTransactionManager getPlatformTransactionManager() {
+    return platformTransactionManager;
+  }
+
+  @Override
+  public ResourceUtils getResourceUtils() {
+    return resourceUtils;
+  }
+
+  @Override
+  public ScraperOwnedSpecificationRepository getScraperOwnedSpecificationRepository() {
+    return scraperOwnedSpecificationRepository;
+  }
+
+  @Override
+  public WebscoutRestClient getWebscoutRestClient() {
+    return webscoutRestClient;
   }
 
   @ParameterizedTest

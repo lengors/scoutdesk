@@ -17,7 +17,7 @@ class ScoutdeskApplicationTests {
    * Verifies that the application boots correctly.
    */
   @Test
-  void shouldCorrectlyBoot() {
+  void givenApplicationContextWhenBootingThenShouldStartSuccessfully() {
     SpringApplication
         .from(ScoutdeskApplication::main)
         .with(PostgresTestContainerConfiguration.class, WebscoutTestContainerConfiguration.class)

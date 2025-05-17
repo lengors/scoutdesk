@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ResolvableType;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,6 @@ import io.github.lengors.scoutdesk.domain.commands.models.Command;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandlerResolver;
 import io.github.lengors.scoutdesk.domain.spring.core.services.ResolvableTypes;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Resolves command handlers based on the command type using
@@ -26,9 +27,9 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author lengors
  */
-@Slf4j
 @Service
 class ResolvableTypeCommandHandlerResolver implements CommandHandlerResolver {
+  private static final Logger LOG = LoggerFactory.getLogger(ResolvableTypeCommandHandlerResolver.class);
 
   @SuppressWarnings("LineLength")
   private final Map<ResolvableType, Optional<CommandHandler<?, ?, ?>>> cachedCommandHandlers = new ConcurrentHashMap<>();
@@ -51,7 +52,7 @@ class ResolvableTypeCommandHandlerResolver implements CommandHandlerResolver {
                 .get(),
             commandHandler))
         .sorted((left, right) -> ResolvableTypes.compare(left.getLeft(), right.getLeft()))
-        .peek(pair -> log.debug("Command handler {} resolving to {}", pair.getLeft(), pair.getRight()))
+        .peek(pair -> LOG.debug("Command handler {} resolving to {}", pair.getLeft(), pair.getRight()))
         .toList();
   }
 

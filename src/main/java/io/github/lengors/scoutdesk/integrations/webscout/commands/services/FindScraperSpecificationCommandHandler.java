@@ -6,8 +6,6 @@ import io.github.lengors.protoscout.domain.scrapers.specifications.models.Scrape
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.integrations.webscout.clients.WebscoutRestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.FindScraperSpecificationCommand;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Handles retrieval of a single scraper specification via the Webscout REST
@@ -19,10 +17,13 @@ import lombok.RequiredArgsConstructor;
  * @author lengors
  */
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class FindScraperSpecificationCommandHandler
     implements CommandHandler<FindScraperSpecificationCommand, String, ScraperSpecification> {
   private final WebscoutRestClient webscoutRestClient;
+
+  FindScraperSpecificationCommandHandler(final WebscoutRestClient webscoutRestClient) {
+    this.webscoutRestClient = webscoutRestClient;
+  }
 
   @Override
   public ScraperSpecification handle(final FindScraperSpecificationCommand command, final String input) {

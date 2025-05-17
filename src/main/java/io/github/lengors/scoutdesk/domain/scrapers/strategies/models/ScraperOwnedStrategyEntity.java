@@ -51,6 +51,22 @@ public final class ScraperOwnedStrategyEntity {
   private Set<ScraperOwnedProfileEntity> profiles;
 
   /**
+   * Enum representing the lazy loading relationships for the strategy entity.
+   *
+   * This is used to specify which relationships should be loaded lazily when
+   * fetching the strategy entity from the database.
+   *
+   * @author lengors
+   */
+  public enum LazyRelationship {
+
+    /**
+     * The profiles relationship.
+     */
+    PROFILES
+  }
+
+  /**
    * Constructor for {@link ScraperOwnedStrategyEntity}.
    *
    * @param reference The reference to the strategy

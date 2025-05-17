@@ -22,6 +22,13 @@ public class ProxiedAuthenticationSuccessHandler implements AuthenticationSucces
   private static final Logger LOG = LoggerFactory.getLogger(ProxiedAuthenticationSuccessHandler.class);
 
   /**
+   * Default constructor.
+   */
+  public ProxiedAuthenticationSuccessHandler() {
+    // Default constructor
+  }
+
+  /**
    * Called when a user has been successfully authenticated.
    *
    * @param request        the HTTP request

@@ -1,0 +1,44 @@
+networks:
+  webscout:
+
+services:
+  postgres:
+    image: "postgres:17.0"
+    environment:
+      - "POSTGRES_DB=mydatabase"
+      - "POSTGRES_PASSWORD=secret"
+      - "POSTGRES_USER=myuser"
+    ports:
+      - "5432"
+
+  postgres-webscout:
+    image: "postgres:17.0"
+    environment:
+      - "POSTGRES_DB=webscout"
+      - "POSTGRES_PASSWORD=secret"
+      - "POSTGRES_USER=postgres"
+    ports:
+      - "5432"
+    networks:
+      - webscout
+    labels:
+      org.springframework.boot.ignore: true
+
+  duckling:
+    image: "rasa/duckling"
+    ports:
+      - "8000"
+    networks:
+      - "webscout"
+
+  webscout:
+    image: "ghcr.io/lengors/webscout:1.0.0-dev.7"
+    ports:
+      - "8080"
+    environment:
+      - "DATABASE_URL=postgresql://postgres-webscout:5432/webscout"
+      - "DATABASE_USERNAME=postgres"
+      - "DATABASE_PASSWORD=secret"
+      - "DUCKLING_CLIENT_URL=http://duckling:8000"
+    networks:
+      - "webscout"

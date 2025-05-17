@@ -16,6 +16,8 @@ group = "io.github.lengors"
 
 String javaVersion = properties["javaVersion"] ?: "21"
 String checkstyleToolVersion = properties["checkstyleToolVersion"] ?: "10.23.1"
+String commonsLang3Version = properties["commonsLang3Version"] ?: "3.17.0"
+String protoscoutVersion = properties["protoscoutVersion"] ?: "1.0.3"
 
 java {
 	toolchain {
@@ -42,9 +44,30 @@ compileJava {
 }
 
 dependencies {
-  implementation "org.springframework.boot:spring-boot-starter"
+	implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+	implementation "org.springframework.boot:spring-boot-starter-security"
+	implementation "org.springframework.boot:spring-boot-starter-validation"
+	implementation "org.springframework.boot:spring-boot-starter-web"
+	implementation "org.springframework.boot:spring-boot-starter-webflux"
+	implementation "org.liquibase:liquibase-core"
+  implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
+	implementation "io.github.lengors:protoscout:$protoscoutVersion"
+	compileOnly "org.springframework.boot:spring-boot-docker-compose"
+	compileOnly "org.projectlombok:lombok"
+	developmentOnly "org.springframework.boot:spring-boot-devtools"
+	developmentOnly "org.springframework.boot:spring-boot-docker-compose"
+	runtimeOnly "org.postgresql:postgresql"
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+	annotationProcessor "org.projectlombok:lombok"
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
+	testImplementation "org.springframework.boot:spring-boot-testcontainers"
+	testImplementation "org.springframework.security:spring-security-test"
+	testImplementation "org.testcontainers:junit-jupiter"
+	testImplementation "org.testcontainers:postgresql"
+  testImplementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
+	testCompileOnly "org.projectlombok:lombok"
 	testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+  testAnnotationProcessor "org.projectlombok:lombok"
 }
 
 test {

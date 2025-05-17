@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories.ScraperOwnedProfileRepository;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
 import io.github.lengors.scoutdesk.integrations.webscout.clients.WebscoutRestClient;
 import io.github.lengors.scoutdesk.testing.utilities.ResourceUtils;
@@ -111,6 +112,7 @@ class SharedScraperOwnedSpecificationControllerTest implements TestSuite {
   private final ResourceUtils resourceUtils;
   private final WebscoutRestClient webscoutRestClient;
   private final PlatformTransactionManager platformTransactionManager;
+  private final ScraperOwnedProfileRepository scraperOwnedProfileRepository;
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
 
   SharedScraperOwnedSpecificationControllerTest(
@@ -118,11 +120,13 @@ class SharedScraperOwnedSpecificationControllerTest implements TestSuite {
       @Autowired final ResourceUtils resourceUtils,
       @Autowired final WebscoutRestClient webscoutRestClient,
       @Autowired final PlatformTransactionManager platformTransactionManager,
+      @Autowired final ScraperOwnedProfileRepository scraperOwnedProfileRepository,
       @Autowired final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository) {
     this.mockMvc = mockMvc;
     this.resourceUtils = resourceUtils;
     this.webscoutRestClient = webscoutRestClient;
     this.platformTransactionManager = platformTransactionManager;
+    this.scraperOwnedProfileRepository = scraperOwnedProfileRepository;
     this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
   }
 
@@ -134,6 +138,11 @@ class SharedScraperOwnedSpecificationControllerTest implements TestSuite {
   @Override
   public ResourceUtils getResourceUtils() {
     return resourceUtils;
+  }
+
+  @Override
+  public ScraperOwnedProfileRepository getScraperOwnedProfileRepository() {
+    return scraperOwnedProfileRepository;
   }
 
   @Override

@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.api.scrapers.specifications.controllers;
 
 import java.util.List;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -15,8 +16,6 @@ import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.FindScraperOwnedSpecificationBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecification;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Controller for accessing shared scraper specifications via the API.
@@ -28,11 +27,14 @@ import lombok.RequiredArgsConstructor;
  */
 @RestController
 @PreAuthorize("hasRole('USER')")
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.PARAMETER })
 @RequestMapping({ "/api/v1/shared/scrapers/specifications", "/api/shared/scrapers/specifications" })
 class SharedScraperOwnedSpecificationController {
   private final CommandService commandService;
+
+  SharedScraperOwnedSpecificationController(final @NonNull CommandService commandService) {
+    this.commandService = commandService;
+  }
 
   @GetMapping
   List<ScraperOwnedSpecification> findAll(

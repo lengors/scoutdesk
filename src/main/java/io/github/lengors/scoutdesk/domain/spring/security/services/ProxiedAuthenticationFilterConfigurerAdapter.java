@@ -8,9 +8,6 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.stereotype.Component;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-
 /**
  * Configures the authentication filter for proxied authentication.
  *
@@ -20,7 +17,6 @@ import lombok.RequiredArgsConstructor;
  * @author lengors
  */
 @Component
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @ConditionalOnBean(value = ProxiedAuthenticationConverter.class)
 public class ProxiedAuthenticationFilterConfigurerAdapter
     extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
@@ -29,6 +25,10 @@ public class ProxiedAuthenticationFilterConfigurerAdapter
    * Converter for proxied authentication.
    */
   private final ProxiedAuthenticationConverter proxiedAuthenticationConverter;
+
+  ProxiedAuthenticationFilterConfigurerAdapter(final ProxiedAuthenticationConverter proxiedAuthenticationConverter) {
+    this.proxiedAuthenticationConverter = proxiedAuthenticationConverter;
+  }
 
   /**
    * Configures the authentication filter for proxied authentication.

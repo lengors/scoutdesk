@@ -18,17 +18,17 @@ public class EntityNotFoundException extends ResponseStatusException {
    * Constructs a new {@link EntityNotFoundException} with the specified entity
    * type and query.
    *
-   * @param clazz the class of the entity
-   * @param query the query used to search for the entity
+   * @param runtimeType the class of the entity
+   * @param query       the query used to search for the entity
    */
   public EntityNotFoundException(
-      final @Nullable Class<?> clazz,
+      final @Nullable Class<?> runtimeType,
       final @Nullable Object query) {
     super(
         HttpStatus.NOT_FOUND,
         String.format(
             "Entity {type=%s} not found for query {query=%s}",
-            clazz == null ? null : clazz.getSimpleName(),
+            runtimeType == null ? null : runtimeType.getSimpleName(),
             query));
   }
 }

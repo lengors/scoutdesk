@@ -17,15 +17,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories.ScraperOwnedProfileRepository;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
 import io.github.lengors.scoutdesk.integrations.webscout.clients.WebscoutRestClient;
 import io.github.lengors.scoutdesk.testing.utilities.ResourceUtils;
 import io.github.lengors.scoutdesk.testing.utilities.TestSuite;
-import lombok.Getter;
 
-@Getter
 @TestSuite.Defaults
 class ScraperOwnedSpecificationControllerTest implements TestSuite {
 
@@ -36,6 +35,7 @@ class ScraperOwnedSpecificationControllerTest implements TestSuite {
   private final ResourceUtils resourceUtils;
   private final WebscoutRestClient webscoutRestClient;
   private final PlatformTransactionManager platformTransactionManager;
+  private final ScraperOwnedProfileRepository scraperOwnedProfileRepository;
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
 
   ScraperOwnedSpecificationControllerTest(
@@ -43,12 +43,39 @@ class ScraperOwnedSpecificationControllerTest implements TestSuite {
       @Autowired final ResourceUtils resourceUtils,
       @Autowired final WebscoutRestClient webscoutRestClient,
       @Autowired final PlatformTransactionManager platformTransactionManager,
+      @Autowired final ScraperOwnedProfileRepository scraperOwnedProfileRepository,
       @Autowired final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository) {
     this.mockMvc = mockMvc;
     this.resourceUtils = resourceUtils;
     this.webscoutRestClient = webscoutRestClient;
     this.platformTransactionManager = platformTransactionManager;
+    this.scraperOwnedProfileRepository = scraperOwnedProfileRepository;
     this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
+  }
+
+  @Override
+  public PlatformTransactionManager getPlatformTransactionManager() {
+    return platformTransactionManager;
+  }
+
+  @Override
+  public ResourceUtils getResourceUtils() {
+    return resourceUtils;
+  }
+
+  @Override
+  public ScraperOwnedProfileRepository getScraperOwnedProfileRepository() {
+    return scraperOwnedProfileRepository;
+  }
+
+  @Override
+  public ScraperOwnedSpecificationRepository getScraperOwnedSpecificationRepository() {
+    return scraperOwnedSpecificationRepository;
+  }
+
+  @Override
+  public WebscoutRestClient getWebscoutRestClient() {
+    return webscoutRestClient;
   }
 
   @ParameterizedTest
@@ -78,7 +105,7 @@ class ScraperOwnedSpecificationControllerTest implements TestSuite {
     transaction(status -> {
       final var entity = scraperOwnedSpecificationRepository
           .findById(new ScraperOwnedSpecificationReference("tester-0", "test-specification-0"));
-      Assertions.assertFalse(entity.isPresent());
+      Assertions.assertTrue(entity.isPresent());
       entity.ifPresent(specificationEntity -> {
         final var reference = specificationEntity.getReference();
         Assertions.assertEquals("tester-0", reference.owner());
@@ -147,12 +174,12 @@ class ScraperOwnedSpecificationControllerTest implements TestSuite {
         .andExpect(status().isNoContent());
 
     transaction(status -> {
-      Assertions.assertEquals(1, scraperOwnedSpecificationRepository
+      Assertions.assertEquals(2, scraperOwnedSpecificationRepository
           .findAllByReferenceOwner("tester-0")
           .size());
       final var entity = scraperOwnedSpecificationRepository
           .findById(new ScraperOwnedSpecificationReference("tester-0", "test-specification-0"));
-      Assertions.assertFalse(entity.isPresent());
+      Assertions.assertTrue(entity.isPresent());
       entity.ifPresent(specificationEntity -> {
         final var reference = specificationEntity.getReference();
         Assertions.assertEquals("tester-0", reference.owner());

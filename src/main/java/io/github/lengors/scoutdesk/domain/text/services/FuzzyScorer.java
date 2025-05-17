@@ -2,8 +2,6 @@ package io.github.lengors.scoutdesk.domain.text.services;
 
 import java.util.function.BiPredicate;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * Utility class for calculating fuzzy scores between strings.
  *
@@ -12,8 +10,11 @@ import lombok.experimental.UtilityClass;
  *
  * @author lengors
  */
-@UtilityClass
-public class FuzzyScorer {
+public final class FuzzyScorer {
+  private FuzzyScorer() {
+    throw new UnsupportedOperationException("Utility class cannot be instantiated");
+  }
+
   /**
    * Calculates a fuzzy score between two strings.
    *
@@ -23,7 +24,7 @@ public class FuzzyScorer {
    * @param strictModeEnabled Whether to enable strict mode
    * @return The fuzzy score between the two strings
    */
-  public int getFuzzyScore(
+  public static int getFuzzyScore(
       final String term,
       final String query,
       final boolean ignoreCase,
@@ -60,11 +61,11 @@ public class FuzzyScorer {
         : 0;
   }
 
-  private boolean isEqual(final char firstCharacter, final char secondCharacter) {
+  private static boolean isEqual(final char firstCharacter, final char secondCharacter) {
     return firstCharacter == secondCharacter;
   }
 
-  private boolean isEqualIgnoreCase(final char firstCharacter, final char secondCharacter) {
+  private static boolean isEqualIgnoreCase(final char firstCharacter, final char secondCharacter) {
     if (isEqual(firstCharacter, secondCharacter)) {
       return true;
     }

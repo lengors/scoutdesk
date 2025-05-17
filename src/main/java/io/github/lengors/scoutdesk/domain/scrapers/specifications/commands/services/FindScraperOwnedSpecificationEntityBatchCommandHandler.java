@@ -10,14 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.FindScraperOwnedSpecificationEntityBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceAndStatusFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceBatchAndStatusFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
 import io.github.lengors.scoutdesk.domain.text.services.FuzzyScorer;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Handles retrieval of a batch of owned scraper specification entities by
@@ -30,13 +30,17 @@ import lombok.RequiredArgsConstructor;
  * @author lengors
  */
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @SuppressWarnings("LineLength")
 class FindScraperOwnedSpecificationEntityBatchCommandHandler implements
     CommandHandler<FindScraperOwnedSpecificationEntityBatchCommand, ScraperOwnedSpecificationBatchFilter, List<ScraperOwnedSpecificationEntity>> {
   private static final ScraperOwnedSpecificationStatus IGNORE_STATUS = ScraperOwnedSpecificationStatus.DELETED;
 
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
+
+  FindScraperOwnedSpecificationEntityBatchCommandHandler(
+      final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository) {
+    this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
+  }
 
   @Override
   @Transactional(readOnly = true)
@@ -46,6 +50,10 @@ class FindScraperOwnedSpecificationEntityBatchCommandHandler implements
     return switch (input) {
       case ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter(var referenceOwner, var status) ->
         scraperOwnedSpecificationRepository.findAllByReferenceOwnerAndStatusNot(referenceOwner, status);
+      case ScraperOwnedSpecificationBatchByReferenceBatchAndStatusFilter(var referenceBatch, var status) ->
+        scraperOwnedSpecificationRepository.findAllByReferenceInAndStatus(referenceBatch, status);
+      case ScraperOwnedSpecificationBatchByReferenceAndStatusFilter(var reference, var status) ->
+        scraperOwnedSpecificationRepository.findAllByReferenceAndStatus(reference, status);
       case ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter(var query, var owner, var ignoreCase, var strictModeEnabled) ->
         findAllByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabled(
             query,

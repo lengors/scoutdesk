@@ -1,6 +1,8 @@
 package io.github.lengors.scoutdesk.domain.scrapers.specifications.models;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -8,20 +10,16 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
 import org.springframework.data.annotation.PersistenceCreator;
 
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileEntity;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * Entity representing a scraper specification owned by a user.
@@ -30,15 +28,10 @@ import lombok.ToString;
  *
  * @author lengors
  */
-@Getter
 @Entity
-@ToString
-@EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(onConstructor_ = { @PersistenceCreator }, access = AccessLevel.PRIVATE)
-@DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.FIELD })
 @Table(name = "scraper_owned_specifications")
-public class ScraperOwnedSpecificationEntity {
+@DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.FIELD, TypeUseLocation.PARAMETER })
+public final class ScraperOwnedSpecificationEntity {
   @EmbeddedId
   @AttributeOverride(name = "owner", column = @Column(name = "owner"))
   @AttributeOverride(name = "name", column = @Column(name = "name"))
@@ -47,9 +40,22 @@ public class ScraperOwnedSpecificationEntity {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status", nullable = false)
-  @EqualsAndHashCode.Exclude
   @NotNull
   private ScraperOwnedSpecificationStatus status;
+
+  @OneToMany(mappedBy = "specification")
+  @NotNull
+  private Set<@NotNull ScraperOwnedProfileEntity> profiles;
+
+  @PersistenceCreator
+  private ScraperOwnedSpecificationEntity(
+      final @NotNull ScraperOwnedSpecificationReference reference,
+      final @NotNull ScraperOwnedSpecificationStatus status,
+      final @NotNull Set<@NotNull ScraperOwnedProfileEntity> profiles) {
+    this.reference = reference;
+    this.status = status;
+    this.profiles = profiles;
+  }
 
   /**
    * Constructor for creating a scraper owned specification entity.
@@ -57,7 +63,36 @@ public class ScraperOwnedSpecificationEntity {
    * @param reference The reference of the specification
    */
   public ScraperOwnedSpecificationEntity(final @NotNull ScraperOwnedSpecificationReference reference) {
-    this(reference, ScraperOwnedSpecificationStatus.ACTIVE);
+    this(reference, ScraperOwnedSpecificationStatus.ACTIVE, new HashSet<>());
+  }
+
+  @SuppressWarnings({ "unused", "initialization" })
+  private ScraperOwnedSpecificationEntity() {
+    // Empty constructor for JPA
+  }
+
+  /**
+   * Adds a profile to the specification.
+   *
+   * @param profile The profile to add.
+   */
+  public void addProfile(final @NotNull ScraperOwnedProfileEntity profile) {
+    if (!equals(profile.getSpecification())) {
+      throw new IllegalArgumentException(String
+          .format("Cannot add profile %s because it is not associated with this specification %s.", profile, this));
+    }
+    profiles.add(profile);
+  }
+
+  @Override
+  public boolean equals(final Object object) {
+    if (this == object) {
+      return true;
+    }
+    if (!(object instanceof ScraperOwnedSpecificationEntity other)) {
+      return false;
+    }
+    return Objects.equals(reference, other.reference);
   }
 
   /**
@@ -65,8 +100,44 @@ public class ScraperOwnedSpecificationEntity {
    *
    * @return A set of profiles associated with this specification.
    */
-  public @NotNull Set<@NotNull Object> getProfiles() {
-    return Collections.emptySet();
+  public @NotNull Set<@NotNull ScraperOwnedProfileEntity> getProfiles() {
+    return Collections.unmodifiableSet(profiles);
+  }
+
+  /**
+   * Getter for the reference of the specification.
+   *
+   * @return The reference of the specification.
+   */
+  public @NotNull ScraperOwnedSpecificationReference getReference() {
+    return reference;
+  }
+
+  /**
+   * Getter for the status of the specification.
+   *
+   * @return The status of the specification.
+   */
+  public @NotNull ScraperOwnedSpecificationStatus getStatus() {
+    return status;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(reference);
+  }
+
+  /**
+   * Removes a profile from the specification.
+   *
+   * @param profile The profile to remove.
+   */
+  public void removeProfile(final @NotNull ScraperOwnedProfileEntity profile) {
+    if (equals(profile.getSpecification())) {
+      throw new IllegalArgumentException(
+          String.format("Cannot remove profile %s because it is associated with specification %s.", profile, this));
+    }
+    profiles.remove(profile);
   }
 
   /**
@@ -76,5 +147,10 @@ public class ScraperOwnedSpecificationEntity {
    */
   public void setStatus(final @NotNull ScraperOwnedSpecificationStatus status) {
     this.status = status;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("ScraperOwnedSpecificationEntity(reference=%s, status=%s)", reference, status);
   }
 }

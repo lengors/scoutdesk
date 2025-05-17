@@ -2,13 +2,14 @@ package io.github.lengors.scoutdesk.domain.spring.security.services;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Handles successful authentication events.
@@ -17,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author lengors
  */
-@Slf4j
 public class ProxiedAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+  private static final Logger LOG = LoggerFactory.getLogger(ProxiedAuthenticationSuccessHandler.class);
 
   /**
    * Called when a user has been successfully authenticated.
@@ -34,6 +35,6 @@ public class ProxiedAuthenticationSuccessHandler implements AuthenticationSucces
       final HttpServletRequest request,
       final HttpServletResponse response,
       final Authentication authentication) throws IOException, ServletException {
-    log.debug("Authentication successful for user: {}", authentication.getName());
+    LOG.debug("Authentication successful for user: {}", authentication.getName());
   }
 }

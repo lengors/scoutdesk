@@ -2,13 +2,12 @@ package io.github.lengors.scoutdesk.domain.commands.services;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
 import io.github.lengors.scoutdesk.domain.commands.models.Command;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Service for executing commands in the application.
@@ -18,11 +17,15 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author lengors
  */
-@Slf4j
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class CommandService {
+  private static final Logger LOG = LoggerFactory.getLogger(CommandService.class);
+
   private final List<CommandHandlerResolver> commandHandlerResolvers;
+
+  CommandService(final List<CommandHandlerResolver> commandHandlerResolvers) {
+    this.commandHandlerResolvers = commandHandlerResolvers;
+  }
 
   /**
    * Executes a command using the appropriate command handler.
@@ -35,9 +38,9 @@ public class CommandService {
    * @return the output of the command
    */
   public <C extends Command<I, O>, I, O> O executeCommand(final C command, final I input) {
-    log.trace("Resolving handler for {command={}}", command);
+    LOG.trace("Resolving handler for {command={}}", command);
     final var commandHandler = resolveCommandHandler(command);
-    log.debug("Resolved handler for {command={}}: {}", command, commandHandler);
+    LOG.debug("Resolved handler for {command={}}: {}", command, commandHandler);
 
     final var stopWatch = new StopWatch();
     stopWatch.start();
@@ -64,17 +67,17 @@ public class CommandService {
   @SuppressWarnings("nullness")
   private static <C extends Command<I, O>, I, O> void logResult(final C command, final I input, final O output,
       final StopWatch stopWatch) {
-    if (log.isTraceEnabled()) {
-      log.trace(
+    if (LOG.isTraceEnabled()) {
+      LOG.trace(
           "Executed {command={}, input={}, output={}} in {} ms",
           command,
           input,
           output,
           stopWatch.getTotalTimeMillis());
-    } else if (log.isDebugEnabled()) {
-      log.debug("Executed {command={}, input={}} in {} ms", command, input, stopWatch.getTotalTimeMillis());
+    } else if (LOG.isDebugEnabled()) {
+      LOG.debug("Executed {command={}, input={}} in {} ms", command, input, stopWatch.getTotalTimeMillis());
     } else {
-      log.info("Executed {command={}} in {} ms", command, stopWatch.getTotalTimeMillis());
+      LOG.info("Executed {command={}} in {} ms", command, stopWatch.getTotalTimeMillis());
     }
   }
 }

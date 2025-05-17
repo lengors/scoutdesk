@@ -5,8 +5,6 @@ import java.util.function.Supplier;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.server.ResponseStatusException;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * Utility class for handling REST client operations.
  *
@@ -15,8 +13,11 @@ import lombok.experimental.UtilityClass;
  *
  * @author lengors
  */
-@UtilityClass
-public class RestClient {
+public final class RestClient {
+  private RestClient() {
+    throw new UnsupportedOperationException("Utility class cannot be instantiated");
+  }
+
   /**
    * Rethrows a {@link RestClientResponseException} as a
    * {@link ResponseStatusException}.
@@ -28,7 +29,7 @@ public class RestClient {
    * @throws ResponseStatusException if the supplier throws a
    *                                 {@link RestClientResponseException}
    */
-  public <T> T rethrowing(final Supplier<T> supplier) {
+  public static <T> T rethrowing(final Supplier<T> supplier) {
     try {
       return supplier.get();
     } catch (final RestClientResponseException exception) {

@@ -6,13 +6,13 @@ pluginManagement {
   }
 
   String springDependencyManagementVersion = settings.ext.getProperty("springDependencyManagementVersion")
-  String checkerframeworkVersion = settings.ext.getProperty("checkerframeworkVersion")
+  String checkerframeworkPluginVersion = settings.ext.getProperty("checkerframeworkPluginVersion")
   String springBootVersion = settings.ext.getProperty("springBootVersion")
   String sonarqubeVersion = settings.ext.getProperty("sonarqubeVersion")
 
   plugins {
 	  id "io.spring.dependency-management" version springDependencyManagementVersion
-	  id "org.checkerframework" version checkerframeworkVersion
+	  id "org.checkerframework" version checkerframeworkPluginVersion
   	id "org.springframework.boot" version springBootVersion
     id "org.sonarqube" version sonarqubeVersion
   }

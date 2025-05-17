@@ -11,6 +11,8 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.filters;
  *
  * @author lengors
  */
-public sealed interface ScraperOwnedProfileBatchFilter permits ScraperOwnedProfileBatchByReferenceOwnerFilter {
+public sealed interface ScraperOwnedProfileBatchFilter
+    permits ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter,
+    ScraperOwnedProfileBatchByReferenceOwnerFilter {
 
 }

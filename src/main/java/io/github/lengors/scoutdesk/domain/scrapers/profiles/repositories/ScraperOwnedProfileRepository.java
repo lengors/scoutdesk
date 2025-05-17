@@ -21,6 +21,19 @@ public interface ScraperOwnedProfileRepository
     extends CrudRepository<ScraperOwnedProfileEntity, ScraperOwnedProfileReference> {
 
   /**
+   * Finds all scraper-owned profiles by the specified reference owner and
+   * reference names.
+   *
+   * @param referenceOwner The reference owner to search for.
+   * @param referenceNames The reference names to search for.
+   * @return A list of scraper-owned profiles that match the specified reference
+   *         owner and reference names.
+   */
+  List<ScraperOwnedProfileEntity> findAllByReferenceOwnerAndReferenceNameIn(
+      String referenceOwner,
+      Iterable<String> referenceNames);
+
+  /**
    * Finds all scraper-owned profiles by the specified reference owner.
    *
    * @param referenceOwner The reference owner to search for.

@@ -2,6 +2,8 @@ package io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.mode
 
 import java.util.List;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 import io.github.lengors.scoutdesk.domain.commands.models.Command;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
 
@@ -11,6 +13,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
  * @author lengors
  */
 public record DeleteScraperOwnedSpecificationEntityBatchCommand()
-    implements Command<List<ScraperOwnedSpecificationEntity>, Void> {
+    implements Command<List<ScraperOwnedSpecificationEntity>, @Nullable Void> {
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +29,9 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteS
  * @author lengors
  */
 @Service
+@SuppressWarnings("LineLength")
 class DeleteScraperOwnedSpecificationEntityBatchCommandHandler implements
-    CommandHandler<DeleteScraperOwnedSpecificationEntityBatchCommand, List<ScraperOwnedSpecificationEntity>, Void> {
+    CommandHandler<DeleteScraperOwnedSpecificationEntityBatchCommand, List<ScraperOwnedSpecificationEntity>, @Nullable Void> {
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
   private final CommandService commandService;
 
@@ -42,7 +44,7 @@ class DeleteScraperOwnedSpecificationEntityBatchCommandHandler implements
 
   @Override
   @Transactional
-  public Void handle(
+  public @Nullable Void handle(
       final DeleteScraperOwnedSpecificationEntityBatchCommand command,
       final List<ScraperOwnedSpecificationEntity> input) {
     final var partitionedEntities = input

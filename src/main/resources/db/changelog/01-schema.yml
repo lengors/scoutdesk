@@ -104,3 +104,71 @@ databaseChangeLog:
             constraintName: fk_scraper_inputs_scraper_owned_profiles
             referencedTableName: scraper_owned_profiles
             referencedColumnNames: owner, name
+
+  - changeSet:
+      id: add-scraper-strategies
+      author: lengors
+      changes:
+        - createTable:
+            tableName: scraper_owned_strategies
+            columns:
+              - column:
+                  name: owner
+                  type: varchar
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_scraper_owned_strategies
+              - column:
+                  name: name
+                  type: varchar
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_scraper_owned_strategies
+
+        - createTable:
+            tableName: scraper_owned_strategies_scraper_owned_profiles
+            columns:
+              - column:
+                  name: strategy_owner
+                  type: varchar
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: ak_scraper_owned_strategies_scraper_owned_profiles
+              - column:
+                  name: strategy_name
+                  type: varchar
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: ak_scraper_owned_strategies_scraper_owned_profiles
+              - column:
+                  name: profile_owner
+                  type: varchar
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: ak_scraper_owned_strategies_scraper_owned_profiles
+              - column:
+                  name: profile_name
+                  type: varchar
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: ak_scraper_owned_strategies_scraper_owned_profiles
+
+        - addForeignKeyConstraint:
+            baseTableName: scraper_owned_strategies_scraper_owned_profiles
+            baseColumnNames: strategy_owner, strategy_name
+            constraintName: fk_scraper_owned_strategies_scraper_owned_profiles_profiles
+            referencedTableName: scraper_owned_strategies
+            referencedColumnNames: owner, name
+
+        - addForeignKeyConstraint:
+            baseTableName: scraper_owned_strategies_scraper_owned_profiles
+            baseColumnNames: profile_owner, profile_name
+            constraintName: fk_scraper_owned_strategies_scraper_owned_profiles_strategies
+            referencedTableName: scraper_owned_profiles
+            referencedColumnNames: owner, name

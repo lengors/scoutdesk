@@ -47,7 +47,9 @@ class UpdateScraperOwnedStrategyCommandHandler
       case DELETE -> profiles.forEach(entity::removeProfile);
       case OVERRIDE -> entity.setProfiles(profiles);
       case UPDATE -> profiles.forEach(entity::addProfile);
-      case null -> entity.setProfiles(profiles);
+      case null -> {
+        // No operation to perform
+      }
     }
 
     final var updatedEntity = scraperOwnedStrategyRepository.save(entity);

@@ -9,6 +9,8 @@ package io.github.lengors.scoutdesk.domain.scrapers.strategies.filters;
  *
  * @author lengors
  */
-public sealed interface ScraperOwnedStrategyBatchFilter permits ScraperOwnedStrategyBatchByReferenceOwnerFilter {
+public sealed interface ScraperOwnedStrategyBatchFilter
+    permits ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter,
+    ScraperOwnedStrategyBatchByReferenceOwnerFilter {
 
 }

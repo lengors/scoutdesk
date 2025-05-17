@@ -1,14 +1,13 @@
 package io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.services;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.github.lengors.scoutdesk.domain.collections.services.IterableConverters;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityNotFoundException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.models.FindScraperOwnedProfileEntityBatchCommand;
@@ -50,14 +49,7 @@ class FindScraperOwnedProfileEntityBatchCommandHandler implements
         referenceOwner,
         referenceNames);
 
-    final Set<String> expectedNames;
-    if (referenceNames instanceof Set<String> set) {
-      expectedNames = set;
-    } else {
-      expectedNames = new HashSet<>();
-      referenceNames.forEach(expectedNames::add);
-    }
-
+    final var expectedNames = IterableConverters.toSet(referenceNames);
     if (!entities
         .stream()
         .map(ScraperOwnedProfileEntity::getReference)

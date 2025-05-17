@@ -1,3 +1,8 @@
+# [v1.0.0-dev.2](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.1...1.0.0-dev.2) (2025-05-17)
+
+## ✨ New Features
+- [`c04eb30`](https://github.com/lengors/scoutdesk/commit/c04eb30)  Add support for user owned scraper profile management
+
 # v1.0.0-dev.1 (2025-05-17)
 
 ## ✨ New Features

@@ -1,3 +1,8 @@
+# [v1.0.0-dev.5](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.4...1.0.0-dev.5) (2025-05-17)
+
+## ✨ New Features
+- [`842f0fa`](https://github.com/lengors/scoutdesk/commit/842f0fa)  Add observation capabilities
+
 # [v1.0.0-dev.4](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.3...1.0.0-dev.4) (2025-05-17)
 
 ## ✨ New Features

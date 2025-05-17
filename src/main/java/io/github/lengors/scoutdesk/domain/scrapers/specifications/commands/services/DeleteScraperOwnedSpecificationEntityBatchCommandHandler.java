@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
@@ -40,6 +41,7 @@ class DeleteScraperOwnedSpecificationEntityBatchCommandHandler implements
   }
 
   @Override
+  @Transactional
   public Void handle(
       final DeleteScraperOwnedSpecificationEntityBatchCommand command,
       final List<ScraperOwnedSpecificationEntity> input) {

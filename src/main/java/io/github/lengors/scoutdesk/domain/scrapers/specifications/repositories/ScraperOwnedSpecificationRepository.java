@@ -24,6 +24,17 @@ public interface ScraperOwnedSpecificationRepository
     extends CrudRepository<ScraperOwnedSpecificationEntity, ScraperOwnedSpecificationReference> {
 
   /**
+   * Finds all scraper specifications by their reference and status.
+   *
+   * @param reference The reference of the specification
+   * @param status    The status of the specification
+   * @return A list of scraper specifications matching the reference and status
+   */
+  List<ScraperOwnedSpecificationEntity> findAllByReferenceAndStatus(
+      ScraperOwnedSpecificationReference reference,
+      ScraperOwnedSpecificationStatus status);
+
+  /**
    * Finds all scraper specifications by their reference owner and status.
    *
    * @param referenceOwner The owner of the specification
@@ -50,6 +61,17 @@ public interface ScraperOwnedSpecificationRepository
    * @return A list of scraper specifications matching the status
    */
   List<ScraperOwnedSpecificationEntity> findAllByStatusNot(ScraperOwnedSpecificationStatus status);
+
+  /**
+   * Finds all scraper specifications by their reference and status.
+   *
+   * @param references The references of the specifications to filter by
+   * @param status     The status of the specifications to filter by
+   * @return A list of scraper specifications matching the reference and status
+   */
+  List<ScraperOwnedSpecificationEntity> findAllByReferenceInAndStatus(
+      Iterable<ScraperOwnedSpecificationReference> references,
+      ScraperOwnedSpecificationStatus status);
 
   /**
    * Finds a scraper specification by its reference and status.

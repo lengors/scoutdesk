@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.FindScraperOwnedSpecificationEntityBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceAndStatusFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceBatchAndStatusFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
@@ -48,6 +50,10 @@ class FindScraperOwnedSpecificationEntityBatchCommandHandler implements
     return switch (input) {
       case ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter(var referenceOwner, var status) ->
         scraperOwnedSpecificationRepository.findAllByReferenceOwnerAndStatusNot(referenceOwner, status);
+      case ScraperOwnedSpecificationBatchByReferenceBatchAndStatusFilter(var referenceBatch, var status) ->
+        scraperOwnedSpecificationRepository.findAllByReferenceInAndStatus(referenceBatch, status);
+      case ScraperOwnedSpecificationBatchByReferenceAndStatusFilter(var reference, var status) ->
+        scraperOwnedSpecificationRepository.findAllByReferenceAndStatus(reference, status);
       case ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter(var query, var owner, var ignoreCase, var strictModeEnabled) ->
         findAllByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabled(
             query,

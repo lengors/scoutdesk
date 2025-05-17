@@ -1,6 +1,7 @@
 package io.github.lengors.scoutdesk.domain.scrapers.specifications.models;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -9,12 +10,14 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
 import org.springframework.data.annotation.PersistenceCreator;
 
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileEntity;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -40,12 +43,18 @@ public final class ScraperOwnedSpecificationEntity {
   @NotNull
   private ScraperOwnedSpecificationStatus status;
 
+  @OneToMany(mappedBy = "specification")
+  @NotNull
+  private Set<@NotNull ScraperOwnedProfileEntity> profiles;
+
   @PersistenceCreator
   private ScraperOwnedSpecificationEntity(
       final @NotNull ScraperOwnedSpecificationReference reference,
-      final @NotNull ScraperOwnedSpecificationStatus status) {
+      final @NotNull ScraperOwnedSpecificationStatus status,
+      final @NotNull Set<@NotNull ScraperOwnedProfileEntity> profiles) {
     this.reference = reference;
     this.status = status;
+    this.profiles = profiles;
   }
 
   /**
@@ -54,24 +63,36 @@ public final class ScraperOwnedSpecificationEntity {
    * @param reference The reference of the specification
    */
   public ScraperOwnedSpecificationEntity(final @NotNull ScraperOwnedSpecificationReference reference) {
-    this(reference, ScraperOwnedSpecificationStatus.ACTIVE);
+    this(reference, ScraperOwnedSpecificationStatus.ACTIVE, new HashSet<>());
   }
 
-  @SuppressWarnings({ "unused", "nullness" })
+  @SuppressWarnings({ "unused", "initialization" })
   private ScraperOwnedSpecificationEntity() {
-    reference = null;
-    status = null;
+    // Empty constructor for JPA
+  }
+
+  /**
+   * Adds a profile to the specification.
+   *
+   * @param profile The profile to add.
+   */
+  public void addProfile(final @NotNull ScraperOwnedProfileEntity profile) {
+    if (!equals(profile.getSpecification())) {
+      throw new IllegalArgumentException(String
+          .format("Cannot add profile %s because it is not associated with this specification %s.", profile, this));
+    }
+    profiles.add(profile);
   }
 
   @Override
-  public boolean equals(final @Nullable Object object) {
+  public boolean equals(final Object object) {
     if (this == object) {
       return true;
     }
-    if (!(object instanceof ScraperOwnedSpecificationEntity entity)) {
+    if (!(object instanceof ScraperOwnedSpecificationEntity other)) {
       return false;
     }
-    return Objects.equals(reference, entity.reference);
+    return Objects.equals(reference, other.reference);
   }
 
   /**
@@ -79,8 +100,8 @@ public final class ScraperOwnedSpecificationEntity {
    *
    * @return A set of profiles associated with this specification.
    */
-  public @NotNull Set<@NotNull Object> getProfiles() {
-    return Collections.emptySet();
+  public @NotNull Set<@NotNull ScraperOwnedProfileEntity> getProfiles() {
+    return Collections.unmodifiableSet(profiles);
   }
 
   /**
@@ -104,6 +125,19 @@ public final class ScraperOwnedSpecificationEntity {
   @Override
   public int hashCode() {
     return Objects.hash(reference);
+  }
+
+  /**
+   * Removes a profile from the specification.
+   *
+   * @param profile The profile to remove.
+   */
+  public void removeProfile(final @NotNull ScraperOwnedProfileEntity profile) {
+    if (equals(profile.getSpecification())) {
+      throw new IllegalArgumentException(
+          String.format("Cannot remove profile %s because it is associated with specification %s.", profile, this));
+    }
+    profiles.remove(profile);
   }
 
   /**

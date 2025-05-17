@@ -22,6 +22,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories.ScraperOwnedProfileRepository;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
+import io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories.ScraperOwnedStrategyRepository;
 import io.github.lengors.scoutdesk.integrations.webscout.clients.WebscoutRestClient;
 import io.github.lengors.scoutdesk.testing.utilities.ResourceUtils;
 import io.github.lengors.scoutdesk.testing.utilities.TestSuite;
@@ -39,6 +40,7 @@ class ScraperOwnedProfileControllerTest implements TestSuite {
   private final PlatformTransactionManager platformTransactionManager;
   private final ScraperOwnedProfileRepository scraperOwnedProfileRepository;
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
+  private final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository;
 
   ScraperOwnedProfileControllerTest(
       @Autowired final MockMvc mockMvc,
@@ -46,13 +48,15 @@ class ScraperOwnedProfileControllerTest implements TestSuite {
       @Autowired final WebscoutRestClient webscoutRestClient,
       @Autowired final PlatformTransactionManager platformTransactionManager,
       @Autowired final ScraperOwnedProfileRepository scraperOwnedProfileRepository,
-      @Autowired final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository) {
+      @Autowired final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
+      @Autowired final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository) {
     this.mockMvc = mockMvc;
     this.resourceUtils = resourceUtils;
     this.webscoutRestClient = webscoutRestClient;
     this.platformTransactionManager = platformTransactionManager;
     this.scraperOwnedProfileRepository = scraperOwnedProfileRepository;
     this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
+    this.scraperOwnedStrategyRepository = scraperOwnedStrategyRepository;
   }
 
   @Override
@@ -73,6 +77,11 @@ class ScraperOwnedProfileControllerTest implements TestSuite {
   @Override
   public ScraperOwnedSpecificationRepository getScraperOwnedSpecificationRepository() {
     return scraperOwnedSpecificationRepository;
+  }
+
+  @Override
+  public ScraperOwnedStrategyRepository getScraperOwnedStrategyRepository() {
+    return scraperOwnedStrategyRepository;
   }
 
   @Override
@@ -113,7 +122,7 @@ class ScraperOwnedProfileControllerTest implements TestSuite {
         .perform(delete("/api/v1/scrapers/profiles/test-profile-9")
             .header("X-authentik-username", "tester-9")
             .header("X-authentik-groups", testGroup))
-        .andExpect(status().isNoContent());
+        .andExpect(status().isConflict());
   }
 
   @ParameterizedTest
@@ -185,7 +194,7 @@ class ScraperOwnedProfileControllerTest implements TestSuite {
         .perform(delete("/api/v1/scrapers/profiles")
             .header("X-authentik-username", "tester-9")
             .header("X-authentik-groups", testGroup))
-        .andExpect(status().isNoContent());
+        .andExpect(status().isConflict());
   }
 
   @ParameterizedTest

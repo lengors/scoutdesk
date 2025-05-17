@@ -17,6 +17,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories.ScraperOwnedProfileRepository;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
+import io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories.ScraperOwnedStrategyRepository;
 import io.github.lengors.scoutdesk.integrations.webscout.clients.WebscoutRestClient;
 import io.github.lengors.scoutdesk.testing.utilities.ResourceUtils;
 import io.github.lengors.scoutdesk.testing.utilities.TestSuite;
@@ -114,6 +115,7 @@ class SharedScraperOwnedSpecificationControllerTest implements TestSuite {
   private final PlatformTransactionManager platformTransactionManager;
   private final ScraperOwnedProfileRepository scraperOwnedProfileRepository;
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
+  private final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository;
 
   SharedScraperOwnedSpecificationControllerTest(
       @Autowired final MockMvc mockMvc,
@@ -121,13 +123,15 @@ class SharedScraperOwnedSpecificationControllerTest implements TestSuite {
       @Autowired final WebscoutRestClient webscoutRestClient,
       @Autowired final PlatformTransactionManager platformTransactionManager,
       @Autowired final ScraperOwnedProfileRepository scraperOwnedProfileRepository,
-      @Autowired final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository) {
+      @Autowired final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
+      @Autowired final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository) {
     this.mockMvc = mockMvc;
     this.resourceUtils = resourceUtils;
     this.webscoutRestClient = webscoutRestClient;
     this.platformTransactionManager = platformTransactionManager;
     this.scraperOwnedProfileRepository = scraperOwnedProfileRepository;
     this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
+    this.scraperOwnedStrategyRepository = scraperOwnedStrategyRepository;
   }
 
   @Override
@@ -148,6 +152,11 @@ class SharedScraperOwnedSpecificationControllerTest implements TestSuite {
   @Override
   public ScraperOwnedSpecificationRepository getScraperOwnedSpecificationRepository() {
     return scraperOwnedSpecificationRepository;
+  }
+
+  @Override
+  public ScraperOwnedStrategyRepository getScraperOwnedStrategyRepository() {
+    return scraperOwnedStrategyRepository;
   }
 
   @Override

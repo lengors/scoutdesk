@@ -5,9 +5,9 @@ plugins {
   id "jacoco"
   id "checkstyle"
   id "org.sonarqube"
-	id "org.checkerframework"
-	id "org.springframework.boot"
-	id "io.spring.dependency-management"
+  id "org.checkerframework"
+  id "org.springframework.boot"
+  id "io.spring.dependency-management"
 }
 
 apply plugin: "org.checkerframework"
@@ -20,21 +20,19 @@ String commonsLang3Version = properties["commonsLang3Version"] ?: "3.17.0"
 String protoscoutVersion = properties["protoscoutVersion"] ?: "1.0.3"
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(javaVersion)
-	}
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(javaVersion)
+  }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
 }
 
 repositories {
-	mavenCentral()
-  maven { url "https://repo.spring.io/milestone" }
-  maven { url "https://repo.spring.io/snapshot" }
+  mavenCentral()
 }
 
 compileJava {
@@ -44,31 +42,31 @@ compileJava {
 }
 
 dependencies {
-	implementation "org.springframework.boot:spring-boot-starter-actuator"
-	implementation "org.springframework.boot:spring-boot-starter-data-jpa"
-	implementation "org.springframework.boot:spring-boot-starter-security"
-	implementation "org.springframework.boot:spring-boot-starter-validation"
-	implementation "org.springframework.boot:spring-boot-starter-web"
-	implementation "org.springframework.boot:spring-boot-starter-webflux"
-	implementation "io.micrometer:micrometer-tracing-bridge-otel"
+  implementation "org.springframework.boot:spring-boot-starter-actuator"
+  implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+  implementation "org.springframework.boot:spring-boot-starter-security"
+  implementation "org.springframework.boot:spring-boot-starter-validation"
+  implementation "org.springframework.boot:spring-boot-starter-web"
+  implementation "org.springframework.boot:spring-boot-starter-webflux"
+  implementation "io.micrometer:micrometer-tracing-bridge-otel"
   implementation "io.micrometer:context-propagation"
-	implementation "org.liquibase:liquibase-core"
+  implementation "org.liquibase:liquibase-core"
   implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
-	implementation "io.github.lengors:protoscout:$protoscoutVersion"
-	compileOnly "org.springframework.boot:spring-boot-docker-compose"
-	developmentOnly "org.springframework.boot:spring-boot-devtools"
-	developmentOnly "org.springframework.boot:spring-boot-docker-compose"
-	runtimeOnly "io.micrometer:micrometer-registry-prometheus"
-	runtimeOnly "io.opentelemetry:opentelemetry-exporter-otlp"
-	runtimeOnly "org.postgresql:postgresql"
-	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-	testImplementation "org.springframework.boot:spring-boot-starter-test"
-	testImplementation "org.springframework.boot:spring-boot-testcontainers"
-	testImplementation "org.springframework.security:spring-security-test"
-	testImplementation "org.testcontainers:junit-jupiter"
-	testImplementation "org.testcontainers:postgresql"
+  implementation "io.github.lengors:protoscout:$protoscoutVersion"
+  compileOnly "org.springframework.boot:spring-boot-docker-compose"
+  developmentOnly "org.springframework.boot:spring-boot-devtools"
+  developmentOnly "org.springframework.boot:spring-boot-docker-compose"
+  runtimeOnly "io.micrometer:micrometer-registry-prometheus"
+  runtimeOnly "io.opentelemetry:opentelemetry-exporter-otlp"
+  runtimeOnly "org.postgresql:postgresql"
+  annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+  testImplementation "org.springframework.boot:spring-boot-starter-test"
+  testImplementation "org.springframework.boot:spring-boot-testcontainers"
+  testImplementation "org.springframework.security:spring-security-test"
+  testImplementation "org.testcontainers:junit-jupiter"
+  testImplementation "org.testcontainers:postgresql"
   testImplementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
-	testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+  testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 }
 
 test {
@@ -102,9 +100,9 @@ checkstyle {
 }
 
 checkerFramework {
-	checkers = [
-		"org.checkerframework.checker.nullness.NullnessChecker",
-	]
+  checkers = [
+    "org.checkerframework.checker.nullness.NullnessChecker",
+  ]
 }
 
 jacocoTestReport {

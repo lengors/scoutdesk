@@ -1,3 +1,8 @@
+# [v1.0.0-dev.7](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.6...1.0.0-dev.7) (2025-05-18)
+
+## 🐛 Bug Fixes
+- [`6705529`](https://github.com/lengors/scoutdesk/commit/6705529) ⬆️ Bump protoscout reference
+
 # [v1.0.0-dev.6](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.5...1.0.0-dev.6) (2025-05-17)
 
 ## 🐛 Bug Fixes

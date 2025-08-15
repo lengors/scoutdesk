@@ -8,7 +8,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 /**
  * Exception thrown when an invalid status transition is attempted on a
  * scraper-owned specification.
- *
+ * <p>
  * This exception is used to indicate that the requested status transition is
  * not allowed for the current status of the specification.
  *
@@ -23,8 +23,9 @@ public class ScraperOwnedSpecificationStatusTransitionException extends Response
    * @param to   The requested status to transition to
    */
   public ScraperOwnedSpecificationStatusTransitionException(
-      final ScraperOwnedSpecificationStatus from,
-      final ScraperOwnedSpecificationStatus to) {
+    final ScraperOwnedSpecificationStatus from,
+    final ScraperOwnedSpecificationStatus to
+  ) {
     super(HttpStatus.UNPROCESSABLE_ENTITY, String.format("Invalid status transition from %s to %s", from, to));
   }
 }

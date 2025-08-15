@@ -14,13 +14,14 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories.Scrap
 
 @Service
 class DeleteScraperOwnedStrategyBatchCommandHandler
-    implements CommandHandler<DeleteScraperOwnedStrategyBatchCommand, ScraperOwnedStrategyBatchFilter, @Nullable Void> {
+  implements CommandHandler<DeleteScraperOwnedStrategyBatchCommand, ScraperOwnedStrategyBatchFilter, @Nullable Void> {
   private final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository;
   private final CommandService commandService;
 
   DeleteScraperOwnedStrategyBatchCommandHandler(
-      final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository,
-      @Lazy final CommandService commandService) {
+    final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository,
+    @Lazy final CommandService commandService
+  ) {
     this.scraperOwnedStrategyRepository = scraperOwnedStrategyRepository;
     this.commandService = commandService;
   }
@@ -28,8 +29,9 @@ class DeleteScraperOwnedStrategyBatchCommandHandler
   @Override
   @Transactional
   public @Nullable Void handle(
-      final DeleteScraperOwnedStrategyBatchCommand command,
-      final ScraperOwnedStrategyBatchFilter input) {
+    final DeleteScraperOwnedStrategyBatchCommand command,
+    final ScraperOwnedStrategyBatchFilter input
+  ) {
     final var entities = commandService.executeCommand(new FindScraperOwnedStrategyEntityBatchCommand(), input);
     scraperOwnedStrategyRepository.deleteAll(entities);
     return null;

@@ -11,6 +11,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
  * @author lengors
  */
 public record DeleteScraperOwnedSpecificationCommand()
-    implements Command<ScraperOwnedSpecificationFilter, @Nullable Void> {
+  implements Command<ScraperOwnedSpecificationFilter, @Nullable Void> {
 
 }

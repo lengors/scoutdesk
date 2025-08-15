@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Converter for Authentik proxied authentication.
- *
+ * <p>
  * This service processes HTTP requests and converts them into
  * {@link AuthentikProxiedAuthentication} objects based on custom headers and
  * role mappings.
@@ -42,21 +42,22 @@ class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationCo
    * @param userRoleProperties optional user role properties for role mappings
    */
   AuthentikProxiedAuthenticationConverter(
-      @Autowired(required = false) final @Nullable UserRoleProperties userRoleProperties) {
+    @Autowired(required = false) final @Nullable UserRoleProperties userRoleProperties
+  ) {
     final var roles = Optional
-        .ofNullable(userRoleProperties)
-        .map(UserRoleProperties::mappings)
-        .orElseGet(Collections::emptyMap);
+      .ofNullable(userRoleProperties)
+      .map(UserRoleProperties::mappings)
+      .orElseGet(Collections::emptyMap);
 
     mappings = roles
-        .entrySet()
+      .entrySet()
+      .stream()
+      .flatMap(entry -> entry
+        .getValue()
         .stream()
-        .flatMap(entry -> entry
-            .getValue()
-            .stream()
-            .map(role -> Map.entry(entry.getKey(), role)))
-        .collect(
-            Collectors.groupingBy(Map.Entry::getValue, Collectors.mapping(Map.Entry::getKey, Collectors.toList())));
+        .map(role -> Map.entry(entry.getKey(), role)))
+      .collect(
+        Collectors.groupingBy(Map.Entry::getValue, Collectors.mapping(Map.Entry::getKey, Collectors.toList())));
   }
 
   /**
@@ -73,15 +74,15 @@ class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationCo
     }
 
     return new AuthentikProxiedAuthentication(
-        usernameHeader,
-        request.getHeader(AuthentikCustomHeaders.NAME),
-        Collections
-            .list(request.getHeaders(AuthentikCustomHeaders.GROUPS))
-            .stream()
-            .flatMap(header -> Arrays.stream(header.split("\\|")))
-            .flatMap(header -> mappings
-                .getOrDefault(header, Collections.emptyList())
-                .stream())
-            .toList());
+      usernameHeader,
+      request.getHeader(AuthentikCustomHeaders.NAME),
+      Collections
+        .list(request.getHeaders(AuthentikCustomHeaders.GROUPS))
+        .stream()
+        .flatMap(header -> Arrays.stream(header.split("\\|")))
+        .flatMap(header -> mappings
+          .getOrDefault(header, Collections.emptyList())
+          .stream())
+        .toList());
   }
 }

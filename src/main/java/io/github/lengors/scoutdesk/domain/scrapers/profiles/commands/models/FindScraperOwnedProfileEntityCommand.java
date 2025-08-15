@@ -6,13 +6,13 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
 
 /**
  * Command to find a scraper-owned profile entity.
- *
+ * <p>
  * This command is used to retrieve a single profile entity based on the
  * specified filter criteria.
  *
  * @author lengors
  */
 public record FindScraperOwnedProfileEntityCommand()
-    implements Command<ScraperOwnedProfileFilter, ScraperOwnedProfileEntity> {
+  implements Command<ScraperOwnedProfileFilter, ScraperOwnedProfileEntity> {
 
 }

@@ -10,7 +10,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.SaveScr
 /**
  * Handles saving or updating a scraper specification via the Webscout REST
  * client.
- *
+ * <p>
  * This service executes the {@link SaveScraperSpecificationCommand} to persist
  * a {@link ScraperSpecification} resource.
  *
@@ -18,7 +18,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.SaveScr
  */
 @Service
 class SaveScraperSpecificationCommandHandler
-    implements CommandHandler<SaveScraperSpecificationCommand, ScraperSpecification, ScraperSpecification> {
+  implements CommandHandler<SaveScraperSpecificationCommand, ScraperSpecification, ScraperSpecification> {
   private final WebscoutRestClient webscoutRestClient;
 
   SaveScraperSpecificationCommandHandler(final WebscoutRestClient webscoutRestClient) {

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Actions that can be performed on a scraper specification owned by a user.
- *
+ * <p>
  * Used for activating or archiving specifications via the API.
  *
  * @author lengors

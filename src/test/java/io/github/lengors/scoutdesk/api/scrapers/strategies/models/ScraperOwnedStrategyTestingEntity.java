@@ -12,12 +12,12 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
  * @param strategyReference the {@link ScraperOwnedStrategyReference} to be used
  *                          in the test
  * @param profiles          the set of profiles to be used in the test
- *
  * @author lengors
  */
 public record ScraperOwnedStrategyTestingEntity(
-    ScraperOwnedStrategyReference strategyReference,
-    Set<String> profiles) {
+  ScraperOwnedStrategyReference strategyReference,
+  Set<String> profiles
+) {
 
   /**
    * This constructor is used to create a new instance of the class with the
@@ -28,9 +28,10 @@ public record ScraperOwnedStrategyTestingEntity(
    * @param profiles      the set of profiles to be used in the test
    */
   public ScraperOwnedStrategyTestingEntity(
-      final String strategyOwner,
-      final String strategyName,
-      final Set<String> profiles) {
+    final String strategyOwner,
+    final String strategyName,
+    final Set<String> profiles
+  ) {
     this(new ScraperOwnedStrategyReference(strategyOwner, strategyName), profiles);
   }
 
@@ -38,14 +39,15 @@ public record ScraperOwnedStrategyTestingEntity(
    * This constructor is used to create a new instance of the class with the
    * specified owner, name, and a set of profiles.
    *
-   * @param strategyOwner the owner of the strategy
-   * @param strategyName  the name of the strategy
-   * @param profiles      the set of profiles to be used in the test
+   * @param owner        the owner of the strategy
+   * @param strategyName the name of the strategy
+   * @param profiles     the set of profiles to be used in the test
    */
   public ScraperOwnedStrategyTestingEntity(
-      final String owner,
-      final String strategyName,
-      final String... profiles) {
+    final String owner,
+    final String strategyName,
+    final String... profiles
+  ) {
     this(owner, strategyName, Set.of(profiles));
   }
 
@@ -58,8 +60,9 @@ public record ScraperOwnedStrategyTestingEntity(
    * @param profiles          the set of profiles to be used in the test
    */
   public ScraperOwnedStrategyTestingEntity(
-      final ScraperOwnedStrategyReference strategyReference,
-      final String... profiles) {
+    final ScraperOwnedStrategyReference strategyReference,
+    final String... profiles
+  ) {
     this(strategyReference, Set.of(profiles));
   }
 }

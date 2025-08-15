@@ -38,78 +38,84 @@ import jakarta.validation.constraints.NotNull;
 
 @RestController
 @PreAuthorize("hasRole('USER')")
-@DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.PARAMETER })
-@RequestMapping({ "/api/v1/scrapers/profiles", "/api/scrapers/profiles" })
-class ScraperOwnedProfileController {
+@DefaultQualifier(value = Nullable.class, locations = {TypeUseLocation.PARAMETER})
+@RequestMapping({"/api/v1/scrapers/profiles", "/api/scrapers/profiles"})
+class ScraperOwnedProfileRestController {
   private final CommandService commandService;
 
-  ScraperOwnedProfileController(final @NonNull CommandService commandService) {
+  ScraperOwnedProfileRestController(final @NonNull CommandService commandService) {
     this.commandService = commandService;
   }
 
   @DeleteMapping("/{name}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void delete(
-      @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-      @PathVariable final @Valid @NotNull String name) {
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    @PathVariable final @Valid @NotNull String name
+  ) {
     commandService.executeCommand(
-        new DeleteScraperOwnedProfileCommand(),
-        new ScraperOwnedProfileByReferenceFilter(
-            new ScraperOwnedProfileReference(authenticatedPrincipal.getName(), name)));
+      new DeleteScraperOwnedProfileCommand(),
+      new ScraperOwnedProfileByReferenceFilter(
+        new ScraperOwnedProfileReference(authenticatedPrincipal.getName(), name)));
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void deleteAll(
-      @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal) {
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal
+  ) {
     commandService.executeCommand(
-        new DeleteScraperOwnedProfileBatchCommand(),
-        new ScraperOwnedProfileBatchByReferenceOwnerFilter(authenticatedPrincipal.getName()));
+      new DeleteScraperOwnedProfileBatchCommand(),
+      new ScraperOwnedProfileBatchByReferenceOwnerFilter(authenticatedPrincipal.getName()));
   }
 
   @GetMapping("/{name}")
   ScraperOwnedProfile find(
-      @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-      @PathVariable final @Valid @NotNull String name) {
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    @PathVariable final @Valid @NotNull String name
+  ) {
     return commandService.executeCommand(
-        new FindScraperOwnedProfileCommand(),
-        new ScraperOwnedProfileByReferenceFilter(
-            new ScraperOwnedProfileReference(authenticatedPrincipal.getName(), name)));
+      new FindScraperOwnedProfileCommand(),
+      new ScraperOwnedProfileByReferenceFilter(
+        new ScraperOwnedProfileReference(authenticatedPrincipal.getName(), name)));
   }
 
   @GetMapping
   List<ScraperOwnedProfile> findAll(
-      @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal) {
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal
+  ) {
     return commandService.executeCommand(
-        new FindScraperOwnedProfileBatchCommand(),
-        new ScraperOwnedProfileBatchByReferenceOwnerFilter(authenticatedPrincipal.getName()));
+      new FindScraperOwnedProfileBatchCommand(),
+      new ScraperOwnedProfileBatchByReferenceOwnerFilter(authenticatedPrincipal.getName()));
   }
 
   @PutMapping
   @ResponseStatus(HttpStatus.CREATED)
   ScraperOwnedProfile save(
-      @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-      @RequestBody final @Valid @NotNull ScraperUnownedProfile scraperUnownedProfile) {
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    @RequestBody final @Valid @NotNull ScraperUnownedProfile scraperUnownedProfile
+  ) {
     return commandService.executeCommand(
-        new SaveScraperOwnedProfileCommand(),
-        new ScraperOwnedProfile(
-            authenticatedPrincipal.getName(),
-            scraperUnownedProfile.name(),
-            scraperUnownedProfile.specification(),
-            scraperUnownedProfile.inputs()));
+      new SaveScraperOwnedProfileCommand(),
+      new ScraperOwnedProfile(
+        authenticatedPrincipal.getName(),
+        scraperUnownedProfile.name(),
+        scraperUnownedProfile.specification(),
+        scraperUnownedProfile.inputs()));
   }
 
   @PatchMapping("/{name}")
   ScraperOwnedProfile update(
-      @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-      @PathVariable final @Valid @NotNull String name,
-      @RequestBody final @Valid @NotNull ScraperPartialProfile partialProfile) {
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    @PathVariable final @Valid @NotNull String name,
+    @RequestBody final @Valid @NotNull ScraperPartialProfile partialProfile
+  ) {
     return commandService.executeCommand(
-        new UpdateScraperOwnedProfileCommand(),
-        new ScraperOwnedProfile(
-            authenticatedPrincipal.getName(),
-            name,
-            partialProfile.specification(),
-            partialProfile.inputs()));
+      new UpdateScraperOwnedProfileCommand(),
+      new ScraperOwnedProfile(
+        authenticatedPrincipal.getName(),
+        name,
+        partialProfile.specification(),
+        partialProfile.inputs()));
   }
 }

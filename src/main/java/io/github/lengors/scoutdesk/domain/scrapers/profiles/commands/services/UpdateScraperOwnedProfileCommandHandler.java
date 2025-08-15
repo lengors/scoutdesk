@@ -19,13 +19,14 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
 
 @Service
 class UpdateScraperOwnedProfileCommandHandler
-    implements CommandHandler<UpdateScraperOwnedProfileCommand, ScraperOwnedProfile, ScraperOwnedProfile> {
+  implements CommandHandler<UpdateScraperOwnedProfileCommand, ScraperOwnedProfile, ScraperOwnedProfile> {
   private final ScraperOwnedProfileRepository scraperOwnedProfileRepository;
   private final CommandService commandService;
 
   UpdateScraperOwnedProfileCommandHandler(
-      final ScraperOwnedProfileRepository scraperOwnedProfileRepository,
-      @Lazy final CommandService commandService) {
+    final ScraperOwnedProfileRepository scraperOwnedProfileRepository,
+    @Lazy final CommandService commandService
+  ) {
     this.scraperOwnedProfileRepository = scraperOwnedProfileRepository;
     this.commandService = commandService;
   }
@@ -34,17 +35,17 @@ class UpdateScraperOwnedProfileCommandHandler
   @Transactional
   public ScraperOwnedProfile handle(final UpdateScraperOwnedProfileCommand command, final ScraperOwnedProfile input) {
     final var entity = commandService.executeCommand(
-        new FindScraperOwnedProfileEntityCommand(),
-        new ScraperOwnedProfileByReferenceFilter(new ScraperOwnedProfileReference(input)));
+      new FindScraperOwnedProfileEntityCommand(),
+      new ScraperOwnedProfileByReferenceFilter(new ScraperOwnedProfileReference(input)));
 
     if (!Objects.equals(
-        entity
-            .getSpecification()
-            .getReference(),
-        input.specification())) {
+      entity
+        .getSpecification()
+        .getReference(),
+      input.specification())) {
       final var specification = commandService.executeCommand(
-          new FindScraperOwnedSpecificationEntityCommand(),
-          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(input.specification()));
+        new FindScraperOwnedSpecificationEntityCommand(),
+        new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(input.specification()));
 
       entity.setSpecification(specification);
     }

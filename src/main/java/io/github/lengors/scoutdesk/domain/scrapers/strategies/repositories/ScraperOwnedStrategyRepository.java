@@ -1,5 +1,6 @@
 package io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
@@ -10,7 +11,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
 
 /**
  * Repository interface for managing scraper-owned strategies.
- *
+ * <p>
  * This interface extends the {@link CrudRepository} interface to provide basic
  * CRUD operations for {@link ScraperOwnedStrategyEntity} objects.
  *
@@ -18,7 +19,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
  */
 @Repository
 public interface ScraperOwnedStrategyRepository
-    extends CrudRepository<ScraperOwnedStrategyEntity, ScraperOwnedStrategyReference> {
+  extends CrudRepository<ScraperOwnedStrategyEntity, ScraperOwnedStrategyReference> {
 
   /**
    * Find all scraper-owned strategies by their reference owner and names.
@@ -28,8 +29,9 @@ public interface ScraperOwnedStrategyRepository
    * @return A list of scraper-owned strategies
    */
   List<ScraperOwnedStrategyEntity> findAllByReferenceOwnerAndReferenceNameIn(
-      String referenceOwner,
-      Iterable<String> referenceNames);
+    String referenceOwner,
+    Collection<String> referenceNames
+  );
 
   /**
    * Find all scraper-owned strategies by their reference owner.

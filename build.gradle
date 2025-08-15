@@ -15,6 +15,7 @@ apply plugin: "org.checkerframework"
 group = "io.github.lengors"
 
 String javaVersion = properties["javaVersion"] ?: "21"
+String checkerframeworkVersion = properties["checkerframeworkVersion"] ?: "3.49.5"
 String checkstyleToolVersion = properties["checkstyleToolVersion"] ?: "10.23.1"
 String commonsLang3Version = properties["commonsLang3Version"] ?: "3.17.0"
 String protoscoutVersion = properties["protoscoutVersion"] ?: "1.0.3"
@@ -53,7 +54,9 @@ dependencies {
   implementation "org.liquibase:liquibase-core"
   implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
   implementation "io.github.lengors:protoscout:$protoscoutVersion"
+  implementation "org.checkerframework:checker-util:$checkerframeworkVersion"
   compileOnly "org.springframework.boot:spring-boot-docker-compose"
+  compileOnly "org.checkerframework:checker-qual:$checkerframeworkVersion"
   developmentOnly "org.springframework.boot:spring-boot-devtools"
   developmentOnly "org.springframework.boot:spring-boot-docker-compose"
   runtimeOnly "io.micrometer:micrometer-registry-prometheus"
@@ -66,7 +69,9 @@ dependencies {
   testImplementation "org.testcontainers:junit-jupiter"
   testImplementation "org.testcontainers:postgresql"
   testImplementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
+  testCompileOnly "org.checkerframework:checker-qual:$checkerframeworkVersion"
   testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+  checkerFramework "org.checkerframework:checker:$checkerframeworkVersion"
 }
 
 test {

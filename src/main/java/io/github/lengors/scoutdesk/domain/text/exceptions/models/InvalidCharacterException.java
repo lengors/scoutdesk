@@ -2,7 +2,7 @@ package io.github.lengors.scoutdesk.domain.text.exceptions.models;
 
 /**
  * Exception thrown when an invalid character is found in a string.
- *
+ * <p>
  * This exception is used to indicate that a string contains a character that is
  * not allowed or recognized.
  *

@@ -10,10 +10,9 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
  * Command to update the status of a scraper-owned specification entity.
  *
  * @param status the new status of the specification entity
- *
  * @author lengors
  */
 public record UpdateScraperOwnedSpecificationEntityStatusCommand(ScraperOwnedSpecificationStatus status)
-    implements Command<ScraperOwnedSpecificationFilter, @Nullable Void> {
+  implements Command<ScraperOwnedSpecificationFilter, @Nullable Void> {
 
 }

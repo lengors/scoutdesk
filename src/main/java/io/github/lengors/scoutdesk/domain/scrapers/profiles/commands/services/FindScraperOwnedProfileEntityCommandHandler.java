@@ -13,7 +13,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories.Scraper
 
 @Service
 class FindScraperOwnedProfileEntityCommandHandler implements
-    CommandHandler<FindScraperOwnedProfileEntityCommand, ScraperOwnedProfileFilter, ScraperOwnedProfileEntity> {
+  CommandHandler<FindScraperOwnedProfileEntityCommand, ScraperOwnedProfileFilter, ScraperOwnedProfileEntity> {
   private final ScraperOwnedProfileRepository scraperOwnedProfileRepository;
 
   FindScraperOwnedProfileEntityCommandHandler(final ScraperOwnedProfileRepository scraperOwnedProfileRepository) {
@@ -23,8 +23,9 @@ class FindScraperOwnedProfileEntityCommandHandler implements
   @Override
   @Transactional(readOnly = true)
   public ScraperOwnedProfileEntity handle(
-      final FindScraperOwnedProfileEntityCommand command,
-      final ScraperOwnedProfileFilter input) {
+    final FindScraperOwnedProfileEntityCommand command,
+    final ScraperOwnedProfileFilter input
+  ) {
 
     final var optionalEntity = switch (input) {
       case ScraperOwnedProfileByReferenceFilter(var reference) -> scraperOwnedProfileRepository.findById(reference);

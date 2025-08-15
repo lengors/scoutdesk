@@ -3,7 +3,7 @@ package io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.serv
 import java.util.List;
 import java.util.Map;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.util.NullnessUtil;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +22,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.FindScr
 
 /**
  * Handles batch retrieval of owned scraper specifications using a filter.
- *
+ * <p>
  * This service executes the {@link FindScraperOwnedSpecificationBatchCommand}
  * to fetch multiple specifications matching the provided filter.
  *
@@ -31,7 +31,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.FindScr
 @Service
 @SuppressWarnings("LineLength")
 class FindScraperOwnedSpecificationBatchCommandHandler implements
-    CommandHandler<FindScraperOwnedSpecificationBatchCommand, ScraperOwnedSpecificationBatchFilter, List<ScraperOwnedSpecification>> {
+  CommandHandler<FindScraperOwnedSpecificationBatchCommand, ScraperOwnedSpecificationBatchFilter, List<ScraperOwnedSpecification>> {
   private final CommandService commandService;
 
   FindScraperOwnedSpecificationBatchCommandHandler(@Lazy final CommandService commandService) {
@@ -41,27 +41,29 @@ class FindScraperOwnedSpecificationBatchCommandHandler implements
   @Override
   @Transactional(readOnly = true)
   public List<ScraperOwnedSpecification> handle(
-      final FindScraperOwnedSpecificationBatchCommand command,
-      final ScraperOwnedSpecificationBatchFilter input) {
+    final FindScraperOwnedSpecificationBatchCommand command,
+    final ScraperOwnedSpecificationBatchFilter input
+  ) {
     final var entities = commandService.executeCommand(new FindScraperOwnedSpecificationEntityBatchCommand(), input);
     final var specifications = RestClient
-        .rethrowing(() -> commandService.executeCommand(new FindScraperSpecificationBatchCommand(), entities
-            .stream()
-            .map(ScraperOwnedSpecificationEntity::getReference)
-            .map(ScraperOwnedSpecificationReference::fullyQualifiedName)
-            .toList()));
-    return entities
+      .rethrowing(() -> commandService.executeCommand(new FindScraperSpecificationBatchCommand(), entities
         .stream()
-        .map(entity -> buildScraperOwnedSpecification(entity, specifications))
-        .toList();
+        .map(ScraperOwnedSpecificationEntity::getReference)
+        .map(ScraperOwnedSpecificationReference::fullyQualifiedName)
+        .toList()));
+    return entities
+      .stream()
+      .map(entity -> buildScraperOwnedSpecification(entity, specifications))
+      .toList();
   }
 
-  @SuppressWarnings({ "unsafe" })
+  @SuppressWarnings({"unsafe"})
   private static ScraperOwnedSpecification buildScraperOwnedSpecification(
-      final ScraperOwnedSpecificationEntity entity,
-      final Map<String, ScraperSpecification> specifications) {
-    return new ScraperOwnedSpecification(entity, (@NonNull ScraperSpecification) specifications.get(entity
-        .getReference()
-        .fullyQualifiedName()));
+    final ScraperOwnedSpecificationEntity entity,
+    final Map<String, ScraperSpecification> specifications
+  ) {
+    return new ScraperOwnedSpecification(entity, NullnessUtil.castNonNull(specifications.get(entity
+      .getReference()
+      .fullyQualifiedName())));
   }
 }

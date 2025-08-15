@@ -12,7 +12,7 @@ import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxie
 
 /**
  * Authentication provider for handling Authentik proxied authentication.
- *
+ * <p>
  * This service validates and processes authentication requests using the
  * Authentik proxied authentication model.
  *

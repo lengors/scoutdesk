@@ -6,7 +6,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Exception thrown when an entity is not found in the database.
- *
+ * <p>
  * Returns a 404 NOT FOUND HTTP status with a message indicating the entity type
  * and query used to search for it.
  *
@@ -22,13 +22,14 @@ public class EntityNotFoundException extends ResponseStatusException {
    * @param query       the query used to search for the entity
    */
   public EntityNotFoundException(
-      final @Nullable Class<?> runtimeType,
-      final @Nullable Object query) {
+    final @Nullable Class<?> runtimeType,
+    final @Nullable Object query
+  ) {
     super(
-        HttpStatus.NOT_FOUND,
-        String.format(
-            "Entity {type=%s} not found for query {query=%s}",
-            runtimeType == null ? null : runtimeType.getSimpleName(),
-            query));
+      HttpStatus.NOT_FOUND,
+      String.format(
+        "Entity {type=%s} not found for query {query=%s}",
+        runtimeType == null ? null : runtimeType.getSimpleName(),
+        query));
   }
 }

@@ -6,17 +6,17 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 
 /**
  * Configuration properties for the Webscout client.
- *
+ * <p>
  * Binds properties with the prefix 'webscout.client' to provide the Webscout
  * service URL.
  *
  * @param url The base URL for the Webscout service
- *
  * @author lengors
  */
 @ConfigurationProperties(prefix = "webscout.client")
 public record WebscoutClientProperties(
-    @DefaultValue("http://localhost:8080") String url) {
+  @DefaultValue("http://localhost:8080") String url
+) {
 
   /**
    * Constructor for creating a new instance of {@link WebscoutClientProperties}.

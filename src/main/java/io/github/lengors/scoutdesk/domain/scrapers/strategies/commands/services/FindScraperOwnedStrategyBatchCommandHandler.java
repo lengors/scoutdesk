@@ -15,7 +15,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
 
 @Service
 class FindScraperOwnedStrategyBatchCommandHandler implements
-    CommandHandler<FindScraperOwnedStrategyBatchCommand, ScraperOwnedStrategyBatchFilter, List<ScraperOwnedStrategy>> {
+  CommandHandler<FindScraperOwnedStrategyBatchCommand, ScraperOwnedStrategyBatchFilter, List<ScraperOwnedStrategy>> {
   private final CommandService commandService;
 
   FindScraperOwnedStrategyBatchCommandHandler(@Lazy final CommandService commandService) {
@@ -25,12 +25,13 @@ class FindScraperOwnedStrategyBatchCommandHandler implements
   @Override
   @Transactional(readOnly = true)
   public List<ScraperOwnedStrategy> handle(
-      final FindScraperOwnedStrategyBatchCommand command,
-      final ScraperOwnedStrategyBatchFilter input) {
+    final FindScraperOwnedStrategyBatchCommand command,
+    final ScraperOwnedStrategyBatchFilter input
+  ) {
     return commandService
-        .executeCommand(new FindScraperOwnedStrategyEntityBatchCommand(), input)
-        .stream()
-        .map(ScraperOwnedStrategy::new)
-        .toList();
+      .executeCommand(new FindScraperOwnedStrategyEntityBatchCommand(), input)
+      .stream()
+      .map(ScraperOwnedStrategy::new)
+      .toList();
   }
 }

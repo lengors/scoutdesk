@@ -39,7 +39,7 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Controller for managing owned scraper specifications via the API.
- *
+ * <p>
  * Provides endpoints for CRUD operations and status updates on user-owned
  * specifications.
  *
@@ -47,73 +47,80 @@ import jakarta.validation.constraints.NotNull;
  */
 @RestController
 @PreAuthorize("hasRole('DEVELOPER')")
-@DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.PARAMETER })
-@RequestMapping({ "/api/v1/scrapers/specifications", "/api/scrapers/specifications" })
-class ScraperOwnedSpecificationController {
+@DefaultQualifier(value = Nullable.class, locations = {TypeUseLocation.PARAMETER})
+@RequestMapping({"/api/v1/scrapers/specifications", "/api/scrapers/specifications"})
+class ScraperOwnedSpecificationRestController {
   private final CommandService commandService;
 
-  ScraperOwnedSpecificationController(final @NonNull CommandService commandService) {
+  ScraperOwnedSpecificationRestController(final @NonNull CommandService commandService) {
     this.commandService = commandService;
   }
 
   @DeleteMapping("/{name}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void delete(
-      @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-      @PathVariable final @Valid @NotNull String name) {
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    @PathVariable final @Valid @NotNull String name
+  ) {
     commandService.executeCommand(
-        new DeleteScraperOwnedSpecificationCommand(),
-        new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
-            new ScraperOwnedSpecificationReference(authenticatedPrincipal.getName(), name)));
+      new DeleteScraperOwnedSpecificationCommand(),
+      new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+        new ScraperOwnedSpecificationReference(authenticatedPrincipal.getName(), name)));
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void delete(@AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal) {
     commandService.executeCommand(
-        new DeleteScraperOwnedSpecificationBatchCommand(),
-        new ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter(authenticatedPrincipal.getName()));
+      new DeleteScraperOwnedSpecificationBatchCommand(),
+      new ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter(authenticatedPrincipal.getName()));
   }
 
   @GetMapping("/{name}")
   ScraperOwnedSpecification find(
-      @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-      @PathVariable final @Valid @NotNull String name) {
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    @PathVariable final @Valid @NotNull String name
+  ) {
     return commandService.executeCommand(
-        new FindScraperOwnedSpecificationCommand(),
-        new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
-            new ScraperOwnedSpecificationReference(authenticatedPrincipal.getName(), name)));
+      new FindScraperOwnedSpecificationCommand(),
+      new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+        new ScraperOwnedSpecificationReference(authenticatedPrincipal.getName(), name)));
   }
 
   @GetMapping
   List<ScraperOwnedSpecification> findAll(
-      @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal) {
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal
+  ) {
     return commandService.executeCommand(
-        new FindScraperOwnedSpecificationBatchCommand(),
-        new ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter(authenticatedPrincipal.getName()));
+      new FindScraperOwnedSpecificationBatchCommand(),
+      new ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter(authenticatedPrincipal.getName()));
   }
 
   @PutMapping
   @ResponseStatus(HttpStatus.CREATED)
   ScraperOwnedSpecification save(
-      @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-      @RequestBody final @Valid @NotNull ScraperSpecification scraperSpecification) {
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    @RequestBody final @Valid @NotNull ScraperSpecification scraperSpecification
+  ) {
     return commandService.executeCommand(
-        new SaveScraperOwnedSpecificationCommand(authenticatedPrincipal.getName()),
-        scraperSpecification);
+      new SaveScraperOwnedSpecificationCommand(authenticatedPrincipal.getName()),
+      scraperSpecification);
   }
 
   @PatchMapping("/{name}")
   void update(
-      @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-      @PathVariable final @Valid @NotNull String name,
-      @RequestBody final @Valid @NotNull ScraperOwnedSpecificationActionRequest request) {
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    @PathVariable final @Valid @NotNull String name,
+    @RequestBody final @Valid @NotNull ScraperOwnedSpecificationActionRequest request
+  ) {
     commandService.executeCommand(
-        new UpdateScraperOwnedSpecificationEntityStatusCommand(switch (request.action()) {
+      new UpdateScraperOwnedSpecificationEntityStatusCommand(
+        switch (request.action()) {
           case ACTIVATE -> ScraperOwnedSpecificationStatus.ACTIVE;
           case ARCHIVE -> ScraperOwnedSpecificationStatus.ARCHIVED;
-        }),
-        new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
-            new ScraperOwnedSpecificationReference(authenticatedPrincipal.getName(), name)));
+        }
+      ),
+      new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+        new ScraperOwnedSpecificationReference(authenticatedPrincipal.getName(), name)));
   }
 }

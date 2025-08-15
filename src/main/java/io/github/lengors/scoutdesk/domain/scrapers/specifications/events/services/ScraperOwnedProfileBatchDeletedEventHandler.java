@@ -28,13 +28,13 @@ class ScraperOwnedProfileBatchDeletedEventHandler {
   @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
   public void handle(final ScraperOwnedProfileBatchDeletedEvent event) {
     final var specifications = event
-        .getSource()
-        .stream()
-        .map(ScraperOwnedProfile::specification)
-        .collect(Collectors.toUnmodifiableSet());
+      .getSource()
+      .stream()
+      .map(ScraperOwnedProfile::specification)
+      .collect(Collectors.toUnmodifiableSet());
 
     commandService.executeCommand(
-        new DeleteScraperOwnedSpecificationBatchCommand(),
-        new ScraperOwnedSpecificationBatchByReferenceBatchAndStatusFilter(specifications));
+      new DeleteScraperOwnedSpecificationBatchCommand(),
+      new ScraperOwnedSpecificationBatchByReferenceBatchAndStatusFilter(specifications));
   }
 }

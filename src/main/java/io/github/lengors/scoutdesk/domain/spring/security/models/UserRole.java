@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Enumeration of user roles.
- *
+ * <p>
  * This enum defines the roles available in the application.
  *
  * @author lengors
@@ -27,5 +27,5 @@ public enum UserRole {
    * Regular user role.
    */
   @JsonProperty(UserRoleNames.USER)
-  USER;
+  USER
 }

@@ -12,7 +12,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.properties.WebscoutClie
 /**
  * Auto-configuration for providing {@link WebscoutClientConnectionDetails}
  * beans.
- *
+ * <p>
  * Registers a bean if {@link WebscoutClientProperties} is present and no other
  * connection details bean exists.
  *
@@ -24,7 +24,8 @@ class WebscoutClientConnectionDetailsConfiguration {
   @ConditionalOnBean(WebscoutClientProperties.class)
   @ConditionalOnMissingBean(WebscoutClientConnectionDetails.class)
   WebscoutClientConnectionDetails webscoutClientConnectionDetails(
-      final WebscoutClientProperties webscoutClientProperties) {
+    final WebscoutClientProperties webscoutClientProperties
+  ) {
     return new WebscoutClientConnectionDetailsProperties(webscoutClientProperties);
   }
 }

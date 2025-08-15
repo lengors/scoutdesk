@@ -14,7 +14,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
 
 @Service
 class FindScraperOwnedProfileBatchCommandHandler implements
-    CommandHandler<FindScraperOwnedProfileBatchCommand, ScraperOwnedProfileBatchFilter, List<ScraperOwnedProfile>> {
+  CommandHandler<FindScraperOwnedProfileBatchCommand, ScraperOwnedProfileBatchFilter, List<ScraperOwnedProfile>> {
   private final CommandService commandService;
 
   FindScraperOwnedProfileBatchCommandHandler(@Lazy final CommandService commandService) {
@@ -23,13 +23,13 @@ class FindScraperOwnedProfileBatchCommandHandler implements
 
   @Override
   public List<ScraperOwnedProfile> handle(
-      final FindScraperOwnedProfileBatchCommand command,
-      final ScraperOwnedProfileBatchFilter input) {
+    final FindScraperOwnedProfileBatchCommand command,
+    final ScraperOwnedProfileBatchFilter input
+  ) {
     final var entities = commandService.executeCommand(new FindScraperOwnedProfileEntityBatchCommand(), input);
     return entities
-        .stream()
-        .map(ScraperOwnedProfile::new)
-        .toList();
+      .stream()
+      .map(ScraperOwnedProfile::new)
+      .toList();
   }
-
 }

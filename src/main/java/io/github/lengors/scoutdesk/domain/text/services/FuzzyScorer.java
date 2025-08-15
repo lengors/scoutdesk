@@ -4,7 +4,7 @@ import java.util.function.BiPredicate;
 
 /**
  * Utility class for calculating fuzzy scores between strings.
- *
+ * <p>
  * Provides a method to compute a similarity score with options for case
  * sensitivity and strict mode.
  *
@@ -25,10 +25,11 @@ public final class FuzzyScorer {
    * @return The fuzzy score between the two strings
    */
   public static int getFuzzyScore(
-      final String term,
-      final String query,
-      final boolean ignoreCase,
-      final boolean strictModeEnabled) {
+    final String term,
+    final String query,
+    final boolean ignoreCase,
+    final boolean strictModeEnabled
+  ) {
 
     // Adapted from Apache's Commons Text FuzzyScore class but with support for case
     // sensitivity.
@@ -37,8 +38,8 @@ public final class FuzzyScorer {
     var termCharacterMatchFound = false;
     var previousMatchingCharacterIndex = Integer.MIN_VALUE;
     final BiPredicate<Character, Character> comparator = ignoreCase
-        ? FuzzyScorer::isEqualIgnoreCase
-        : FuzzyScorer::isEqual;
+      ? FuzzyScorer::isEqualIgnoreCase
+      : FuzzyScorer::isEqual;
     for (var queryIndex = 0; queryIndex < query.length(); queryIndex++) {
       final var queryChar = query.charAt(queryIndex);
       for (termCharacterMatchFound = false; termIndex < term.length() && !termCharacterMatchFound; termIndex++) {
@@ -57,8 +58,8 @@ public final class FuzzyScorer {
     // If strict mode is enabled, we need to check if the term was fully matched
     // against the query and if not, we return 0 as the score.
     return !strictModeEnabled || termCharacterMatchFound
-        ? score
-        : 0;
+      ? score
+      : 0;
   }
 
   private static boolean isEqual(final char firstCharacter, final char secondCharacter) {

@@ -21,7 +21,7 @@ import io.github.lengors.scoutdesk.domain.spring.core.services.ResolvableTypes;
 /**
  * Resolves command handlers based on the command type using
  * {@link ResolvableType}.
- *
+ * <p>
  * This class implements the {@link CommandHandlerResolver} interface and
  * provides a mechanism to resolve command handlers for specific command types.
  *
@@ -31,42 +31,41 @@ import io.github.lengors.scoutdesk.domain.spring.core.services.ResolvableTypes;
 class ResolvableTypeCommandHandlerResolver implements CommandHandlerResolver {
   private static final Logger LOG = LoggerFactory.getLogger(ResolvableTypeCommandHandlerResolver.class);
 
-  @SuppressWarnings("LineLength")
-  private final Map<ResolvableType, Optional<CommandHandler<?, ?, ?>>> cachedCommandHandlers = new ConcurrentHashMap<>();
+  private final Map<ResolvableType, Optional<CommandHandler<?, ?, ?>>> cachedCommandHandlers =
+    new ConcurrentHashMap<>();
   private final List<? extends Pair<ResolvableType, ? extends CommandHandler<?, ?, ?>>> commandHandlers;
 
   ResolvableTypeCommandHandlerResolver(final List<CommandHandler<?, ?, ?>> commandHandlers) {
     this.commandHandlers = commandHandlers
-        .stream()
-        .map(commandHandler -> Pair.of(
-            ResolvableTypes
-                .flat(ResolvableType.forInstance(commandHandler))
-                .filter(CommandHandler.RESOLVABLE_TYPE::isAssignableFrom)
-                .map(type -> Arrays
-                    .stream(type.getGenerics())
-                    .findFirst())
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .sorted(ResolvableTypes::compare)
-                .findFirst()
-                .get(),
-            commandHandler))
-        .sorted((left, right) -> ResolvableTypes.compare(left.getLeft(), right.getLeft()))
-        .peek(pair -> LOG.debug("Command handler {} resolving to {}", pair.getLeft(), pair.getRight()))
-        .toList();
+      .stream()
+      .map(commandHandler -> Pair.of(
+        ResolvableTypes
+          .flat(ResolvableType.forInstance(commandHandler))
+          .filter(CommandHandler.RESOLVABLE_TYPE::isAssignableFrom)
+          .map(type -> Arrays
+            .stream(type.getGenerics())
+            .findFirst())
+          .filter(Optional::isPresent)
+          .map(Optional::get)
+          .min(ResolvableTypes::compare)
+          .orElseThrow(),
+        commandHandler))
+      .sorted((left, right) -> ResolvableTypes.compare(left.getLeft(), right.getLeft()))
+      .peek(pair -> LOG.debug("Command handler {} resolving to {}", pair.getLeft(), pair.getRight()))
+      .toList();
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public <C extends Command<I, O>, I, O> @Nullable CommandHandler<C, I, O> resolve(final C command) {
     return (@Nullable CommandHandler<C, I, O>) cachedCommandHandlers
-        .computeIfAbsent(ResolvableType.forInstance(command), type -> commandHandlers
-            .stream()
-            .filter(pair -> pair
-                .getLeft()
-                .isAssignableFrom(type))
-            .findFirst()
-            .map(Pair::getRight))
-        .orElse(null);
+      .computeIfAbsent(ResolvableType.forInstance(command), type -> commandHandlers
+        .stream()
+        .filter(pair -> pair
+          .getLeft()
+          .isAssignableFrom(type))
+        .findFirst()
+        .map(Pair::getRight))
+      .orElse(null);
   }
 }

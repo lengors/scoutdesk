@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Interface for converting HTTP requests into authentication objects.
- *
+ * <p>
  * This interface is implemented to handle custom authentication logic.
  *
  * @author lengors

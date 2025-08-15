@@ -20,8 +20,9 @@ public class ResourceUtils {
   private final ObjectMapper objectMapper;
 
   ResourceUtils(
-      @Autowired final ResourceLoader resourceLoader,
-      @Autowired final ObjectMapper objectMapper) {
+    @Autowired final ResourceLoader resourceLoader,
+    @Autowired final ObjectMapper objectMapper
+  ) {
     this.resourceLoader = resourceLoader;
     this.objectMapper = objectMapper.copyWith(new YAMLFactory());
   }

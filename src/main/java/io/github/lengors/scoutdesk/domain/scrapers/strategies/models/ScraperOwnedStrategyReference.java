@@ -15,12 +15,11 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a reference to a scraper strategy owned by a user.
- *
+ * <p>
  * This class contains the owner and name of the strategy.
  *
  * @param owner The owner of the strategy
  * @param name  The name of the strategy
- *
  * @author lengors
  */
 @Embeddable
@@ -28,8 +27,9 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedStrategyReference(
-    @JsonProperty("owner") @NotNull String owner,
-    @JsonProperty("name") @NotNull String name) implements ScraperOwnedStrategyReferrer, Serializable {
+  @JsonProperty("owner") @NotNull String owner,
+  @JsonProperty("name") @NotNull String name
+) implements ScraperOwnedStrategyReferrer, Serializable {
 
   /**
    * Creates a new instance of the {@link ScraperOwnedStrategyReference}.

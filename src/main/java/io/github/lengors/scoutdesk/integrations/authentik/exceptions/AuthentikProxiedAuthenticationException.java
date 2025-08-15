@@ -6,7 +6,7 @@ import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikCustom
 
 /**
  * Exception for missing or invalid Authentik proxied authentication headers.
- *
+ * <p>
  * This exception is thrown when the required authentication headers are not
  * present or invalid.
  *

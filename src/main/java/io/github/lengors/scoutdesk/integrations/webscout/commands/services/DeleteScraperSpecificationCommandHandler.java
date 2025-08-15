@@ -10,7 +10,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteS
 /**
  * Handles deletion of a single scraper specification via the Webscout REST
  * client.
- *
+ * <p>
  * This service executes the {@link DeleteScraperSpecificationCommand} to remove
  * a {@link ScraperSpecification} resource by name.
  *
@@ -18,7 +18,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteS
  */
 @Service
 class DeleteScraperSpecificationCommandHandler
-    implements CommandHandler<DeleteScraperSpecificationCommand, String, ScraperSpecification> {
+  implements CommandHandler<DeleteScraperSpecificationCommand, String, ScraperSpecification> {
   private final WebscoutRestClient webscoutRestClient;
 
   DeleteScraperSpecificationCommandHandler(final WebscoutRestClient webscoutRestClient) {

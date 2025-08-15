@@ -6,9 +6,9 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
 
 /**
  * Event that is published when a scraper-owned profile is deleted.
- *
+ * <p>
  * This event contains the deleted profile as its source.
- *
+ * <p>
  * The event is used to notify other components of the system about the deletion
  * of a profile.
  *

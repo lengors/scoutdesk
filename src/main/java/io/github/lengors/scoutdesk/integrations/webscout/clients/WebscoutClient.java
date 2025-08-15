@@ -12,7 +12,7 @@ import reactor.core.publisher.Flux;
 
 /**
  * Client for interacting with the Webscout REST API for scraping data.
- *
+ * <p>
  * Provides methods to send scraping requests and receive responses.
  *
  * @author lengors
@@ -25,12 +25,13 @@ public class WebscoutClient {
   private final WebClient webClient;
 
   WebscoutClient(
-      final WebscoutClientConnectionDetails webscoutClientConnectionDetails,
-      final WebClient.Builder webClientBuilder) {
+    final WebscoutClientConnectionDetails webscoutClientConnectionDetails,
+    final WebClient.Builder webClientBuilder
+  ) {
     LOG.info("Setting {} up: {}", getClass().getSimpleName(), webscoutClientConnectionDetails.url());
     this.webClient = webClientBuilder
-        .baseUrl(webscoutClientConnectionDetails.url())
-        .build();
+      .baseUrl(webscoutClientConnectionDetails.url())
+      .build();
   }
 
   /**
@@ -41,10 +42,10 @@ public class WebscoutClient {
    */
   public Flux<ScraperResponse> scrap(final ScraperRequest request) {
     return webClient
-        .post()
-        .uri(BASE_PATH)
-        .bodyValue(request)
-        .retrieve()
-        .bodyToFlux(ScraperResponse.class);
+      .post()
+      .uri(BASE_PATH)
+      .bodyValue(request)
+      .retrieve()
+      .bodyToFlux(ScraperResponse.class);
   }
 }

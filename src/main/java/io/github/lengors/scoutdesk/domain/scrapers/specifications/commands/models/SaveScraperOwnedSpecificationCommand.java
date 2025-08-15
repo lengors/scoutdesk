@@ -8,10 +8,9 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
  * Command to save a scraper-owned specification.
  *
  * @param owner the owner of the specification
- *
  * @author lengors
  */
 public record SaveScraperOwnedSpecificationCommand(String owner)
-    implements Command<ScraperSpecification, ScraperOwnedSpecification> {
+  implements Command<ScraperSpecification, ScraperOwnedSpecification> {
 
 }

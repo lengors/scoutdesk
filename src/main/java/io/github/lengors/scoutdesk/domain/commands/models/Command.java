@@ -5,7 +5,6 @@ package io.github.lengors.scoutdesk.domain.commands.models;
  *
  * @param <I> the input type
  * @param <O> the output type
- *
  * @author lengors
  */
 public interface Command<I, O> {

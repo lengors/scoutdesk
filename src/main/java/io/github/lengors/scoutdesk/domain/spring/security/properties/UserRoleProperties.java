@@ -10,16 +10,16 @@ import io.github.lengors.scoutdesk.domain.spring.security.models.UserRole;
 
 /**
  * Configuration properties for user roles in Spring Security.
- *
+ * <p>
  * This record maps user roles to their associated groups or permissions.
  *
  * @param mappings a map of user roles to their associated groups
- *
  * @author lengors
  */
 @ConfigurationProperties(prefix = "spring.security.role")
 public record UserRoleProperties(
-    Map<UserRole, List<String>> mappings) {
+  Map<UserRole, List<String>> mappings
+) {
 
   /**
    * Constructs a new instance of {@link UserRoleProperties}.

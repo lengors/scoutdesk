@@ -22,15 +22,16 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
 
 @Service
 class DeleteScraperOwnedProfileBatchCommandHandler
-    implements CommandHandler<DeleteScraperOwnedProfileBatchCommand, ScraperOwnedProfileBatchFilter, @Nullable Void> {
+  implements CommandHandler<DeleteScraperOwnedProfileBatchCommand, ScraperOwnedProfileBatchFilter, @Nullable Void> {
   private final ScraperOwnedProfileRepository scraperOwnedProfileRepository;
   private final ApplicationEventPublisher applicationEventPublisher;
   private final CommandService commandService;
 
   DeleteScraperOwnedProfileBatchCommandHandler(
-      final ScraperOwnedProfileRepository scraperOwnedProfileRepository,
-      final ApplicationEventPublisher applicationEventPublisher,
-      @Lazy final CommandService commandService) {
+    final ScraperOwnedProfileRepository scraperOwnedProfileRepository,
+    final ApplicationEventPublisher applicationEventPublisher,
+    @Lazy final CommandService commandService
+  ) {
     this.scraperOwnedProfileRepository = scraperOwnedProfileRepository;
     this.applicationEventPublisher = applicationEventPublisher;
     this.commandService = commandService;
@@ -38,20 +39,22 @@ class DeleteScraperOwnedProfileBatchCommandHandler
 
   @Override
   @Transactional
-  public @Nullable Void handle(final DeleteScraperOwnedProfileBatchCommand command,
-      final ScraperOwnedProfileBatchFilter input) {
+  public @Nullable Void handle(
+    final DeleteScraperOwnedProfileBatchCommand command,
+    final ScraperOwnedProfileBatchFilter input
+  ) {
     final var entities = commandService.executeCommand(new FindScraperOwnedProfileEntityBatchCommand(), input);
     if (!entities
-        .stream()
-        .map(ScraperOwnedProfileEntity::getStrategies)
-        .allMatch(Set::isEmpty)) {
+      .stream()
+      .map(ScraperOwnedProfileEntity::getStrategies)
+      .allMatch(Set::isEmpty)) {
       throw new EntityDeleteConflictException(ScraperOwnedProfileEntity.class, ScraperOwnedStrategyEntity.class);
     }
     scraperOwnedProfileRepository.deleteAll(entities);
     applicationEventPublisher.publishEvent(new ScraperOwnedProfileBatchDeletedEvent(entities
-        .stream()
-        .map(ScraperOwnedProfile::new)
-        .toList()));
+      .stream()
+      .map(ScraperOwnedProfile::new)
+      .toList()));
     return null;
   }
 }

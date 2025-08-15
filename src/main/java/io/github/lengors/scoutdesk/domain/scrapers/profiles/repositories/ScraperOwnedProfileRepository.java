@@ -1,5 +1,6 @@
 package io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
@@ -10,7 +11,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
 
 /**
  * Repository interface for managing scraper-owned profiles.
- *
+ * <p>
  * This interface extends the {@link CrudRepository} interface to provide basic
  * CRUD operations for {@link ScraperOwnedProfileEntity} objects.
  *
@@ -18,7 +19,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
  */
 @Repository
 public interface ScraperOwnedProfileRepository
-    extends CrudRepository<ScraperOwnedProfileEntity, ScraperOwnedProfileReference> {
+  extends CrudRepository<ScraperOwnedProfileEntity, ScraperOwnedProfileReference> {
 
   /**
    * Finds all scraper-owned profiles by the specified reference owner and
@@ -27,18 +28,19 @@ public interface ScraperOwnedProfileRepository
    * @param referenceOwner The reference owner to search for.
    * @param referenceNames The reference names to search for.
    * @return A list of scraper-owned profiles that match the specified reference
-   *         owner and reference names.
+   * owner and reference names.
    */
   List<ScraperOwnedProfileEntity> findAllByReferenceOwnerAndReferenceNameIn(
-      String referenceOwner,
-      Iterable<String> referenceNames);
+    String referenceOwner,
+    Collection<String> referenceNames
+  );
 
   /**
    * Finds all scraper-owned profiles by the specified reference owner.
    *
    * @param referenceOwner The reference owner to search for.
    * @return A list of scraper-owned profiles that match the specified reference
-   *         owner.
+   * owner.
    */
   List<ScraperOwnedProfileEntity> findAllByReferenceOwner(String referenceOwner);
 }

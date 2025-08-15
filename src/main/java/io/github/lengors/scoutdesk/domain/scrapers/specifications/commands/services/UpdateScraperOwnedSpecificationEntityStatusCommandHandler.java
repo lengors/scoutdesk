@@ -16,7 +16,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.S
 
 /**
  * Handles updating the status of an owned scraper specification entity.
- *
+ * <p>
  * This service executes the
  * {@link UpdateScraperOwnedSpecificationEntityStatusCommand} to change the
  * status of a specification entity.
@@ -26,13 +26,14 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.S
 @Service
 @SuppressWarnings("LineLength")
 class UpdateScraperOwnedSpecificationEntityStatusCommandHandler implements
-    CommandHandler<UpdateScraperOwnedSpecificationEntityStatusCommand, ScraperOwnedSpecificationFilter, @Nullable Void> {
+  CommandHandler<UpdateScraperOwnedSpecificationEntityStatusCommand, ScraperOwnedSpecificationFilter, @Nullable Void> {
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
   private final CommandService commandService;
 
   UpdateScraperOwnedSpecificationEntityStatusCommandHandler(
-      final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
-      @Lazy final CommandService commandService) {
+    final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
+    @Lazy final CommandService commandService
+  ) {
     this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
     this.commandService = commandService;
   }
@@ -40,14 +41,15 @@ class UpdateScraperOwnedSpecificationEntityStatusCommandHandler implements
   @Override
   @Transactional
   public @Nullable Void handle(
-      final UpdateScraperOwnedSpecificationEntityStatusCommand command,
-      final ScraperOwnedSpecificationFilter input) {
+    final UpdateScraperOwnedSpecificationEntityStatusCommand command,
+    final ScraperOwnedSpecificationFilter input
+  ) {
     final var entity = commandService.executeCommand(new FindScraperOwnedSpecificationEntityCommand(), input);
     final var invalidTransition = switch (command.status()) {
       case ACTIVE -> entity.getStatus() == ScraperOwnedSpecificationStatus.ACTIVE
-          || entity.getStatus() == ScraperOwnedSpecificationStatus.DELETED;
+        || entity.getStatus() == ScraperOwnedSpecificationStatus.DELETED;
       case ARCHIVED -> entity.getStatus() == ScraperOwnedSpecificationStatus.ARCHIVED
-          || entity.getStatus() == ScraperOwnedSpecificationStatus.DELETED;
+        || entity.getStatus() == ScraperOwnedSpecificationStatus.DELETED;
       case DELETED -> true;
     };
 

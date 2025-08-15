@@ -19,7 +19,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 
 /**
  * Controller for accessing shared scraper specifications via the API.
- *
+ * <p>
  * Provides endpoints for users to query shared specifications with filtering
  * options.
  *
@@ -27,27 +27,28 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
  */
 @RestController
 @PreAuthorize("hasRole('USER')")
-@DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.PARAMETER })
-@RequestMapping({ "/api/v1/shared/scrapers/specifications", "/api/shared/scrapers/specifications" })
-class SharedScraperOwnedSpecificationController {
+@DefaultQualifier(value = Nullable.class, locations = {TypeUseLocation.PARAMETER})
+@RequestMapping({"/api/v1/shared/scrapers/specifications", "/api/shared/scrapers/specifications"})
+class SharedScraperOwnedSpecificationRestController {
   private final CommandService commandService;
 
-  SharedScraperOwnedSpecificationController(final @NonNull CommandService commandService) {
+  SharedScraperOwnedSpecificationRestController(final @NonNull CommandService commandService) {
     this.commandService = commandService;
   }
 
   @GetMapping
   List<ScraperOwnedSpecification> findAll(
-      @RequestParam(name = "query", required = false) final String query,
-      @RequestParam(name = "owner", required = false) final String owner,
-      @RequestParam(name = "ignore-case", required = false) final Boolean ignoreCase,
-      @RequestParam(name = "strict-mode-enabled", required = false) final Boolean strictModeEnabled) {
+    @RequestParam(name = "query", required = false) final String query,
+    @RequestParam(name = "owner", required = false) final String owner,
+    @RequestParam(name = "ignore-case", required = false) final Boolean ignoreCase,
+    @RequestParam(name = "strict-mode-enabled", required = false) final Boolean strictModeEnabled
+  ) {
     return commandService.executeCommand(
-        new FindScraperOwnedSpecificationBatchCommand(),
-        new ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter(
-            query,
-            owner,
-            ignoreCase,
-            strictModeEnabled));
+      new FindScraperOwnedSpecificationBatchCommand(),
+      new ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter(
+        query,
+        owner,
+        ignoreCase,
+        strictModeEnabled));
   }
 }

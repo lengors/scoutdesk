@@ -24,14 +24,14 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Entity representing a scraper strategy owned by a user.
- *
+ * <p>
  * Used for persistence and management of user-specific scraper strategies.
  *
  * @author lengors
  */
 @Entity
 @Table(name = "scraper_owned_strategies")
-@DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.FIELD, TypeUseLocation.PARAMETER })
+@DefaultQualifier(value = Nullable.class, locations = {TypeUseLocation.FIELD, TypeUseLocation.PARAMETER})
 public final class ScraperOwnedStrategyEntity {
   @EmbeddedId
   @AttributeOverride(name = "owner", column = @Column(name = "owner"))
@@ -41,18 +41,18 @@ public final class ScraperOwnedStrategyEntity {
 
   @ManyToMany
   @JoinTable(name = "scraper_owned_strategies_scraper_owned_profiles", joinColumns = {
-      @JoinColumn(name = "strategy_owner", referencedColumnName = "owner"),
-      @JoinColumn(name = "strategy_name", referencedColumnName = "name")
+    @JoinColumn(name = "strategy_owner", referencedColumnName = "owner"),
+    @JoinColumn(name = "strategy_name", referencedColumnName = "name")
   }, inverseJoinColumns = {
-      @JoinColumn(name = "profile_owner", referencedColumnName = "owner"),
-      @JoinColumn(name = "profile_name", referencedColumnName = "name")
+    @JoinColumn(name = "profile_owner", referencedColumnName = "owner"),
+    @JoinColumn(name = "profile_name", referencedColumnName = "name")
   })
   @NotNull
   private Set<ScraperOwnedProfileEntity> profiles;
 
   /**
    * Enum representing the lazy loading relationships for the strategy entity.
-   *
+   * <p>
    * This is used to specify which relationships should be loaded lazily when
    * fetching the strategy entity from the database.
    *
@@ -77,14 +77,18 @@ public final class ScraperOwnedStrategyEntity {
 
   @PersistenceCreator
   private ScraperOwnedStrategyEntity(
-      final @NotNull ScraperOwnedStrategyReference reference,
-      final @NotNull Set<ScraperOwnedProfileEntity> profiles) {
+    final @NotNull ScraperOwnedStrategyReference reference,
+    final @NotNull Set<ScraperOwnedProfileEntity> profiles
+  ) {
     this.reference = reference;
     this.profiles = profiles;
   }
 
-  @SuppressWarnings({ "unused", "initialization" })
-  private ScraperOwnedStrategyEntity() {
+  /**
+   * Empty constructor for JPA.
+   */
+  @SuppressWarnings({"unused", "initialization"})
+  protected ScraperOwnedStrategyEntity() {
     // Empty constructor for JPA
   }
 

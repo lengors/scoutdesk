@@ -22,7 +22,7 @@ import jakarta.servlet.DispatcherType;
 
 /**
  * Spring Security configuration for the application.
- *
+ * <p>
  * This class defines the security filter chain and role hierarchy.
  *
  * @author lengors
@@ -33,24 +33,25 @@ import jakarta.servlet.DispatcherType;
 class SpringSecurityConfiguration {
   @Bean
   SecurityFilterChain filterChain(
-      final HttpSecurity httpSecurity,
-      @Autowired(required = false) final @Nullable ProxiedAuthenticationFilterConfigurerAdapter adapter)
-      throws Exception {
+    final HttpSecurity httpSecurity,
+    @Autowired(required = false) final @Nullable ProxiedAuthenticationFilterConfigurerAdapter adapter
+  )
+    throws Exception {
     var outputSecurity = httpSecurity
-        .csrf(AbstractHttpConfigurer::disable)
-        .logout(AbstractHttpConfigurer::disable)
-        .httpBasic(AbstractHttpConfigurer::disable)
-        .anonymous(AbstractHttpConfigurer::disable)
-        .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(configurer -> configurer
-            .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR)
-            .permitAll()
-            .anyRequest()
-            .authenticated());
+      .csrf(AbstractHttpConfigurer::disable)
+      .logout(AbstractHttpConfigurer::disable)
+      .httpBasic(AbstractHttpConfigurer::disable)
+      .anonymous(AbstractHttpConfigurer::disable)
+      .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+      .authorizeHttpRequests(configurer -> configurer
+        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR)
+        .permitAll()
+        .anyRequest()
+        .authenticated());
     if (adapter != null) {
       outputSecurity = outputSecurity.with(
-          adapter,
-          Customizer.<@NonNull ProxiedAuthenticationFilterConfigurerAdapter>withDefaults());
+        adapter,
+        Customizer.<@NonNull ProxiedAuthenticationFilterConfigurerAdapter>withDefaults());
     }
     return outputSecurity.build();
   }
@@ -58,11 +59,11 @@ class SpringSecurityConfiguration {
   @Bean
   RoleHierarchy userRoleHierarchy() {
     return RoleHierarchyImpl
-        .withDefaultRolePrefix()
-        .role(UserRoleNames.ADMIN)
-        .implies(UserRoleNames.DEVELOPER)
-        .role(UserRoleNames.DEVELOPER)
-        .implies(UserRoleNames.USER)
-        .build();
+      .withDefaultRolePrefix()
+      .role(UserRoleNames.ADMIN)
+      .implies(UserRoleNames.DEVELOPER)
+      .role(UserRoleNames.DEVELOPER)
+      .implies(UserRoleNames.USER)
+      .build();
   }
 }

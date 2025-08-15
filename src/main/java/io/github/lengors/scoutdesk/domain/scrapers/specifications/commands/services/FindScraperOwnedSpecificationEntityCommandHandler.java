@@ -14,7 +14,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.S
 /**
  * Handles retrieval of a single owned scraper specification entity using a
  * filter.
- *
+ * <p>
  * This service executes the {@link FindScraperOwnedSpecificationEntityCommand}
  * to fetch a {@link ScraperOwnedSpecificationEntity} matching the provided
  * filter.
@@ -24,19 +24,21 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.S
 @Service
 @SuppressWarnings("LineLength")
 class FindScraperOwnedSpecificationEntityCommandHandler implements
-    CommandHandler<FindScraperOwnedSpecificationEntityCommand, ScraperOwnedSpecificationFilter, ScraperOwnedSpecificationEntity> {
+  CommandHandler<FindScraperOwnedSpecificationEntityCommand, ScraperOwnedSpecificationFilter, ScraperOwnedSpecificationEntity> {
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
 
   FindScraperOwnedSpecificationEntityCommandHandler(
-      final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository) {
+    final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository
+  ) {
     this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
   }
 
   @Override
   @Transactional(readOnly = true)
   public ScraperOwnedSpecificationEntity handle(
-      final FindScraperOwnedSpecificationEntityCommand command,
-      final ScraperOwnedSpecificationFilter input) {
+    final FindScraperOwnedSpecificationEntityCommand command,
+    final ScraperOwnedSpecificationFilter input
+  ) {
     final var entity = switch (input) {
       case ScraperOwnedSpecificationByReferenceAndStatusNotFilter(var reference, var status) ->
         scraperOwnedSpecificationRepository.findByReferenceAndStatusNot(reference, status);

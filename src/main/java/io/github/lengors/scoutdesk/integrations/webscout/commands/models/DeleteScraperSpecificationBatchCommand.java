@@ -8,13 +8,13 @@ import io.github.lengors.scoutdesk.domain.commands.models.Command;
 
 /**
  * Command for deleting a batch of scraper specifications by their names.
- *
+ * <p>
  * Used to trigger the removal of multiple {@link ScraperSpecification}
  * resources.
  *
  * @author lengors
  */
 public record DeleteScraperSpecificationBatchCommand()
-    implements Command<Collection<String>, List<ScraperSpecification>> {
+  implements Command<Collection<String>, List<ScraperSpecification>> {
 
 }

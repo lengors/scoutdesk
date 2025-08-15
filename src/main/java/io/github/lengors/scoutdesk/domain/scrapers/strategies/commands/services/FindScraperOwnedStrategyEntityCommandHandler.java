@@ -13,7 +13,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories.Scrap
 
 @Service
 class FindScraperOwnedStrategyEntityCommandHandler implements
-    CommandHandler<FindScraperOwnedStrategyEntityCommand, ScraperOwnedStrategyFilter, ScraperOwnedStrategyEntity> {
+  CommandHandler<FindScraperOwnedStrategyEntityCommand, ScraperOwnedStrategyFilter, ScraperOwnedStrategyEntity> {
   private final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository;
 
   FindScraperOwnedStrategyEntityCommandHandler(final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository) {
@@ -23,13 +23,14 @@ class FindScraperOwnedStrategyEntityCommandHandler implements
   @Override
   @Transactional(readOnly = true)
   public ScraperOwnedStrategyEntity handle(
-      final FindScraperOwnedStrategyEntityCommand command,
-      final ScraperOwnedStrategyFilter input) {
+    final FindScraperOwnedStrategyEntityCommand command,
+    final ScraperOwnedStrategyFilter input
+  ) {
     final var optionalEntity = switch (input) {
       case ScraperOwnedStrategyByReferenceFilter(var reference) -> scraperOwnedStrategyRepository.findById(reference);
     };
 
     return optionalEntity
-        .orElseThrow(() -> new EntityNotFoundException(ScraperOwnedStrategyEntity.class, input));
+      .orElseThrow(() -> new EntityNotFoundException(ScraperOwnedStrategyEntity.class, input));
   }
 }

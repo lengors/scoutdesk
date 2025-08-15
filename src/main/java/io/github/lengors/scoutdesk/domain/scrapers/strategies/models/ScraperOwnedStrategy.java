@@ -17,24 +17,24 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a scraper strategy owned by a user.
- *
+ * <p>
  * This class contains the owner, name, and profiles associated with the
  * strategy.
  *
  * @param owner    The owner of the strategy
  * @param name     The name of the strategy
  * @param profiles The profiles associated with the strategy
- *
  * @author lengors
  */
 @DefaultQualifier(Nullable.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedStrategy(
-    @JsonProperty("owner") @NotNull String owner,
-    @JsonProperty("name") @NotNull String name,
-    @JsonProperty("profiles") @NotNull Set<@NotNull String> profiles)
-    implements ScraperNamedStrategy, ScraperOwnedStrategyReferrer {
+  @JsonProperty("owner") @NotNull String owner,
+  @JsonProperty("name") @NotNull String name,
+  @JsonProperty("profiles") @NotNull Set<@NotNull String> profiles
+)
+  implements ScraperNamedStrategy, ScraperOwnedStrategyReferrer {
 
   /**
    * Creates a new instance of the {@link ScraperOwnedStrategy}.
@@ -51,17 +51,17 @@ public record ScraperOwnedStrategy(
    */
   public ScraperOwnedStrategy(final @NotNull ScraperOwnedStrategyEntity entity) {
     this(
-        entity
-            .getReference()
-            .owner(),
-        entity
-            .getReference()
-            .name(),
-        entity
-            .getProfiles()
-            .stream()
-            .map(ScraperOwnedProfileEntity::getReference)
-            .map(ScraperOwnedProfileReference::name)
-            .collect(Collectors.toUnmodifiableSet()));
+      entity
+        .getReference()
+        .owner(),
+      entity
+        .getReference()
+        .name(),
+      entity
+        .getProfiles()
+        .stream()
+        .map(ScraperOwnedProfileEntity::getReference)
+        .map(ScraperOwnedProfileReference::name)
+        .collect(Collectors.toUnmodifiableSet()));
   }
 }

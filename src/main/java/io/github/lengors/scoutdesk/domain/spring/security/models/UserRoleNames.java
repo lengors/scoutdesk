@@ -2,7 +2,7 @@ package io.github.lengors.scoutdesk.domain.spring.security.models;
 
 /**
  * Utility class for user role names.
- *
+ * <p>
  * This class defines constants for the names of user roles.
  *
  * @author lengors

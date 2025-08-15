@@ -16,13 +16,12 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Reference to a scraper specification owned by a specific user.
- *
+ * <p>
  * Used as an identifier for {@link ScraperOwnedSpecificationEntity} and for
  * serialization.
  *
  * @param owner The owner of the specification
  * @param name  The name of the specification
- *
  * @author lengors
  */
 @Embeddable
@@ -30,8 +29,9 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedSpecificationReference(
-    @JsonProperty("owner") @NotNull String owner,
-    @JsonProperty("name") @NotNull String name) implements Serializable {
+  @JsonProperty("owner") @NotNull String owner,
+  @JsonProperty("name") @NotNull String name
+) implements Serializable {
 
   /**
    * Constructor for creating a scraper owned specification reference.
@@ -43,7 +43,7 @@ public record ScraperOwnedSpecificationReference(
 
   /**
    * Gets the qualified name of the specification reference.
-   *
+   * <p>
    * Follows the format: {owner}-{name}.
    *
    * @return The fully qualified name of the specification reference

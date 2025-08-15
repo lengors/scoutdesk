@@ -5,7 +5,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
 
 /**
  * Command for saving a scraper owned profile.
- *
+ * <p>
  * This command is used to save a {@link ScraperOwnedProfile} instance.
  *
  * @author lengors

@@ -28,21 +28,25 @@ class ScraperOwnedCommandHandler implements CommandHandler<ScraperOwnedCommand, 
 
   @Override
   public Flux<ScraperResponse> handle(
-      final ScraperOwnedCommand command,
-      final ScraperQuery input) {
+    final ScraperOwnedCommand command,
+    final ScraperQuery input
+  ) {
     final var strategies = commandService.executeCommand(
-        new FindScraperOwnedStrategyEntityBatchCommand(ScraperOwnedStrategyEntity.LazyRelationship.PROFILES),
-        new ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter(input.owner(), input.strategies()));
+      new FindScraperOwnedStrategyEntityBatchCommand(ScraperOwnedStrategyEntity.LazyRelationship.PROFILES),
+      new ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter(input.owner(), input.strategies()));
 
     final var profiles = strategies
-        .stream()
-        .flatMap(strategy -> strategy
-            .getProfiles()
-            .stream())
-        .map(profile -> new ScraperProfile(
-            profile.getSpecification().getReference().fullyQualifiedName(),
-            buildInputs(profile)))
-        .toList();
+      .stream()
+      .flatMap(strategy -> strategy
+        .getProfiles()
+        .stream())
+      .map(profile -> new ScraperProfile(
+        profile
+          .getSpecification()
+          .getReference()
+          .fullyQualifiedName(),
+        buildInputs(profile)))
+      .toList();
 
     return commandService.executeCommand(new ScraperCommand(), new ScraperRequest(input.searchTerm(), profiles));
   }
@@ -50,8 +54,8 @@ class ScraperOwnedCommandHandler implements CommandHandler<ScraperOwnedCommand, 
   private static ScraperInputs buildInputs(final ScraperOwnedProfileEntity profile) {
     final var inputs = new ScraperInputs();
     profile
-        .getInputs()
-        .forEach(inputs::setAdditionalProperty);
+      .getInputs()
+      .forEach(inputs::setAdditionalProperty);
     return inputs;
   }
 }

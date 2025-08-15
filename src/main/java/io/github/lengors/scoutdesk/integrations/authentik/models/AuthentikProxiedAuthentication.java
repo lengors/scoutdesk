@@ -14,7 +14,7 @@ import io.github.lengors.scoutdesk.domain.spring.security.models.UserRole;
 
 /**
  * Represents an authentication object for Authentik proxied authentication.
- *
+ * <p>
  * This record implements both {@link Authentication} and
  * {@link AuthenticatedPrincipal}, encapsulating user details such as username,
  * name, and associated groups.
@@ -22,13 +22,13 @@ import io.github.lengors.scoutdesk.domain.spring.security.models.UserRole;
  * @param username the username of the authenticated user
  * @param name     the display name of the authenticated user
  * @param groups   the roles or groups associated with the user
- *
  * @author lengors
  */
 public record AuthentikProxiedAuthentication(
-    @Nullable String username,
-    @Nullable String name,
-    Collection<UserRole> groups) implements Authentication, AuthenticatedPrincipal {
+  @Nullable String username,
+  @Nullable String name,
+  Collection<UserRole> groups
+) implements Authentication, AuthenticatedPrincipal {
 
   /**
    * Retrieves the name of the authenticated user.
@@ -38,8 +38,8 @@ public record AuthentikProxiedAuthentication(
   @Override
   public String getName() {
     return Optional
-        .ofNullable(username)
-        .orElse(StringUtils.EMPTY);
+      .ofNullable(username)
+      .orElse(StringUtils.EMPTY);
   }
 
   /**
@@ -50,10 +50,10 @@ public record AuthentikProxiedAuthentication(
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return groups
-        .stream()
-        .map(group -> String.format("ROLE_%s", group))
-        .map(SimpleGrantedAuthority::new)
-        .toList();
+      .stream()
+      .map(group -> String.format("ROLE_%s", group))
+      .map(SimpleGrantedAuthority::new)
+      .toList();
   }
 
   /**
@@ -107,6 +107,6 @@ public record AuthentikProxiedAuthentication(
   @Override
   public void setAuthenticated(final boolean isAuthenticated) throws IllegalArgumentException {
     throw new UnsupportedOperationException(
-        String.format("%s does not support setAuthenticated", getClass().getSimpleName()));
+      String.format("%s does not support setAuthenticated", getClass().getSimpleName()));
   }
 }

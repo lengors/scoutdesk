@@ -1,5 +1,6 @@
 package io.github.lengors.scoutdesk.domain.scrapers.strategies.commands.services;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,19 +22,21 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories.Scrap
 @Service
 @SuppressWarnings("LineLength")
 class FindScraperOwnedStrategyEntityBatchCommandHandler implements
-    CommandHandler<FindScraperOwnedStrategyEntityBatchCommand, ScraperOwnedStrategyBatchFilter, List<ScraperOwnedStrategyEntity>> {
+  CommandHandler<FindScraperOwnedStrategyEntityBatchCommand, ScraperOwnedStrategyBatchFilter, List<ScraperOwnedStrategyEntity>> {
   private final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository;
 
   FindScraperOwnedStrategyEntityBatchCommandHandler(
-      final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository) {
+    final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository
+  ) {
     this.scraperOwnedStrategyRepository = scraperOwnedStrategyRepository;
   }
 
   @Override
   @Transactional(readOnly = true)
   public List<ScraperOwnedStrategyEntity> handle(
-      final FindScraperOwnedStrategyEntityBatchCommand command,
-      final ScraperOwnedStrategyBatchFilter input) {
+    final FindScraperOwnedStrategyEntityBatchCommand command,
+    final ScraperOwnedStrategyBatchFilter input
+  ) {
     final var entities = switch (input) {
       case ScraperOwnedStrategyBatchByReferenceOwnerFilter(var referenceOwner) ->
         scraperOwnedStrategyRepository.findAllByReferenceOwner(referenceOwner);
@@ -43,36 +46,38 @@ class FindScraperOwnedStrategyEntityBatchCommandHandler implements
     };
 
     command
-        .lazyRelationships()
-        .forEach(lazyRelationship -> {
-          switch (lazyRelationship) {
-            case PROFILES -> entities.forEach(entity -> entity
-                .getProfiles()
-                .size());
+      .lazyRelationships()
+      .forEach(lazyRelationship -> {
+        switch (lazyRelationship) {
 
-            case null -> {
-              // No lazy relationship to load
-            }
+          case PROFILES -> entities.forEach(entity -> entity
+            .getProfiles()
+            .size());
+
+          case null -> {
+            // No lazy relationship to load
           }
-        });
+        }
+      });
 
     return entities;
   }
 
   private List<ScraperOwnedStrategyEntity> findAllByReferenceOwnerAndReferenceName(
-      final String referenceOwner,
-      final Iterable<String> referenceNames) {
+    final String referenceOwner,
+    final Collection<String> referenceNames
+  ) {
     final var entities = scraperOwnedStrategyRepository.findAllByReferenceOwnerAndReferenceNameIn(
-        referenceOwner,
-        referenceNames);
+      referenceOwner,
+      referenceNames);
 
     final var expectedNames = IterableConverters.toSet(referenceNames);
     if (!entities
-        .stream()
-        .map(ScraperOwnedStrategyEntity::getReference)
-        .map(ScraperOwnedStrategyReference::name)
-        .collect(Collectors.toUnmodifiableSet())
-        .containsAll(expectedNames)) {
+      .stream()
+      .map(ScraperOwnedStrategyEntity::getReference)
+      .map(ScraperOwnedStrategyReference::name)
+      .collect(Collectors.toUnmodifiableSet())
+      .containsAll(expectedNames)) {
       throw new EntityNotFoundException(ScraperOwnedStrategyEntity.class, Pair.of(referenceOwner, expectedNames));
     }
 

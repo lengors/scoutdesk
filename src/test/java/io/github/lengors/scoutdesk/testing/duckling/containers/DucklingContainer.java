@@ -5,12 +5,11 @@ import org.testcontainers.utility.DockerImageName;
 
 /**
  * Container for the Duckling service.
- *
+ * <p>
  * This class extends {@link GenericContainer} to provide a
  * containerized environment for the Duckling service.
  *
  * @param <T> The type of the container
- *
  * @author lengors
  */
 public class DucklingContainer<T extends DucklingContainer<T>> extends GenericContainer<T> {
@@ -26,7 +25,7 @@ public class DucklingContainer<T extends DucklingContainer<T>> extends GenericCo
    *
    * @param dockerImageName The Docker image name for the Duckling service
    */
-  @SuppressWarnings({ "nullness" })
+  @SuppressWarnings({"nullness"})
   public DucklingContainer(final DockerImageName dockerImageName) {
     super(dockerImageName);
     addExposedPort(DUCKLING_PORT);

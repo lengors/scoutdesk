@@ -13,7 +13,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
 
 @Service
 class FindScraperOwnedStrategyCommandHandler
-    implements CommandHandler<FindScraperOwnedStrategyCommand, ScraperOwnedStrategyFilter, ScraperOwnedStrategy> {
+  implements CommandHandler<FindScraperOwnedStrategyCommand, ScraperOwnedStrategyFilter, ScraperOwnedStrategy> {
   private final CommandService commandService;
 
   FindScraperOwnedStrategyCommandHandler(@Lazy final CommandService commandService) {
@@ -23,8 +23,9 @@ class FindScraperOwnedStrategyCommandHandler
   @Override
   @Transactional(readOnly = true)
   public ScraperOwnedStrategy handle(
-      final FindScraperOwnedStrategyCommand command,
-      final ScraperOwnedStrategyFilter input) {
+    final FindScraperOwnedStrategyCommand command,
+    final ScraperOwnedStrategyFilter input
+  ) {
     final var entity = commandService.executeCommand(new FindScraperOwnedStrategyEntityCommand(), input);
     return new ScraperOwnedStrategy(entity);
   }

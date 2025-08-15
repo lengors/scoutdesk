@@ -12,7 +12,7 @@ import io.github.lengors.scoutdesk.testing.webscout.containers.WebscoutContainer
 
 /**
  * Test configuration for Webscout test containers.
- *
+ * <p>
  * This configuration sets up the necessary containers for testing the Webscout
  * integration.
  *
@@ -43,8 +43,8 @@ public class WebscoutTestContainerConfiguration {
   @SuppressWarnings("resource")
   DucklingContainer<?> webscoutDucklingContainer(@Qualifier("webscout") final Network webscoutNetwork) {
     return new DucklingContainer<>("rasa/duckling")
-        .withNetworkAliases("webscout-duckling")
-        .withNetwork(webscoutNetwork);
+      .withNetworkAliases("webscout-duckling")
+      .withNetwork(webscoutNetwork);
   }
 
   /**
@@ -57,9 +57,9 @@ public class WebscoutTestContainerConfiguration {
   @Bean
   @SuppressWarnings("resource")
   PostgreSQLContainer<?> webscoutPostgreSQLContainer(@Qualifier("webscout") final Network webscoutNetwork) {
-    return new PostgreSQLContainer<>("postgres:17.0")
-        .withNetworkAliases("webscout-postgres")
-        .withNetwork(webscoutNetwork);
+    return new PostgreSQLContainer<>("postgres:17.0-alpine")
+      .withNetworkAliases("webscout-postgres")
+      .withNetwork(webscoutNetwork);
   }
 
   /**
@@ -75,11 +75,12 @@ public class WebscoutTestContainerConfiguration {
   @ServiceConnection
   @SuppressWarnings("resource")
   WebscoutContainer<?> webscoutContainer(
-      @Qualifier("webscout") final Network webscoutNetwork,
-      @Qualifier("webscout") final DucklingContainer<?> webscoutDucklingContainer,
-      @Qualifier("webscout") final PostgreSQLContainer<?> webscoutPostgreSQLContainer) {
+    @Qualifier("webscout") final Network webscoutNetwork,
+    @Qualifier("webscout") final DucklingContainer<?> webscoutDucklingContainer,
+    @Qualifier("webscout") final PostgreSQLContainer<?> webscoutPostgreSQLContainer
+  ) {
     return new WebscoutContainer<>("ghcr.io/lengors/webscout:1.0.0-dev.9")
-        .withNetwork(webscoutNetwork)
-        .dependsOn(webscoutDucklingContainer, webscoutPostgreSQLContainer);
+      .withNetwork(webscoutNetwork)
+      .dependsOn(webscoutDucklingContainer, webscoutPostgreSQLContainer);
   }
 }

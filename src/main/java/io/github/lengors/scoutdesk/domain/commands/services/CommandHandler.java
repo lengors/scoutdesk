@@ -11,7 +11,6 @@ import io.github.lengors.scoutdesk.domain.commands.models.Command;
  * @param <C> the command type
  * @param <I> the input type
  * @param <O> the output type
- *
  * @author lengors
  */
 @Service

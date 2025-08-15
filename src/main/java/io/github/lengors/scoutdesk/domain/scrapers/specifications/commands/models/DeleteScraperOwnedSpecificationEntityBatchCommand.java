@@ -13,6 +13,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
  * @author lengors
  */
 public record DeleteScraperOwnedSpecificationEntityBatchCommand()
-    implements Command<List<ScraperOwnedSpecificationEntity>, @Nullable Void> {
+  implements Command<List<ScraperOwnedSpecificationEntity>, @Nullable Void> {
 
 }

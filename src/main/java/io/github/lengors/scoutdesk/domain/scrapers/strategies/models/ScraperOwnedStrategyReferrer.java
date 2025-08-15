@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a reference to a scraper strategy owned by a user.
- *
+ * <p>
  * This interface contains the owner and name of the strategy.
  *
  * @author lengors

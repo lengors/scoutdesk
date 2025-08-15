@@ -8,7 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 /**
  * Exception thrown when one or more requested scraper specifications are not
  * found.
- *
+ * <p>
  * Returns a 404 NOT FOUND HTTP status with a message listing the missing
  * specification names.
  *

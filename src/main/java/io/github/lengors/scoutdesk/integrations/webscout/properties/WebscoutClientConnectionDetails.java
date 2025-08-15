@@ -4,7 +4,7 @@ import org.springframework.boot.autoconfigure.service.connection.ConnectionDetai
 
 /**
  * Defines the connection details required for the Webscout client.
- *
+ * <p>
  * Provides the base URL for connecting to the Webscout service.
  *
  * @author lengors

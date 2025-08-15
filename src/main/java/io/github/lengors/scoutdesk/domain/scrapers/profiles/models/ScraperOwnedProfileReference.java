@@ -15,12 +15,11 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a reference to a scraper profile owned by a user.
- *
+ * <p>
  * This class contains the owner and name of the profile.
  *
  * @param owner The owner of the profile
  * @param name  The name of the profile
- *
  * @author lengors
  */
 @Embeddable
@@ -28,8 +27,9 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedProfileReference(
-    @JsonProperty("owner") @NotNull String owner,
-    @JsonProperty("name") @NotNull String name) implements ScraperOwnedProfileReferrer, Serializable {
+  @JsonProperty("owner") @NotNull String owner,
+  @JsonProperty("name") @NotNull String name
+) implements ScraperOwnedProfileReferrer, Serializable {
 
   /**
    * Creates a new instance of the {@link ScraperOwnedProfileReference}.

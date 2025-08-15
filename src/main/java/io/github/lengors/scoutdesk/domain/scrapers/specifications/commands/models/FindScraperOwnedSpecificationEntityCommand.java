@@ -6,12 +6,12 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 
 /**
  * Command to find a single scraper-owned specification entity using a filter.
- *
+ * <p>
  * This command is used to retrieve a single specification entity that matches the provided filter criteria.
  *
  * @author lengors
  */
 public record FindScraperOwnedSpecificationEntityCommand()
-    implements Command<ScraperOwnedSpecificationFilter, ScraperOwnedSpecificationEntity> {
+  implements Command<ScraperOwnedSpecificationFilter, ScraperOwnedSpecificationEntity> {
 
 }

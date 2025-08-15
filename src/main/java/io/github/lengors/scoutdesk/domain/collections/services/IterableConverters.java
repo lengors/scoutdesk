@@ -5,7 +5,7 @@ import java.util.Set;
 
 /**
  * Utility class for converting iterables to other types.
- *
+ * <p>
  * This class provides a method to convert an iterable to a set. If the iterable
  * is already a set, it is returned as is. Otherwise, a new HashSet is created
  * and populated with the elements of the iterable.

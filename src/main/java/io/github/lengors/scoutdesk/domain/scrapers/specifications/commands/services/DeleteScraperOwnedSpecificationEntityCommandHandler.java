@@ -18,7 +18,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteS
 
 /**
  * Handles deletion of a single scraper specification entity.
- *
+ * <p>
  * This service executes the
  * {@link DeleteScraperOwnedSpecificationEntityCommand} to remove a
  * {@link ScraperOwnedSpecificationEntity} from the repository.
@@ -27,13 +27,14 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteS
  */
 @Service
 class DeleteScraperOwnedSpecificationEntityCommandHandler implements
-    CommandHandler<DeleteScraperOwnedSpecificationEntityCommand, ScraperOwnedSpecificationEntity, @Nullable Void> {
+  CommandHandler<DeleteScraperOwnedSpecificationEntityCommand, ScraperOwnedSpecificationEntity, @Nullable Void> {
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
   private final CommandService commandService;
 
   DeleteScraperOwnedSpecificationEntityCommandHandler(
-      final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
-      @Lazy final CommandService commandService) {
+    final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
+    @Lazy final CommandService commandService
+  ) {
     this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
     this.commandService = commandService;
   }
@@ -41,17 +42,18 @@ class DeleteScraperOwnedSpecificationEntityCommandHandler implements
   @Override
   @Transactional
   public @Nullable Void handle(
-      final DeleteScraperOwnedSpecificationEntityCommand command,
-      final ScraperOwnedSpecificationEntity input) {
+    final DeleteScraperOwnedSpecificationEntityCommand command,
+    final ScraperOwnedSpecificationEntity input
+  ) {
     if (input
-        .getProfiles()
-        .isEmpty()) {
+      .getProfiles()
+      .isEmpty()) {
       final var fullyQualifiedName = input
-          .getReference()
-          .fullyQualifiedName();
+        .getReference()
+        .fullyQualifiedName();
       scraperOwnedSpecificationRepository.delete(input);
       RestClient
-          .rethrowing(() -> commandService.executeCommand(new DeleteScraperSpecificationCommand(), fullyQualifiedName));
+        .rethrowing(() -> commandService.executeCommand(new DeleteScraperSpecificationCommand(), fullyQualifiedName));
     } else if (!Objects.equals(input.getStatus(), ScraperOwnedSpecificationStatus.DELETED)) {
       input.setStatus(ScraperOwnedSpecificationStatus.DELETED);
       scraperOwnedSpecificationRepository.save(input);

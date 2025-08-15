@@ -19,8 +19,8 @@ class ScoutdeskApplicationTests {
   @Test
   void givenApplicationContextWhenBootingThenShouldStartSuccessfully() {
     SpringApplication
-        .from(ScoutdeskApplication::main)
-        .with(PostgresTestContainerConfiguration.class, WebscoutTestContainerConfiguration.class)
-        .run();
+      .from(ScoutdeskApplication::main)
+      .with(PostgresTestContainerConfiguration.class, WebscoutTestContainerConfiguration.class)
+      .run();
   }
 }

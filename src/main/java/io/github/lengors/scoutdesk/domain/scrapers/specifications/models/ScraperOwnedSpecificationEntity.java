@@ -23,14 +23,14 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Entity representing a scraper specification owned by a user.
- *
+ * <p>
  * Used for persistence and management of user-specific scraper specifications.
  *
  * @author lengors
  */
 @Entity
 @Table(name = "scraper_owned_specifications")
-@DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.FIELD, TypeUseLocation.PARAMETER })
+@DefaultQualifier(value = Nullable.class, locations = {TypeUseLocation.FIELD, TypeUseLocation.PARAMETER})
 public final class ScraperOwnedSpecificationEntity {
   @EmbeddedId
   @AttributeOverride(name = "owner", column = @Column(name = "owner"))
@@ -49,9 +49,10 @@ public final class ScraperOwnedSpecificationEntity {
 
   @PersistenceCreator
   private ScraperOwnedSpecificationEntity(
-      final @NotNull ScraperOwnedSpecificationReference reference,
-      final @NotNull ScraperOwnedSpecificationStatus status,
-      final @NotNull Set<@NotNull ScraperOwnedProfileEntity> profiles) {
+    final @NotNull ScraperOwnedSpecificationReference reference,
+    final @NotNull ScraperOwnedSpecificationStatus status,
+    final @NotNull Set<@NotNull ScraperOwnedProfileEntity> profiles
+  ) {
     this.reference = reference;
     this.status = status;
     this.profiles = profiles;
@@ -66,8 +67,11 @@ public final class ScraperOwnedSpecificationEntity {
     this(reference, ScraperOwnedSpecificationStatus.ACTIVE, new HashSet<>());
   }
 
-  @SuppressWarnings({ "unused", "initialization" })
-  private ScraperOwnedSpecificationEntity() {
+  /**
+   * Empty constructor for JPA.
+   */
+  @SuppressWarnings({"unused", "initialization"})
+  protected ScraperOwnedSpecificationEntity() {
     // Empty constructor for JPA
   }
 
@@ -79,7 +83,7 @@ public final class ScraperOwnedSpecificationEntity {
   public void addProfile(final @NotNull ScraperOwnedProfileEntity profile) {
     if (!equals(profile.getSpecification())) {
       throw new IllegalArgumentException(String
-          .format("Cannot add profile %s because it is not associated with this specification %s.", profile, this));
+        .format("Cannot add profile %s because it is not associated with this specification %s.", profile, this));
     }
     profiles.add(profile);
   }
@@ -135,7 +139,7 @@ public final class ScraperOwnedSpecificationEntity {
   public void removeProfile(final @NotNull ScraperOwnedProfileEntity profile) {
     if (equals(profile.getSpecification())) {
       throw new IllegalArgumentException(
-          String.format("Cannot remove profile %s because it is associated with specification %s.", profile, this));
+        String.format("Cannot remove profile %s because it is associated with specification %s.", profile, this));
     }
     profiles.remove(profile);
   }

@@ -11,7 +11,7 @@ import io.github.lengors.scoutdesk.domain.commands.models.Command;
 
 /**
  * Service for executing commands in the application.
- *
+ * <p>
  * Provides methods to resolve and execute command handlers for various command
  * types.
  *
@@ -60,20 +60,22 @@ public class CommandService {
       }
     }
     throw new IllegalArgumentException("No command handler found for command: " + command
-        .getClass()
-        .getName());
+      .getClass()
+      .getName());
   }
 
   @SuppressWarnings("nullness")
-  private static <C extends Command<I, O>, I, O> void logResult(final C command, final I input, final O output,
-      final StopWatch stopWatch) {
+  private static <C extends Command<I, O>, I, O> void logResult(
+    final C command, final I input, final O output,
+    final StopWatch stopWatch
+  ) {
     if (LOG.isTraceEnabled()) {
       LOG.trace(
-          "Executed {command={}, input={}, output={}} in {} ms",
-          command,
-          input,
-          output,
-          stopWatch.getTotalTimeMillis());
+        "Executed {command={}, input={}, output={}} in {} ms",
+        command,
+        input,
+        output,
+        stopWatch.getTotalTimeMillis());
     } else if (LOG.isDebugEnabled()) {
       LOG.debug("Executed {command={}, input={}} in {} ms", command, input, stopWatch.getTotalTimeMillis());
     } else {

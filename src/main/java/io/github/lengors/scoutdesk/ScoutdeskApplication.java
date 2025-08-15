@@ -7,9 +7,9 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 /**
  * ScoutDesk is the official management service for WebScout, the official
  * scraping service implementing the ProtoScout protocol.
- *
+ * <p>
  * Entry point for the Scoutdesk application.
- *
+ * <p>
  * This class is responsible for bootstrapping the application using Spring
  * Boot.
  *
@@ -17,7 +17,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
  */
 @SpringBootApplication
 @ConfigurationPropertiesScan
-final class ScoutdeskApplication {
+class ScoutdeskApplication {
 
   /**
    * Main method to run the Scoutdesk application.

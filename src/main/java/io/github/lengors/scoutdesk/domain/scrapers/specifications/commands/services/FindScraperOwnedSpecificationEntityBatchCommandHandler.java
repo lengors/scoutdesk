@@ -22,7 +22,7 @@ import io.github.lengors.scoutdesk.domain.text.services.FuzzyScorer;
 /**
  * Handles retrieval of a batch of owned scraper specification entities by
  * reference and status.
- *
+ * <p>
  * This service executes the
  * {@link FindScraperOwnedSpecificationEntityBatchCommand} to fetch entities
  * matching the provided filter.
@@ -32,21 +32,23 @@ import io.github.lengors.scoutdesk.domain.text.services.FuzzyScorer;
 @Service
 @SuppressWarnings("LineLength")
 class FindScraperOwnedSpecificationEntityBatchCommandHandler implements
-    CommandHandler<FindScraperOwnedSpecificationEntityBatchCommand, ScraperOwnedSpecificationBatchFilter, List<ScraperOwnedSpecificationEntity>> {
+  CommandHandler<FindScraperOwnedSpecificationEntityBatchCommand, ScraperOwnedSpecificationBatchFilter, List<ScraperOwnedSpecificationEntity>> {
   private static final ScraperOwnedSpecificationStatus IGNORE_STATUS = ScraperOwnedSpecificationStatus.DELETED;
 
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
 
   FindScraperOwnedSpecificationEntityBatchCommandHandler(
-      final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository) {
+    final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository
+  ) {
     this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
   }
 
   @Override
   @Transactional(readOnly = true)
   public List<ScraperOwnedSpecificationEntity> handle(
-      final FindScraperOwnedSpecificationEntityBatchCommand command,
-      final ScraperOwnedSpecificationBatchFilter input) {
+    final FindScraperOwnedSpecificationEntityBatchCommand command,
+    final ScraperOwnedSpecificationBatchFilter input
+  ) {
     return switch (input) {
       case ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter(var referenceOwner, var status) ->
         scraperOwnedSpecificationRepository.findAllByReferenceOwnerAndStatusNot(referenceOwner, status);
@@ -54,58 +56,61 @@ class FindScraperOwnedSpecificationEntityBatchCommandHandler implements
         scraperOwnedSpecificationRepository.findAllByReferenceInAndStatus(referenceBatch, status);
       case ScraperOwnedSpecificationBatchByReferenceAndStatusFilter(var reference, var status) ->
         scraperOwnedSpecificationRepository.findAllByReferenceAndStatus(reference, status);
-      case ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter(var query, var owner, var ignoreCase, var strictModeEnabled) ->
+      case ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter(
+        var query, var owner, var ignoreCase, var strictModeEnabled) ->
         findAllByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabled(
-            query,
-            owner,
-            ignoreCase == null || ignoreCase,
-            strictModeEnabled != null && strictModeEnabled);
+          query,
+          owner,
+          ignoreCase == null || ignoreCase,
+          strictModeEnabled != null && strictModeEnabled);
     };
   }
 
   private List<ScraperOwnedSpecificationEntity> findAllByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabled(
-      final @Nullable String query,
-      final @Nullable String owner,
-      final boolean ignoreCase,
-      final boolean strictModeEnabled) {
+    final @Nullable String query,
+    final @Nullable String owner,
+    final boolean ignoreCase,
+    final boolean strictModeEnabled
+  ) {
     final var preResult = owner != null
-        ? scraperOwnedSpecificationRepository.findAllByReferenceOwnerAndStatusNot(owner, IGNORE_STATUS)
-        : scraperOwnedSpecificationRepository.findAllByStatusNot(IGNORE_STATUS);
+      ? scraperOwnedSpecificationRepository.findAllByReferenceOwnerAndStatusNot(owner, IGNORE_STATUS)
+      : scraperOwnedSpecificationRepository.findAllByStatusNot(IGNORE_STATUS);
     if (query == null) {
       preResult.sort(FindScraperOwnedSpecificationEntityBatchCommandHandler::compareSpecificationEntity);
       return preResult;
     }
 
     return preResult
-        .stream()
-        .map(entity -> Pair.of(
-            entity,
-            FuzzyScorer.getFuzzyScore(
-                entity
-                    .getReference()
-                    .fullyQualifiedName(),
-                query,
-                ignoreCase,
-                strictModeEnabled)))
-        .filter(pair -> pair.getValue() > 0)
-        .sorted((first, second) -> {
-          final var fuzzyScoreComparison = second.getValue() - first.getValue();
-          return fuzzyScoreComparison == 0
-              ? compareSpecificationEntity(first.getKey(), second.getKey())
-              : fuzzyScoreComparison;
-        })
-        .map(Pair::getKey)
-        .toList();
+      .stream()
+      .map(entity -> Pair.of(
+        entity,
+        FuzzyScorer.getFuzzyScore(
+          entity
+            .getReference()
+            .fullyQualifiedName(),
+          query,
+          ignoreCase,
+          strictModeEnabled)))
+      .filter(pair -> pair.getValue() > 0)
+      .sorted((first, second) -> {
+        final var fuzzyScoreComparison = second.getValue() - first.getValue();
+        return fuzzyScoreComparison == 0
+          ? compareSpecificationEntity(first.getKey(), second.getKey())
+          : fuzzyScoreComparison;
+      })
+      .map(Pair::getKey)
+      .toList();
   }
 
   private static int compareSpecificationEntity(
-      final ScraperOwnedSpecificationEntity first,
-      final ScraperOwnedSpecificationEntity second) {
+    final ScraperOwnedSpecificationEntity first,
+    final ScraperOwnedSpecificationEntity second
+  ) {
     return first
+      .getReference()
+      .fullyQualifiedName()
+      .compareTo(second
         .getReference()
-        .fullyQualifiedName()
-        .compareTo(second
-            .getReference()
-            .fullyQualifiedName());
+        .fullyQualifiedName());
   }
 }

@@ -1,7 +1,5 @@
 package io.github.lengors.scoutdesk.testing.webscout.containers;
 
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -14,12 +12,11 @@ import io.github.lengors.scoutdesk.testing.duckling.containers.DucklingContainer
 
 /**
  * Container for the Webscout service.
- *
+ * <p>
  * This class extends {@link GenericContainer} to provide a containerized
  * environment for the Webscout service.
  *
  * @param <T> The type of the container
- *
  * @author lengors
  */
 public class WebscoutContainer<T extends WebscoutContainer<T>> extends GenericContainer<T> {
@@ -35,7 +32,7 @@ public class WebscoutContainer<T extends WebscoutContainer<T>> extends GenericCo
    *
    * @param dockerImageName The Docker image name for the Webscout service
    */
-  @SuppressWarnings({ "nullness" })
+  @SuppressWarnings({"nullness"})
   public WebscoutContainer(final DockerImageName dockerImageName) {
     super(dockerImageName);
     addExposedPort(WEBSCOUT_PORT);
@@ -66,10 +63,10 @@ public class WebscoutContainer<T extends WebscoutContainer<T>> extends GenericCo
     final var ducklingHost = getNetworkHost(ducklingContainer);
 
     final var postgresUrl = String.format(
-        "postgresql://%s:%d/%s",
-        postgreSQLHost,
-        PostgreSQLContainer.POSTGRESQL_PORT,
-        postgreSQLContainer.getDatabaseName());
+      "postgresql://%s:%d/%s",
+      postgreSQLHost,
+      PostgreSQLContainer.POSTGRESQL_PORT,
+      postgreSQLContainer.getDatabaseName());
     addEnv("DATABASE_URL", postgresUrl);
     final var postgresUsername = postgreSQLContainer.getUsername();
     if (postgresUsername != null) {
@@ -98,18 +95,18 @@ public class WebscoutContainer<T extends WebscoutContainer<T>> extends GenericCo
 
   private <S extends Startable> S getDependency(final Class<S> dependencyType) {
     return getDependencies()
-        .stream()
-        .filter(dependencyType::isInstance)
-        .findFirst()
-        .map(dependencyType::cast)
-        .get();
+      .stream()
+      .filter(dependencyType::isInstance)
+      .findFirst()
+      .map(dependencyType::cast)
+      .orElseThrow();
   }
 
   private static String getNetworkHost(final GenericContainer<?> container) {
-    final var networkAliases = (List<String>) container.getNetworkAliases();
+    final var networkAliases = container.getNetworkAliases();
     return networkAliases
-        .stream()
-        .findFirst()
-        .orElseGet(() -> StringUtils.removeStart(container.getContainerName(), '/'));
+      .stream()
+      .findFirst()
+      .orElseGet(() -> StringUtils.removeStart(container.getContainerName(), '/'));
   }
 }

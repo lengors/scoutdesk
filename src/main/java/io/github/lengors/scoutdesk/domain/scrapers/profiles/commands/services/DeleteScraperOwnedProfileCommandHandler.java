@@ -20,15 +20,16 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
 
 @Service
 class DeleteScraperOwnedProfileCommandHandler
-    implements CommandHandler<DeleteScraperOwnedProfileCommand, ScraperOwnedProfileFilter, @Nullable Void> {
+  implements CommandHandler<DeleteScraperOwnedProfileCommand, ScraperOwnedProfileFilter, @Nullable Void> {
   private final ScraperOwnedProfileRepository scraperOwnedProfileRepository;
   private final ApplicationEventPublisher applicationEventPublisher;
   private final CommandService commandService;
 
   DeleteScraperOwnedProfileCommandHandler(
-      final ScraperOwnedProfileRepository scraperOwnedProfileRepository,
-      final ApplicationEventPublisher applicationEventPublisher,
-      @Lazy final CommandService commandService) {
+    final ScraperOwnedProfileRepository scraperOwnedProfileRepository,
+    final ApplicationEventPublisher applicationEventPublisher,
+    @Lazy final CommandService commandService
+  ) {
     this.scraperOwnedProfileRepository = scraperOwnedProfileRepository;
     this.applicationEventPublisher = applicationEventPublisher;
     this.commandService = commandService;
@@ -39,8 +40,8 @@ class DeleteScraperOwnedProfileCommandHandler
   public @Nullable Void handle(final DeleteScraperOwnedProfileCommand command, final ScraperOwnedProfileFilter input) {
     final var entity = commandService.executeCommand(new FindScraperOwnedProfileEntityCommand(), input);
     if (!entity
-        .getStrategies()
-        .isEmpty()) {
+      .getStrategies()
+      .isEmpty()) {
       throw new EntityDeleteConflictException(ScraperOwnedProfileEntity.class, ScraperOwnedStrategyEntity.class);
     }
     scraperOwnedProfileRepository.delete(entity);

@@ -24,21 +24,22 @@ import reactor.core.publisher.Flux;
 
 @RestController
 @PreAuthorize("hasRole('USER')")
-@DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.PARAMETER })
-@RequestMapping({ "/api/v1/scrapers", "/api/scrapers" })
-class ScraperOwnedController {
+@DefaultQualifier(value = Nullable.class, locations = {TypeUseLocation.PARAMETER})
+@RequestMapping({"/api/v1/scrapers", "/api/scrapers"})
+class ScraperOwnedRestController {
   private final CommandService commandService;
 
-  ScraperOwnedController(final @NonNull CommandService commandService) {
+  ScraperOwnedRestController(final @NonNull CommandService commandService) {
     this.commandService = commandService;
   }
 
-  @PostMapping(produces = { MediaType.TEXT_EVENT_STREAM_VALUE })
+  @PostMapping(produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
   Flux<ScraperResponse> scrap(
-      @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-      @RequestBody final @Valid @NotNull ScraperOwnedRequest scraperRequest) {
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    @RequestBody final @Valid @NotNull ScraperOwnedRequest scraperRequest
+  ) {
     return commandService.executeCommand(
-        new ScraperOwnedCommand(),
-        new ScraperQuery(authenticatedPrincipal.getName(), scraperRequest.strategies(), scraperRequest.searchTerm()));
+      new ScraperOwnedCommand(),
+      new ScraperQuery(authenticatedPrincipal.getName(), scraperRequest.strategies(), scraperRequest.searchTerm()));
   }
 }

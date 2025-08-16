@@ -1,3 +1,8 @@
+# [v1.0.0-dev.8](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.7...1.0.0-dev.8) (2025-08-16)
+
+## ✨ New Features
+- [`3c74e05`](https://github.com/lengors/scoutdesk/commit/3c74e05)  Add support for querying for authenticated user information
+
 # [v1.0.0-dev.7](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.6...1.0.0-dev.7) (2025-05-18)
 
 ## 🐛 Bug Fixes

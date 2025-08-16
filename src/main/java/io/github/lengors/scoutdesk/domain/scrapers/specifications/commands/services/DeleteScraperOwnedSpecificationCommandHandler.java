@@ -14,7 +14,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
 
 /**
  * Handles deletion of a single owned scraper specification using a filter.
- *
+ * <p>
  * This service executes the {@link DeleteScraperOwnedSpecificationCommand} to
  * remove a specification matching the provided filter.
  *
@@ -22,7 +22,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
  */
 @Service
 class DeleteScraperOwnedSpecificationCommandHandler
-    implements CommandHandler<DeleteScraperOwnedSpecificationCommand, ScraperOwnedSpecificationFilter, @Nullable Void> {
+  implements CommandHandler<DeleteScraperOwnedSpecificationCommand, ScraperOwnedSpecificationFilter, @Nullable Void> {
   private final CommandService commandService;
 
   DeleteScraperOwnedSpecificationCommandHandler(@Lazy final CommandService commandService) {
@@ -32,8 +32,9 @@ class DeleteScraperOwnedSpecificationCommandHandler
   @Override
   @Transactional
   public @Nullable Void handle(
-      final DeleteScraperOwnedSpecificationCommand command,
-      final ScraperOwnedSpecificationFilter input) {
+    final DeleteScraperOwnedSpecificationCommand command,
+    final ScraperOwnedSpecificationFilter input
+  ) {
     final var entity = commandService.executeCommand(new FindScraperOwnedSpecificationEntityCommand(), input);
     return commandService.executeCommand(new DeleteScraperOwnedSpecificationEntityCommand(), entity);
   }

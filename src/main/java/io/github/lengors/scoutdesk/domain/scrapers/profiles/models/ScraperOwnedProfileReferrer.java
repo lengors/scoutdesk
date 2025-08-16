@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a reference to a scraper profile owned by a user.
- *
+ * <p>
  * This interface contains the owner and name of the profile.
  *
  * @author lengors

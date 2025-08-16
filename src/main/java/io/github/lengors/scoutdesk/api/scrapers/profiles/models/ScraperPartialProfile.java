@@ -19,14 +19,14 @@ import jakarta.validation.constraints.NotNull;
  *
  * @param specification The specification reference for the scraper.
  * @param inputs        The input parameters for the scraper.
- *
  * @author lengors
  */
 @DefaultQualifier(Nullable.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperPartialProfile(
-    @JsonProperty("specification") @NotNull ScraperOwnedSpecificationReference specification,
-    @JsonProperty("inputs") @NotNull Map<@NotNull String, @NotNull String> inputs) implements ScraperNamelessProfile {
+  @JsonProperty("specification") @NotNull ScraperOwnedSpecificationReference specification,
+  @JsonProperty("inputs") @NotNull Map<@NotNull String, @NotNull String> inputs
+) implements ScraperNamelessProfile {
 
 }

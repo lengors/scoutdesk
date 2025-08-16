@@ -1,13 +1,23 @@
 package io.github.lengors.scoutdesk.integrations.authentik.services;
 
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
+import io.github.lengors.scoutdesk.integrations.authentik.commands.models.FindAuthentikUserCommand;
+import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikGroup;
+import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAnonymousPrincipal;
+import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAuthenticatedPrincipal;
+import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikUser;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -16,20 +26,20 @@ import io.github.lengors.scoutdesk.domain.spring.security.models.UserRole;
 import io.github.lengors.scoutdesk.domain.spring.security.properties.UserRoleProperties;
 import io.github.lengors.scoutdesk.domain.spring.security.services.ProxiedAuthenticationConverter;
 import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikCustomHeaders;
-import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAuthentication;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Converter for Authentik proxied authentication.
- *
+ * <p>
  * This service processes HTTP requests and converts them into
- * {@link AuthentikProxiedAuthentication} objects based on custom headers and
- * role mappings.
+ * {@link io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAuthentication} objects based on
+ * custom headers and role mappings.
  *
  * @author lengors
  */
 @Service
 class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationConverter {
+  private static final Logger LOG = LoggerFactory.getLogger(AuthentikProxiedAuthenticationConverter.class);
 
   /**
    * Mappings between user roles and their associated groups.
@@ -37,51 +47,83 @@ class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationCo
   private final Map<String, List<UserRole>> mappings;
 
   /**
+   * Service for executing commands.
+   */
+  private final CommandService commandService;
+
+  /**
    * Constructs the converter with optional user role properties.
    *
    * @param userRoleProperties optional user role properties for role mappings
+   * @param commandService     service for executing commands
    */
   AuthentikProxiedAuthenticationConverter(
-      @Autowired(required = false) final @Nullable UserRoleProperties userRoleProperties) {
+    @Autowired(required = false) final @Nullable UserRoleProperties userRoleProperties,
+    final CommandService commandService
+  ) {
     final var roles = Optional
-        .ofNullable(userRoleProperties)
-        .map(UserRoleProperties::mappings)
-        .orElseGet(Collections::emptyMap);
-
-    mappings = roles
-        .entrySet()
+      .ofNullable(userRoleProperties)
+      .map(UserRoleProperties::mappings)
+      .orElseGet(Collections::emptyMap);
+    this.mappings = roles
+      .entrySet()
+      .stream()
+      .flatMap(entry -> entry
+        .getValue()
         .stream()
-        .flatMap(entry -> entry
-            .getValue()
-            .stream()
-            .map(role -> Map.entry(entry.getKey(), role)))
-        .collect(
-            Collectors.groupingBy(Map.Entry::getValue, Collectors.mapping(Map.Entry::getKey, Collectors.toList())));
+        .map(role -> Map.entry(entry.getKey(), role)))
+      .collect(
+        Collectors.groupingBy(Map.Entry::getValue, Collectors.mapping(Map.Entry::getKey, Collectors.toList())));
+
+    this.commandService = commandService;
   }
 
   /**
-   * Converts an HTTP request into an {@link AuthentikProxiedAuthentication} object.
+   * Converts an HTTP request into an
+   * {@link io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAuthentication} object.
    *
    * @param request the HTTP request to convert
-   * @return the resulting {@link AuthentikProxiedAuthentication} object
+   * @return the resulting
+   * {@link io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAuthentication} object
    */
   @Override
   public Authentication convert(final HttpServletRequest request) {
     final var usernameHeader = request.getHeader(AuthentikCustomHeaders.USERNAME);
     if (usernameHeader == null) {
-      return new AuthentikProxiedAuthentication(null, null, Collections.emptyList());
+      return new AuthentikProxiedAnonymousPrincipal();
     }
 
-    return new AuthentikProxiedAuthentication(
-        usernameHeader,
-        request.getHeader(AuthentikCustomHeaders.NAME),
-        Collections
-            .list(request.getHeaders(AuthentikCustomHeaders.GROUPS))
-            .stream()
-            .flatMap(header -> Arrays.stream(header.split("\\|")))
-            .flatMap(header -> mappings
-                .getOrDefault(header, Collections.emptyList())
-                .stream())
-            .toList());
+    final AuthentikUser authentikUser;
+    try {
+      authentikUser = commandService.executeCommand(new FindAuthentikUserCommand(), usernameHeader);
+    } catch (final NoSuchElementException exception) {
+      LOG.error("User {username={}} not found", usernameHeader, exception);
+      return new AuthentikProxiedAnonymousPrincipal();
+    }
+
+    if (!Objects.equals(authentikUser.username(), usernameHeader)) {
+      LOG.error(
+        "User {username={}} does not match requested header: {username={}} ",
+        authentikUser.username(),
+        usernameHeader);
+      return new AuthentikProxiedAnonymousPrincipal();
+    }
+
+    final var userRoles = Optional
+      .ofNullable(authentikUser.groups())
+      .stream()
+      .flatMap(Collection::stream)
+      .map(AuthentikGroup::name)
+      .flatMap(header -> mappings
+        .getOrDefault(header, Collections.emptyList())
+        .stream())
+      .toList();
+
+    return new AuthentikProxiedAuthenticatedPrincipal(
+      authentikUser.username(),
+      authentikUser.name(),
+      userRoles,
+      authentikUser.email(),
+      authentikUser.avatar());
   }
 }

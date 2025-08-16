@@ -8,9 +8,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 /**
  * Test configuration for PostgreSQL test containers.
- *
- * This configuration sets up the necessary containers for testing the
- * PostgreSQL integration.
+ * <p>
+ * This configuration sets up the necessary containers for testing the PostgreSQL integration.
  *
  * @author lengors
  */
@@ -26,6 +25,6 @@ public class PostgresTestContainerConfiguration {
   @Primary
   @ServiceConnection
   PostgreSQLContainer<?> postgresContainer() {
-    return new PostgreSQLContainer<>("postgres:17.0");
+    return new PostgreSQLContainer<>("postgres:17.0-alpine");
   }
 }

@@ -25,10 +25,10 @@ class ScraperOwnedProfileDeletedEventHandler {
   @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
   public void handle(final ScraperOwnedProfileDeletedEvent event) {
     commandService.executeCommand(
-        new DeleteScraperOwnedSpecificationBatchCommand(),
-        new ScraperOwnedSpecificationBatchByReferenceAndStatusFilter(
-            event
-                .getSource()
-                .specification()));
+      new DeleteScraperOwnedSpecificationBatchCommand(),
+      new ScraperOwnedSpecificationBatchByReferenceAndStatusFilter(
+        event
+          .getSource()
+          .specification()));
   }
 }

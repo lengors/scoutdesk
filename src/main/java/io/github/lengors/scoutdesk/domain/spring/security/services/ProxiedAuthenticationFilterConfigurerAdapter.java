@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Configures the authentication filter for proxied authentication.
- *
+ * <p>
  * This adapter integrates the {@link ProxiedAuthenticationConverter} into the
  * Spring Security filter chain.
  *
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConditionalOnBean(value = ProxiedAuthenticationConverter.class)
 public class ProxiedAuthenticationFilterConfigurerAdapter
-    extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+  extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
   /**
    * Converter for proxied authentication.
@@ -32,7 +32,7 @@ public class ProxiedAuthenticationFilterConfigurerAdapter
 
   /**
    * Configures the authentication filter for proxied authentication.
-   *
+   * <p>
    * This method sets up the authentication filter and success handler.
    *
    * @param httpSecurity the HTTP security configuration

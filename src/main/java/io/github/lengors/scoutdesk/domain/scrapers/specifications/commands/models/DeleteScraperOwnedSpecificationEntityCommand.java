@@ -11,6 +11,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
  * @author lengors
  */
 public record DeleteScraperOwnedSpecificationEntityCommand()
-    implements Command<ScraperOwnedSpecificationEntity, @Nullable Void> {
+  implements Command<ScraperOwnedSpecificationEntity, @Nullable Void> {
 
 }

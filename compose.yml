@@ -1,24 +1,35 @@
 networks:
   webscout:
+  authentik:
+
+volumes:
+  postgres:
+    driver: local
+  postgres-webscout:
+    driver: local
+  postgres-authentik:
+    driver: local
+  redis:
+    driver: local
 
 services:
   postgres:
-    image: "postgres:17.0"
+    image: "postgres:17.0-alpine"
     environment:
-      - "POSTGRES_DB=mydatabase"
-      - "POSTGRES_PASSWORD=secret"
-      - "POSTGRES_USER=myuser"
-    ports:
-      - "5432"
-
-  postgres-webscout:
-    image: "postgres:17.0"
-    environment:
-      - "POSTGRES_DB=webscout"
+      - "POSTGRES_DB=scoutdesk"
       - "POSTGRES_PASSWORD=secret"
       - "POSTGRES_USER=postgres"
     ports:
       - "5432"
+
+  postgres-webscout:
+    image: "postgres:17.0-alpine"
+    environment:
+      - "POSTGRES_DB=webscout"
+      - "POSTGRES_PASSWORD=secret"
+      - "POSTGRES_USER=postgres"
+    volumes:
+      - postgres-webscout:/var/lib/postgresql/data
     networks:
       - webscout
     labels:
@@ -26,8 +37,6 @@ services:
 
   duckling:
     image: "rasa/duckling"
-    ports:
-      - "8000"
     networks:
       - "webscout"
 
@@ -42,3 +51,86 @@ services:
       - "DUCKLING_CLIENT_URL=http://duckling:8000"
     networks:
       - "webscout"
+
+  postgres-authentik:
+    image: docker.io/library/postgres:17-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASS:-authentik}
+      POSTGRES_USER: ${PG_USER:-authentik}
+      POSTGRES_DB: ${PG_DB:-authentik}
+    volumes:
+      - postgres-authentik:/var/lib/postgresql/data
+    labels:
+      org.springframework.boot.ignore: true
+    networks:
+      - authentik
+
+  redis:
+    image: docker.io/library/redis:alpine
+    command: --save 60 1 --loglevel warning
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    volumes:
+      - redis:/data
+    labels:
+      org.springframework.boot.ignore: true
+    networks:
+      - authentik
+
+  server:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.6.1}
+    restart: unless-stopped
+    command: server
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:-authentik}
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgres-authentik
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS:-authentik}
+      AUTHENTIK_BOOTSTRAP_PASSWORD: ${AUTHENTIK_BOOTSTRAP_PASSWORD:-authentik}
+      AUTHENTIK_BOOTSTRAP_TOKEN: ${AUTHENTIK_BOOTSTRAP_TOKEN:-authentik}
+    labels:
+      org.springframework.boot.service-connection: authentik-server
+    ports:
+      - "9000"
+    depends_on:
+      postgres-authentik:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - authentik
+
+  worker:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.6.1}
+    restart: unless-stopped
+    command: worker
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:-authentik}
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgres-authentik
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS:-authentik}
+      AUTHENTIK_BOOTSTRAP_PASSWORD: ${AUTHENTIK_BOOTSTRAP_PASSWORD:-authentik}
+      AUTHENTIK_BOOTSTRAP_TOKEN: ${AUTHENTIK_BOOTSTRAP_TOKEN:-authentik}
+    depends_on:
+      postgres-authentik:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - authentik

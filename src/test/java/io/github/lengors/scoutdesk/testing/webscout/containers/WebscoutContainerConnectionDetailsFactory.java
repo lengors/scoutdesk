@@ -6,33 +6,31 @@ import org.springframework.boot.testcontainers.service.connection.ContainerConne
 import io.github.lengors.scoutdesk.integrations.webscout.properties.WebscoutClientConnectionDetails;
 
 /**
- * Factory for creating {@link WebscoutClientConnectionDetails} from
- * {@link WebscoutContainer} instances.
- *
- * This factory resolves the Webscout service URL based on the container
- * information.
+ * Factory for creating {@link WebscoutClientConnectionDetails} from {@link WebscoutContainer} instances.
+ * <p>
+ * This factory resolves the Webscout service URL based on the container information.
  *
  * @author lengors
  */
 public class WebscoutContainerConnectionDetailsFactory
-    extends ContainerConnectionDetailsFactory<WebscoutContainer<?>, WebscoutClientConnectionDetails> {
+  extends ContainerConnectionDetailsFactory<WebscoutContainer<?>, WebscoutClientConnectionDetails> {
 
   /**
-   * Creates a new instance of
-   * {@link WebscoutContainerConnectionDetailsFactory}.
-   *
+   * Creates a new instance of {@link WebscoutContainerConnectionDetailsFactory}.
+   * <p>
    * This constructor is used by Spring to create the factory.
    *
    * @param source The source of the container connection details
    */
   @Override
   protected WebscoutClientConnectionDetails getContainerConnectionDetails(
-      final ContainerConnectionSource<WebscoutContainer<?>> source) {
+    final ContainerConnectionSource<WebscoutContainer<?>> source
+  ) {
     return new WebscoutContainerConnectionDetails(source);
   }
 
   private static final class WebscoutContainerConnectionDetails extends ContainerConnectionDetails<WebscoutContainer<?>>
-      implements WebscoutClientConnectionDetails {
+    implements WebscoutClientConnectionDetails {
     private WebscoutContainerConnectionDetails(final ContainerConnectionSource<WebscoutContainer<?>> source) {
       super(source);
     }

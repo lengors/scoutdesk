@@ -16,7 +16,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.exceptions.models.Scrap
 /**
  * Handles batch retrieval of scraper specifications from the Webscout REST
  * client.
- *
+ * <p>
  * This service executes the {@link FindScraperSpecificationBatchCommand} to
  * fetch multiple scraper specifications by their names, throwing an exception
  * if any are missing.
@@ -25,7 +25,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.exceptions.models.Scrap
  */
 @Service
 class FindScraperSpecificationBatchCommandHandler implements
-    CommandHandler<FindScraperSpecificationBatchCommand, Collection<String>, Map<String, ScraperSpecification>> {
+  CommandHandler<FindScraperSpecificationBatchCommand, Collection<String>, Map<String, ScraperSpecification>> {
   private final WebscoutRestClient webscoutRestClient;
 
   FindScraperSpecificationBatchCommandHandler(final WebscoutRestClient webscoutRestClient) {
@@ -34,17 +34,18 @@ class FindScraperSpecificationBatchCommandHandler implements
 
   @Override
   public Map<String, ScraperSpecification> handle(
-      final FindScraperSpecificationBatchCommand command,
-      final Collection<String> input) {
+    final FindScraperSpecificationBatchCommand command,
+    final Collection<String> input
+  ) {
     final var specifications = webscoutRestClient
-        .findAll(input)
-        .stream()
-        .collect(Collectors.toMap(ScraperSpecification::getName, Function.identity()));
+      .findAll(input)
+      .stream()
+      .collect(Collectors.toMap(ScraperSpecification::getName, Function.identity()));
     final var notFound = input
-        .stream()
-        .filter(name -> !specifications.containsKey(name))
-        .distinct()
-        .toList();
+      .stream()
+      .filter(name -> !specifications.containsKey(name))
+      .distinct()
+      .toList();
     if (!notFound.isEmpty()) {
       throw new ScraperSpecificationBatchNotFoundException(notFound);
     }

@@ -7,13 +7,13 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
 
 /**
  * Command for deleting a batch of owned scraper specifications using a filter.
- *
+ * <p>
  * Used to trigger the removal of multiple specifications matching the filter
  * criteria.
  *
  * @author lengors
  */
 public record DeleteScraperOwnedSpecificationBatchCommand()
-    implements Command<ScraperOwnedSpecificationBatchFilter, @Nullable Void> {
+  implements Command<ScraperOwnedSpecificationBatchFilter, @Nullable Void> {
 
 }

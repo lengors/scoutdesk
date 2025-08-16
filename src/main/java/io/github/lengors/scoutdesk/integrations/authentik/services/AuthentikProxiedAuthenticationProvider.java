@@ -1,7 +1,5 @@
 package io.github.lengors.scoutdesk.integrations.authentik.services;
 
-import java.util.Objects;
-
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -12,9 +10,8 @@ import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxie
 
 /**
  * Authentication provider for handling Authentik proxied authentication.
- *
- * This service validates and processes authentication requests using the
- * Authentik proxied authentication model.
+ * <p>
+ * This service validates and processes authentication requests using the Authentik proxied authentication model.
  *
  * @author lengors
  */
@@ -44,6 +41,6 @@ class AuthentikProxiedAuthenticationProvider implements AuthenticationProvider {
    */
   @Override
   public boolean supports(final Class<?> authentication) {
-    return Objects.equals(authentication, AuthentikProxiedAuthentication.class);
+    return AuthentikProxiedAuthentication.class.isAssignableFrom(authentication);
   }
 }

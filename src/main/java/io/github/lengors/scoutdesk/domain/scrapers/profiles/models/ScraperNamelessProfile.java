@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a nameless scraper profile.
- *
+ * <p>
  * This interface defines the structure of a profile that does not have a
  * specific name associated with it. It includes a reference to the
  * specification and a map of input parameters.

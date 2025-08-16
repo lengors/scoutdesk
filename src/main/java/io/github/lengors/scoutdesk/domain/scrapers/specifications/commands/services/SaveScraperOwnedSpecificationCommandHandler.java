@@ -17,7 +17,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.SaveScr
 
 /**
  * Handles saving or updating an owned scraper specification.
- *
+ * <p>
  * This service executes the {@link SaveScraperOwnedSpecificationCommand} to
  * persist a specification for a user.
  *
@@ -25,13 +25,14 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.SaveScr
  */
 @Service
 class SaveScraperOwnedSpecificationCommandHandler
-    implements CommandHandler<SaveScraperOwnedSpecificationCommand, ScraperSpecification, ScraperOwnedSpecification> {
+  implements CommandHandler<SaveScraperOwnedSpecificationCommand, ScraperSpecification, ScraperOwnedSpecification> {
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
   private final CommandService commandService;
 
   SaveScraperOwnedSpecificationCommandHandler(
-      final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
-      @Lazy final CommandService commandService) {
+    final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
+    @Lazy final CommandService commandService
+  ) {
     this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
     this.commandService = commandService;
   }
@@ -39,16 +40,17 @@ class SaveScraperOwnedSpecificationCommandHandler
   @Override
   @Transactional
   public ScraperOwnedSpecification handle(
-      final SaveScraperOwnedSpecificationCommand command,
-      final ScraperSpecification input) {
+    final SaveScraperOwnedSpecificationCommand command,
+    final ScraperSpecification input
+  ) {
     final var reference = new ScraperOwnedSpecificationReference(command.owner(), input.getName());
     final var entity = new ScraperOwnedSpecificationEntity(reference);
     final var scraperSpecification = RestClient.rethrowing(() -> commandService.executeCommand(
-        new SaveScraperSpecificationCommand(),
-        new ScraperSpecification(
-            reference.fullyQualifiedName(),
-            input.getSettings(),
-            input.getHandlers())));
+      new SaveScraperSpecificationCommand(),
+      new ScraperSpecification(
+        reference.fullyQualifiedName(),
+        input.getSettings(),
+        input.getHandlers())));
     return new ScraperOwnedSpecification(scraperOwnedSpecificationRepository.save(entity), scraperSpecification);
   }
 }

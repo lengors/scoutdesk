@@ -13,10 +13,10 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a scraper specification owned by a user.
- *
+ * <p>
  * This class contains the owner of the specification, the specification itself,
  * and the status of the specification.
- *
+ * <p>
  * It is used to encapsulate the details of a scraper specification owned by a
  * user, including the owner, the specification details, and the status of the
  * specification.
@@ -24,16 +24,16 @@ import jakarta.validation.constraints.NotNull;
  * @param owner         The owner of the specification
  * @param specification The specification details
  * @param status        The status of the specification
- *
  * @author lengors
  */
 @DefaultQualifier(Nullable.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedSpecification(
-    @JsonProperty("owner") @NotNull String owner,
-    @JsonProperty("specification") @NotNull ScraperSpecification specification,
-    @JsonProperty("status") @NotNull ScraperOwnedSpecificationStatus status) {
+  @JsonProperty("owner") @NotNull String owner,
+  @JsonProperty("specification") @NotNull ScraperSpecification specification,
+  @JsonProperty("status") @NotNull ScraperOwnedSpecificationStatus status
+) {
 
   /**
    * Constructor for creating a scraper owned specification.
@@ -51,18 +51,19 @@ public record ScraperOwnedSpecification(
    * @param specification The specification details
    */
   public ScraperOwnedSpecification(
-      final @NotNull ScraperOwnedSpecificationEntity entity,
-      final @NotNull ScraperSpecification specification) {
+    final @NotNull ScraperOwnedSpecificationEntity entity,
+    final @NotNull ScraperSpecification specification
+  ) {
     this(
+      entity
+        .getReference()
+        .owner(),
+      new ScraperSpecification(
         entity
-            .getReference()
-            .owner(),
-        new ScraperSpecification(
-            entity
-                .getReference()
-                .name(),
-            specification.getSettings(),
-            specification.getHandlers()),
-        entity.getStatus());
+          .getReference()
+          .name(),
+        specification.getSettings(),
+        specification.getHandlers()),
+      entity.getStatus());
   }
 }

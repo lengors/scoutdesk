@@ -19,13 +19,14 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories.Scrap
 
 @Service
 class UpdateScraperOwnedStrategyCommandHandler
-    implements CommandHandler<UpdateScraperOwnedStrategyCommand, ScraperOwnedStrategy, ScraperOwnedStrategy> {
+  implements CommandHandler<UpdateScraperOwnedStrategyCommand, ScraperOwnedStrategy, ScraperOwnedStrategy> {
   private final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository;
   private final CommandService commandService;
 
   UpdateScraperOwnedStrategyCommandHandler(
-      final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository,
-      @Lazy final CommandService commandService) {
+    final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository,
+    @Lazy final CommandService commandService
+  ) {
     this.scraperOwnedStrategyRepository = scraperOwnedStrategyRepository;
     this.commandService = commandService;
   }
@@ -33,15 +34,16 @@ class UpdateScraperOwnedStrategyCommandHandler
   @Override
   @Transactional
   public ScraperOwnedStrategy handle(
-      final UpdateScraperOwnedStrategyCommand command,
-      final ScraperOwnedStrategy input) {
+    final UpdateScraperOwnedStrategyCommand command,
+    final ScraperOwnedStrategy input
+  ) {
     final var entity = commandService.executeCommand(
-        new FindScraperOwnedStrategyEntityCommand(),
-        new ScraperOwnedStrategyByReferenceFilter(new ScraperOwnedStrategyReference(input)));
+      new FindScraperOwnedStrategyEntityCommand(),
+      new ScraperOwnedStrategyByReferenceFilter(new ScraperOwnedStrategyReference(input)));
 
     final var profiles = new HashSet<>(commandService.executeCommand(
-        new FindScraperOwnedProfileEntityBatchCommand(),
-        new ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter(input.owner(), input.profiles())));
+      new FindScraperOwnedProfileEntityBatchCommand(),
+      new ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter(input.owner(), input.profiles())));
 
     switch (command.operation()) {
       case DELETE -> profiles.forEach(entity::removeProfile);

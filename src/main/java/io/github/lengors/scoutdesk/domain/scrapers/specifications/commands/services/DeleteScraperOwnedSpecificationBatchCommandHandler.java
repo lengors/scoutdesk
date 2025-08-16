@@ -14,7 +14,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
 
 /**
  * Handles batch deletion of owned scraper specifications using a filter.
- *
+ * <p>
  * This service executes the {@link DeleteScraperOwnedSpecificationBatchCommand}
  * to remove multiple specifications matching the provided filter.
  *
@@ -22,7 +22,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
  */
 @Service
 class DeleteScraperOwnedSpecificationBatchCommandHandler implements
-    CommandHandler<DeleteScraperOwnedSpecificationBatchCommand, ScraperOwnedSpecificationBatchFilter, @Nullable Void> {
+  CommandHandler<DeleteScraperOwnedSpecificationBatchCommand, ScraperOwnedSpecificationBatchFilter, @Nullable Void> {
   private final CommandService commandService;
 
   DeleteScraperOwnedSpecificationBatchCommandHandler(@Lazy final CommandService commandService) {
@@ -32,8 +32,9 @@ class DeleteScraperOwnedSpecificationBatchCommandHandler implements
   @Override
   @Transactional
   public @Nullable Void handle(
-      final DeleteScraperOwnedSpecificationBatchCommand command,
-      final ScraperOwnedSpecificationBatchFilter input) {
+    final DeleteScraperOwnedSpecificationBatchCommand command,
+    final ScraperOwnedSpecificationBatchFilter input
+  ) {
     final var entities = commandService.executeCommand(new FindScraperOwnedSpecificationEntityBatchCommand(), input);
     commandService.executeCommand(new DeleteScraperOwnedSpecificationEntityBatchCommand(), entities);
     return null;

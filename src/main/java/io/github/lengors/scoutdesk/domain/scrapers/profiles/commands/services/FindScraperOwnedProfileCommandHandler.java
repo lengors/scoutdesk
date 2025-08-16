@@ -12,7 +12,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
 
 @Service
 class FindScraperOwnedProfileCommandHandler
-    implements CommandHandler<FindScraperOwnedProfileCommand, ScraperOwnedProfileFilter, ScraperOwnedProfile> {
+  implements CommandHandler<FindScraperOwnedProfileCommand, ScraperOwnedProfileFilter, ScraperOwnedProfile> {
   private final CommandService commandService;
 
   FindScraperOwnedProfileCommandHandler(@Lazy final CommandService commandService) {
@@ -21,8 +21,9 @@ class FindScraperOwnedProfileCommandHandler
 
   @Override
   public ScraperOwnedProfile handle(
-      final FindScraperOwnedProfileCommand command,
-      final ScraperOwnedProfileFilter input) {
+    final FindScraperOwnedProfileCommand command,
+    final ScraperOwnedProfileFilter input
+  ) {
     final var entity = commandService.executeCommand(new FindScraperOwnedProfileEntityCommand(), input);
     return new ScraperOwnedProfile(entity);
   }

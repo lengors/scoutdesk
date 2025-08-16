@@ -5,7 +5,7 @@ import io.github.lengors.scoutdesk.domain.commands.models.Command;
 
 /**
  * Command for saving a scraper specification.
- *
+ * <p>
  * Used to persist a {@link ScraperSpecification} resource.
  *
  * @author lengors

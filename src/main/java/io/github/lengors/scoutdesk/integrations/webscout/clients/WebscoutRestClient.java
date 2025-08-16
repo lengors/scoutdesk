@@ -15,7 +15,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.properties.WebscoutClie
 
 /**
  * Client for interacting with the Webscout REST API for scraper specifications.
- *
+ * <p>
  * Provides methods to find, save, and delete {@link ScraperSpecification}
  * resources.
  *
@@ -23,14 +23,13 @@ import io.github.lengors.scoutdesk.integrations.webscout.properties.WebscoutClie
  */
 @Component
 public class WebscoutRestClient {
+  private static final ParameterizedTypeReference<ScraperSpecification> TYPE_REFERENCE =
+    new ParameterizedTypeReference<>() {
+    };
 
-  @SuppressWarnings("LineLength")
-  private static final ParameterizedTypeReference<ScraperSpecification> TYPE_REFERENCE = new ParameterizedTypeReference<>() {
-  };
-
-  @SuppressWarnings("LineLength")
-  private static final ParameterizedTypeReference<List<ScraperSpecification>> TYPE_REFERENCE_LIST = new ParameterizedTypeReference<>() {
-  };
+  private static final ParameterizedTypeReference<List<ScraperSpecification>> TYPE_REFERENCE_LIST =
+    new ParameterizedTypeReference<>() {
+    };
 
   private static final Logger LOG = LoggerFactory.getLogger(WebscoutRestClient.class);
 
@@ -39,12 +38,13 @@ public class WebscoutRestClient {
   private final RestClient restClient;
 
   WebscoutRestClient(
-      final WebscoutClientConnectionDetails webscoutClientConnectionDetails,
-      final RestClient.Builder restClientBuilder) {
+    final WebscoutClientConnectionDetails webscoutClientConnectionDetails,
+    final RestClient.Builder restClientBuilder
+  ) {
     LOG.info("Setting {} up: {}", getClass().getSimpleName(), webscoutClientConnectionDetails.url());
     this.restClient = restClientBuilder
-        .baseUrl(webscoutClientConnectionDetails.url())
-        .build();
+      .baseUrl(webscoutClientConnectionDetails.url())
+      .build();
   }
 
   /**
@@ -55,12 +55,12 @@ public class WebscoutRestClient {
    */
   public ScraperSpecification delete(final String name) {
     return Optional
-        .ofNullable(restClient
-            .delete()
-            .uri(String.format("%s/%s", BASE_PATH, name))
-            .retrieve()
-            .body(TYPE_REFERENCE))
-        .orElseThrow();
+      .ofNullable(restClient
+        .delete()
+        .uri(String.format("%s/%s", BASE_PATH, name))
+        .retrieve()
+        .body(TYPE_REFERENCE))
+      .orElseThrow();
   }
 
   /**
@@ -70,12 +70,12 @@ public class WebscoutRestClient {
    */
   public List<ScraperSpecification> deleteAll() {
     return Optional
-        .ofNullable(restClient
-            .delete()
-            .uri(BASE_PATH)
-            .retrieve()
-            .body(TYPE_REFERENCE_LIST))
-        .orElseThrow();
+      .ofNullable(restClient
+        .delete()
+        .uri(BASE_PATH)
+        .retrieve()
+        .body(TYPE_REFERENCE_LIST))
+      .orElseThrow();
   }
 
   /**
@@ -86,15 +86,15 @@ public class WebscoutRestClient {
    */
   public List<ScraperSpecification> deleteAll(final Collection<String> names) {
     return Optional
-        .ofNullable(restClient
-            .delete()
-            .uri(uriBuilder -> uriBuilder
-                .path(BASE_PATH)
-                .queryParam("name", names)
-                .build())
-            .retrieve()
-            .body(TYPE_REFERENCE_LIST))
-        .orElseThrow();
+      .ofNullable(restClient
+        .delete()
+        .uri(uriBuilder -> uriBuilder
+          .path(BASE_PATH)
+          .queryParam("name", names)
+          .build())
+        .retrieve()
+        .body(TYPE_REFERENCE_LIST))
+      .orElseThrow();
   }
 
   /**
@@ -105,12 +105,12 @@ public class WebscoutRestClient {
    */
   public ScraperSpecification find(final String name) {
     return Optional
-        .ofNullable(restClient
-            .get()
-            .uri(String.format("%s/%s", BASE_PATH, name))
-            .retrieve()
-            .body(TYPE_REFERENCE))
-        .orElseThrow();
+      .ofNullable(restClient
+        .get()
+        .uri(String.format("%s/%s", BASE_PATH, name))
+        .retrieve()
+        .body(TYPE_REFERENCE))
+      .orElseThrow();
   }
 
   /**
@@ -121,15 +121,15 @@ public class WebscoutRestClient {
    */
   public List<ScraperSpecification> findAll(final Collection<String> names) {
     return Optional
-        .ofNullable(restClient
-            .get()
-            .uri(uriBuilder -> uriBuilder
-                .path(BASE_PATH)
-                .queryParam("name", names)
-                .build())
-            .retrieve()
-            .body(TYPE_REFERENCE_LIST))
-        .orElseThrow();
+      .ofNullable(restClient
+        .get()
+        .uri(uriBuilder -> uriBuilder
+          .path(BASE_PATH)
+          .queryParam("name", names)
+          .build())
+        .retrieve()
+        .body(TYPE_REFERENCE_LIST))
+      .orElseThrow();
   }
 
   /**
@@ -140,12 +140,12 @@ public class WebscoutRestClient {
    */
   public ScraperSpecification save(final ScraperSpecification scraperSpecification) {
     return Optional
-        .ofNullable(restClient
-            .put()
-            .uri(BASE_PATH)
-            .body(scraperSpecification)
-            .retrieve()
-            .body(TYPE_REFERENCE))
-        .orElseThrow();
+      .ofNullable(restClient
+        .put()
+        .uri(BASE_PATH)
+        .body(scraperSpecification)
+        .retrieve()
+        .body(TYPE_REFERENCE))
+      .orElseThrow();
   }
 }

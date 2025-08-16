@@ -15,7 +15,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.FindScr
 
 /**
  * Handles retrieval of a single owned scraper specification using a filter.
- *
+ * <p>
  * This service executes the {@link FindScraperOwnedSpecificationCommand} to
  * fetch a specification matching the provided filter.
  *
@@ -23,7 +23,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.FindScr
  */
 @Service
 class FindScraperOwnedSpecificationCommandHandler implements
-    CommandHandler<FindScraperOwnedSpecificationCommand, ScraperOwnedSpecificationFilter, ScraperOwnedSpecification> {
+  CommandHandler<FindScraperOwnedSpecificationCommand, ScraperOwnedSpecificationFilter, ScraperOwnedSpecification> {
   private final CommandService commandService;
 
   FindScraperOwnedSpecificationCommandHandler(@Lazy final CommandService commandService) {
@@ -33,14 +33,15 @@ class FindScraperOwnedSpecificationCommandHandler implements
   @Override
   @Transactional(readOnly = true)
   public ScraperOwnedSpecification handle(
-      final FindScraperOwnedSpecificationCommand command,
-      final ScraperOwnedSpecificationFilter input) {
+    final FindScraperOwnedSpecificationCommand command,
+    final ScraperOwnedSpecificationFilter input
+  ) {
     final var entity = commandService.executeCommand(new FindScraperOwnedSpecificationEntityCommand(), input);
     final var specification = RestClient.rethrowing(() -> commandService.executeCommand(
-        new FindScraperSpecificationCommand(),
-        entity
-            .getReference()
-            .fullyQualifiedName()));
+      new FindScraperSpecificationCommand(),
+      entity
+        .getReference()
+        .fullyQualifiedName()));
     return new ScraperOwnedSpecification(entity, specification);
   }
 }

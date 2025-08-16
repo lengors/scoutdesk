@@ -21,7 +21,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteS
 
 /**
  * Handles batch deletion of scraper specification entities.
- *
+ * <p>
  * This service executes the
  * {@link DeleteScraperOwnedSpecificationEntityBatchCommand} to remove multiple
  * {@link ScraperOwnedSpecificationEntity} instances from the repository.
@@ -31,13 +31,14 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteS
 @Service
 @SuppressWarnings("LineLength")
 class DeleteScraperOwnedSpecificationEntityBatchCommandHandler implements
-    CommandHandler<DeleteScraperOwnedSpecificationEntityBatchCommand, List<ScraperOwnedSpecificationEntity>, @Nullable Void> {
+  CommandHandler<DeleteScraperOwnedSpecificationEntityBatchCommand, List<ScraperOwnedSpecificationEntity>, @Nullable Void> {
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
   private final CommandService commandService;
 
   DeleteScraperOwnedSpecificationEntityBatchCommandHandler(
-      final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
-      @Lazy final CommandService commandService) {
+    final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
+    @Lazy final CommandService commandService
+  ) {
     this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
     this.commandService = commandService;
   }
@@ -45,13 +46,14 @@ class DeleteScraperOwnedSpecificationEntityBatchCommandHandler implements
   @Override
   @Transactional
   public @Nullable Void handle(
-      final DeleteScraperOwnedSpecificationEntityBatchCommand command,
-      final List<ScraperOwnedSpecificationEntity> input) {
+    final DeleteScraperOwnedSpecificationEntityBatchCommand command,
+    final List<ScraperOwnedSpecificationEntity> input
+  ) {
     final var partitionedEntities = input
-        .stream()
-        .collect(Collectors.partitioningBy(entity -> entity
-            .getProfiles()
-            .isEmpty()));
+      .stream()
+      .collect(Collectors.partitioningBy(entity -> entity
+        .getProfiles()
+        .isEmpty()));
 
     final var entitiesWithoutProfiles = partitionedEntities.get(true);
     final var entitiesWithProfiles = partitionedEntities.get(false);
@@ -59,18 +61,18 @@ class DeleteScraperOwnedSpecificationEntityBatchCommandHandler implements
     if (entitiesWithoutProfiles != null && !entitiesWithoutProfiles.isEmpty()) {
       scraperOwnedSpecificationRepository.deleteAll(entitiesWithoutProfiles);
       RestClient.rethrowing(() -> commandService.executeCommand(new DeleteScraperSpecificationBatchCommand(),
-          entitiesWithoutProfiles
-              .stream()
-              .map(ScraperOwnedSpecificationEntity::getReference)
-              .map(ScraperOwnedSpecificationReference::fullyQualifiedName)
-              .toList()));
+        entitiesWithoutProfiles
+          .stream()
+          .map(ScraperOwnedSpecificationEntity::getReference)
+          .map(ScraperOwnedSpecificationReference::fullyQualifiedName)
+          .toList()));
     }
 
     if (entitiesWithProfiles != null) {
       final var nonDeletedEntities = entitiesWithProfiles
-          .stream()
-          .filter(entity -> !Objects.equals(entity.getStatus(), ScraperOwnedSpecificationStatus.DELETED))
-          .toList();
+        .stream()
+        .filter(entity -> !Objects.equals(entity.getStatus(), ScraperOwnedSpecificationStatus.DELETED))
+        .toList();
       if (!nonDeletedEntities.isEmpty()) {
         nonDeletedEntities.forEach(entity -> entity.setStatus(ScraperOwnedSpecificationStatus.DELETED));
         scraperOwnedSpecificationRepository.saveAll(entitiesWithProfiles);

@@ -7,13 +7,13 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwn
 
 /**
  * Command to delete a batch of scraper-owned strategies.
- *
+ * <p>
  * This command is used to trigger the deletion of multiple strategies that
  * match the specified filter criteria.
  *
  * @author lengors
  */
 public record DeleteScraperOwnedStrategyBatchCommand()
-    implements Command<ScraperOwnedStrategyBatchFilter, @Nullable Void> {
+  implements Command<ScraperOwnedStrategyBatchFilter, @Nullable Void> {
 
 }

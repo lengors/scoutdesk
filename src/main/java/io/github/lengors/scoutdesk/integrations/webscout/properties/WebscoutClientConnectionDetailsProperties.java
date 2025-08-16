@@ -3,11 +3,10 @@ package io.github.lengors.scoutdesk.integrations.webscout.properties;
 /**
  * Implementation of {@link WebscoutClientConnectionDetails} using application
  * properties.
- *
+ * <p>
  * Provides the Webscout service URL from configuration.
  *
  * @param url The base URL for the Webscout service
- *
  * @author lengors
  */
 public record WebscoutClientConnectionDetailsProperties(String url) implements WebscoutClientConnectionDetails {
@@ -20,7 +19,8 @@ public record WebscoutClientConnectionDetailsProperties(String url) implements W
    * @param webscoutClientProperties The Webscout client properties
    */
   public WebscoutClientConnectionDetailsProperties(
-      final WebscoutClientProperties webscoutClientProperties) {
+    final WebscoutClientProperties webscoutClientProperties
+  ) {
     this(webscoutClientProperties.url());
   }
 }

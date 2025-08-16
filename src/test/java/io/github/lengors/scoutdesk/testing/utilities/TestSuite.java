@@ -10,8 +10,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
+import io.github.lengors.scoutdesk.api.scrapers.specifications.services.ScraperOwnedSpecificationEntityFactory;
+import io.github.lengors.scoutdesk.testing.authentik.configurations.AuthentikClientConnectionDetailsConfiguration;
+import io.github.lengors.scoutdesk.testing.wiremock.configurations.WireMockTestContainerConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,8 +30,6 @@ import io.github.lengors.scoutdesk.api.scrapers.specifications.models.ScraperOwn
 import io.github.lengors.scoutdesk.api.scrapers.strategies.models.ScraperOwnedStrategyTestingEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories.ScraperOwnedProfileRepository;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyEntity;
@@ -40,31 +40,33 @@ import io.github.lengors.scoutdesk.testing.webscout.configurations.WebscoutTestC
 
 /**
  * This interface is used as the base for all test classes in the project.
- *
- * It provides a set of default methods and annotations to simplify the testing
- * process.
- *
+ * <p>
+ * It provides a set of default methods and annotations to simplify the testing process.
+ * <p>
  * It includes the following features:
- * - Automatic transaction management
- * - Automatic resource loading
- * - Automatic cleanup of test data
- * - Automatic configuration of the test environment
- * - Automatic injection of test dependencies
+ * <ul>
+ *  <li>Automatic transaction management</li>
+ *  <li>Automatic resource loading</li>
+ *  <li>Automatic cleanup of test data</li>
+ *  <li>Automatic configuration of the test environment</li>
+ *  <li>Automatic injection of test dependencies</li>
+ * </ul>
  *
  * @author lengors
  */
 public interface TestSuite {
 
   /**
-   * This annotation is used to configure the test class with the default
-   * settings.
+   * This annotation is used to configure the test class with the default settings.
    */
   @Target(ElementType.TYPE)
   @Retention(RetentionPolicy.RUNTIME)
   @Inherited
   @Import({
-      PostgresTestContainerConfiguration.class,
-      WebscoutTestContainerConfiguration.class
+    AuthentikClientConnectionDetailsConfiguration.class,
+    PostgresTestContainerConfiguration.class,
+    WebscoutTestContainerConfiguration.class,
+    WireMockTestContainerConfiguration.class
   })
   @SpringBootTest
   @ActiveProfiles("test")
@@ -74,118 +76,86 @@ public interface TestSuite {
   }
 
   /**
-   * This method is used to clean up the test data after each test case.
-   * It deletes all the test data from the database and the webscout client.
+   * This method is used to clean up the test data after each test case. It deletes all the test data from the database
+   * and the webscout client.
    */
   @AfterEach
   default void cleanup() {
     transaction(status -> {
-      getScraperOwnedProfileRepository().deleteAll();
-      getScraperOwnedSpecificationRepository().deleteAll();
-      getScraperOwnedStrategyRepository().deleteAll();
-      getWebscoutRestClient().deleteAll();
+      scraperOwnedProfileRepository().deleteAll();
+      scraperOwnedSpecificationRepository().deleteAll();
+      scraperOwnedStrategyRepository().deleteAll();
+      webscoutRestClient().deleteAll();
     });
   }
 
   /**
-   * This method is used to set up the test data before each test case.
-   * It loads the test data from the specified resource and populates the database
-   * with it.
+   * This method is used to set up the test data before each test case. It loads the test data from the specified
+   * resource and populates the database with it.
    */
   @BeforeEach
   default void setup() {
 
     // Load specification
-    final var specification = getResourceUtils()
-        .loadResource("classpath:specifications/test.yml", ScraperSpecification.class);
+    final var specification = resourceUtils()
+      .loadResource("classpath:specifications/test.yml", ScraperSpecification.class);
 
     // Populate the database with test data
     transaction(status -> {
 
-      /**
-       * This class is used to create a new instance of the
-       * {@link ScraperOwnedSpecificationEntity} class with the specified
-       * {@link ScraperOwnedSpecificationTestingEntity}.
-       *
-       * @author lengors
-       */
-      final class ScraperOwnedSpecificationEntityFactory implements Supplier<ScraperOwnedSpecificationEntity> {
-        private final ScraperOwnedSpecificationTestingEntity testingEntity;
-
-        private ScraperOwnedSpecificationEntityFactory(final ScraperOwnedSpecificationTestingEntity testingEntity) {
-          this.testingEntity = testingEntity;
-        }
-
-        private ScraperOwnedSpecificationEntityFactory(final ScraperOwnedSpecificationReference reference) {
-          this(new ScraperOwnedSpecificationTestingEntity(reference, null));
-        }
-
-        @Override
-        public ScraperOwnedSpecificationEntity get() {
-          // Instantiate the entity
-          final var entity = getScraperOwnedSpecificationRepository()
-              .save(new ScraperOwnedSpecificationEntity(testingEntity.reference()));
-          final var status = testingEntity.status();
-          if (status != null) {
-            entity.setStatus(status);
-          }
-
-          // Save the entity
-          getWebscoutRestClient().save(new ScraperSpecification(
-              testingEntity
-                  .reference()
-                  .fullyQualifiedName(),
-              specification.getSettings(),
-              specification.getHandlers()));
-
-          return entity;
-        }
-      }
-
       // Instantiate the specification entity
       for (final var testingEntity : getScraperOwnedSpecificationTestingEntities()) {
-        new ScraperOwnedSpecificationEntityFactory(testingEntity).get();
+        new ScraperOwnedSpecificationEntityFactory(
+          testingEntity,
+          scraperOwnedSpecificationRepository(),
+          webscoutRestClient(),
+          specification
+        ).get();
       }
 
       for (final var testingEntity : getScraperOwnedProfileTestingEntities()) {
         // Get the specification entity
-        final var specificationEntity = getScraperOwnedSpecificationRepository()
-            .findById(testingEntity.specificationReference())
-            .orElseGet(new ScraperOwnedSpecificationEntityFactory(testingEntity.specificationReference()));
+        final var specificationEntity = scraperOwnedSpecificationRepository()
+          .findById(testingEntity.specificationReference())
+          .orElseGet(new ScraperOwnedSpecificationEntityFactory(
+            testingEntity.specificationReference(),
+            scraperOwnedSpecificationRepository(),
+            webscoutRestClient(),
+            specification
+          ));
 
         // Instantiate the entity
-        getScraperOwnedProfileRepository().save(new ScraperOwnedProfileEntity(
-            testingEntity.profileReference(),
-            new HashMap<>(testingEntity.inputs()),
-            specificationEntity));
+        scraperOwnedProfileRepository().save(new ScraperOwnedProfileEntity(
+          testingEntity.profileReference(),
+          new HashMap<>(testingEntity.inputs()),
+          specificationEntity));
       }
 
       for (final var testingEntity : getScraperOwnedStrategyTestingEntities()) {
 
         // Get the profile entities
-        final var profileEntities = getScraperOwnedProfileRepository()
-            .findAllByReferenceOwnerAndReferenceNameIn(
-                testingEntity
-                    .strategyReference()
-                    .owner(),
-                testingEntity.profiles());
+        final var profileEntities = scraperOwnedProfileRepository()
+          .findAllByReferenceOwnerAndReferenceNameIn(
+            testingEntity
+              .strategyReference()
+              .owner(),
+            testingEntity.profiles());
 
         // Instantiate the entity
         final var entity = new ScraperOwnedStrategyEntity(testingEntity.strategyReference());
         entity.setProfiles(new HashSet<>(profileEntities));
-        getScraperOwnedStrategyRepository().save(entity);
+        scraperOwnedStrategyRepository().save(entity);
       }
     });
   }
 
   /**
-   * This method is used to execute a transaction with the specified
-   * {@link TransactionStatus}.
+   * This method is used to execute a transaction with the specified {@link TransactionStatus}.
    *
    * @param consumer The consumer to be executed within the transaction
    */
   default void transaction(final Consumer<TransactionStatus> consumer) {
-    final var transactionTemplate = new TransactionTemplate(getPlatformTransactionManager());
+    final var transactionTemplate = new TransactionTemplate(platformTransactionManager());
     transactionTemplate.execute(status -> {
       consumer.accept(status);
       return null;
@@ -193,88 +163,82 @@ public interface TestSuite {
   }
 
   /**
-   * This method is used to get the default test data for the
-   * {@link ScraperOwnedProfileTestingEntity} class.
+   * This method is used to get the default test data for the {@link ScraperOwnedProfileTestingEntity} class.
    *
-   * @return The default test data for the
-   *         {@link ScraperOwnedProfileTestingEntity}
+   * @return The default test data for the {@link ScraperOwnedProfileTestingEntity}
    */
   default List<ScraperOwnedProfileTestingEntity> getScraperOwnedProfileTestingEntities() {
     return List.of(
-        new ScraperOwnedProfileTestingEntity("tester-0", "test-specification-0", "tester-0", "test-profile-0"),
-        new ScraperOwnedProfileTestingEntity("tester-0", "test-specification-1", "tester-0", "test-profile-1"),
-        new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-0", "test-profile-2"),
-        new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-0", "tester-1", "test-profile-0"),
-        new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-1", "test-profile-1"),
-        new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-5", "test-profile-0"),
-        new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-5", "test-profile-1"),
-        new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-5", "test-profile-2"),
-        new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-9", "test-profile-9"),
-        new ScraperOwnedProfileTestingEntity(
-            "tester-1",
-            "test-specification-1",
-            "tester-x",
-            "test-profile-x",
-            Map.of("description", "test-description-x", "brand_description", "test-brand-description-x")),
-        new ScraperOwnedProfileTestingEntity(
-            "tester-1",
-            "test-specification-1",
-            "tester-x",
-            "test-profile-y",
-            Map.of("description", "test-description-y", "brand_description", "test-brand-description-y")),
-        new ScraperOwnedProfileTestingEntity(
-            "tester-1",
-            "test-specification-1",
-            "tester-x",
-            "test-profile-z",
-            Map.of("description", "test-description-z", "brand_description", "test-brand-description-z")));
+      new ScraperOwnedProfileTestingEntity("tester-0", "test-specification-0", "tester-0", "test-profile-0"),
+      new ScraperOwnedProfileTestingEntity("tester-0", "test-specification-1", "tester-0", "test-profile-1"),
+      new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-0", "test-profile-2"),
+      new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-0", "tester-1", "test-profile-0"),
+      new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-1", "test-profile-1"),
+      new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-5", "test-profile-0"),
+      new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-5", "test-profile-1"),
+      new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-5", "test-profile-2"),
+      new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-9", "test-profile-9"),
+      new ScraperOwnedProfileTestingEntity(
+        "tester-1",
+        "test-specification-1",
+        "tester-x",
+        "test-profile-x",
+        Map.of("description", "test-description-x", "brand_description", "test-brand-description-x")),
+      new ScraperOwnedProfileTestingEntity(
+        "tester-1",
+        "test-specification-1",
+        "tester-x",
+        "test-profile-y",
+        Map.of("description", "test-description-y", "brand_description", "test-brand-description-y")),
+      new ScraperOwnedProfileTestingEntity(
+        "tester-1",
+        "test-specification-1",
+        "tester-x",
+        "test-profile-z",
+        Map.of("description", "test-description-z", "brand_description", "test-brand-description-z")));
   }
 
   /**
-   * This method is used to get the default test data for the
-   * {@link ScraperOwnedSpecificationTestingEntity} class.
+   * This method is used to get the default test data for the {@link ScraperOwnedSpecificationTestingEntity} class.
    *
-   * @return The default test data for the
-   *         {@link ScraperOwnedSpecificationTestingEntity}
+   * @return The default test data for the {@link ScraperOwnedSpecificationTestingEntity}
    */
   default List<ScraperOwnedSpecificationTestingEntity> getScraperOwnedSpecificationTestingEntities() {
     return List.of(
-        new ScraperOwnedSpecificationTestingEntity(
-            "tester-0",
-            "test-specification-0"),
-        new ScraperOwnedSpecificationTestingEntity(
-            "tester-0",
-            "test-specification-1",
-            ScraperOwnedSpecificationStatus.DELETED),
-        new ScraperOwnedSpecificationTestingEntity(
-            "tester-0",
-            "test-specification-2",
-            ScraperOwnedSpecificationStatus.ARCHIVED),
-        new ScraperOwnedSpecificationTestingEntity(
-            "tester-1",
-            "test-specification-0"),
-        new ScraperOwnedSpecificationTestingEntity(
-            "tester-1",
-            "test-specification-1",
-            ScraperOwnedSpecificationStatus.DELETED));
+      new ScraperOwnedSpecificationTestingEntity(
+        "tester-0",
+        "test-specification-0"),
+      new ScraperOwnedSpecificationTestingEntity(
+        "tester-0",
+        "test-specification-1",
+        ScraperOwnedSpecificationStatus.DELETED),
+      new ScraperOwnedSpecificationTestingEntity(
+        "tester-0",
+        "test-specification-2",
+        ScraperOwnedSpecificationStatus.ARCHIVED),
+      new ScraperOwnedSpecificationTestingEntity(
+        "tester-1",
+        "test-specification-0"),
+      new ScraperOwnedSpecificationTestingEntity(
+        "tester-1",
+        "test-specification-1",
+        ScraperOwnedSpecificationStatus.DELETED));
   }
 
   /**
-   * This method is used to get the default test data for the
-   * {@link ScraperOwnedStrategyTestingEntity} class.
+   * This method is used to get the default test data for the {@link ScraperOwnedStrategyTestingEntity} class.
    *
-   * @return The default test data for the
-   *         {@link ScraperOwnedStrategyTestingEntity}
+   * @return The default test data for the {@link ScraperOwnedStrategyTestingEntity}
    */
   default List<ScraperOwnedStrategyTestingEntity> getScraperOwnedStrategyTestingEntities() {
     return List.of(
-        new ScraperOwnedStrategyTestingEntity("tester-5", "test-strategy-0", "test-profile-0", "test-profile-1"),
-        new ScraperOwnedStrategyTestingEntity("tester-5", "test-strategy-1", "test-profile-2"),
-        new ScraperOwnedStrategyTestingEntity("tester-6", "test-strategy-0", "test-profile-0", "test-profile-1"),
-        new ScraperOwnedStrategyTestingEntity("tester-6", "test-strategy-1"),
-        new ScraperOwnedStrategyTestingEntity("tester-9", "test-strategy-9", "test-profile-9"),
-        new ScraperOwnedStrategyTestingEntity("tester-x", "test-strategy-x", "test-profile-x", "test-profile-y"),
-        new ScraperOwnedStrategyTestingEntity("tester-x", "test-strategy-y", "test-profile-z"));
+      new ScraperOwnedStrategyTestingEntity("tester-5", "test-strategy-0", "test-profile-0", "test-profile-1"),
+      new ScraperOwnedStrategyTestingEntity("tester-5", "test-strategy-1", "test-profile-2"),
+      new ScraperOwnedStrategyTestingEntity("tester-6", "test-strategy-0", "test-profile-0", "test-profile-1"),
+      new ScraperOwnedStrategyTestingEntity("tester-6", "test-strategy-1"),
+      new ScraperOwnedStrategyTestingEntity("tester-9", "test-strategy-9", "test-profile-9"),
+      new ScraperOwnedStrategyTestingEntity("tester-x", "test-strategy-x", "test-profile-x", "test-profile-y"),
+      new ScraperOwnedStrategyTestingEntity("tester-x", "test-strategy-y", "test-profile-z"));
   }
 
   /**
@@ -282,43 +246,40 @@ public interface TestSuite {
    *
    * @return The {@link PlatformTransactionManager} instance
    */
-  PlatformTransactionManager getPlatformTransactionManager();
+  PlatformTransactionManager platformTransactionManager();
 
   /**
    * This method is used to get the {@link ResourceUtils} instance.
    *
    * @return The {@link ResourceUtils} instance
    */
-  ResourceUtils getResourceUtils();
+  ResourceUtils resourceUtils();
 
   /**
-   * This method is used to get the {@link ScraperOwnedProfileRepository}
-   * instance.
+   * This method is used to get the {@link ScraperOwnedProfileRepository} instance.
    *
    * @return The {@link ScraperOwnedProfileRepository} instance
    */
-  ScraperOwnedProfileRepository getScraperOwnedProfileRepository();
+  ScraperOwnedProfileRepository scraperOwnedProfileRepository();
 
   /**
-   * This method is used to get the {@link ScraperOwnedSpecificationRepository}
-   * instance.
+   * This method is used to get the {@link ScraperOwnedSpecificationRepository} instance.
    *
    * @return The {@link ScraperOwnedSpecificationRepository} instance
    */
-  ScraperOwnedSpecificationRepository getScraperOwnedSpecificationRepository();
+  ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository();
 
   /**
-   * This method is used to get the {@link ScraperOwnedStrategyRepository}
-   * instance.
+   * This method is used to get the {@link ScraperOwnedStrategyRepository} instance.
    *
    * @return The {@link ScraperOwnedStrategyRepository} instance
    */
-  ScraperOwnedStrategyRepository getScraperOwnedStrategyRepository();
+  ScraperOwnedStrategyRepository scraperOwnedStrategyRepository();
 
   /**
    * This method is used to get the {@link WebscoutRestClient} instance.
    *
    * @return The {@link WebscoutRestClient} instance
    */
-  WebscoutRestClient getWebscoutRestClient();
+  WebscoutRestClient webscoutRestClient();
 }

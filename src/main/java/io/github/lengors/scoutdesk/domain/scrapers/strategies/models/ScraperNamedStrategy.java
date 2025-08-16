@@ -9,10 +9,10 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a named scraper strategy.
- *
+ * <p>
  * This interface includes the name of the strategy and the set of profiles
  * associated with it.
- *
+ * <p>
  * The name property is used to identify the strategy and can be used to
  * differentiate between multiple strategies owned by the same user.
  *

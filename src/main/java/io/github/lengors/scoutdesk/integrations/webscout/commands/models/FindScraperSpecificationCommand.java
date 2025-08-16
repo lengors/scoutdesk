@@ -5,7 +5,7 @@ import io.github.lengors.scoutdesk.domain.commands.models.Command;
 
 /**
  * Command for retrieving a single scraper specification by name.
- *
+ * <p>
  * Used to fetch a specific {@link ScraperSpecification} resource.
  *
  * @author lengors

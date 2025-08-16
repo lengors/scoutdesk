@@ -1,0 +1,3 @@
+---
+authentik:
+  impersonated-user: ${AUTHENTIK_IMPERSONATED_USER:scoutdesk-developer}

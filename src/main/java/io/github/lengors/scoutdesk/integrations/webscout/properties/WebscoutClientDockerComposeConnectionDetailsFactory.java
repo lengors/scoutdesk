@@ -7,14 +7,14 @@ import org.springframework.boot.docker.compose.service.connection.DockerComposeC
 /**
  * Factory for creating {@link WebscoutClientConnectionDetails} from Docker
  * Compose services.
- *
+ * <p>
  * Resolves the Webscout service URL based on running container information.
  *
  * @author lengors
  */
 class WebscoutClientDockerComposeConnectionDetailsFactory
-    extends DockerComposeConnectionDetailsFactory<WebscoutClientConnectionDetails> {
-  private static final String[] WEBSCOUT_CLIENT_CONTAINER_NAMES = { "ghcr.io/lengors/webscout", "webscout" };
+  extends DockerComposeConnectionDetailsFactory<WebscoutClientConnectionDetails> {
+  private static final String[] WEBSCOUT_CLIENT_CONTAINER_NAMES = {"ghcr.io/lengors/webscout", "webscout"};
   private static final int CONTAINER_PORT = 8080;
 
   WebscoutClientDockerComposeConnectionDetailsFactory() {
@@ -23,20 +23,21 @@ class WebscoutClientDockerComposeConnectionDetailsFactory
 
   @Override
   protected WebscoutClientConnectionDetails getDockerComposeConnectionDetails(
-      final DockerComposeConnectionSource source) {
+    final DockerComposeConnectionSource source
+  ) {
     return new WebscoutClientDockerComposeConnectionDetails(source.getRunningService());
   }
 
   private static final class WebscoutClientDockerComposeConnectionDetails extends DockerComposeConnectionDetails
-      implements WebscoutClientConnectionDetails {
+    implements WebscoutClientConnectionDetails {
     private final String url;
 
     private WebscoutClientDockerComposeConnectionDetails(final RunningService runningService) {
       super(runningService);
       final var host = runningService.host();
       final var port = runningService
-          .ports()
-          .get(CONTAINER_PORT);
+        .ports()
+        .get(CONTAINER_PORT);
       this.url = String.format("http://%s:%d", host, port);
     }
 

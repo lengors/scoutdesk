@@ -6,7 +6,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
 
 /**
  * Command to find a scraper-owned strategy.
- *
+ * <p>
  * This command is used to retrieve a single strategy based on the specified
  * filter criteria.
  *

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntitySaveConflictException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntitySaveException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.models.FindScraperOwnedProfileEntityBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.exceptions.models.ScraperOwnedProfileInvalidNameException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter;
@@ -21,13 +21,14 @@ import io.github.lengors.scoutdesk.domain.text.exceptions.models.InvalidCharacte
 
 @Service
 class SaveScraperOwnedStrategyCommandHandler
-    implements CommandHandler<SaveScraperOwnedStrategyCommand, ScraperOwnedStrategy, ScraperOwnedStrategy> {
+  implements CommandHandler<SaveScraperOwnedStrategyCommand, ScraperOwnedStrategy, ScraperOwnedStrategy> {
   private final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository;
   private final CommandService commandService;
 
   SaveScraperOwnedStrategyCommandHandler(
-      final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository,
-      @Lazy final CommandService commandService) {
+    final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository,
+    @Lazy final CommandService commandService
+  ) {
     this.scraperOwnedStrategyRepository = scraperOwnedStrategyRepository;
     this.commandService = commandService;
   }
@@ -36,8 +37,8 @@ class SaveScraperOwnedStrategyCommandHandler
   @Transactional
   public ScraperOwnedStrategy handle(final SaveScraperOwnedStrategyCommand command, final ScraperOwnedStrategy input) {
     if (input
-        .name()
-        .contains("/")) {
+      .name()
+      .contains("/")) {
       try {
         throw new InvalidCharacterException('/');
       } catch (final InvalidCharacterException exception) {
@@ -47,12 +48,12 @@ class SaveScraperOwnedStrategyCommandHandler
 
     final var reference = new ScraperOwnedStrategyReference(input.owner(), input.name());
     if (scraperOwnedStrategyRepository.existsById(reference)) {
-      throw new EntitySaveConflictException(ScraperOwnedStrategyReference.class, reference);
+      throw new EntitySaveException(ScraperOwnedStrategyReference.class, reference);
     }
 
     final var profiles = commandService.executeCommand(
-        new FindScraperOwnedProfileEntityBatchCommand(),
-        new ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter(input.owner(), input.profiles()));
+      new FindScraperOwnedProfileEntityBatchCommand(),
+      new ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter(input.owner(), input.profiles()));
 
     final var entity = new ScraperOwnedStrategyEntity(new ScraperOwnedStrategyReference(input));
     entity.setProfiles(new HashSet<>(profiles));

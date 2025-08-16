@@ -12,6 +12,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
  * @author lengors
  */
 public record FindScraperOwnedSpecificationEntityBatchCommand()
-    implements Command<ScraperOwnedSpecificationBatchFilter, List<ScraperOwnedSpecificationEntity>> {
+  implements Command<ScraperOwnedSpecificationBatchFilter, List<ScraperOwnedSpecificationEntity>> {
 
 }

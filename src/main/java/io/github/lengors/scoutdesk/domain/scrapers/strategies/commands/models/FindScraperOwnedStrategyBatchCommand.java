@@ -8,13 +8,13 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
 
 /**
  * Command to find a batch of scraper-owned strategies.
- *
+ * <p>
  * This command is used to retrieve a list of strategies based on the specified
  * filter criteria.
  *
  * @author lengors
  */
 public record FindScraperOwnedStrategyBatchCommand()
-    implements Command<ScraperOwnedStrategyBatchFilter, List<ScraperOwnedStrategy>> {
+  implements Command<ScraperOwnedStrategyBatchFilter, List<ScraperOwnedStrategy>> {
 
 }

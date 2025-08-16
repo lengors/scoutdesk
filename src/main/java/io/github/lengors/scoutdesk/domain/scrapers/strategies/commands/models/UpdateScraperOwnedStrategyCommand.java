@@ -5,15 +5,14 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
 
 /**
  * Command to update a scraper-owned strategy.
- *
+ * <p>
  * This command is used to trigger the update of a strategy entity.
  *
  * @param operation The operation to be performed on the strategy.
- *
  * @author lengors
  */
 public record UpdateScraperOwnedStrategyCommand(Operation operation)
-    implements Command<ScraperOwnedStrategy, ScraperOwnedStrategy> {
+  implements Command<ScraperOwnedStrategy, ScraperOwnedStrategy> {
 
   /**
    * Enum representing the possible operations for updating a scraper-owned

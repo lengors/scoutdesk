@@ -2,7 +2,7 @@ package io.github.lengors.scoutdesk.integrations.authentik.models;
 
 /**
  * Utility class for Authentik custom headers.
- *
+ * <p>
  * This class defines constants for HTTP headers used in Authentik proxied
  * authentication.
  *
@@ -23,7 +23,7 @@ public final class AuthentikCustomHeaders {
   /**
    * Header for the unique identifier of the authenticated user.
    */
-  public static final String NAME = "x-authentik-uid";
+  public static final String UID = "x-authentik-uid";
 
   private AuthentikCustomHeaders() {
     throw new UnsupportedOperationException("Utility class cannot be instantiated");

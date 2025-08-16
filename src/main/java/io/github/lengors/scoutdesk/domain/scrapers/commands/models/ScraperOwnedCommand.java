@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux;
 
 /**
  * Command to scrape data using a query.
- *
+ * <p>
  * This command is used to trigger the scraping process based on the provided
  * query parameters.
  *

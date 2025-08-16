@@ -7,7 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Utility class for handling REST client operations.
- *
+ * <p>
  * Provides methods to handle exceptions and rethrow them as
  * {@link ResponseStatusException}.
  *

@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a scraper profile owned by a user.
- *
+ * <p>
  * This class contains the owner, name, specification reference, and input
  * parameters for the profile.
  *
@@ -23,18 +23,18 @@ import jakarta.validation.constraints.NotNull;
  * @param name          The name of the profile
  * @param specification The specification reference for the profile
  * @param inputs        The input parameters for the profile
- *
  * @author lengors
  */
 @DefaultQualifier(Nullable.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedProfile(
-    @JsonProperty("owner") @NotNull String owner,
-    @JsonProperty("name") @NotNull String name,
-    @JsonProperty("specification") @NotNull ScraperOwnedSpecificationReference specification,
-    @JsonProperty("inputs") @NotNull Map<@NotNull String, @NotNull String> inputs)
-    implements ScraperNamedProfile, ScraperOwnedProfileReferrer {
+  @JsonProperty("owner") @NotNull String owner,
+  @JsonProperty("name") @NotNull String name,
+  @JsonProperty("specification") @NotNull ScraperOwnedSpecificationReference specification,
+  @JsonProperty("inputs") @NotNull Map<@NotNull String, @NotNull String> inputs
+)
+  implements ScraperNamedProfile, ScraperOwnedProfileReferrer {
 
   /**
    * Creates a new instance of the {@link ScraperOwnedProfile}.
@@ -51,15 +51,15 @@ public record ScraperOwnedProfile(
    */
   public ScraperOwnedProfile(final @NotNull ScraperOwnedProfileEntity entity) {
     this(
-        entity
-            .getReference()
-            .owner(),
-        entity
-            .getReference()
-            .name(),
-        entity
-            .getSpecification()
-            .getReference(),
-        entity.getInputs());
+      entity
+        .getReference()
+        .owner(),
+      entity
+        .getReference()
+        .name(),
+      entity
+        .getSpecification()
+        .getReference(),
+      entity.getInputs());
   }
 }

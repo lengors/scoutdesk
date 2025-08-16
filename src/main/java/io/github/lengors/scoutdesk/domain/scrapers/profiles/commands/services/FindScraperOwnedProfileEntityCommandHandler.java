@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityNotFoundException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityFindException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.models.FindScraperOwnedProfileEntityCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileByReferenceFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileFilter;
@@ -13,7 +13,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories.Scraper
 
 @Service
 class FindScraperOwnedProfileEntityCommandHandler implements
-    CommandHandler<FindScraperOwnedProfileEntityCommand, ScraperOwnedProfileFilter, ScraperOwnedProfileEntity> {
+  CommandHandler<FindScraperOwnedProfileEntityCommand, ScraperOwnedProfileFilter, ScraperOwnedProfileEntity> {
   private final ScraperOwnedProfileRepository scraperOwnedProfileRepository;
 
   FindScraperOwnedProfileEntityCommandHandler(final ScraperOwnedProfileRepository scraperOwnedProfileRepository) {
@@ -23,13 +23,14 @@ class FindScraperOwnedProfileEntityCommandHandler implements
   @Override
   @Transactional(readOnly = true)
   public ScraperOwnedProfileEntity handle(
-      final FindScraperOwnedProfileEntityCommand command,
-      final ScraperOwnedProfileFilter input) {
+    final FindScraperOwnedProfileEntityCommand command,
+    final ScraperOwnedProfileFilter input
+  ) {
 
     final var optionalEntity = switch (input) {
       case ScraperOwnedProfileByReferenceFilter(var reference) -> scraperOwnedProfileRepository.findById(reference);
     };
-    return optionalEntity.orElseThrow(() -> new EntityNotFoundException(ScraperOwnedProfileEntity.class, input));
+    return optionalEntity.orElseThrow(() -> new EntityFindException(ScraperOwnedProfileEntity.class, input));
   }
 
 }

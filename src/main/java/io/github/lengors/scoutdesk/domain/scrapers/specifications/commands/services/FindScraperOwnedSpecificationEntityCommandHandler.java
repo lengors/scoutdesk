@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityNotFoundException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityFindException;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.FindScraperOwnedSpecificationEntityCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferenceAndStatusNotFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationFilter;
@@ -14,7 +14,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.S
 /**
  * Handles retrieval of a single owned scraper specification entity using a
  * filter.
- *
+ * <p>
  * This service executes the {@link FindScraperOwnedSpecificationEntityCommand}
  * to fetch a {@link ScraperOwnedSpecificationEntity} matching the provided
  * filter.
@@ -24,23 +24,25 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.S
 @Service
 @SuppressWarnings("LineLength")
 class FindScraperOwnedSpecificationEntityCommandHandler implements
-    CommandHandler<FindScraperOwnedSpecificationEntityCommand, ScraperOwnedSpecificationFilter, ScraperOwnedSpecificationEntity> {
+  CommandHandler<FindScraperOwnedSpecificationEntityCommand, ScraperOwnedSpecificationFilter, ScraperOwnedSpecificationEntity> {
   private final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository;
 
   FindScraperOwnedSpecificationEntityCommandHandler(
-      final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository) {
+    final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository
+  ) {
     this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
   }
 
   @Override
   @Transactional(readOnly = true)
   public ScraperOwnedSpecificationEntity handle(
-      final FindScraperOwnedSpecificationEntityCommand command,
-      final ScraperOwnedSpecificationFilter input) {
+    final FindScraperOwnedSpecificationEntityCommand command,
+    final ScraperOwnedSpecificationFilter input
+  ) {
     final var entity = switch (input) {
       case ScraperOwnedSpecificationByReferenceAndStatusNotFilter(var reference, var status) ->
         scraperOwnedSpecificationRepository.findByReferenceAndStatusNot(reference, status);
     };
-    return entity.orElseThrow(() -> new EntityNotFoundException(ScraperOwnedSpecificationEntity.class, input));
+    return entity.orElseThrow(() -> new EntityFindException(ScraperOwnedSpecificationEntity.class, input));
   }
 }

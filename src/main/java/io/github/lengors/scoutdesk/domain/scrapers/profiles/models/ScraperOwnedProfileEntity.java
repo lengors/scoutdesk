@@ -29,7 +29,7 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Represents a scraper profile owned by a user.
- *
+ * <p>
  * This class contains the owner, name, specification reference, and input
  * parameters for the profile.
  *
@@ -37,7 +37,7 @@ import jakarta.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "scraper_owned_profiles")
-@DefaultQualifier(value = Nullable.class, locations = { TypeUseLocation.FIELD, TypeUseLocation.PARAMETER })
+@DefaultQualifier(value = Nullable.class, locations = {TypeUseLocation.FIELD, TypeUseLocation.PARAMETER})
 public final class ScraperOwnedProfileEntity {
   @EmbeddedId
   @AttributeOverride(name = "owner", column = @Column(name = "owner"))
@@ -46,11 +46,11 @@ public final class ScraperOwnedProfileEntity {
   private ScraperOwnedProfileReference reference;
 
   @ElementCollection
-  @MapKeyColumn(name = "name", nullable = false)
+  @MapKeyColumn(name = "name")
   @Column(name = "value", nullable = false)
   @CollectionTable(name = "scraper_inputs", joinColumns = {
-      @JoinColumn(name = "profile_owner", referencedColumnName = "owner"),
-      @JoinColumn(name = "profile_name", referencedColumnName = "name")
+    @JoinColumn(name = "profile_owner", referencedColumnName = "owner"),
+    @JoinColumn(name = "profile_name", referencedColumnName = "name")
   })
   @NotNull
   private Map<@NotNull String, @NotNull String> inputs;
@@ -72,29 +72,34 @@ public final class ScraperOwnedProfileEntity {
    * @param inputs        The input parameters for the profile
    * @param specification The specification reference for the profile
    */
-  @SuppressWarnings({ "nullness" })
+  @SuppressWarnings({"nullness"})
   public ScraperOwnedProfileEntity(
-      final @NotNull ScraperOwnedProfileReference reference,
-      final @NotNull Map<@NotNull String, @NotNull String> inputs,
-      final @NotNull ScraperOwnedSpecificationEntity specification) {
+    final @NotNull ScraperOwnedProfileReference reference,
+    final @NotNull Map<@NotNull String, @NotNull String> inputs,
+    final @NotNull ScraperOwnedSpecificationEntity specification
+  ) {
     this(reference, inputs, specification, new HashSet<>());
     this.specification.addProfile(this);
   }
 
   @PersistenceCreator
   private ScraperOwnedProfileEntity(
-      final @NotNull ScraperOwnedProfileReference reference,
-      final @NotNull Map<@NotNull String, @NotNull String> inputs,
-      final @NotNull ScraperOwnedSpecificationEntity specification,
-      final @NotNull Set<ScraperOwnedStrategyEntity> strategies) {
+    final @NotNull ScraperOwnedProfileReference reference,
+    final @NotNull Map<@NotNull String, @NotNull String> inputs,
+    final @NotNull ScraperOwnedSpecificationEntity specification,
+    final @NotNull Set<ScraperOwnedStrategyEntity> strategies
+  ) {
     this.reference = reference;
     this.inputs = inputs;
     this.specification = specification;
     this.strategies = strategies;
   }
 
-  @SuppressWarnings({ "unused", "initialization" })
-  private ScraperOwnedProfileEntity() {
+  /**
+   * Empty constructor for JPA.
+   */
+  @SuppressWarnings({"unused", "initialization"})
+  protected ScraperOwnedProfileEntity() {
     // Empty constructor for JPA
   }
 
@@ -199,9 +204,9 @@ public final class ScraperOwnedProfileEntity {
   @Override
   public String toString() {
     return String.format(
-        "ScraperOwnedProfileEntity(reference=%s, inputs=%s, specification=%s)",
-        reference,
-        inputs,
-        specification);
+      "ScraperOwnedProfileEntity(reference=%s, inputs=%s, specification=%s)",
+      reference,
+      inputs,
+      specification);
   }
 }

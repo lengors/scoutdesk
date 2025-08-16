@@ -23,7 +23,7 @@ public final class AuthentikCustomHeaders {
   /**
    * Header for the unique identifier of the authenticated user.
    */
-  public static final String NAME = "x-authentik-uid";
+  public static final String UID = "x-authentik-uid";
 
   private AuthentikCustomHeaders() {
     throw new UnsupportedOperationException("Utility class cannot be instantiated");

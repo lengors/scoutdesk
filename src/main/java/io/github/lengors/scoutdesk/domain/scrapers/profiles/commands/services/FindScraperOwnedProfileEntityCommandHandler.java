@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityNotFoundException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityFindException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.models.FindScraperOwnedProfileEntityCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileByReferenceFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileFilter;
@@ -30,7 +30,7 @@ class FindScraperOwnedProfileEntityCommandHandler implements
     final var optionalEntity = switch (input) {
       case ScraperOwnedProfileByReferenceFilter(var reference) -> scraperOwnedProfileRepository.findById(reference);
     };
-    return optionalEntity.orElseThrow(() -> new EntityNotFoundException(ScraperOwnedProfileEntity.class, input));
+    return optionalEntity.orElseThrow(() -> new EntityFindException(ScraperOwnedProfileEntity.class, input));
   }
 
 }

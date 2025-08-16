@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityNotFoundException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityFindException;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.commands.models.FindScraperOwnedStrategyEntityCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyByReferenceFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyFilter;
@@ -31,6 +31,6 @@ class FindScraperOwnedStrategyEntityCommandHandler implements
     };
 
     return optionalEntity
-      .orElseThrow(() -> new EntityNotFoundException(ScraperOwnedStrategyEntity.class, input));
+      .orElseThrow(() -> new EntityFindException(ScraperOwnedStrategyEntity.class, input));
   }
 }

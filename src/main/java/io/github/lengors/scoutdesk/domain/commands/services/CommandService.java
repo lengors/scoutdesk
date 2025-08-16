@@ -12,8 +12,7 @@ import io.github.lengors.scoutdesk.domain.commands.models.Command;
 /**
  * Service for executing commands in the application.
  * <p>
- * Provides methods to resolve and execute command handlers for various command
- * types.
+ * Provides methods to resolve and execute command handlers for various command types.
  *
  * @author lengors
  */
@@ -59,9 +58,9 @@ public class CommandService {
         return commandHandler;
       }
     }
-    throw new IllegalArgumentException("No command handler found for command: " + command
+    throw new IllegalArgumentException("No command handler found for command: %s".formatted(command
       .getClass()
-      .getName());
+      .getName()));
   }
 
   @SuppressWarnings("nullness")

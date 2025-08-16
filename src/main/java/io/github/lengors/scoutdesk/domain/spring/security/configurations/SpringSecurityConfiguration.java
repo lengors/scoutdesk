@@ -1,5 +1,6 @@
 package io.github.lengors.scoutdesk.domain.spring.security.configurations;
 
+import io.github.lengors.scoutdesk.domain.spring.security.services.ProxiedAuthenticationImpersonationFilterConfigurerAdapter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,10 @@ class SpringSecurityConfiguration {
   @Bean
   SecurityFilterChain filterChain(
     final HttpSecurity httpSecurity,
-    @Autowired(required = false) final @Nullable ProxiedAuthenticationFilterConfigurerAdapter adapter
-  )
-    throws Exception {
+    @Autowired(required = false) final @Nullable ProxiedAuthenticationFilterConfigurerAdapter adapter,
+    @Autowired(required = false)
+    final @Nullable ProxiedAuthenticationImpersonationFilterConfigurerAdapter impersonationAdapter
+  ) throws Exception {
     var outputSecurity = httpSecurity
       .csrf(AbstractHttpConfigurer::disable)
       .logout(AbstractHttpConfigurer::disable)
@@ -48,6 +50,11 @@ class SpringSecurityConfiguration {
         .permitAll()
         .anyRequest()
         .authenticated());
+    if (impersonationAdapter != null) {
+      outputSecurity = outputSecurity.with(
+        impersonationAdapter,
+        Customizer.<@NonNull ProxiedAuthenticationImpersonationFilterConfigurerAdapter>withDefaults());
+    }
     if (adapter != null) {
       outputSecurity = outputSecurity.with(
         adapter,
@@ -60,10 +67,10 @@ class SpringSecurityConfiguration {
   RoleHierarchy userRoleHierarchy() {
     return RoleHierarchyImpl
       .withDefaultRolePrefix()
-      .role(UserRoleNames.ADMIN)
-      .implies(UserRoleNames.DEVELOPER)
-      .role(UserRoleNames.DEVELOPER)
-      .implies(UserRoleNames.USER)
+      .role(UserRoleNames.ADMIN_ALIAS)
+      .implies(UserRoleNames.DEVELOPER_ALIAS)
+      .role(UserRoleNames.DEVELOPER_ALIAS)
+      .implies(UserRoleNames.USER_ALIAS)
       .build();
   }
 }

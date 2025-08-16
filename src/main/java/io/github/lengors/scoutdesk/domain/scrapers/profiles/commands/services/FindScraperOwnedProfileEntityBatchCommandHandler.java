@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lengors.scoutdesk.domain.collections.services.IterableConverters;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityNotFoundException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityFindException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.models.FindScraperOwnedProfileEntityBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerFilter;
@@ -59,7 +59,7 @@ class FindScraperOwnedProfileEntityBatchCommandHandler implements
       .map(ScraperOwnedProfileReference::name)
       .collect(Collectors.toUnmodifiableSet())
       .containsAll(expectedNames)) {
-      throw new EntityNotFoundException(ScraperOwnedProfileEntity.class, Pair.of(referenceOwner, expectedNames));
+      throw new EntityFindException(ScraperOwnedProfileEntity.class, Pair.of(referenceOwner, expectedNames));
     }
 
     return entities;

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntitySaveConflictException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntitySaveException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.models.FindScraperOwnedProfileEntityBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.exceptions.models.ScraperOwnedProfileInvalidNameException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter;
@@ -48,7 +48,7 @@ class SaveScraperOwnedStrategyCommandHandler
 
     final var reference = new ScraperOwnedStrategyReference(input.owner(), input.name());
     if (scraperOwnedStrategyRepository.existsById(reference)) {
-      throw new EntitySaveConflictException(ScraperOwnedStrategyReference.class, reference);
+      throw new EntitySaveException(ScraperOwnedStrategyReference.class, reference);
     }
 
     final var profiles = commandService.executeCommand(

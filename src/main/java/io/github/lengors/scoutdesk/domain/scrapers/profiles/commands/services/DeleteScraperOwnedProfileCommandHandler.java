@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityDeleteConflictException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityDeleteException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.models.DeleteScraperOwnedProfileCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.models.FindScraperOwnedProfileEntityCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.events.models.ScraperOwnedProfileDeletedEvent;
@@ -16,7 +16,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwned
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfile;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories.ScraperOwnedProfileRepository;
-import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyEntity;
 
 @Service
 class DeleteScraperOwnedProfileCommandHandler
@@ -42,7 +41,7 @@ class DeleteScraperOwnedProfileCommandHandler
     if (!entity
       .getStrategies()
       .isEmpty()) {
-      throw new EntityDeleteConflictException(ScraperOwnedProfileEntity.class, ScraperOwnedStrategyEntity.class);
+      throw new EntityDeleteException(ScraperOwnedProfileEntity.class, input);
     }
     scraperOwnedProfileRepository.delete(entity);
     applicationEventPublisher.publishEvent(new ScraperOwnedProfileDeletedEvent(new ScraperOwnedProfile(entity)));

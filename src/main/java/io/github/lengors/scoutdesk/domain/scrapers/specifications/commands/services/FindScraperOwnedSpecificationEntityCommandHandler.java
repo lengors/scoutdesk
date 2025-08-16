@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityNotFoundException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityFindException;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.FindScraperOwnedSpecificationEntityCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferenceAndStatusNotFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationFilter;
@@ -43,6 +43,6 @@ class FindScraperOwnedSpecificationEntityCommandHandler implements
       case ScraperOwnedSpecificationByReferenceAndStatusNotFilter(var reference, var status) ->
         scraperOwnedSpecificationRepository.findByReferenceAndStatusNot(reference, status);
     };
-    return entity.orElseThrow(() -> new EntityNotFoundException(ScraperOwnedSpecificationEntity.class, input));
+    return entity.orElseThrow(() -> new EntityFindException(ScraperOwnedSpecificationEntity.class, input));
   }
 }

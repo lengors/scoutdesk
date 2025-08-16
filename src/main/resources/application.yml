@@ -63,6 +63,12 @@ management:
           - health
           - prometheus
 
+authentik:
+  impersonated-user: ${AUTHENTIK_IMPERSONATED_USER:}
+  client:
+    url: ${AUTHENTIK_CLIENT_URL:http://localhost:9000}
+    service-account-token: ${AUTHENTIK_SERVICE_ACCOUNT_TOKEN:}
+
 webscout:
   client:
     url: ${WEBSCOUT_CLIENT_URL:http://localhost:8080}

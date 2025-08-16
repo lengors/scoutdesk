@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntitySaveConflictException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntitySaveException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.models.SaveScraperOwnedProfileCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.exceptions.models.ScraperOwnedProfileInvalidNameException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfile;
@@ -45,7 +45,7 @@ class SaveScraperOwnedProfileCommandHandler
     }
     final var reference = new ScraperOwnedProfileReference(input.owner(), input.name());
     if (scraperOwnedProfileRepository.existsById(reference)) {
-      throw new EntitySaveConflictException(ScraperOwnedProfileEntity.class, reference);
+      throw new EntitySaveException(ScraperOwnedProfileEntity.class, reference);
     }
     final var specification = commandService.executeCommand(
       new FindScraperOwnedSpecificationEntityCommand(),

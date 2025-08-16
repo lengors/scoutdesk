@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.lengors.scoutdesk.domain.collections.services.IterableConverters;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityNotFoundException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityFindException;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.commands.models.FindScraperOwnedStrategyEntityBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyBatchByReferenceOwnerFilter;
@@ -78,7 +78,7 @@ class FindScraperOwnedStrategyEntityBatchCommandHandler implements
       .map(ScraperOwnedStrategyReference::name)
       .collect(Collectors.toUnmodifiableSet())
       .containsAll(expectedNames)) {
-      throw new EntityNotFoundException(ScraperOwnedStrategyEntity.class, Pair.of(referenceOwner, expectedNames));
+      throw new EntityFindException(ScraperOwnedStrategyEntity.class, Pair.of(referenceOwner, expectedNames));
     }
 
     return entities;

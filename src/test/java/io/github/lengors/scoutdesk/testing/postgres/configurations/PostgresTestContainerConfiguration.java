@@ -9,8 +9,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 /**
  * Test configuration for PostgreSQL test containers.
  * <p>
- * This configuration sets up the necessary containers for testing the
- * PostgreSQL integration.
+ * This configuration sets up the necessary containers for testing the PostgreSQL integration.
  *
  * @author lengors
  */

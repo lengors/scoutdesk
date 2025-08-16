@@ -10,8 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.FieldSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,32 +34,22 @@ record ScraperOwnedSpecificationRestControllerTest(
   @Autowired ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
   @Autowired ScraperOwnedStrategyRepository scraperOwnedStrategyRepository
 ) implements TestSuite {
-
-  @SuppressWarnings("unused")
-  private static final String[] TEST_GROUPS = new String[] {"Scoutdesk Developers", "Scoutdesk Admins"};
-
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidSpecificationAndOwnerWhenDeleteSpecificationThenSpecificationIsDeleted(final String testGroup)
-    throws Exception {
+  @Test
+  void givenValidSpecificationAndOwnerWhenDeleteSpecificationThenSpecificationIsDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-2")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isNoContent());
 
     transaction(status -> Assertions.assertFalse(scraperOwnedSpecificationRepository
       .existsById(new ScraperOwnedSpecificationReference("tester-0", "test-specification-2"))));
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenSpecificationUsedByProfileWhenDeleteSpecificationThenStatusIsDeleted(final String testGroup)
-    throws Exception {
+  @Test
+  void givenSpecificationUsedByProfileWhenDeleteSpecificationThenStatusIsDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isNoContent());
 
     transaction(status -> {
@@ -77,35 +65,27 @@ record ScraperOwnedSpecificationRestControllerTest(
     });
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenAlreadyDeletedSpecificationWhenDeleteSpecificationThenReturnNotFound(final String testGroup)
-    throws Exception {
+  @Test
+  void givenAlreadyDeletedSpecificationWhenDeleteSpecificationThenReturnNotFound() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-1")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenIncorrectOwnerWhenDeleteSpecificationThenReturnNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenIncorrectOwnerWhenDeleteSpecificationThenReturnNotFound() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-2")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-2"))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenIncorrectNameWhenDeleteSpecificationThenReturnNotFound(final String testGroup)
-    throws Exception {
+  @Test
+  void givenIncorrectNameWhenDeleteSpecificationThenReturnNotFound() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-3")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isNotFound());
   }
 
@@ -120,19 +100,15 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenUserWithForbiddenGroupWhenDeleteSpecificationThenReturnForbidden() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", "Scoutdesk Users"))
+        .header("X-authentik-username", "tester-9"))
       .andExpect(status().isForbidden());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidUserWhenDeleteAllSpecificationsThenCorrectSpecificationsRemain(final String testGroup)
-    throws Exception {
+  @Test
+  void givenValidUserWhenDeleteAllSpecificationsThenCorrectSpecificationsRemain() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isNoContent());
 
     transaction(status -> {
@@ -159,14 +135,11 @@ record ScraperOwnedSpecificationRestControllerTest(
     });
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenUserWithNoOwnedSpecificationsWhenDeleteAllSpecificationsThenNoChange(final String testGroup)
-    throws Exception {
+  @Test
+  void givenUserWithNoOwnedSpecificationsWhenDeleteAllSpecificationsThenNoChange() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-2")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-2"))
       .andExpect(status().isNoContent());
 
     transaction(status -> {
@@ -194,19 +167,15 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenUserWithForbiddenGroupWhenDeleteAllSpecificationsThenReturnForbidden() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", "Scoutdesk Users"))
+        .header("X-authentik-username", "tester-9"))
       .andExpect(status().isForbidden());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidUserAndExistingSpecificationWhenFindSpecificationThenReturnSpecification(final String testGroup)
-    throws Exception {
+  @Test
+  void givenValidUserAndExistingSpecificationWhenFindSpecificationThenReturnSpecification() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.owner").value("tester-0"))
@@ -214,33 +183,27 @@ record ScraperOwnedSpecificationRestControllerTest(
       .andExpect(jsonPath("$.status").value("active"));
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenIncorrectOwnerWhenFindSpecificationThenReturnNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenIncorrectOwnerWhenFindSpecificationThenReturnNotFound() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-2")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-2"))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenIncorrectNameWhenFindSpecificationThenReturnNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenIncorrectNameWhenFindSpecificationThenReturnNotFound() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-3")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenDeletedSpecificationWhenFindSpecificationThenReturnNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenDeletedSpecificationWhenFindSpecificationThenReturnNotFound() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-1")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isNotFound());
   }
 
@@ -255,18 +218,15 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenUserWithForbiddenGroupWhenFindSpecificationThenReturnForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", "Scoutdesk Users"))
+        .header("X-authentik-username", "tester-9"))
       .andExpect(status().isForbidden());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidUserWhenFindAllSpecificationsThenReturnSpecifications(final String testGroup) throws Exception {
+  @Test
+  void givenValidUserWhenFindAllSpecificationsThenReturnSpecifications() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.length()").value(2))
@@ -278,14 +238,11 @@ record ScraperOwnedSpecificationRestControllerTest(
       .andExpect(jsonPath("$[1].status").value("archived"));
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenUserWithNoOwnedSpecificationsWhenFindAllSpecificationsThenReturnEmpty(final String testGroup)
-    throws Exception {
+  @Test
+  void givenUserWithNoOwnedSpecificationsWhenFindAllSpecificationsThenReturnEmpty() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-2")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-2"))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.length()").value(0));
@@ -302,22 +259,18 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenUserWithForbiddenGroupWhenFindAllSpecificationsThenReturnForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", "Scoutdesk Users"))
+        .header("X-authentik-username", "tester-9"))
       .andExpect(status().isForbidden());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidUserAndValidSpecificationWhenSaveSpecificationThenSpecificationIsSaved(final String testGroup)
-    throws Exception {
+  @Test
+  void givenValidUserAndValidSpecificationWhenSaveSpecificationThenSpecificationIsSaved() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"name\":\"test-specification-2\",\"settings\":{\"defaults\":{\"url\":{\"location\":\"http://test\"},\"gates\":[]},\"locale\":\"en-GB\",\"timezone\":\"UTC\"},\"handlers\":[]}";
 
     mockMvc
       .perform(put("/api/v1/scrapers/specifications")
         .header("X-authentik-username", "tester-1")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isCreated())
@@ -353,33 +306,27 @@ record ScraperOwnedSpecificationRestControllerTest(
     });
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenExistingSpecificationReferenceWhenSaveSpecificationThenReturnConflict(final String testGroup)
-    throws Exception {
+  @Test
+  void givenExistingSpecificationReferenceWhenSaveSpecificationThenReturnConflict() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"name\":\"test-specification-2\",\"settings\":{\"defaults\":{\"url\":{\"location\":\"http://test\"},\"gates\":[]},\"locale\":\"en-GB\",\"timezone\":\"UTC\"},\"handlers\":[]}";
 
     mockMvc
       .perform(put("/api/v1/scrapers/specifications")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isConflict());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenInvalidSpecificationNameWhenSaveSpecificationThenReturnUnprocessableEntity(final String testGroup)
-    throws Exception {
+  @Test
+  void givenInvalidSpecificationNameWhenSaveSpecificationThenReturnUnprocessableEntity() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"name\":\"test/specification/2\",\"settings\":{\"defaults\":{\"url\":{\"location\":\"http://test\"},\"gates\":[]},\"locale\":\"en-GB\",\"timezone\":\"UTC\"},\"handlers\":[]}";
 
     mockMvc
       .perform(put("/api/v1/scrapers/specifications")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isUnprocessableEntity());
@@ -404,21 +351,17 @@ record ScraperOwnedSpecificationRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-1")
-        .header("X-authentik-groups", "Scoutdesk Users")
+        .header("X-authentik-username", "tester-9")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isForbidden());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidUserAndSpecificationWhenUpdateStatusToActiveThenStatusIsActive(final String testGroup)
-    throws Exception {
+  @Test
+  void givenValidUserAndSpecificationWhenUpdateStatusToActiveThenStatusIsActive() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-2")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"activate\"}"))
       .andExpect(status().isOk());
@@ -436,14 +379,11 @@ record ScraperOwnedSpecificationRestControllerTest(
     });
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidUserAndSpecificationWhenUpdateStatusToArchivedThenStatusIsArchived(final String testGroup)
-    throws Exception {
+  @Test
+  void givenValidUserAndSpecificationWhenUpdateStatusToArchivedThenStatusIsArchived() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-0")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isOk());
@@ -461,63 +401,51 @@ record ScraperOwnedSpecificationRestControllerTest(
     });
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenInvalidStatusTransitionWhenUpdateStatusToActiveThenReturnUnprocessableEntity(final String testGroup)
-    throws Exception {
+  @Test
+  void givenInvalidStatusTransitionWhenUpdateStatusToActiveThenReturnUnprocessableEntity() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-0")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"activate\"}"))
       .andExpect(status().isUnprocessableEntity());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenInvalidStatusTransitionWhenUpdateStatusToArchivedThenReturnUnprocessableEntity(final String testGroup)
-    throws Exception {
+  @Test
+  void givenInvalidStatusTransitionWhenUpdateStatusToArchivedThenReturnUnprocessableEntity() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-2")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isUnprocessableEntity());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenDeletedSpecificationWhenUpdateStatusThenReturnNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenDeletedSpecificationWhenUpdateStatusThenReturnNotFound() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-1")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenMissingSpecificationOwnerWhenUpdateStatusThenReturnNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenMissingSpecificationOwnerWhenUpdateStatusThenReturnNotFound() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-0")
         .header("X-authentik-username", "tester-2")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenMissingSpecificationNameWhenUpdateStatusThenReturnNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenMissingSpecificationNameWhenUpdateStatusThenReturnNotFound() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-2")
         .header("X-authentik-username", "tester-1")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isNotFound());
@@ -536,8 +464,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenUserWithForbiddenGroupWhenUpdateStatusThenReturnForbidden() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", "Scoutdesk Users")
+        .header("X-authentik-username", "tester-9")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isForbidden());

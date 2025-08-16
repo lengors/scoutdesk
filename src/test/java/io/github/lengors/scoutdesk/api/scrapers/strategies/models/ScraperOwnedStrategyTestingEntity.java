@@ -5,12 +5,10 @@ import java.util.Set;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyReference;
 
 /**
- * This class is used to test the {@link ScraperOwnedStrategyReference} class by
- * instantiating it with a {@link ScraperOwnedStrategyReference} and a set of
- * profiles.
+ * This class is used to test the {@link ScraperOwnedStrategyReference} class by instantiating it with a
+ * {@link ScraperOwnedStrategyReference} and a set of profiles.
  *
- * @param strategyReference the {@link ScraperOwnedStrategyReference} to be used
- *                          in the test
+ * @param strategyReference the {@link ScraperOwnedStrategyReference} to be used in the test
  * @param profiles          the set of profiles to be used in the test
  * @author lengors
  */
@@ -20,8 +18,8 @@ public record ScraperOwnedStrategyTestingEntity(
 ) {
 
   /**
-   * This constructor is used to create a new instance of the class with the
-   * specified owner, name, and a set of profiles.
+   * This constructor is used to create a new instance of the class with the specified owner, name, and a set of
+   * profiles.
    *
    * @param strategyOwner the owner of the strategy
    * @param strategyName  the name of the strategy
@@ -36,8 +34,8 @@ public record ScraperOwnedStrategyTestingEntity(
   }
 
   /**
-   * This constructor is used to create a new instance of the class with the
-   * specified owner, name, and a set of profiles.
+   * This constructor is used to create a new instance of the class with the specified owner, name, and a set of
+   * profiles.
    *
    * @param owner        the owner of the strategy
    * @param strategyName the name of the strategy
@@ -52,11 +50,10 @@ public record ScraperOwnedStrategyTestingEntity(
   }
 
   /**
-   * This constructor is used to create a new instance of the class with the
-   * specified {@link ScraperOwnedStrategyReference} and a set of profiles.
+   * This constructor is used to create a new instance of the class with the specified
+   * {@link ScraperOwnedStrategyReference} and a set of profiles.
    *
-   * @param strategyReference the {@link ScraperOwnedStrategyReference} to be used
-   *                          in the test
+   * @param strategyReference the {@link ScraperOwnedStrategyReference} to be used in the test
    * @param profiles          the set of profiles to be used in the test
    */
   public ScraperOwnedStrategyTestingEntity(

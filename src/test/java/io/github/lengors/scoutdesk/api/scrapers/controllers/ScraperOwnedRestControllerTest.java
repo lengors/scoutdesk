@@ -6,8 +6,6 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.FieldSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -35,19 +33,12 @@ record ScraperOwnedRestControllerTest(
   @Autowired ScraperOwnedStrategyRepository scraperOwnedStrategyRepository,
   @Autowired WebTestClient webTestClient
 ) implements TestSuite {
-  @SuppressWarnings("unused")
-  private static final String[] TEST_GROUPS = new String[] {
-    "Scoutdesk Users", "Scoutdesk Developers", "Scoutdesk Admins"
-  };
-
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void shouldCorrectlyScrape(final String testGroup) {
+  @Test
+  void shouldCorrectlyScrape() {
     webTestClient
       .post()
       .uri("/api/v1/scrapers")
       .header("X-authentik-username", "tester-x")
-      .header("X-authentik-groups", testGroup)
       .bodyValue(new ScraperOwnedRequest(Set.of("test-strategy-x", "test-strategy-y"), "test-term"))
       .exchange()
       .expectStatus()
@@ -102,14 +93,12 @@ record ScraperOwnedRestControllerTest(
       });
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void shouldFailToScrapeDueToMissingStrategy(final String testGroup) {
+  @Test
+  void shouldFailToScrapeDueToMissingStrategy() {
     webTestClient
       .post()
       .uri("/api/v1/scrapers")
       .header("X-authentik-username", "tester-x")
-      .header("X-authentik-groups", testGroup)
       .bodyValue(new ScraperOwnedRequest(Set.of("test-strategy-a"), "test-term"))
       .exchange()
       .expectStatus()
@@ -132,8 +121,7 @@ record ScraperOwnedRestControllerTest(
     webTestClient
       .post()
       .uri("/api/v1/scrapers")
-      .header("X-authentik-username", "tester-x")
-      .header("X-authentik-groups", "Other")
+      .header("X-authentik-username", "other")
       .bodyValue(new ScraperOwnedRequest(Set.of("test-strategy-x", "test-strategy-y"), "test-term"))
       .exchange()
       .expectStatus()

@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import io.github.lengors.scoutdesk.api.scrapers.specifications.services.ScraperOwnedSpecificationEntityFactory;
+import io.github.lengors.scoutdesk.testing.authentik.configurations.AuthentikClientConnectionDetailsConfiguration;
+import io.github.lengors.scoutdesk.testing.wiremock.configurations.WireMockTestContainerConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -41,8 +43,14 @@ import io.github.lengors.scoutdesk.testing.webscout.configurations.WebscoutTestC
  * <p>
  * It provides a set of default methods and annotations to simplify the testing process.
  * <p>
- * It includes the following features: - Automatic transaction management - Automatic resource loading - Automatic
- * cleanup of test data - Automatic configuration of the test environment - Automatic injection of test dependencies
+ * It includes the following features:
+ * <ul>
+ *  <li>Automatic transaction management</li>
+ *  <li>Automatic resource loading</li>
+ *  <li>Automatic cleanup of test data</li>
+ *  <li>Automatic configuration of the test environment</li>
+ *  <li>Automatic injection of test dependencies</li>
+ * </ul>
  *
  * @author lengors
  */
@@ -55,8 +63,10 @@ public interface TestSuite {
   @Retention(RetentionPolicy.RUNTIME)
   @Inherited
   @Import({
+    AuthentikClientConnectionDetailsConfiguration.class,
     PostgresTestContainerConfiguration.class,
-    WebscoutTestContainerConfiguration.class
+    WebscoutTestContainerConfiguration.class,
+    WireMockTestContainerConfiguration.class
   })
   @SpringBootTest
   @ActiveProfiles("test")

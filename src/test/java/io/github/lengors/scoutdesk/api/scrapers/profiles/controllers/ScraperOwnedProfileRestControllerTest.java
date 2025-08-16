@@ -11,8 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.FieldSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,18 +35,11 @@ record ScraperOwnedProfileRestControllerTest(
   @Autowired ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
   @Autowired ScraperOwnedStrategyRepository scraperOwnedStrategyRepository
 ) implements TestSuite {
-  @SuppressWarnings("unused")
-  private static final String[] TEST_GROUPS = new String[] {
-    "Scoutdesk Users", "Scoutdesk Developers", "Scoutdesk Admins"
-  };
-
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidProfileAndUserWhenDeleteProfileThenProfileIsDeleted(final String testGroup) throws Exception {
+  @Test
+  void givenValidProfileAndUserWhenDeleteProfileThenProfileIsDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isNoContent());
 
     Awaitility
@@ -68,33 +59,27 @@ record ScraperOwnedProfileRestControllerTest(
       }));
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenProfileUsedInStrategyWhenDeleteProfileThenNoProfileDeleted(final String testGroup) throws Exception {
+  @Test
+  void givenProfileUsedInStrategyWhenDeleteProfileThenNoProfileDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-9")
-        .header("X-authentik-username", "tester-9")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-9"))
       .andExpect(status().isConflict());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenIncorrectOwnerWhenDeleteProfileThenNoProfileDeleted(final String testGroup) throws Exception {
+  @Test
+  void givenIncorrectOwnerWhenDeleteProfileThenNoProfileDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "tester-2")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-2"))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenIncorrectProfileNameWhenDeleteProfileThenNoProfileDeleted(final String testGroup) throws Exception {
+  @Test
+  void givenIncorrectProfileNameWhenDeleteProfileThenNoProfileDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-3")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isNotFound());
   }
 
@@ -109,18 +94,15 @@ record ScraperOwnedProfileRestControllerTest(
   void givenForbiddenGroupWhenDeleteProfileThenForbidden() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", "Other"))
+        .header("X-authentik-username", "other"))
       .andExpect(status().isForbidden());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidUserWhenDeleteAllProfilesThenProfilesDeleted(final String testGroup) throws Exception {
+  @Test
+  void givenValidUserWhenDeleteAllProfilesThenProfilesDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isNoContent());
 
     Awaitility
@@ -140,23 +122,19 @@ record ScraperOwnedProfileRestControllerTest(
       }));
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenProfilesUsedInStrategyWhenDeleteAllProfilesThenNoProfilesDeleted(final String testGroup) throws Exception {
+  @Test
+  void givenProfilesUsedInStrategyWhenDeleteAllProfilesThenNoProfilesDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-9")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-9"))
       .andExpect(status().isConflict());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenNoProfilesWhenDeleteAllProfilesThenNoProfilesDeleted(final String testGroup) throws Exception {
+  @Test
+  void givenNoProfilesWhenDeleteAllProfilesThenNoProfilesDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-2")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-2"))
       .andExpect(status().isNoContent());
 
     Awaitility
@@ -184,18 +162,15 @@ record ScraperOwnedProfileRestControllerTest(
   void givenForbiddenGroupWhenDeleteAllProfilesThenForbidden() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", "Other"))
+        .header("X-authentik-username", "other"))
       .andExpect(status().isForbidden());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidProfileAndUserWhenFindProfileThenProfileReturned(final String testGroup) throws Exception {
+  @Test
+  void givenValidProfileAndUserWhenFindProfileThenProfileReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.owner").value("tester-0"))
@@ -206,23 +181,19 @@ record ScraperOwnedProfileRestControllerTest(
       .andExpect(jsonPath("$.inputs").isEmpty());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenIncorrectOwnerWhenFindProfileThenNoProfileReturned(final String testGroup) throws Exception {
+  @Test
+  void givenIncorrectOwnerWhenFindProfileThenNoProfileReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "tester-2")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-2"))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenIncorrectProfileNameWhenFindProfileThenNoProfileReturned(final String testGroup) throws Exception {
+  @Test
+  void givenIncorrectProfileNameWhenFindProfileThenNoProfileReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-3")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isNotFound());
   }
 
@@ -237,19 +208,16 @@ record ScraperOwnedProfileRestControllerTest(
   void givenForbiddenGroupWhenFindProfileThenForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", "Other"))
+        .header("X-authentik-username", "other"))
       .andExpect(status().isForbidden());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidUserWhenFindAllProfilesThenProfilesReturned(final String testGroup) throws Exception {
+  @Test
+  void givenValidUserWhenFindAllProfilesThenProfilesReturned() throws Exception {
     final var expectedCount = 3;
     mockMvc
       .perform(get("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-0"))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.length()").value(expectedCount))
@@ -273,13 +241,11 @@ record ScraperOwnedProfileRestControllerTest(
       .andExpect(jsonPath("$[2].inputs").isEmpty());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenNoProfilesWhenFindAllProfilesThenNoProfilesReturned(final String testGroup) throws Exception {
+  @Test
+  void givenNoProfilesWhenFindAllProfilesThenNoProfilesReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-2")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-2"))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.length()").value(0));
@@ -296,21 +262,18 @@ record ScraperOwnedProfileRestControllerTest(
   void givenForbiddenGroupWhenFindAllProfilesThenForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", "Other"))
+        .header("X-authentik-username", "other"))
       .andExpect(status().isForbidden());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidProfileDataWhenSaveProfileThenProfileCreated(final String testGroup) throws Exception {
+  @Test
+  void givenValidProfileDataWhenSaveProfileThenProfileCreated() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{}}";
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isCreated())
@@ -345,74 +308,64 @@ record ScraperOwnedProfileRestControllerTest(
     });
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenMissingSpecificationOwnerWhenSaveProfileThenNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenMissingSpecificationOwnerWhenSaveProfileThenNotFound() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content(
           "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"\"},\"inputs\":{}}"))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenMissingSpecificationNameWhenSaveProfileThenNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenMissingSpecificationNameWhenSaveProfileThenNotFound() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"\",\"name\":\"test-specification-0\"},\"inputs\":{}}";
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenDeletedSpecificationWhenSaveProfileThenNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenDeletedSpecificationWhenSaveProfileThenNotFound() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-1\"},\"inputs\":{}}";
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenExistingProfileReferenceWhenSaveProfileThenConflict(final String testGroup) throws Exception {
+  @Test
+  void givenExistingProfileReferenceWhenSaveProfileThenConflict() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"name\":\"test-profile-0\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{}}";
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isConflict());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenInvalidProfileNameWhenSaveProfileThenUnprocessableEntity(final String testGroup) throws Exception {
+  @Test
+  void givenInvalidProfileNameWhenSaveProfileThenUnprocessableEntity() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"name\":\"test/profile-0\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{}}";
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isUnprocessableEntity());
@@ -437,23 +390,20 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", "Other")
+        .header("X-authentik-username", "other")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isForbidden());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenValidUpdateDataWhenUpdateProfileThenProfileUpdated(final String testGroup) throws Exception {
+  @Test
+  void givenValidUpdateDataWhenUpdateProfileThenProfileUpdated() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-0\"},\"inputs\":{\"test\":\"test\"}}";
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isOk())
@@ -487,67 +437,57 @@ record ScraperOwnedProfileRestControllerTest(
     });
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenIncorrectOwnerWhenUpdateProfileThenNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenIncorrectOwnerWhenUpdateProfileThenNotFound() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-1\"},\"inputs\":{\"test\":\"test\"}}";
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-0")
         .header("X-authentik-username", "tester-2")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenIncorrectProfileNameWhenUpdateProfileThenNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenIncorrectProfileNameWhenUpdateProfileThenNotFound() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-1\"},\"inputs\":{\"test\":\"test\"}}";
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-3")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenDeletedSpecificationWhenUpdateProfileThenNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenDeletedSpecificationWhenUpdateProfileThenNotFound() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-1\"},\"inputs\":{}}"))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenMissingSpecificationOwnerWhenUpdateProfileThenNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenMissingSpecificationOwnerWhenUpdateProfileThenNotFound() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"specification\":{\"owner\":\"tester-0\",\"name\":\"\"},\"inputs\":{}}"))
       .andExpect(status().isNotFound());
   }
 
-  @ParameterizedTest
-  @FieldSource("TEST_GROUPS")
-  void givenMissingSpecificationNameWhenUpdateProfileThenNotFound(final String testGroup) throws Exception {
+  @Test
+  void givenMissingSpecificationNameWhenUpdateProfileThenNotFound() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
         .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", testGroup)
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"specification\":{\"owner\":\"\",\"name\":\"test-specification-0\"},\"inputs\":{}}"))
       .andExpect(status().isNotFound());
@@ -572,8 +512,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
-        .header("X-authentik-username", "tester-0")
-        .header("X-authentik-groups", "Other")
+        .header("X-authentik-username", "other")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isForbidden());

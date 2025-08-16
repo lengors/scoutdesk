@@ -23,7 +23,6 @@ import io.github.lengors.scoutdesk.testing.utilities.ResourceUtils;
 import io.github.lengors.scoutdesk.testing.utilities.TestSuite;
 
 @TestSuite.Defaults
-@SuppressWarnings("unchecked")
 record SharedScraperOwnedSpecificationRestControllerTest(
   @Autowired MockMvc mockMvc,
   @Autowired ResourceUtils resourceUtils,
@@ -33,10 +32,8 @@ record SharedScraperOwnedSpecificationRestControllerTest(
   @Autowired ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
   @Autowired ScraperOwnedStrategyRepository scraperOwnedStrategyRepository
 ) implements TestSuite {
-  private static final String[] TEST_GROUPS = new String[] {
-    "Scoutdesk Users", "Scoutdesk Developers", "Scoutdesk Admins"
-  };
 
+  @SuppressWarnings("unused")
   private static final TestOption[] TEST_OPTIONS = new TestOption[] {
     new TestOption("Test-Spec-0", "tester-0", true, true, List.of(
       Pair.of("$.length()", 1),
@@ -103,27 +100,10 @@ record SharedScraperOwnedSpecificationRestControllerTest(
       Pair.of("$[2].specification.name", "test-specification-0"))),
   };
 
-  private static final Pair<String, Object>[] TESTS;
-
-  // Cartesian product of TEST_GROUPS and TEST_OPTIONS
-  static {
-    TESTS = new Pair[TEST_GROUPS.length * TEST_OPTIONS.length];
-    for (int i = 0; i < TEST_GROUPS.length; i++) {
-      for (int j = 0; j < TEST_OPTIONS.length; j++) {
-        final var testGroup = TEST_GROUPS[i];
-        final var testOption = TEST_OPTIONS[j];
-        TESTS[i * TEST_OPTIONS.length + j] = Pair.of(testGroup, testOption);
-      }
-    }
-  }
-
   @ParameterizedTest
-  @FieldSource("TESTS")
-  void givenValidUserAndParamsWhenFindSpecificationsThenReturnExpectedResults(
-    final Pair<String, TestOption> test
-  ) throws Exception {
-    final var testGroup = test.getLeft();
-    final var testOption = test.getRight();
+  @FieldSource("TEST_OPTIONS")
+  void givenValidUserAndParamsWhenFindSpecificationsThenReturnExpectedResults(final TestOption testOption)
+    throws Exception {
 
     var request = get("/api/v1/shared/scrapers/specifications");
     if (testOption.query() != null) {
@@ -140,8 +120,7 @@ record SharedScraperOwnedSpecificationRestControllerTest(
     }
     var mockMvcResultActions = mockMvc
       .perform(request
-        .header("X-authentik-username", "tester-2")
-        .header("X-authentik-groups", testGroup))
+        .header("X-authentik-username", "tester-2"))
       .andExpect(status().isOk());
     for (final var expectedResult : testOption.expectedResults()) {
       mockMvcResultActions = mockMvcResultActions
@@ -153,8 +132,7 @@ record SharedScraperOwnedSpecificationRestControllerTest(
   void givenUserWithForbiddenGroupWhenFindSpecificationsThenReturnForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/shared/scrapers/specifications")
-        .header("X-authentik-username", "tester-2")
-        .header("X-authentik-groups", "Other"))
+        .header("X-authentik-username", "other"))
       .andExpect(status().isForbidden());
   }
 

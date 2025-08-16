@@ -13,8 +13,7 @@ import io.github.lengors.scoutdesk.testing.webscout.containers.WebscoutContainer
 /**
  * Test configuration for Webscout test containers.
  * <p>
- * This configuration sets up the necessary containers for testing the Webscout
- * integration.
+ * This configuration sets up the necessary containers for testing the Webscout integration.
  *
  * @author lengors
  */

@@ -13,8 +13,7 @@ import io.github.lengors.scoutdesk.testing.duckling.containers.DucklingContainer
 /**
  * Container for the Webscout service.
  * <p>
- * This class extends {@link GenericContainer} to provide a containerized
- * environment for the Webscout service.
+ * This class extends {@link GenericContainer} to provide a containerized environment for the Webscout service.
  *
  * @param <T> The type of the container
  * @author lengors
@@ -27,8 +26,7 @@ public class WebscoutContainer<T extends WebscoutContainer<T>> extends GenericCo
   public static final int WEBSCOUT_PORT = 8080;
 
   /**
-   * Creates a new instance of {@link WebscoutContainer} with the specified Docker
-   * image name.
+   * Creates a new instance of {@link WebscoutContainer} with the specified Docker image name.
    *
    * @param dockerImageName The Docker image name for the Webscout service
    */
@@ -39,8 +37,7 @@ public class WebscoutContainer<T extends WebscoutContainer<T>> extends GenericCo
   }
 
   /**
-   * Creates a new instance of {@link WebscoutContainer} with the specified Docker
-   * image name.
+   * Creates a new instance of {@link WebscoutContainer} with the specified Docker image name.
    *
    * @param dockerImageName The Docker image name for the Webscout service
    */
@@ -49,8 +46,7 @@ public class WebscoutContainer<T extends WebscoutContainer<T>> extends GenericCo
   }
 
   /**
-   * Configures the Webscout container with the necessary environment variables
-   * and dependencies.
+   * Configures the Webscout container with the necessary environment variables and dependencies.
    */
   @Override
   protected void configure() {
@@ -82,8 +78,7 @@ public class WebscoutContainer<T extends WebscoutContainer<T>> extends GenericCo
   }
 
   /**
-   * Called when the container is stopped. This method stops all dependencies of
-   * the container.
+   * Called when the container is stopped. This method stops all dependencies of the container.
    *
    * @param containerInfo The information about the stopped container
    */

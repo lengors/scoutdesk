@@ -10,7 +10,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.model
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.FindScraperOwnedSpecificationEntityCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecification;
-import io.github.lengors.scoutdesk.domain.spring.core.services.RestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.FindScraperSpecificationCommand;
 
 @Service
@@ -29,11 +28,11 @@ class FindScraperOwnedSpecificationCommandHandler implements
     final ScraperOwnedSpecificationFilter input
   ) {
     final var entity = commandService.executeCommand(new FindScraperOwnedSpecificationEntityCommand(), input);
-    final var specification = RestClient.rethrowing(() -> commandService.executeCommand(
+    final var specification = commandService.executeCommand(
       new FindScraperSpecificationCommand(),
       entity
         .getReference()
-        .fullyQualifiedName()));
+        .fullyQualifiedName());
     return new ScraperOwnedSpecification(entity, specification);
   }
 }

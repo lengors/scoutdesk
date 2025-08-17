@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.api.scrapers.models;
 
 import java.util.Set;
 
+import jakarta.validation.constraints.NotBlank;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -24,10 +25,11 @@ import jakarta.validation.constraints.NotNull;
 public record ScraperOwnedRequest(
   @JsonProperty("strategies")
   @NotNull
-  Set<@NotNull String> strategies,
+  Set<@NotNull @NotBlank String> strategies,
 
   @JsonProperty("search_term")
   @NotNull
+  @NotBlank
   String searchTerm
 ) {
 

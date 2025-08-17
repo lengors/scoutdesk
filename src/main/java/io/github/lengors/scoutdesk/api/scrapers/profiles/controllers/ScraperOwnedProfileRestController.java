@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.api.scrapers.profiles.controllers;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
@@ -51,7 +52,7 @@ class ScraperOwnedProfileRestController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void delete(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name
+    @PathVariable final @Valid @NotNull @NotBlank String name
   ) {
     commandService.executeCommand(
       new DeleteScraperOwnedProfileCommand(),
@@ -72,7 +73,7 @@ class ScraperOwnedProfileRestController {
   @GetMapping("/{name}")
   ScraperOwnedProfile find(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name
+    @PathVariable final @Valid @NotNull @NotBlank String name
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedProfileCommand(),
@@ -107,7 +108,7 @@ class ScraperOwnedProfileRestController {
   @PatchMapping("/{name}")
   ScraperOwnedProfile update(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name,
+    @PathVariable final @Valid @NotNull @NotBlank String name,
     @RequestBody final @Valid @NotNull ScraperPartialProfile partialProfile
   ) {
     return commandService.executeCommand(

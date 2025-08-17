@@ -5,13 +5,13 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityFindException;
 import org.springframework.stereotype.Service;
 
 import io.github.lengors.protoscout.domain.scrapers.specifications.models.ScraperSpecification;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.integrations.webscout.clients.WebscoutRestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.FindScraperSpecificationBatchCommand;
-import io.github.lengors.scoutdesk.integrations.webscout.exceptions.models.ScraperSpecificationBatchNotFoundException;
 
 /**
  * Handles batch retrieval of scraper specifications from the Webscout REST client.
@@ -45,7 +45,7 @@ class FindScraperSpecificationBatchCommandHandler implements
       .distinct()
       .toList();
     if (!notFound.isEmpty()) {
-      throw new ScraperSpecificationBatchNotFoundException(notFound);
+      throw new EntityFindException(ScraperSpecification.class, notFound);
     }
     return specifications;
   }

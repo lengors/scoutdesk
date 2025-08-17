@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.api.scrapers.specifications.controllers;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
@@ -59,7 +60,7 @@ class ScraperOwnedSpecificationRestController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void delete(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name
+    @PathVariable final @Valid @NotNull @NotBlank String name
   ) {
     commandService.executeCommand(
       new DeleteScraperOwnedSpecificationCommand(),
@@ -78,7 +79,7 @@ class ScraperOwnedSpecificationRestController {
   @GetMapping("/{name}")
   ScraperOwnedSpecification find(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name
+    @PathVariable final @Valid @NotNull @NotBlank String name
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedSpecificationCommand(),
@@ -109,7 +110,7 @@ class ScraperOwnedSpecificationRestController {
   @PatchMapping("/{name}")
   void update(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name,
+    @PathVariable final @Valid @NotNull @NotBlank String name,
     @RequestBody final @Valid @NotNull ScraperOwnedSpecificationActionRequest request
   ) {
     commandService.executeCommand(

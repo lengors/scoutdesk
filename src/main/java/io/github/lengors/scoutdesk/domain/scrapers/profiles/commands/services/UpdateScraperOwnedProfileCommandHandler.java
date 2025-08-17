@@ -46,13 +46,10 @@ class UpdateScraperOwnedProfileCommandHandler
       final var specification = commandService.executeCommand(
         new FindScraperOwnedSpecificationEntityCommand(),
         new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(input.specification()));
-
       entity.setSpecification(specification);
     }
 
     entity.setInputs(input.inputs());
-
-    final var updatedEntity = scraperOwnedProfileRepository.save(entity);
-    return new ScraperOwnedProfile(updatedEntity);
+    return new ScraperOwnedProfile(scraperOwnedProfileRepository.save(entity));
   }
 }

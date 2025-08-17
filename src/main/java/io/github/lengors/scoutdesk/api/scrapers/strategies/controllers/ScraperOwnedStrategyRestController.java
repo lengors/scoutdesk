@@ -3,6 +3,7 @@ package io.github.lengors.scoutdesk.api.scrapers.strategies.controllers;
 import java.util.List;
 import java.util.Set;
 
+import jakarta.validation.constraints.NotBlank;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
@@ -30,7 +31,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.commands.models.Sa
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.commands.models.UpdateScraperOwnedStrategyCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyBatchByReferenceOwnerFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyByReferenceFilter;
-import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperUnownedStrategy;
+import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperUnownedStrategy;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategy;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyReference;
 import jakarta.validation.Valid;
@@ -51,7 +52,7 @@ class ScraperOwnedStrategyRestController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void delete(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name
+    @PathVariable final @Valid @NotNull @NotBlank String name
   ) {
     commandService.executeCommand(
       new DeleteScraperOwnedStrategyCommand(),
@@ -71,8 +72,8 @@ class ScraperOwnedStrategyRestController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   ScraperOwnedStrategy delete(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name,
-    @RequestBody final @Valid @NotNull Set<@NotNull String> profiles
+    @PathVariable final @Valid @NotNull @NotBlank String name,
+    @RequestBody final @Valid @NotNull Set<@NotNull @NotBlank String> profiles
   ) {
     return commandService.executeCommand(
       new UpdateScraperOwnedStrategyCommand(UpdateScraperOwnedStrategyCommand.Operation.DELETE),
@@ -85,7 +86,7 @@ class ScraperOwnedStrategyRestController {
   @GetMapping("/{name}")
   ScraperOwnedStrategy find(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name
+    @PathVariable final @Valid @NotNull @NotBlank String name
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedStrategyCommand(),
@@ -120,8 +121,8 @@ class ScraperOwnedStrategyRestController {
   @ResponseStatus(HttpStatus.CREATED)
   ScraperOwnedStrategy save(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name,
-    @RequestBody final @Valid @NotNull Set<@NotNull String> profiles
+    @PathVariable final @Valid @NotNull @NotBlank String name,
+    @RequestBody final @Valid @NotNull Set<@NotNull @NotBlank String> profiles
   ) {
     return commandService.executeCommand(
       new UpdateScraperOwnedStrategyCommand(UpdateScraperOwnedStrategyCommand.Operation.UPDATE),
@@ -134,8 +135,8 @@ class ScraperOwnedStrategyRestController {
   @PatchMapping("/{name}")
   ScraperOwnedStrategy update(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name,
-    @RequestBody final @Valid @NotNull Set<@NotNull String> profiles
+    @PathVariable final @Valid @NotNull @NotBlank String name,
+    @RequestBody final @Valid @NotNull Set<@NotNull @NotBlank String> profiles
   ) {
     return commandService.executeCommand(
       new UpdateScraperOwnedStrategyCommand(UpdateScraperOwnedStrategyCommand.Operation.OVERRIDE),

@@ -1,9 +1,11 @@
 package io.github.lengors.scoutdesk.domain.commands.services;
 
+import jakarta.validation.Valid;
 import org.springframework.core.ResolvableType;
 import org.springframework.stereotype.Service;
 
 import io.github.lengors.scoutdesk.domain.commands.models.Command;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * Interface for command handlers in the application.
@@ -14,6 +16,7 @@ import io.github.lengors.scoutdesk.domain.commands.models.Command;
  * @author lengors
  */
 @Service
+@Validated
 public interface CommandHandler<C extends Command<I, O>, I, O> {
 
   /**
@@ -28,5 +31,5 @@ public interface CommandHandler<C extends Command<I, O>, I, O> {
    * @param input   the input for the command
    * @return the output of the command
    */
-  O handle(C command, I input);
+  O handle(@Valid C command, @Valid I input);
 }

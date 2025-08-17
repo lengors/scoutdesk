@@ -1,8 +1,5 @@
 package io.github.lengors.scoutdesk.domain.scrapers.specifications.exceptions.models;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
-
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 
 /**
@@ -13,7 +10,17 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
  *
  * @author lengors
  */
-public class ScraperOwnedSpecificationStatusTransitionException extends ResponseStatusException {
+public final class ScraperOwnedSpecificationStatusTransitionException extends RuntimeException {
+
+  /**
+   * The current status of the specification before the transition.
+   */
+  private final ScraperOwnedSpecificationStatus from;
+
+  /**
+   * The requested status to transition to.
+   */
+  private final ScraperOwnedSpecificationStatus to;
 
   /**
    * Constructs a new exception with the specified status and message.
@@ -25,6 +32,25 @@ public class ScraperOwnedSpecificationStatusTransitionException extends Response
     final ScraperOwnedSpecificationStatus from,
     final ScraperOwnedSpecificationStatus to
   ) {
-    super(HttpStatus.UNPROCESSABLE_ENTITY, String.format("Invalid status transition from %s to %s", from, to));
+    this.from = from;
+    this.to = to;
+  }
+
+  /**
+   * Gets the current status of the specification before the transition.
+   *
+   * @return The current status
+   */
+  public ScraperOwnedSpecificationStatus getFrom() {
+    return from;
+  }
+
+  /**
+   * Gets the requested status to transition to.
+   *
+   * @return The requested status
+   */
+  public ScraperOwnedSpecificationStatus getTo() {
+    return to;
   }
 }

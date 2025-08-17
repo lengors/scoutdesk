@@ -2,6 +2,8 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.models;
 
 import java.util.Map;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -34,6 +36,7 @@ public record ScraperOwnedProfile(
 
   @JsonProperty("name")
   @NotNull
+  @Pattern(regexp = "^[^/\\s]+$")
   String name,
 
   @JsonProperty("specification")
@@ -42,7 +45,7 @@ public record ScraperOwnedProfile(
 
   @JsonProperty("inputs")
   @NotNull
-  Map<@NotNull String, @NotNull String> inputs
+  Map<@NotNull String, @NotNull @NotBlank String> inputs
 )
   implements ScraperNamedProfile, ScraperOwnedProfileReferrer {
 

@@ -16,7 +16,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
-import io.github.lengors.scoutdesk.domain.spring.core.services.RestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteScraperSpecificationBatchCommand;
 
 @Service
@@ -51,12 +50,12 @@ class DeleteScraperOwnedSpecificationEntityBatchCommandHandler implements
 
     if (entitiesWithoutProfiles != null && !entitiesWithoutProfiles.isEmpty()) {
       scraperOwnedSpecificationRepository.deleteAll(entitiesWithoutProfiles);
-      RestClient.rethrowing(() -> commandService.executeCommand(new DeleteScraperSpecificationBatchCommand(),
+      commandService.executeCommand(new DeleteScraperSpecificationBatchCommand(),
         entitiesWithoutProfiles
           .stream()
           .map(ScraperOwnedSpecificationEntity::getReference)
           .map(ScraperOwnedSpecificationReference::fullyQualifiedName)
-          .toList()));
+          .toList());
     }
 
     if (entitiesWithProfiles != null) {

@@ -139,7 +139,7 @@ public final class ScraperOwnedSpecificationEntity {
   public void removeProfile(final @NotNull ScraperOwnedProfileEntity profile) {
     if (equals(profile.getSpecification())) {
       throw new IllegalArgumentException(
-        String.format("Cannot remove profile %s because it is associated with specification %s.", profile, this));
+        "Cannot remove profile %s because it is associated with specification %s.".formatted(profile, this));
     }
     profiles.remove(profile);
   }
@@ -155,6 +155,6 @@ public final class ScraperOwnedSpecificationEntity {
 
   @Override
   public String toString() {
-    return String.format("ScraperOwnedSpecificationEntity(reference=%s, status=%s)", reference, status);
+    return "ScraperOwnedSpecificationEntity(reference=%s, status=%s)".formatted(reference, status);
   }
 }

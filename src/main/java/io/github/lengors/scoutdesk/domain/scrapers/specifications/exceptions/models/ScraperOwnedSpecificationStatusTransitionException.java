@@ -6,11 +6,10 @@ import org.springframework.web.server.ResponseStatusException;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 
 /**
- * Exception thrown when an invalid status transition is attempted on a
- * scraper-owned specification.
+ * Exception thrown when an invalid status transition is attempted on a scraper-owned specification.
  * <p>
- * This exception is used to indicate that the requested status transition is
- * not allowed for the current status of the specification.
+ * This exception is used to indicate that the requested status transition is not allowed for the current status of the
+ * specification.
  *
  * @author lengors
  */

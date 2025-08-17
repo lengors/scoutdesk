@@ -12,14 +12,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.model
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.FindScraperOwnedSpecificationEntityCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationFilter;
 
-/**
- * Handles deletion of a single owned scraper specification using a filter.
- * <p>
- * This service executes the {@link DeleteScraperOwnedSpecificationCommand} to
- * remove a specification matching the provided filter.
- *
- * @author lengors
- */
 @Service
 class DeleteScraperOwnedSpecificationCommandHandler
   implements CommandHandler<DeleteScraperOwnedSpecificationCommand, ScraperOwnedSpecificationFilter, @Nullable Void> {

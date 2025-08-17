@@ -14,12 +14,10 @@ import io.github.lengors.scoutdesk.integrations.webscout.commands.models.FindScr
 import io.github.lengors.scoutdesk.integrations.webscout.exceptions.models.ScraperSpecificationBatchNotFoundException;
 
 /**
- * Handles batch retrieval of scraper specifications from the Webscout REST
- * client.
+ * Handles batch retrieval of scraper specifications from the Webscout REST client.
  * <p>
- * This service executes the {@link FindScraperSpecificationBatchCommand} to
- * fetch multiple scraper specifications by their names, throwing an exception
- * if any are missing.
+ * This service executes the {@link FindScraperSpecificationBatchCommand} to fetch multiple scraper specifications by
+ * their names, throwing an exception if any are missing.
  *
  * @author lengors
  */

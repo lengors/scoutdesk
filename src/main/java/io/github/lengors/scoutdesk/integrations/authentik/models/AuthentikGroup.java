@@ -24,8 +24,16 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record AuthentikGroup(
-  @JsonProperty("num_pk") @NotNull Integer id,
-  @JsonProperty("name") @NotNull String name,
-  @JsonProperty("pk") @NotNull UUID uuid
+  @JsonProperty("num_pk")
+  @NotNull
+  Integer id,
+
+  @JsonProperty("name")
+  @NotNull
+  String name,
+
+  @JsonProperty("pk")
+  @NotNull
+  UUID uuid
 ) {
 }

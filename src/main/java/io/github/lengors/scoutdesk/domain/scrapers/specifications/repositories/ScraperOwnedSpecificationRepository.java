@@ -12,11 +12,10 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 
 /**
- * Repository for accessing and managing scraper specification entities owned by
- * users.
+ * Repository for accessing and managing scraper specification entities owned by users.
  * <p>
- * Extends {@link CrudRepository} to provide CRUD operations and custom queries
- * for {@link ScraperOwnedSpecificationEntity}.
+ * Extends {@link CrudRepository} to provide CRUD operations and custom queries for
+ * {@link ScraperOwnedSpecificationEntity}.
  *
  * @author lengors
  */
@@ -41,8 +40,7 @@ public interface ScraperOwnedSpecificationRepository
    *
    * @param referenceOwner The owner of the specification
    * @param status         The status of the specification
-   * @return A list of scraper specifications matching the reference owner and
-   * status
+   * @return A list of scraper specifications matching the reference owner and status
    */
   List<ScraperOwnedSpecificationEntity> findAllByReferenceOwnerAndStatusNot(
     String referenceOwner,

@@ -8,8 +8,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
 /**
  * Command for deleting a batch of owned scraper specifications using a filter.
  * <p>
- * Used to trigger the removal of multiple specifications matching the filter
- * criteria.
+ * Used to trigger the removal of multiple specifications matching the filter criteria.
  *
  * @author lengors
  */

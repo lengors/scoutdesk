@@ -19,16 +19,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
 import io.github.lengors.scoutdesk.domain.text.services.FuzzyScorer;
 
-/**
- * Handles retrieval of a batch of owned scraper specification entities by
- * reference and status.
- * <p>
- * This service executes the
- * {@link FindScraperOwnedSpecificationEntityBatchCommand} to fetch entities
- * matching the provided filter.
- *
- * @author lengors
- */
 @Service
 @SuppressWarnings("LineLength")
 class FindScraperOwnedSpecificationEntityBatchCommandHandler implements

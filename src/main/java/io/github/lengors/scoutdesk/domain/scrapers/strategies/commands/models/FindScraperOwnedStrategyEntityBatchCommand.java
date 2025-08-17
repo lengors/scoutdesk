@@ -8,14 +8,11 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwn
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyEntity;
 
 /**
- * Command to find a batch of scraper-owned strategy entities using lazy
- * relationships.
+ * Command to find a batch of scraper-owned strategy entities using lazy relationships.
  * <p>
- * This command is used to retrieve a list of strategy entities based on the
- * specified lazy relationships.
+ * This command is used to retrieve a list of strategy entities based on the specified lazy relationships.
  *
- * @param lazyRelationships The lazy relationships to use for finding the
- *                          strategy entities.
+ * @param lazyRelationships The lazy relationships to use for finding the strategy entities.
  * @author lengors
  */
 public record FindScraperOwnedStrategyEntityBatchCommand(
@@ -26,8 +23,7 @@ public record FindScraperOwnedStrategyEntityBatchCommand(
   /**
    * Constructor to create a command with a set of lazy relationships.
    *
-   * @param lazyRelationships The set of lazy relationships to use for finding the
-   *                          strategy entities.
+   * @param lazyRelationships The set of lazy relationships to use for finding the strategy entities.
    */
   public FindScraperOwnedStrategyEntityBatchCommand(
     final ScraperOwnedStrategyEntity.LazyRelationship... lazyRelationships

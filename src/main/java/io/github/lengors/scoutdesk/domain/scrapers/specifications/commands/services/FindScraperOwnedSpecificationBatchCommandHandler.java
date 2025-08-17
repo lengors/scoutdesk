@@ -20,14 +20,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 import io.github.lengors.scoutdesk.domain.spring.core.services.RestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.FindScraperSpecificationBatchCommand;
 
-/**
- * Handles batch retrieval of owned scraper specifications using a filter.
- * <p>
- * This service executes the {@link FindScraperOwnedSpecificationBatchCommand}
- * to fetch multiple specifications matching the provided filter.
- *
- * @author lengors
- */
 @Service
 @SuppressWarnings("LineLength")
 class FindScraperOwnedSpecificationBatchCommandHandler implements

@@ -14,15 +14,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
 
-/**
- * Handles updating the status of an owned scraper specification entity.
- * <p>
- * This service executes the
- * {@link UpdateScraperOwnedSpecificationEntityStatusCommand} to change the
- * status of a specification entity.
- *
- * @author lengors
- */
 @Service
 @SuppressWarnings("LineLength")
 class UpdateScraperOwnedSpecificationEntityStatusCommandHandler implements

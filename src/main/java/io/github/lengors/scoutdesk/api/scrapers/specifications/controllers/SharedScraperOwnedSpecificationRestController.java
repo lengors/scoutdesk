@@ -20,8 +20,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 /**
  * Controller for accessing shared scraper specifications via the API.
  * <p>
- * Provides endpoints for users to query shared specifications with filtering
- * options.
+ * Provides endpoints for users to query shared specifications with filtering options.
  *
  * @author lengors
  */

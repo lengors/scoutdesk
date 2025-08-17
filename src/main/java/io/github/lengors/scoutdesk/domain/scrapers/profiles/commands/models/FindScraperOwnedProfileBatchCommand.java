@@ -9,8 +9,8 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
 /**
  * Command for finding a batch of scraper owned profiles.
  * <p>
- * This command is used to retrieve a list of {@link ScraperOwnedProfile}
- * instances based on the provided filter criteria.
+ * This command is used to retrieve a list of {@link ScraperOwnedProfile} instances based on the provided filter
+ * criteria.
  *
  * @author lengors
  */

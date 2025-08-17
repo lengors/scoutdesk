@@ -20,7 +20,9 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record AuthentikPagination(
-  @JsonProperty("next") @NotNull Integer next
+  @JsonProperty("next")
+  @NotNull
+  Integer next
 ) {
 
 }

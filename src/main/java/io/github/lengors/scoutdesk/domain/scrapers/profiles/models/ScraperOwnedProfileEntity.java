@@ -30,8 +30,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Represents a scraper profile owned by a user.
  * <p>
- * This class contains the owner, name, specification reference, and input
- * parameters for the profile.
+ * This class contains the owner, name, specification reference, and input parameters for the profile.
  *
  * @author lengors
  */
@@ -203,8 +202,7 @@ public final class ScraperOwnedProfileEntity {
 
   @Override
   public String toString() {
-    return String.format(
-      "ScraperOwnedProfileEntity(reference=%s, inputs=%s, specification=%s)",
+    return "ScraperOwnedProfileEntity(reference=%s, inputs=%s, specification=%s)".formatted(
       reference,
       inputs,
       specification);

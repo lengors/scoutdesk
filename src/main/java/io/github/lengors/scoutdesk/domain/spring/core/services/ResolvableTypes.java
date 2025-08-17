@@ -23,8 +23,8 @@ public final class ResolvableTypes {
    *
    * @param left  The left type
    * @param right The right type
-   * @return A negative integer, zero, or a positive integer as the left type is
-   * less than, equal to, or greater than the right type
+   * @return A negative integer, zero, or a positive integer as the left type is less than, equal to, or greater than
+   * the right type
    */
   public static int compare(final ResolvableType left, final ResolvableType right) {
     if (left.isAssignableFrom(right) && right.isAssignableFrom(left)) {
@@ -42,8 +42,7 @@ public final class ResolvableTypes {
    * Flattens the type hierarchy of a {@link ResolvableType} into a stream.
    *
    * @param implementation The type to flatten
-   * @return A stream of {@link ResolvableType} instances representing the type
-   * hierarchy
+   * @return A stream of {@link ResolvableType} instances representing the type hierarchy
    */
   public static Stream<ResolvableType> flat(final ResolvableType implementation) {
     if (Objects.equals(implementation, ResolvableType.NONE)) {

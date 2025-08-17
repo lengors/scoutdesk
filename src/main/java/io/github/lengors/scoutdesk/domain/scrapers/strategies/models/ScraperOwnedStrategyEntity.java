@@ -53,8 +53,8 @@ public final class ScraperOwnedStrategyEntity {
   /**
    * Enum representing the lazy loading relationships for the strategy entity.
    * <p>
-   * This is used to specify which relationships should be loaded lazily when
-   * fetching the strategy entity from the database.
+   * This is used to specify which relationships should be loaded lazily when fetching the strategy entity from the
+   * database.
    *
    * @author lengors
    */
@@ -165,6 +165,6 @@ public final class ScraperOwnedStrategyEntity {
 
   @Override
   public String toString() {
-    return String.format("ScraperOwnedStrategyEntity(reference=%s, profiles=%s)", reference, profiles);
+    return "ScraperOwnedStrategyEntity(reference=%s, profiles=%s)".formatted(reference, profiles);
   }
 }

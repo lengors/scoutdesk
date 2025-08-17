@@ -8,8 +8,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwned
 /**
  * Command to delete a scraper-owned profile.
  * <p>
- * This command is used to trigger the deletion of a profile that matches the
- * specified filter criteria.
+ * This command is used to trigger the deletion of a profile that matches the specified filter criteria.
  *
  * @author lengors
  */

@@ -9,8 +9,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
  * <p>
  * This event contains the deleted profile as its source.
  * <p>
- * The event is used to notify other components of the system about the deletion
- * of a profile.
+ * The event is used to notify other components of the system about the deletion of a profile.
  *
  * @author lengors
  */

@@ -25,8 +25,13 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperUnownedStrategy(
-  @JsonProperty("name") @NotNull String name,
-  @JsonProperty("profiles") @NotNull Set<@NotNull String> profiles
+  @JsonProperty("name")
+  @NotNull
+  String name,
+
+  @JsonProperty("profiles")
+  @NotNull
+  Set<@NotNull String> profiles
 ) implements ScraperNamedStrategy {
 
 }

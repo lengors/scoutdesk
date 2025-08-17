@@ -12,14 +12,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.model
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.FindScraperOwnedSpecificationEntityBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchFilter;
 
-/**
- * Handles batch deletion of owned scraper specifications using a filter.
- * <p>
- * This service executes the {@link DeleteScraperOwnedSpecificationBatchCommand}
- * to remove multiple specifications matching the provided filter.
- *
- * @author lengors
- */
 @Service
 class DeleteScraperOwnedSpecificationBatchCommandHandler implements
   CommandHandler<DeleteScraperOwnedSpecificationBatchCommand, ScraperOwnedSpecificationBatchFilter, @Nullable Void> {

@@ -27,8 +27,13 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedProfileReference(
-  @JsonProperty("owner") @NotNull String owner,
-  @JsonProperty("name") @NotNull String name
+  @JsonProperty("owner")
+  @NotNull
+  String owner,
+
+  @JsonProperty("name")
+  @NotNull
+  String name
 ) implements ScraperOwnedProfileReferrer, Serializable {
 
   /**

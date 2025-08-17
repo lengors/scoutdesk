@@ -24,11 +24,24 @@ import java.util.Collection;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record User(
-  @JsonProperty("username") @NotNull String username,
-  @JsonProperty("name") @NotNull String name,
-  @JsonProperty("roles") @NotNull Collection<@NotNull UserRole> roles,
-  @JsonProperty("email") String email,
-  @JsonProperty("avatar") @NotNull String avatar
+  @JsonProperty("username")
+  @NotNull
+  String username,
+
+  @JsonProperty("name")
+  @NotNull
+  String name,
+
+  @JsonProperty("roles")
+  @NotNull
+  Collection<@NotNull UserRole> roles,
+
+  @JsonProperty("email")
+  String email,
+
+  @JsonProperty("avatar")
+  @NotNull
+  String avatar
 ) {
 
 }

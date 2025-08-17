@@ -40,8 +40,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Controller for managing owned scraper specifications via the API.
  * <p>
- * Provides endpoints for CRUD operations and status updates on user-owned
- * specifications.
+ * Provides endpoints for CRUD operations and status updates on user-owned specifications.
  *
  * @author lengors
  */

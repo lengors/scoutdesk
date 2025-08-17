@@ -8,11 +8,10 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Represents a named scraper profile.
  * <p>
- * This interface extends the {@link ScraperNamelessProfile} interface and adds
- * a name property to the profile.
+ * This interface extends the {@link ScraperNamelessProfile} interface and adds a name property to the profile.
  * <p>
- * The name property is used to identify the profile and can be used to
- * differentiate between multiple profiles owned by the same user.
+ * The name property is used to identify the profile and can be used to differentiate between multiple profiles owned by
+ * the same user.
  *
  * @author lengors
  */

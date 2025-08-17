@@ -13,14 +13,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 import io.github.lengors.scoutdesk.domain.spring.core.services.RestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.FindScraperSpecificationCommand;
 
-/**
- * Handles retrieval of a single owned scraper specification using a filter.
- * <p>
- * This service executes the {@link FindScraperOwnedSpecificationCommand} to
- * fetch a specification matching the provided filter.
- *
- * @author lengors
- */
 @Service
 class FindScraperOwnedSpecificationCommandHandler implements
   CommandHandler<FindScraperOwnedSpecificationCommand, ScraperOwnedSpecificationFilter, ScraperOwnedSpecification> {

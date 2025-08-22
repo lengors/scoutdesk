@@ -1,9 +1,9 @@
 package io.github.lengors.scoutdesk.api.exceptions.controllers;
 
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityDeleteException;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityFindException;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntitySaveException;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.exceptions.models.ScraperOwnedSpecificationStatusTransitionException;
+import io.github.lengors.scoutdesk.domain.persistence.EntityDeleteException;
+import io.github.lengors.scoutdesk.domain.persistence.EntityFindException;
+import io.github.lengors.scoutdesk.domain.persistence.EntitySaveException;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.exceptions.ScraperOwnedSpecificationStatusTransitionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

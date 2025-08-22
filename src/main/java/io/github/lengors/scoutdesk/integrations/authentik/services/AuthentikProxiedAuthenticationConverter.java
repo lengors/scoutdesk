@@ -9,8 +9,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
-import io.github.lengors.scoutdesk.integrations.authentik.commands.models.FindAuthentikUserCommand;
+import io.github.lengors.scoutdesk.domain.commands.CommandService;
+import io.github.lengors.scoutdesk.integrations.authentik.commands.FindAuthentikUserCommand;
 import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikGroup;
 import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAnonymousPrincipal;
 import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAuthenticatedPrincipal;

@@ -1,5 +1,6 @@
 package io.github.lengors.scoutdesk.domain.scrapers.profiles.models;
 
+import io.github.lengors.scoutdesk.domain.persistence.EntityReferrer;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -13,21 +14,6 @@ import jakarta.validation.constraints.NotNull;
  * @author lengors
  */
 @DefaultQualifier(Nullable.class)
-public interface ScraperOwnedProfileReferrer {
+public interface ScraperOwnedProfileReferrer extends EntityReferrer<@NotNull ScraperOwnedProfileEntity> {
 
-  /**
-   * Returns the owner of the profile.
-   *
-   * @return The owner of the profile.
-   */
-  @NotNull
-  String owner();
-
-  /**
-   * Returns the name of the profile.
-   *
-   * @return The name of the profile.
-   */
-  @NotNull
-  String name();
 }

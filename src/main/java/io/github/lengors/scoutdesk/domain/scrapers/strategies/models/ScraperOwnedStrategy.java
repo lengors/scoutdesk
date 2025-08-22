@@ -43,8 +43,7 @@ public record ScraperOwnedStrategy(
   @JsonProperty("profiles")
   @NotNull
   Set<@NotNull @NotBlank String> profiles
-)
-  implements ScraperNamedStrategy, ScraperOwnedStrategyReferrer {
+) implements ScraperNamedStrategy, ScraperOwnedStrategyReferrer {
 
   /**
    * Creates a new instance of the {@link ScraperOwnedStrategy}.

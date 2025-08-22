@@ -1,5 +1,6 @@
 package io.github.lengors.scoutdesk.domain.scrapers.strategies.models;
 
+import io.github.lengors.scoutdesk.domain.persistence.EntityReferrer;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -13,20 +14,6 @@ import jakarta.validation.constraints.NotNull;
  * @author lengors
  */
 @DefaultQualifier(Nullable.class)
-public interface ScraperOwnedStrategyReferrer {
-  /**
-   * Returns the owner of the strategy.
-   *
-   * @return The owner of the strategy.
-   */
-  @NotNull
-  String owner();
+public interface ScraperOwnedStrategyReferrer extends EntityReferrer<@NotNull ScraperOwnedStrategyEntity> {
 
-  /**
-   * Returns the name of the strategy.
-   *
-   * @return The name of the strategy.
-   */
-  @NotNull
-  String name();
 }

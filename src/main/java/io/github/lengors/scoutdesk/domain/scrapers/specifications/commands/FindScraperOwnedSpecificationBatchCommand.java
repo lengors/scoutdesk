@@ -13,7 +13,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.FindScraperSpecificationBatchCommand;
 import org.checkerframework.checker.nullness.util.NullnessUtil;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,7 @@ public record FindScraperOwnedSpecificationBatchCommand()
     CommandHandler<FindScraperOwnedSpecificationBatchCommand, ScraperOwnedSpecificationBatchFilter, List<ScraperOwnedSpecification>> {
     private final CommandService commandService;
 
-    Handler(@Lazy final CommandService commandService) {
+    Handler(final CommandService commandService) {
       this.commandService = commandService;
     }
 

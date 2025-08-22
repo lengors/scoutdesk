@@ -12,7 +12,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import io.github.lengors.scoutdesk.domain.commands.Command;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileFilter;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +33,7 @@ public record DeleteScraperOwnedProfileCommand() implements Command<ScraperOwned
     Handler(
       final ScraperOwnedProfileRepository scraperOwnedProfileRepository,
       final ApplicationEventPublisher applicationEventPublisher,
-      @Lazy final CommandService commandService
+      final CommandService commandService
     ) {
       this.scraperOwnedProfileRepository = scraperOwnedProfileRepository;
       this.applicationEventPublisher = applicationEventPublisher;

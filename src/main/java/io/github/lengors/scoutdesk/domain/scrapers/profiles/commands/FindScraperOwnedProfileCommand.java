@@ -5,7 +5,6 @@ import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.CommandService;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfile;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,7 +20,7 @@ public record FindScraperOwnedProfileCommand() implements Command<ScraperOwnedPr
     implements CommandHandler<FindScraperOwnedProfileCommand, ScraperOwnedProfileFilter, ScraperOwnedProfile> {
     private final CommandService commandService;
 
-    Handler(@Lazy final CommandService commandService) {
+    Handler(final CommandService commandService) {
       this.commandService = commandService;
     }
 

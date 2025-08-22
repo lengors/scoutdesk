@@ -7,7 +7,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import io.github.lengors.scoutdesk.domain.commands.Command;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyFilter;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +26,7 @@ public record DeleteScraperOwnedStrategyCommand() implements Command<ScraperOwne
 
     Handler(
       final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository,
-      @Lazy final CommandService commandService
+      final CommandService commandService
     ) {
       this.scraperOwnedStrategyRepository = scraperOwnedStrategyRepository;
       this.commandService = commandService;

@@ -5,7 +5,6 @@ import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.CommandService;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategy;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +21,7 @@ public record FindScraperOwnedStrategyCommand() implements Command<ScraperOwnedS
     implements CommandHandler<FindScraperOwnedStrategyCommand, ScraperOwnedStrategyFilter, ScraperOwnedStrategy> {
     private final CommandService commandService;
 
-    Handler(@Lazy final CommandService commandService) {
+    Handler(final CommandService commandService) {
       this.commandService = commandService;
     }
 

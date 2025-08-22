@@ -1,9 +1,10 @@
 package io.github.lengors.scoutdesk.domain.commands;
 
-import java.util.List;
-
+import io.github.lengors.scoutdesk.domain.resolvers.ResolutionService;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
@@ -18,10 +19,12 @@ import org.springframework.util.StopWatch;
 public class CommandService {
   private static final Logger LOG = LoggerFactory.getLogger(CommandService.class);
 
-  private final List<CommandHandlerResolver> commandHandlerResolvers;
+  private final ResolutionService<@NotNull Command<?, ?>, @NotNull CommandHandler<?, ?, ?>> resolutionService;
 
-  CommandService(final List<CommandHandlerResolver> commandHandlerResolvers) {
-    this.commandHandlerResolvers = commandHandlerResolvers;
+  CommandService(
+    @Lazy final ResolutionService<@NotNull Command<?, ?>, @NotNull CommandHandler<?, ?, ?>> resolutionService
+  ) {
+    this.resolutionService = resolutionService;
   }
 
   /**
@@ -49,16 +52,9 @@ public class CommandService {
     return output;
   }
 
+  @SuppressWarnings("unchecked")
   private <C extends Command<I, O>, I, O> CommandHandler<C, I, O> resolveCommandHandler(final C command) {
-    for (final var commandHandlerResolver : this.commandHandlerResolvers) {
-      final var commandHandler = commandHandlerResolver.resolve(command);
-      if (commandHandler != null) {
-        return commandHandler;
-      }
-    }
-    throw new IllegalArgumentException("No command handler found for command: %s".formatted(command
-      .getClass()
-      .getName()));
+    return (CommandHandler<C, I, O>) resolutionService.resolve(command);
   }
 
   @SuppressWarnings("nullness")

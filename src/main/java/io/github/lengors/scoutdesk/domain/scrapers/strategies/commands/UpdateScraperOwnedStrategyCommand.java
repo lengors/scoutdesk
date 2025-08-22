@@ -9,7 +9,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwn
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategy;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyReference;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories.ScraperOwnedStrategyRepository;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,7 +56,7 @@ public record UpdateScraperOwnedStrategyCommand(Operation operation)
 
     Handler(
       final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository,
-      @Lazy final CommandService commandService
+      final CommandService commandService
     ) {
       this.scraperOwnedStrategyRepository = scraperOwnedStrategyRepository;
       this.commandService = commandService;

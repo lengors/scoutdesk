@@ -13,7 +13,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.commands.FindScrap
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyEntity;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.ScraperCommand;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -29,7 +28,7 @@ public record ScraperOwnedCommand() implements Command<ScraperQuery, Flux<Scrape
   static class Handler implements CommandHandler<ScraperOwnedCommand, ScraperQuery, Flux<ScraperResponse>> {
     private final CommandService commandService;
 
-    Handler(@Lazy final CommandService commandService) {
+    Handler(final CommandService commandService) {
       this.commandService = commandService;
     }
 

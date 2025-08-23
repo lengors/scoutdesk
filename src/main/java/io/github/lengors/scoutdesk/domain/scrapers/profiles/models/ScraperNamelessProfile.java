@@ -34,6 +34,5 @@ public interface ScraperNamelessProfile {
    *
    * @return The input parameters for the profile.
    */
-  @NotNull
   Map<@NotNull String, @NotNull @NotBlank String> inputs();
 }

@@ -310,17 +310,6 @@ record ScraperOwnedProfileRestControllerTest(
 
   @Test
   void givenMissingSpecificationOwnerWhenSaveProfileThenNotFound() throws Exception {
-    mockMvc
-      .perform(put("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(
-          "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"\"},\"inputs\":{}}"))
-      .andExpect(status().isNotFound());
-  }
-
-  @Test
-  void givenMissingSpecificationNameWhenSaveProfileThenNotFound() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"\",\"name\":\"test-specification-0\"},\"inputs\":{}}";
 
@@ -329,7 +318,18 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void givenMissingSpecificationNameWhenSaveProfileThenNotFound() throws Exception {
+    mockMvc
+      .perform(put("/api/v1/scrapers/profiles")
+        .header("X-authentik-username", "tester-0")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(
+          "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"\"},\"inputs\":{}}"))
+      .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -342,7 +342,7 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -440,7 +440,7 @@ record ScraperOwnedProfileRestControllerTest(
   @Test
   void givenIncorrectOwnerWhenUpdateProfileThenNotFound() throws Exception {
     @SuppressWarnings("LineLength") final var content =
-      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-1\"},\"inputs\":{\"test\":\"test\"}}";
+      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-0\"},\"inputs\":{\"test\":\"test\"}}";
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-0")
@@ -453,7 +453,7 @@ record ScraperOwnedProfileRestControllerTest(
   @Test
   void givenIncorrectProfileNameWhenUpdateProfileThenNotFound() throws Exception {
     @SuppressWarnings("LineLength") final var content =
-      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-1\"},\"inputs\":{\"test\":\"test\"}}";
+      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-0\"},\"inputs\":{\"test\":\"test\"}}";
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-3")
@@ -470,7 +470,7 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-1\"},\"inputs\":{}}"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -479,8 +479,8 @@ record ScraperOwnedProfileRestControllerTest(
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"specification\":{\"owner\":\"tester-0\",\"name\":\"\"},\"inputs\":{}}"))
-      .andExpect(status().isNotFound());
+        .content("{\"specification\":{\"owner\":\"\",\"name\":\"test-specification-0\"},\"inputs\":{}}"))
+      .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -489,8 +489,8 @@ record ScraperOwnedProfileRestControllerTest(
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"specification\":{\"owner\":\"\",\"name\":\"test-specification-0\"},\"inputs\":{}}"))
-      .andExpect(status().isNotFound());
+        .content("{\"specification\":{\"owner\":\"tester-0\",\"name\":\"\"},\"inputs\":{}}"))
+      .andExpect(status().isBadRequest());
   }
 
   @Test

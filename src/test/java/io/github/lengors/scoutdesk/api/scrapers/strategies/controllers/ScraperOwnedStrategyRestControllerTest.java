@@ -183,7 +183,7 @@ record ScraperOwnedStrategyRestControllerTest(
         .header("X-authentik-username", "tester-2")
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-0\"]"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -368,7 +368,7 @@ record ScraperOwnedStrategyRestControllerTest(
         .header("X-authentik-username", "tester-5")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"name\":\"test-strategy-5\",\"profiles\":[\"test-profile-a\"]}"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -434,7 +434,7 @@ record ScraperOwnedStrategyRestControllerTest(
         .header("X-authentik-username", "tester-2")
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -509,7 +509,7 @@ record ScraperOwnedStrategyRestControllerTest(
         .header("X-authentik-username", "tester-2")
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest());
   }
 
   @Test

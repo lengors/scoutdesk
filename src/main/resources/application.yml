@@ -5,6 +5,10 @@ server:
 spring:
   application:
     name: scoutdesk
+  cache:
+    cache-names: commandExecutor
+    caffeine:
+      spec: expireAfterAccess=10m
   threads:
     virtual:
       enabled: true

@@ -1,4 +1,4 @@
-package io.github.lengors.scoutdesk.domain.persistence;
+package io.github.lengors.scoutdesk.domain.persistence.exceptions;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author lengors
  */
 public abstract sealed class EntityException extends RuntimeException
-  permits EntityDeleteException, EntityFindException, EntitySaveException {
+  permits EntityConflictException, EntityNotFoundException {
 
   /**
    * The runtime type of the entity that caused the conflict.
@@ -25,7 +25,7 @@ public abstract sealed class EntityException extends RuntimeException
   private final @Nullable Object query;
 
   /**
-   * Constructs a new {@link EntityFindException} with the specified entity type and query.
+   * Constructs a new {@link EntityNotFoundException} with the specified entity type and query.
    *
    * @param runtimeType the class of the entity
    * @param query       the query used to search for the entity

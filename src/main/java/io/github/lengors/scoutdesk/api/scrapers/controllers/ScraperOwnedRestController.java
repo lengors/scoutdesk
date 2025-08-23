@@ -1,6 +1,5 @@
 package io.github.lengors.scoutdesk.api.scrapers.controllers;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -18,7 +17,6 @@ import io.github.lengors.scoutdesk.api.scrapers.models.ScraperOwnedRequest;
 import io.github.lengors.scoutdesk.domain.commands.CommandService;
 import io.github.lengors.scoutdesk.domain.scrapers.commands.ScraperOwnedCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.models.ScraperQuery;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import reactor.core.publisher.Flux;
 
@@ -29,14 +27,14 @@ import reactor.core.publisher.Flux;
 class ScraperOwnedRestController {
   private final CommandService commandService;
 
-  ScraperOwnedRestController(final @NonNull CommandService commandService) {
+  ScraperOwnedRestController(final @NotNull CommandService commandService) {
     this.commandService = commandService;
   }
 
   @PostMapping(produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
   Flux<ScraperResponse> scrap(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @RequestBody final @Valid @NotNull ScraperOwnedRequest scraperRequest
+    @RequestBody final @NotNull ScraperOwnedRequest scraperRequest
   ) {
     return commandService.executeCommand(
       new ScraperOwnedCommand(),

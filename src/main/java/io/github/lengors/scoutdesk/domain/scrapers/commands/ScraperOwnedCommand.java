@@ -13,7 +13,10 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.commands.FindScrap
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyEntity;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.ScraperCommand;
+import jakarta.validation.Valid;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
 
 /**
@@ -24,19 +27,48 @@ import reactor.core.publisher.Flux;
  * @author lengors
  */
 public record ScraperOwnedCommand() implements Command<ScraperQuery, Flux<ScraperResponse>> {
-  @Service
-  static class Handler implements CommandHandler<ScraperOwnedCommand, ScraperQuery, Flux<ScraperResponse>> {
-    private final CommandService commandService;
 
-    Handler(final CommandService commandService) {
+  /**
+   * Handler for {@link ScraperOwnedCommand}.
+   *
+   * @author lengors
+   */
+  @Service
+  @Validated
+  public static class Handler implements CommandHandler<ScraperOwnedCommand, ScraperQuery, Flux<ScraperResponse>> {
+    private final CommandService commandService;
+    private final Handler self;
+
+    Handler(
+      final CommandService commandService,
+      @Lazy final Handler self
+    ) {
       this.commandService = commandService;
+      this.self = self;
     }
 
+    /**
+     * Handle the command.
+     *
+     * @param command the command
+     * @param input   the input
+     * @return the result
+     */
     @Override
     public Flux<ScraperResponse> handle(
       final ScraperOwnedCommand command,
       final ScraperQuery input
     ) {
+      return self.handle(input);
+    }
+
+    /**
+     * Handle the command and performs validation.
+     *
+     * @param input the input
+     * @return the result
+     */
+    protected Flux<ScraperResponse> handle(final @Valid ScraperQuery input) {
       final var strategies = commandService.executeCommand(
         new FindScraperOwnedStrategyEntityBatchCommand(ScraperOwnedStrategyEntity.LazyRelationship.PROFILES),
         new ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter(input.owner(), input.strategies()));

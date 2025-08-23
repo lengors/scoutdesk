@@ -2,17 +2,20 @@ package io.github.lengors.scoutdesk.domain.scrapers.strategies.commands;
 
 import io.github.lengors.scoutdesk.domain.commands.Command;
 import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
-import io.github.lengors.scoutdesk.domain.commands.CommandService;
-import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.FindScraperOwnedProfileEntityBatchCommand;
-import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter;
-import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyByReferenceFilter;
+import io.github.lengors.scoutdesk.domain.persistence.services.EntityService;
+import io.github.lengors.scoutdesk.domain.persistence.constraints.RequireEntity;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileBatchReference;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategy;
-import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyReference;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories.ScraperOwnedStrategyRepository;
+import jakarta.validation.Valid;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  * Command to update a scraper-owned strategy.
@@ -48,38 +51,65 @@ public record UpdateScraperOwnedStrategyCommand(Operation operation)
     UPDATE,
   }
 
+  /**
+   * Handler for {@link UpdateScraperOwnedStrategyCommand}.
+   *
+   * @author lengors
+   */
   @Service
-  static class Handler
+  @Validated
+  public static class Handler
     implements CommandHandler<UpdateScraperOwnedStrategyCommand, ScraperOwnedStrategy, ScraperOwnedStrategy> {
     private final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository;
-    private final CommandService commandService;
+    private final EntityService entityService;
+    private final Handler self;
 
     Handler(
       final ScraperOwnedStrategyRepository scraperOwnedStrategyRepository,
-      final CommandService commandService
+      final EntityService entityService,
+      @Lazy final Handler self
     ) {
       this.scraperOwnedStrategyRepository = scraperOwnedStrategyRepository;
-      this.commandService = commandService;
+      this.entityService = entityService;
+      this.self = self;
     }
 
+    /**
+     * Handle the command.
+     *
+     * @param command the command
+     * @param input   the input
+     * @return the result
+     */
     @Override
-    @Transactional
     public ScraperOwnedStrategy handle(
       final UpdateScraperOwnedStrategyCommand command,
       final ScraperOwnedStrategy input
     ) {
-      final var entity = commandService.executeCommand(
-        new FindScraperOwnedStrategyEntityCommand(),
-        new ScraperOwnedStrategyByReferenceFilter(new ScraperOwnedStrategyReference(input)));
+      return self.handleTransactionally(command, input);
+    }
 
-      final var profiles = new HashSet<>(commandService.executeCommand(
-        new FindScraperOwnedProfileEntityBatchCommand(),
-        new ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter(input.owner(), input.profiles())));
+    /**
+     * Handle the command within a transaction.
+     *
+     * @param command the command
+     * @param input   the input
+     * @return the result
+     */
+    @Transactional
+    protected ScraperOwnedStrategy handleTransactionally(
+      final UpdateScraperOwnedStrategyCommand command,
+      final @RequireEntity(property = "name") @Valid ScraperOwnedStrategy input
+    ) {
+      final var entity = entityService.findEntity(input);
+      final var profileNames = Objects.requireNonNullElseGet(input.profiles(), Collections::<String>emptySet);
+      final var profiles = entityService.findEntity(new ScraperOwnedProfileBatchReference(input.owner(), profileNames));
+      final var mutableProfiles = new HashSet<>(profiles);
 
       switch (command.operation()) {
-        case DELETE -> profiles.forEach(entity::removeProfile);
-        case OVERRIDE -> entity.setProfiles(profiles);
-        case UPDATE -> profiles.forEach(entity::addProfile);
+        case DELETE -> mutableProfiles.forEach(entity::removeProfile);
+        case OVERRIDE -> entity.setProfiles(mutableProfiles);
+        case UPDATE -> mutableProfiles.forEach(entity::addProfile);
         case null -> {
           // No operation to perform
         }

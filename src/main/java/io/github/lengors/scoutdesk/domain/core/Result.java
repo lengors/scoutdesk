@@ -1,6 +1,6 @@
 package io.github.lengors.scoutdesk.domain.core;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import jakarta.validation.constraints.NotNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Objects;
@@ -321,7 +321,7 @@ public abstract sealed class Result<T, E extends Throwable> {
    * @return an {@link Optional} containing the value if this result is a success, or an empty {@link Optional} if this
    * result is a failure
    */
-  public final Optional<@NonNull T> toOptional() {
+  public final Optional<@NotNull T> toOptional() {
     return switch (this) {
       case Success<T, ?> success -> Optional.ofNullable(success.value);
       case Failure<?, E> ignored -> Optional.empty();

@@ -1,4 +1,4 @@
-package io.github.lengors.scoutdesk.domain.persistence;
+package io.github.lengors.scoutdesk.domain.persistence.exceptions;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -7,15 +7,15 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author lengors
  */
-public final class EntityFindException extends EntityException {
+public final class EntityNotFoundException extends EntityException {
 
   /**
-   * Constructs a new {@link EntityFindException} with the specified entity type and query.
+   * Constructs a new {@link EntityNotFoundException} with the specified entity type and query.
    *
    * @param runtimeType the class of the entity
    * @param query       the query used to search for the entity
    */
-  public EntityFindException(
+  public EntityNotFoundException(
     final @Nullable Class<?> runtimeType,
     final @Nullable Object query
   ) {

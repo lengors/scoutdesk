@@ -3,7 +3,6 @@ package io.github.lengors.scoutdesk.api.scrapers.specifications.controllers;
 import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -35,7 +34,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecification;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -52,7 +50,7 @@ import jakarta.validation.constraints.NotNull;
 class ScraperOwnedSpecificationRestController {
   private final CommandService commandService;
 
-  ScraperOwnedSpecificationRestController(final @NonNull CommandService commandService) {
+  ScraperOwnedSpecificationRestController(final @NotNull CommandService commandService) {
     this.commandService = commandService;
   }
 
@@ -60,7 +58,7 @@ class ScraperOwnedSpecificationRestController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void delete(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull @NotBlank String name
+    @PathVariable final @NotNull @NotBlank String name
   ) {
     commandService.executeCommand(
       new DeleteScraperOwnedSpecificationCommand(),
@@ -79,7 +77,7 @@ class ScraperOwnedSpecificationRestController {
   @GetMapping("/{name}")
   ScraperOwnedSpecification find(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull @NotBlank String name
+    @PathVariable final @NotNull @NotBlank String name
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedSpecificationCommand(),
@@ -100,7 +98,7 @@ class ScraperOwnedSpecificationRestController {
   @ResponseStatus(HttpStatus.CREATED)
   ScraperOwnedSpecification save(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @RequestBody final @Valid @NotNull ScraperSpecification scraperSpecification
+    @RequestBody final @NotNull ScraperSpecification scraperSpecification
   ) {
     return commandService.executeCommand(
       new SaveScraperOwnedSpecificationCommand(authenticatedPrincipal.getName()),
@@ -110,8 +108,8 @@ class ScraperOwnedSpecificationRestController {
   @PatchMapping("/{name}")
   void update(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull @NotBlank String name,
-    @RequestBody final @Valid @NotNull ScraperOwnedSpecificationActionRequest request
+    @PathVariable final @NotNull @NotBlank String name,
+    @RequestBody final @NotNull ScraperOwnedSpecificationActionRequest request
   ) {
     commandService.executeCommand(
       new UpdateScraperOwnedSpecificationEntityStatusCommand(

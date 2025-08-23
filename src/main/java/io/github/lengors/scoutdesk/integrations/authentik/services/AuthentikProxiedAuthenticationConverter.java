@@ -97,7 +97,6 @@ class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationCo
     try {
       authentikUser = commandService.executeCommand(new FindAuthentikUserCommand(), usernameHeader);
     } catch (final NoSuchElementException exception) {
-      LOG.error("User {username={}} not found", usernameHeader, exception);
       return new AuthentikProxiedAnonymousPrincipal();
     }
 

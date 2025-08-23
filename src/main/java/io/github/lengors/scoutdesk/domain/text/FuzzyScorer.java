@@ -1,4 +1,4 @@
-package io.github.lengors.scoutdesk.domain.text.services;
+package io.github.lengors.scoutdesk.domain.text;
 
 import java.util.function.BiPredicate;
 

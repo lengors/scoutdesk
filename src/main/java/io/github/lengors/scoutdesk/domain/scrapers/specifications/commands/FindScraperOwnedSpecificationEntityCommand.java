@@ -2,13 +2,12 @@ package io.github.lengors.scoutdesk.domain.scrapers.specifications.commands;
 
 import io.github.lengors.scoutdesk.domain.commands.Command;
 import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
-import io.github.lengors.scoutdesk.domain.persistence.EntityFindException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityNotFoundException;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferenceAndStatusNotFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Command to find a single scraper-owned specification entity using a filter.
@@ -32,7 +31,6 @@ public record FindScraperOwnedSpecificationEntityCommand()
     }
 
     @Override
-    @Transactional(readOnly = true)
     public ScraperOwnedSpecificationEntity handle(
       final FindScraperOwnedSpecificationEntityCommand command,
       final ScraperOwnedSpecificationFilter input
@@ -41,7 +39,7 @@ public record FindScraperOwnedSpecificationEntityCommand()
         case ScraperOwnedSpecificationByReferenceAndStatusNotFilter(var reference, var status) ->
           scraperOwnedSpecificationRepository.findByReferenceAndStatusNot(reference, status);
       };
-      return entity.orElseThrow(() -> new EntityFindException(ScraperOwnedSpecificationEntity.class, input));
+      return entity.orElseThrow(() -> new EntityNotFoundException(ScraperOwnedSpecificationEntity.class, input));
     }
   }
 

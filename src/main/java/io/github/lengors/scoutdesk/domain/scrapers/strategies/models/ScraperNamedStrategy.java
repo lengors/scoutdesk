@@ -33,6 +33,5 @@ public interface ScraperNamedStrategy {
    *
    * @return The set of profiles associated with the strategy.
    */
-  @NotNull
   Set<@NotNull String> profiles();
 }

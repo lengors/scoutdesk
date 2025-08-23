@@ -1,0 +1,21 @@
+package io.github.lengors.scoutdesk.domain.scrapers.profiles.converters;
+
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileBatchReference;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import java.util.Set;
+
+@Component
+final class ScraperOwnedProfileBatchConverter implements Converter<Set<String>, ScraperOwnedProfileBatchReference> {
+  @Override
+  public ScraperOwnedProfileBatchReference convert(final @NotNull Set<String> source) {
+    final var owner = SecurityContextHolder
+      .getContext()
+      .getAuthentication()
+      .getName();
+    return new ScraperOwnedProfileBatchReference(owner, source);
+  }
+}

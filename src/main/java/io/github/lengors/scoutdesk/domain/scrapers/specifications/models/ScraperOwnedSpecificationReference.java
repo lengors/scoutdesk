@@ -2,7 +2,7 @@ package io.github.lengors.scoutdesk.domain.scrapers.specifications.models;
 
 import java.io.Serializable;
 
-import io.github.lengors.scoutdesk.domain.persistence.EntityReferrer;
+import io.github.lengors.scoutdesk.domain.persistence.services.EntityReferrer;
 import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
@@ -58,5 +58,11 @@ public record ScraperOwnedSpecificationReference(
   @JsonIgnore
   public @NotNull String fullyQualifiedName() {
     return "%s-%s".formatted(owner, name);
+  }
+
+  @Override
+  @JsonIgnore
+  public @NotNull String getTypeName() {
+    return "specification";
   }
 }

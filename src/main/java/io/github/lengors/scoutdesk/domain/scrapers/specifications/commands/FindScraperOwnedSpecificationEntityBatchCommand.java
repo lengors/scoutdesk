@@ -12,11 +12,10 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
-import io.github.lengors.scoutdesk.domain.text.services.FuzzyScorer;
+import io.github.lengors.scoutdesk.domain.text.FuzzyScorer;
 import org.apache.commons.lang3.tuple.Pair;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Command to find a batch of scraper-owned specification entities using a filter.
@@ -41,7 +40,6 @@ public record FindScraperOwnedSpecificationEntityBatchCommand()
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<ScraperOwnedSpecificationEntity> handle(
       final FindScraperOwnedSpecificationEntityBatchCommand command,
       final ScraperOwnedSpecificationBatchFilter input

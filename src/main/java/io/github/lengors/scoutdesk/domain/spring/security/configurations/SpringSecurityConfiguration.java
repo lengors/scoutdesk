@@ -1,7 +1,7 @@
 package io.github.lengors.scoutdesk.domain.spring.security.configurations;
 
 import io.github.lengors.scoutdesk.domain.spring.security.services.ProxiedAuthenticationImpersonationFilterConfigurerAdapter;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import jakarta.validation.constraints.NotNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -53,12 +53,12 @@ class SpringSecurityConfiguration {
     if (impersonationAdapter != null) {
       outputSecurity = outputSecurity.with(
         impersonationAdapter,
-        Customizer.<@NonNull ProxiedAuthenticationImpersonationFilterConfigurerAdapter>withDefaults());
+        Customizer.<@NotNull ProxiedAuthenticationImpersonationFilterConfigurerAdapter>withDefaults());
     }
     if (adapter != null) {
       outputSecurity = outputSecurity.with(
         adapter,
-        Customizer.<@NonNull ProxiedAuthenticationFilterConfigurerAdapter>withDefaults());
+        Customizer.<@NotNull ProxiedAuthenticationFilterConfigurerAdapter>withDefaults());
     }
     return outputSecurity.build();
   }

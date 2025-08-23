@@ -3,7 +3,6 @@ package io.github.lengors.scoutdesk.api.scrapers.profiles.controllers;
 import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -30,11 +29,10 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.FindScraper
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.SaveScraperOwnedProfileCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.UpdateScraperOwnedProfileCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerFilter;
-import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileByReferenceFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileByReferrerFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfile;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileReference;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperUnownedProfile;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 @RestController
@@ -44,7 +42,7 @@ import jakarta.validation.constraints.NotNull;
 class ScraperOwnedProfileRestController {
   private final CommandService commandService;
 
-  ScraperOwnedProfileRestController(final @NonNull CommandService commandService) {
+  ScraperOwnedProfileRestController(final @NotNull CommandService commandService) {
     this.commandService = commandService;
   }
 
@@ -52,11 +50,11 @@ class ScraperOwnedProfileRestController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void delete(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull @NotBlank String name
+    @PathVariable final @NotNull @NotBlank String name
   ) {
     commandService.executeCommand(
       new DeleteScraperOwnedProfileCommand(),
-      new ScraperOwnedProfileByReferenceFilter(
+      new ScraperOwnedProfileByReferrerFilter(
         new ScraperOwnedProfileReference(authenticatedPrincipal.getName(), name)));
   }
 
@@ -73,11 +71,11 @@ class ScraperOwnedProfileRestController {
   @GetMapping("/{name}")
   ScraperOwnedProfile find(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull @NotBlank String name
+    @PathVariable final @NotNull @NotBlank String name
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedProfileCommand(),
-      new ScraperOwnedProfileByReferenceFilter(
+      new ScraperOwnedProfileByReferrerFilter(
         new ScraperOwnedProfileReference(authenticatedPrincipal.getName(), name)));
   }
 
@@ -94,7 +92,7 @@ class ScraperOwnedProfileRestController {
   @ResponseStatus(HttpStatus.CREATED)
   ScraperOwnedProfile save(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @RequestBody final @Valid @NotNull ScraperUnownedProfile scraperUnownedProfile
+    @RequestBody final @NotNull ScraperUnownedProfile scraperUnownedProfile
   ) {
     return commandService.executeCommand(
       new SaveScraperOwnedProfileCommand(),
@@ -108,8 +106,8 @@ class ScraperOwnedProfileRestController {
   @PatchMapping("/{name}")
   ScraperOwnedProfile update(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull @NotBlank String name,
-    @RequestBody final @Valid @NotNull ScraperPartialProfile partialProfile
+    @PathVariable final @NotNull @NotBlank String name,
+    @RequestBody final @NotNull ScraperPartialProfile partialProfile
   ) {
     return commandService.executeCommand(
       new UpdateScraperOwnedProfileCommand(),

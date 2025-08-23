@@ -2,13 +2,13 @@ package io.github.lengors.scoutdesk.domain.scrapers.strategies.commands;
 
 import io.github.lengors.scoutdesk.domain.commands.Command;
 import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
-import io.github.lengors.scoutdesk.domain.persistence.EntityFindException;
-import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyByReferenceFilter;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityNotFoundException;
+import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyByReferrerFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyEntity;
+import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyReference;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories.ScraperOwnedStrategyRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Command to find a scraper-owned strategy entity.
@@ -29,17 +29,19 @@ public record FindScraperOwnedStrategyEntityCommand()
     }
 
     @Override
-    @Transactional(readOnly = true)
     public ScraperOwnedStrategyEntity handle(
       final FindScraperOwnedStrategyEntityCommand command,
       final ScraperOwnedStrategyFilter input
     ) {
       final var optionalEntity = switch (input) {
-        case ScraperOwnedStrategyByReferenceFilter(var reference) -> scraperOwnedStrategyRepository.findById(reference);
+        case ScraperOwnedStrategyByReferrerFilter(var referrer) -> scraperOwnedStrategyRepository.findById(
+          referrer instanceof ScraperOwnedStrategyReference reference
+            ? reference
+            : new ScraperOwnedStrategyReference(referrer));
       };
 
       return optionalEntity
-        .orElseThrow(() -> new EntityFindException(ScraperOwnedStrategyEntity.class, input));
+        .orElseThrow(() -> new EntityNotFoundException(ScraperOwnedStrategyEntity.class, input));
     }
   }
 }

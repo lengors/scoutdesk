@@ -37,7 +37,7 @@ import jakarta.validation.constraints.NotNull;
 
 @RestController
 @PreAuthorize("hasRole('USER')")
-@DefaultQualifier(value = Nullable.class, locations = {TypeUseLocation.PARAMETER})
+@DefaultQualifier(value = Nullable.class, locations = TypeUseLocation.PARAMETER)
 @RequestMapping({"/api/v1/scrapers/profiles", "/api/scrapers/profiles"})
 class ScraperOwnedProfileRestController {
   private final CommandService commandService;

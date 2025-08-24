@@ -22,7 +22,7 @@ import reactor.core.publisher.Flux;
 
 @RestController
 @PreAuthorize("hasRole('USER')")
-@DefaultQualifier(value = Nullable.class, locations = {TypeUseLocation.PARAMETER})
+@DefaultQualifier(value = Nullable.class, locations = TypeUseLocation.PARAMETER)
 @RequestMapping({"/api/v1/scrapers", "/api/scrapers"})
 class ScraperOwnedRestController {
   private final CommandService commandService;
@@ -31,7 +31,7 @@ class ScraperOwnedRestController {
     this.commandService = commandService;
   }
 
-  @PostMapping(produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
+  @PostMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
   Flux<ScraperResponse> scrap(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
     @RequestBody final @NotNull ScraperOwnedRequest scraperRequest

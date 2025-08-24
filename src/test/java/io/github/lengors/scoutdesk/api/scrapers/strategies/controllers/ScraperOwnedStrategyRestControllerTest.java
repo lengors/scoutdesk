@@ -362,7 +362,7 @@ record ScraperOwnedStrategyRestControllerTest(
   }
 
   @Test
-  void givenMissingProfileWhenSaveStrategyThenNotFound() throws Exception {
+  void givenMissingProfileWhenSaveStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies")
         .header("X-authentik-username", "tester-5")
@@ -428,7 +428,7 @@ record ScraperOwnedStrategyRestControllerTest(
   }
 
   @Test
-  void givenIncorrectOwnerWhenAddProfilesToStrategyThenNotFound() throws Exception {
+  void givenIncorrectOwnerWhenAddProfilesToStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies/test-strategy-0/profiles")
         .header("X-authentik-username", "tester-2")
@@ -503,7 +503,7 @@ record ScraperOwnedStrategyRestControllerTest(
   }
 
   @Test
-  void givenMissingStrategyOwnerWhenUpdateStrategyThenNotFound() throws Exception {
+  void givenMissingStrategyOwnerWhenUpdateStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/strategies/test-strategy-0")
         .header("X-authentik-username", "tester-2")

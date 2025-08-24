@@ -167,6 +167,7 @@ public interface TestSuite {
    *
    * @return The default test data for the {@link ScraperOwnedProfileTestingEntity}
    */
+  @SuppressWarnings("LineLength")
   default List<ScraperOwnedProfileTestingEntity> getScraperOwnedProfileTestingEntities() {
     return List.of(
       new ScraperOwnedProfileTestingEntity("tester-0", "test-specification-0", "tester-0", "test-profile-0"),
@@ -183,19 +184,22 @@ public interface TestSuite {
         "test-specification-1",
         "tester-x",
         "test-profile-x",
-        Map.of("description", "test-description-x", "brand_description", "test-brand-description-x")),
+        Map.of("description", "test-description-x", "brand_description", "test-brand-description-x", "email",
+          "test@test.com")),
       new ScraperOwnedProfileTestingEntity(
         "tester-1",
         "test-specification-1",
         "tester-x",
         "test-profile-y",
-        Map.of("description", "test-description-y", "brand_description", "test-brand-description-y")),
+        Map.of("description", "test-description-y", "brand_description", "test-brand-description-y", "email",
+          "test@test.com")),
       new ScraperOwnedProfileTestingEntity(
         "tester-1",
         "test-specification-1",
         "tester-x",
         "test-profile-z",
-        Map.of("description", "test-description-z", "brand_description", "test-brand-description-z")));
+        Map.of("description", "test-description-z", "brand_description", "test-brand-description-z", "email",
+          "test@test.com")));
   }
 
   /**

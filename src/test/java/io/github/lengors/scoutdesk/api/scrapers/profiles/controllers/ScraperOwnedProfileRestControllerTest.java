@@ -269,7 +269,7 @@ record ScraperOwnedProfileRestControllerTest(
   @Test
   void givenValidProfileDataWhenSaveProfileThenProfileCreated() throws Exception {
     @SuppressWarnings("LineLength") final var content =
-      "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{}}";
+      "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{\"description\":\"test\",\"brand_description\":\"test\",\"email\":\"test@test.com\"}}";
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
@@ -283,7 +283,9 @@ record ScraperOwnedProfileRestControllerTest(
       .andExpect(jsonPath("$.specification.owner").value("tester-0"))
       .andExpect(jsonPath("$.specification.name").value("test-specification-0"))
       .andExpect(jsonPath("$.inputs").isMap())
-      .andExpect(jsonPath("$.inputs").isEmpty());
+      .andExpect(jsonPath("$.inputs.description").value("test"))
+      .andExpect(jsonPath("$.inputs.brand_description").value("test"))
+      .andExpect(jsonPath("$.inputs.email").value("test@test.com"));
 
     transaction(status -> {
       final var expectedCount = 4;
@@ -302,14 +304,46 @@ record ScraperOwnedProfileRestControllerTest(
       Assertions.assertEquals("test-profile-3", reference.name());
       Assertions.assertEquals("tester-0", specification.owner());
       Assertions.assertEquals("test-specification-0", specification.name());
-      Assertions.assertTrue(scraperOwnedProfileEntity
+      Assertions.assertEquals("test", scraperOwnedProfileEntity
         .getInputs()
-        .isEmpty());
+        .get("description"));
+      Assertions.assertEquals("test", scraperOwnedProfileEntity
+        .getInputs()
+        .get("brand_description"));
+      Assertions.assertEquals("test@test.com", scraperOwnedProfileEntity
+        .getInputs()
+        .get("email"));
     });
   }
 
   @Test
-  void givenMissingSpecificationOwnerWhenSaveProfileThenNotFound() throws Exception {
+  void givenMissingRequirementWhenSaveProfileThenBadRequest() throws Exception {
+    @SuppressWarnings("LineLength") final var content =
+      "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{\"brand_description\":\"test\",\"email\":\"test@test.com\"}}";
+
+    mockMvc
+      .perform(put("/api/v1/scrapers/profiles")
+        .header("X-authentik-username", "tester-0")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(content))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void givenInvalidRequirementWhenSaveProfileThenBadRequest() throws Exception {
+    @SuppressWarnings("LineLength") final var content =
+      "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{\"description\":\"test\",\"brand_description\":\"test\",\"email\":\"test\"}}";
+
+    mockMvc
+      .perform(put("/api/v1/scrapers/profiles")
+        .header("X-authentik-username", "tester-0")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(content))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void givenMissingSpecificationOwnerWhenSaveProfileThenBadRequest() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"\",\"name\":\"test-specification-0\"},\"inputs\":{}}";
 
@@ -322,7 +356,7 @@ record ScraperOwnedProfileRestControllerTest(
   }
 
   @Test
-  void givenMissingSpecificationNameWhenSaveProfileThenNotFound() throws Exception {
+  void givenMissingSpecificationNameWhenSaveProfileThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
         .header("X-authentik-username", "tester-0")
@@ -333,7 +367,7 @@ record ScraperOwnedProfileRestControllerTest(
   }
 
   @Test
-  void givenDeletedSpecificationWhenSaveProfileThenNotFound() throws Exception {
+  void givenDeletedSpecificationWhenSaveProfileThenBadRequest() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-1\"},\"inputs\":{}}";
 
@@ -348,7 +382,7 @@ record ScraperOwnedProfileRestControllerTest(
   @Test
   void givenExistingProfileReferenceWhenSaveProfileThenConflict() throws Exception {
     @SuppressWarnings("LineLength") final var content =
-      "{\"name\":\"test-profile-0\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{}}";
+      "{\"name\":\"test-profile-0\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{\"description\":\"test\",\"brand_description\":\"test\",\"email\":\"test@test.com\"}}";
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
@@ -374,7 +408,7 @@ record ScraperOwnedProfileRestControllerTest(
   @Test
   void givenNoAuthWhenSaveProfileThenUnauthorized() throws Exception {
     @SuppressWarnings("LineLength") final var content =
-      "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{}}";
+      "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{\"description\":\"test\",\"brand_description\":\"test\",\"email\":\"test@test.com\"}}";
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
@@ -386,7 +420,7 @@ record ScraperOwnedProfileRestControllerTest(
   @Test
   void givenForbiddenGroupWhenSaveProfileThenForbidden() throws Exception {
     @SuppressWarnings("LineLength") final var content =
-      "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{}}";
+      "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{\"description\":\"test\",\"brand_description\":\"test\",\"email\":\"test@test.com\"}}";
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
@@ -399,7 +433,7 @@ record ScraperOwnedProfileRestControllerTest(
   @Test
   void givenValidUpdateDataWhenUpdateProfileThenProfileUpdated() throws Exception {
     @SuppressWarnings("LineLength") final var content =
-      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-0\"},\"inputs\":{\"test\":\"test\"}}";
+      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-0\"},\"inputs\":{\"description\":\"test\",\"brand_description\":\"test\",\"email\":\"test@test.com\"}}";
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
@@ -412,7 +446,9 @@ record ScraperOwnedProfileRestControllerTest(
       .andExpect(jsonPath("$.name").value("test-profile-2"))
       .andExpect(jsonPath("$.specification.owner").value("tester-1"))
       .andExpect(jsonPath("$.specification.name").value("test-specification-0"))
-      .andExpect(jsonPath("$.inputs.test").value("test"));
+      .andExpect(jsonPath("$.inputs.description").value("test"))
+      .andExpect(jsonPath("$.inputs.brand_description").value("test"))
+      .andExpect(jsonPath("$.inputs.email").value("test@test.com"));
 
     transaction(status -> {
       final var expectedCount = 3;
@@ -433,14 +469,46 @@ record ScraperOwnedProfileRestControllerTest(
       Assertions.assertEquals("test-specification-0", specification.name());
       Assertions.assertEquals("test", scraperOwnedProfileEntity
         .getInputs()
-        .get("test"));
+        .get("description"));
+      Assertions.assertEquals("test", scraperOwnedProfileEntity
+        .getInputs()
+        .get("brand_description"));
+      Assertions.assertEquals("test@test.com", scraperOwnedProfileEntity
+        .getInputs()
+        .get("email"));
     });
+  }
+
+  @Test
+  void givenMissingRequirementWhenUpdateProfileThenBadRequest() throws Exception {
+    @SuppressWarnings("LineLength") final var content =
+      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-0\"},\"inputs\":{\"brand_description\":\"test\",\"email\":\"test@test.com\"}}";
+
+    mockMvc
+      .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
+        .header("X-authentik-username", "tester-0")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(content))
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void givenInvalidRequirementWhenUpdateProfileThenBadRequest() throws Exception {
+    @SuppressWarnings("LineLength") final var content =
+      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-0\"},\"inputs\":{\"description\":\"test\",\"brand_description\":\"test\",\"email\":\"test\"}}";
+
+    mockMvc
+      .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
+        .header("X-authentik-username", "tester-0")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(content))
+      .andExpect(status().isBadRequest());
   }
 
   @Test
   void givenIncorrectOwnerWhenUpdateProfileThenNotFound() throws Exception {
     @SuppressWarnings("LineLength") final var content =
-      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-0\"},\"inputs\":{\"test\":\"test\"}}";
+      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-0\"},\"inputs\":{\"description\":\"test\",\"brand_description\":\"test\",\"email\":\"test@test.com\"}}";
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-0")
@@ -453,7 +521,7 @@ record ScraperOwnedProfileRestControllerTest(
   @Test
   void givenIncorrectProfileNameWhenUpdateProfileThenNotFound() throws Exception {
     @SuppressWarnings("LineLength") final var content =
-      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-0\"},\"inputs\":{\"test\":\"test\"}}";
+      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-0\"},\"inputs\":{\"description\":\"test\",\"brand_description\":\"test\",\"email\":\"test@test.com\"}}";
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-3")
@@ -464,7 +532,7 @@ record ScraperOwnedProfileRestControllerTest(
   }
 
   @Test
-  void givenDeletedSpecificationWhenUpdateProfileThenNotFound() throws Exception {
+  void givenDeletedSpecificationWhenUpdateProfileThenBadRequest() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
         .header("X-authentik-username", "tester-0")
@@ -474,7 +542,7 @@ record ScraperOwnedProfileRestControllerTest(
   }
 
   @Test
-  void givenMissingSpecificationOwnerWhenUpdateProfileThenNotFound() throws Exception {
+  void givenMissingSpecificationOwnerWhenUpdateProfileThenBadRequest() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
         .header("X-authentik-username", "tester-0")
@@ -484,7 +552,7 @@ record ScraperOwnedProfileRestControllerTest(
   }
 
   @Test
-  void givenMissingSpecificationNameWhenUpdateProfileThenNotFound() throws Exception {
+  void givenMissingSpecificationNameWhenUpdateProfileThenBadRequest() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
         .header("X-authentik-username", "tester-0")
@@ -496,7 +564,7 @@ record ScraperOwnedProfileRestControllerTest(
   @Test
   void givenNoAuthWhenUpdateProfileThenUnauthorized() throws Exception {
     @SuppressWarnings("LineLength") final var content =
-      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-1\"},\"inputs\":{\"test\":\"test\"}}";
+      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-1\"},\"inputs\":{\"description\":\"test\",\"brand_description\":\"test\",\"email\":\"test@test.com\"}}";
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
@@ -508,7 +576,7 @@ record ScraperOwnedProfileRestControllerTest(
   @Test
   void givenForbiddenGroupWhenUpdateProfileThenForbidden() throws Exception {
     @SuppressWarnings("LineLength") final var content =
-      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-1\"},\"inputs\":{\"test\":\"test\"}}";
+      "{\"specification\":{\"owner\":\"tester-1\",\"name\":\"test-specification-1\"},\"inputs\":{\"description\":\"test\",\"brand_description\":\"test\",\"email\":\"test@test.com\"}}";
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")

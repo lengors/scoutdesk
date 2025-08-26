@@ -1,7 +1,6 @@
-package io.github.lengors.scoutdesk.api.exceptions.controllers;
+package io.github.lengors.scoutdesk.api.advices;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.github.lengors.scoutdesk.domain.commands.CommandException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @ControllerAdvice(annotations = RestController.class)
 class ExceptionHandlerRestControllerAdvice {
-  private static final Logger LOG = LoggerFactory.getLogger(ExceptionHandlerRestControllerAdvice.class);
-
   private final ConversionService conversionService;
 
   ExceptionHandlerRestControllerAdvice(final ConversionService conversionService) {
@@ -19,12 +16,17 @@ class ExceptionHandlerRestControllerAdvice {
   }
 
   @ExceptionHandler
-  ErrorResponse handleThrowable(final Throwable throwable) throws Throwable {
-    final var errorResponse = conversionService.convert(throwable, ErrorResponse.class);
-    if (errorResponse == null) {
-      throw throwable;
+  ErrorResponse handleCommandException(final CommandException commandException) {
+    final var underlyingCause = commandException.getUnderlyingCause();
+    if (underlyingCause == null) {
+      throw commandException;
     }
-    LOG.error("Emitting error response: {}", errorResponse, throwable);
+
+    final var errorResponse = conversionService.convert(underlyingCause, ErrorResponse.class);
+    if (errorResponse == null) {
+      throw underlyingCause;
+    }
+
     return errorResponse;
   }
 }

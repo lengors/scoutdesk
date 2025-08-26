@@ -1,5 +1,6 @@
 package io.github.lengors.scoutdesk.domain.persistence.constraints;
 
+import io.github.lengors.scoutdesk.domain.commands.CommandException;
 import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityNotFoundException;
 import io.github.lengors.scoutdesk.domain.persistence.services.EntityReferrer;
 import io.github.lengors.scoutdesk.domain.persistence.services.EntityService;
@@ -80,7 +81,7 @@ class RequireEntityValidator implements ConstraintValidator<RequireEntity, Objec
 
   private boolean isValid(final EntityReferrer<?> referrer) {
     try {
-      entityService.findEntity(referrer);
+      CommandException.unwrap(() -> entityService.findEntity(referrer));
     } catch (final EntityNotFoundException exception) {
       return absent;
     }

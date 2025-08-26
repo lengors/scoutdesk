@@ -1,6 +1,5 @@
 package io.github.lengors.scoutdesk.testing.wiremock.configurations;
 
-import org.springframework.stereotype.Component;
 import org.wiremock.integrations.testcontainers.WireMockContainer;
 
 /**
@@ -9,7 +8,6 @@ import org.wiremock.integrations.testcontainers.WireMockContainer;
  *
  * @author lengors
  */
-@Component
 public interface WireMockTestContainerConfigurer {
 
   /**

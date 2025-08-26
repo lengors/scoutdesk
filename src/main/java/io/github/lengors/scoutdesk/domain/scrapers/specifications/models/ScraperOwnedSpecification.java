@@ -1,5 +1,6 @@
 package io.github.lengors.scoutdesk.domain.scrapers.specifications.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -70,5 +71,15 @@ public record ScraperOwnedSpecification(
         specification.getSettings(),
         specification.getHandlers()),
       entity.getStatus());
+  }
+
+  /**
+   * Creates a reference to this scraper owned specification.
+   *
+   * @return a {@link ScraperOwnedSpecificationReference} representing the owner and name of the specification
+   */
+  @JsonIgnore
+  public @NotNull ScraperOwnedSpecificationReference reference() {
+    return new ScraperOwnedSpecificationReference(owner(), specification().getName());
   }
 }

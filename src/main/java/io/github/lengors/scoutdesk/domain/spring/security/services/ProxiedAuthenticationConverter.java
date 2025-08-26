@@ -1,7 +1,6 @@
 package io.github.lengors.scoutdesk.domain.spring.security.services;
 
 import org.springframework.security.web.authentication.AuthenticationConverter;
-import org.springframework.stereotype.Service;
 
 /**
  * Interface for converting HTTP requests into authentication objects.
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
  *
  * @author lengors
  */
-@Service
 public interface ProxiedAuthenticationConverter extends AuthenticationConverter {
 
 }

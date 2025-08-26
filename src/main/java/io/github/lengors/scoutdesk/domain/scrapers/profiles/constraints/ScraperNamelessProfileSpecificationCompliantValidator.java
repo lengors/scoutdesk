@@ -56,7 +56,6 @@ public final class ScraperNamelessProfileSpecificationCompliantValidator
       return true;
     }
 
-
     final var inputs = Objects.requireNonNullElseGet(value.inputs(), Collections::<String, String>emptyMap);
     final var requirementBatch = NullnessUtil
       .castNonNull(conversionService.convert(scraperSpecification, ScraperSpecificationRequirementBatch.class));

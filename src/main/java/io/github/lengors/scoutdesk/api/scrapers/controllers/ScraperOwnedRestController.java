@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.lengors.protoscout.domain.scrapers.models.ScraperResponse;
 import io.github.lengors.scoutdesk.api.scrapers.models.ScraperOwnedRequest;
-import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
-import io.github.lengors.scoutdesk.domain.scrapers.commands.models.ScraperOwnedCommand;
+import io.github.lengors.scoutdesk.domain.commands.CommandService;
+import io.github.lengors.scoutdesk.domain.scrapers.commands.ScraperOwnedCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.models.ScraperQuery;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

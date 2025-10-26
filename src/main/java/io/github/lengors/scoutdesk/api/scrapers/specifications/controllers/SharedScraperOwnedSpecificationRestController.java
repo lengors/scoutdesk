@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.FindScraperOwnedSpecificationBatchCommand;
+import io.github.lengors.scoutdesk.domain.commands.CommandService;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.FindScraperOwnedSpecificationBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecification;
 

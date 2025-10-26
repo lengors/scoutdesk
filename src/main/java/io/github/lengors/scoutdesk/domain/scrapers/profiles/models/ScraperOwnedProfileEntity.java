@@ -130,7 +130,7 @@ public final class ScraperOwnedProfileEntity {
    *
    * @return The input parameters for the profile
    */
-  public @NotNull Map<@NotNull String, @NotNull @NotBlank String> getInputs() {
+  public Map<String, @NotBlank String> getInputs() {
     return Collections.unmodifiableMap(inputs);
   }
 

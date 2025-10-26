@@ -7,8 +7,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
 /**
  * Command to find a scraper-owned strategy entity.
  * <p>
- * This command is used to retrieve a single strategy entity based on the
- * specified filter criteria.
+ * This command is used to retrieve a single strategy entity based on the specified filter criteria.
  *
  * @author lengors
  */

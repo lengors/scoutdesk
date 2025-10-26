@@ -19,15 +19,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.S
 import io.github.lengors.scoutdesk.domain.spring.core.services.RestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteScraperSpecificationBatchCommand;
 
-/**
- * Handles batch deletion of scraper specification entities.
- * <p>
- * This service executes the
- * {@link DeleteScraperOwnedSpecificationEntityBatchCommand} to remove multiple
- * {@link ScraperOwnedSpecificationEntity} instances from the repository.
- *
- * @author lengors
- */
 @Service
 @SuppressWarnings("LineLength")
 class DeleteScraperOwnedSpecificationEntityBatchCommandHandler implements

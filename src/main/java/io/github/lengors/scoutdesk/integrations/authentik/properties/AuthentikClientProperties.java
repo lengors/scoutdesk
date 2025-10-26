@@ -17,8 +17,12 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 @DefaultQualifier(Nullable.class)
 @ConfigurationProperties(prefix = "authentik.client")
 public record AuthentikClientProperties(
-  @NotNull String serviceAccountToken,
-  @NotNull @DefaultValue("http://localhost:9000") String url
+  @NotNull
+  String serviceAccountToken,
+
+  @NotNull
+  @DefaultValue("http://localhost:9000")
+  String url
 ) {
   /**
    * Default constructor for AuthentikClientProperties.

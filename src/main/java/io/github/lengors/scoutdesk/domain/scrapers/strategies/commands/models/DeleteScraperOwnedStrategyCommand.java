@@ -8,8 +8,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwn
 /**
  * Command to delete a scraper-owned strategy.
  * <p>
- * This command is used to trigger the deletion of a strategy that matches the
- * specified filter criteria.
+ * This command is used to trigger the deletion of a strategy that matches the specified filter criteria.
  *
  * @author lengors
  */

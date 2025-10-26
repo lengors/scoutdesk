@@ -10,15 +10,6 @@ import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.integrations.webscout.clients.WebscoutRestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteScraperSpecificationBatchCommand;
 
-/**
- * Handles batch deletion of scraper specifications via the Webscout REST
- * client.
- * <p>
- * This service executes the {@link DeleteScraperSpecificationBatchCommand} to
- * remove multiple scraper specifications identified by their names.
- *
- * @author lengors
- */
 @Service
 class DeleteScraperSpecificationBatchCommandHandler
   implements CommandHandler<DeleteScraperSpecificationBatchCommand, Collection<String>, List<ScraperSpecification>> {

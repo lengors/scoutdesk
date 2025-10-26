@@ -6,11 +6,10 @@ import org.springframework.web.server.ResponseStatusException;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 
 /**
- * Exception thrown when an invalid status transition is attempted on a
- * scraper-owned specification.
+ * Exception thrown when an invalid status transition is attempted on a scraper-owned specification.
  * <p>
- * This exception is used to indicate that the requested status transition is
- * not allowed for the current status of the specification.
+ * This exception is used to indicate that the requested status transition is not allowed for the current status of the
+ * specification.
  *
  * @author lengors
  */
@@ -26,6 +25,6 @@ public class ScraperOwnedSpecificationStatusTransitionException extends Response
     final ScraperOwnedSpecificationStatus from,
     final ScraperOwnedSpecificationStatus to
   ) {
-    super(HttpStatus.UNPROCESSABLE_ENTITY, String.format("Invalid status transition from %s to %s", from, to));
+    super(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid status transition from %s to %s".formatted(from, to));
   }
 }

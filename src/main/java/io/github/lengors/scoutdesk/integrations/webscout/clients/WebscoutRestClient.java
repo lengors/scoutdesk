@@ -16,8 +16,7 @@ import io.github.lengors.scoutdesk.integrations.webscout.properties.WebscoutClie
 /**
  * Client for interacting with the Webscout REST API for scraper specifications.
  * <p>
- * Provides methods to find, save, and delete {@link ScraperSpecification}
- * resources.
+ * Provides methods to find, save, and delete {@link ScraperSpecification} resources.
  *
  * @author lengors
  */
@@ -57,7 +56,7 @@ public class WebscoutRestClient {
     return Optional
       .ofNullable(restClient
         .delete()
-        .uri(String.format("%s/%s", BASE_PATH, name))
+        .uri("%s/%s".formatted(BASE_PATH, name))
         .retrieve()
         .body(TYPE_REFERENCE))
       .orElseThrow();
@@ -107,7 +106,7 @@ public class WebscoutRestClient {
     return Optional
       .ofNullable(restClient
         .get()
-        .uri(String.format("%s/%s", BASE_PATH, name))
+        .uri("%s/%s".formatted(BASE_PATH, name))
         .retrieve()
         .body(TYPE_REFERENCE))
       .orElseThrow();

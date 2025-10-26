@@ -17,6 +17,6 @@ public class ScraperOwnedProfileInvalidNameException extends ResponseStatusExcep
    * @param cause The cause of the exception.
    */
   public ScraperOwnedProfileInvalidNameException(final Object name, final Throwable cause) {
-    super(HttpStatus.UNPROCESSABLE_ENTITY, String.format("Invalid name '%s'", name), cause);
+    super(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid name '%s'".formatted(name), cause);
   }
 }

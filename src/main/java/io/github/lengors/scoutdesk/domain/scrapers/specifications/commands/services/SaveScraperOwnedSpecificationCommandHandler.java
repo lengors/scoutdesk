@@ -15,14 +15,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.S
 import io.github.lengors.scoutdesk.domain.spring.core.services.RestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.SaveScraperSpecificationCommand;
 
-/**
- * Handles saving or updating an owned scraper specification.
- * <p>
- * This service executes the {@link SaveScraperOwnedSpecificationCommand} to
- * persist a specification for a user.
- *
- * @author lengors
- */
 @Service
 class SaveScraperOwnedSpecificationCommandHandler
   implements CommandHandler<SaveScraperOwnedSpecificationCommand, ScraperSpecification, ScraperOwnedSpecification> {

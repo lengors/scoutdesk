@@ -11,16 +11,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
 
-/**
- * Handles retrieval of a single owned scraper specification entity using a
- * filter.
- * <p>
- * This service executes the {@link FindScraperOwnedSpecificationEntityCommand}
- * to fetch a {@link ScraperOwnedSpecificationEntity} matching the provided
- * filter.
- *
- * @author lengors
- */
 @Service
 @SuppressWarnings("LineLength")
 class FindScraperOwnedSpecificationEntityCommandHandler implements

@@ -15,8 +15,7 @@ public record UpdateScraperOwnedStrategyCommand(Operation operation)
   implements Command<ScraperOwnedStrategy, ScraperOwnedStrategy> {
 
   /**
-   * Enum representing the possible operations for updating a scraper-owned
-   * strategy.
+   * Enum representing the possible operations for updating a scraper-owned strategy.
    *
    * @author lengors
    */

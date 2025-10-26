@@ -39,7 +39,7 @@ public class WebscoutContainerConnectionDetailsFactory
     public String url() {
       final var host = getContainer().getHost();
       final var port = getContainer().getMappedPort(WebscoutContainer.WEBSCOUT_PORT);
-      return String.format("http://%s:%d", host, port);
+      return "http://%s:%d".formatted(host, port);
     }
   }
 }

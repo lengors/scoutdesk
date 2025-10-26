@@ -14,12 +14,10 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Represents a scraper specification owned by a user.
  * <p>
- * This class contains the owner of the specification, the specification itself,
- * and the status of the specification.
+ * This class contains the owner of the specification, the specification itself, and the status of the specification.
  * <p>
- * It is used to encapsulate the details of a scraper specification owned by a
- * user, including the owner, the specification details, and the status of the
- * specification.
+ * It is used to encapsulate the details of a scraper specification owned by a user, including the owner, the
+ * specification details, and the status of the specification.
  *
  * @param owner         The owner of the specification
  * @param specification The specification details
@@ -30,9 +28,17 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedSpecification(
-  @JsonProperty("owner") @NotNull String owner,
-  @JsonProperty("specification") @NotNull ScraperSpecification specification,
-  @JsonProperty("status") @NotNull ScraperOwnedSpecificationStatus status
+  @JsonProperty("owner")
+  @NotNull
+  String owner,
+
+  @JsonProperty("specification")
+  @NotNull
+  ScraperSpecification specification,
+
+  @JsonProperty("status")
+  @NotNull
+  ScraperOwnedSpecificationStatus status
 ) {
 
   /**
@@ -43,11 +49,10 @@ public record ScraperOwnedSpecification(
   }
 
   /**
-   * Constructor for creating a scraper owned specification from a
-   * {@link ScraperOwnedSpecificationEntity} and a {@link ScraperSpecification}.
+   * Constructor for creating a scraper owned specification from a {@link ScraperOwnedSpecificationEntity} and a
+   * {@link ScraperSpecification}.
    *
-   * @param entity        The entity containing the owner and status of the
-   *                      specification
+   * @param entity        The entity containing the owner and status of the specification
    * @param specification The specification details
    */
   public ScraperOwnedSpecification(

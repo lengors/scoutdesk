@@ -16,8 +16,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Represents a scraper profile owned by a user.
  * <p>
- * This class contains the owner, name, specification reference, and input
- * parameters for the profile.
+ * This class contains the owner, name, specification reference, and input parameters for the profile.
  *
  * @param owner         The owner of the profile
  * @param name          The name of the profile
@@ -29,10 +28,21 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedProfile(
-  @JsonProperty("owner") @NotNull String owner,
-  @JsonProperty("name") @NotNull String name,
-  @JsonProperty("specification") @NotNull ScraperOwnedSpecificationReference specification,
-  @JsonProperty("inputs") @NotNull Map<@NotNull String, @NotNull String> inputs
+  @JsonProperty("owner")
+  @NotNull
+  String owner,
+
+  @JsonProperty("name")
+  @NotNull
+  String name,
+
+  @JsonProperty("specification")
+  @NotNull
+  ScraperOwnedSpecificationReference specification,
+
+  @JsonProperty("inputs")
+  @NotNull
+  Map<@NotNull String, @NotNull String> inputs
 )
   implements ScraperNamedProfile, ScraperOwnedProfileReferrer {
 

@@ -18,8 +18,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Represents a scraper strategy owned by a user.
  * <p>
- * This class contains the owner, name, and profiles associated with the
- * strategy.
+ * This class contains the owner, name, and profiles associated with the strategy.
  *
  * @param owner    The owner of the strategy
  * @param name     The name of the strategy
@@ -30,9 +29,17 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedStrategy(
-  @JsonProperty("owner") @NotNull String owner,
-  @JsonProperty("name") @NotNull String name,
-  @JsonProperty("profiles") @NotNull Set<@NotNull String> profiles
+  @JsonProperty("owner")
+  @NotNull
+  String owner,
+
+  @JsonProperty("name")
+  @NotNull
+  String name,
+
+  @JsonProperty("profiles")
+  @NotNull
+  Set<@NotNull String> profiles
 )
   implements ScraperNamedStrategy, ScraperOwnedStrategyReferrer {
 

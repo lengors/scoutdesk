@@ -8,8 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 /**
  * Utility class for handling REST client operations.
  * <p>
- * Provides methods to handle exceptions and rethrow them as
- * {@link ResponseStatusException}.
+ * Provides methods to handle exceptions and rethrow them as {@link ResponseStatusException}.
  *
  * @author lengors
  */
@@ -19,15 +18,12 @@ public final class RestClient {
   }
 
   /**
-   * Rethrows a {@link RestClientResponseException} as a
-   * {@link ResponseStatusException}.
+   * Rethrows a {@link RestClientResponseException} as a {@link ResponseStatusException}.
    *
-   * @param supplier The supplier that may throw a
-   *                 {@link RestClientResponseException}
+   * @param supplier The supplier that may throw a {@link RestClientResponseException}
    * @param <T>      The type of the result
    * @return The result of the supplier
-   * @throws ResponseStatusException if the supplier throws a
-   *                                 {@link RestClientResponseException}
+   * @throws ResponseStatusException if the supplier throws a {@link RestClientResponseException}
    */
   public static <T> T rethrowing(final Supplier<T> supplier) {
     try {

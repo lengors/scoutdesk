@@ -16,15 +16,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.S
 import io.github.lengors.scoutdesk.domain.spring.core.services.RestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteScraperSpecificationCommand;
 
-/**
- * Handles deletion of a single scraper specification entity.
- * <p>
- * This service executes the
- * {@link DeleteScraperOwnedSpecificationEntityCommand} to remove a
- * {@link ScraperOwnedSpecificationEntity} from the repository.
- *
- * @author lengors
- */
 @Service
 class DeleteScraperOwnedSpecificationEntityCommandHandler implements
   CommandHandler<DeleteScraperOwnedSpecificationEntityCommand, ScraperOwnedSpecificationEntity, @Nullable Void> {

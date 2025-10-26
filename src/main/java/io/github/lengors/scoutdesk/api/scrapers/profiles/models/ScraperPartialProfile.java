@@ -14,8 +14,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 import jakarta.validation.constraints.NotNull;
 
 /**
- * Represents a partial profile for a scraper, which includes the specification
- * reference and input parameters.
+ * Represents a partial profile for a scraper, which includes the specification reference and input parameters.
  *
  * @param specification The specification reference for the scraper.
  * @param inputs        The input parameters for the scraper.
@@ -25,8 +24,13 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperPartialProfile(
-  @JsonProperty("specification") @NotNull ScraperOwnedSpecificationReference specification,
-  @JsonProperty("inputs") @NotNull Map<@NotNull String, @NotNull String> inputs
+  @JsonProperty("specification")
+  @NotNull
+  ScraperOwnedSpecificationReference specification,
+
+  @JsonProperty("inputs")
+  @NotNull
+  Map<@NotNull String, @NotNull String> inputs
 ) implements ScraperNamelessProfile {
 
 }

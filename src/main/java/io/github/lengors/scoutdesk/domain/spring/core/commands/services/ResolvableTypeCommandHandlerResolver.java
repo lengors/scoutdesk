@@ -19,11 +19,10 @@ import io.github.lengors.scoutdesk.domain.commands.services.CommandHandlerResolv
 import io.github.lengors.scoutdesk.domain.spring.core.services.ResolvableTypes;
 
 /**
- * Resolves command handlers based on the command type using
- * {@link ResolvableType}.
+ * Resolves command handlers based on the command type using {@link ResolvableType}.
  * <p>
- * This class implements the {@link CommandHandlerResolver} interface and
- * provides a mechanism to resolve command handlers for specific command types.
+ * This class implements the {@link CommandHandlerResolver} interface and provides a mechanism to resolve command
+ * handlers for specific command types.
  *
  * @author lengors
  */

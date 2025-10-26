@@ -10,11 +10,9 @@ import io.github.lengors.scoutdesk.integrations.webscout.properties.WebscoutClie
 import io.github.lengors.scoutdesk.integrations.webscout.properties.WebscoutClientProperties;
 
 /**
- * Auto-configuration for providing {@link WebscoutClientConnectionDetails}
- * beans.
+ * Auto-configuration for providing {@link WebscoutClientConnectionDetails} beans.
  * <p>
- * Registers a bean if {@link WebscoutClientProperties} is present and no other
- * connection details bean exists.
+ * Registers a bean if {@link WebscoutClientProperties} is present and no other connection details bean exists.
  *
  * @author lengors
  */

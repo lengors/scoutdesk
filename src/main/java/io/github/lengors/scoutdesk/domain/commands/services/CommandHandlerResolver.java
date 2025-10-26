@@ -20,8 +20,7 @@ public interface CommandHandlerResolver {
    * @param <I>     the input type
    * @param <O>     the output type
    * @param command the command to resolve
-   * @return the command handler for the given command, or null if no handler
-   * exists
+   * @return the command handler for the given command, or null if no handler exists
    */
   <C extends Command<I, O>, I, O> @Nullable CommandHandler<C, I, O> resolve(C command);
 }

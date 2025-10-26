@@ -3,11 +3,9 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.filters;
 import java.util.Collection;
 
 /**
- * Filter for scraper owned profile batches by reference owner and reference
- * name.
+ * Filter for scraper owned profile batches by reference owner and reference name.
  * <p>
- * This filter is used to select profiles based on the reference owner and
- * reference names.
+ * This filter is used to select profiles based on the reference owner and reference names.
  *
  * @param owner The owner of the reference to filter by.
  * @param names The names of the references to filter by.

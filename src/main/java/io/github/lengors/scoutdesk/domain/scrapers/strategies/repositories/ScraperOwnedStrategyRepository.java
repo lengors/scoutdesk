@@ -12,8 +12,8 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
 /**
  * Repository interface for managing scraper-owned strategies.
  * <p>
- * This interface extends the {@link CrudRepository} interface to provide basic
- * CRUD operations for {@link ScraperOwnedStrategyEntity} objects.
+ * This interface extends the {@link CrudRepository} interface to provide basic CRUD operations for
+ * {@link ScraperOwnedStrategyEntity} objects.
  *
  * @author lengors
  */

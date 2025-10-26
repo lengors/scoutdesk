@@ -9,8 +9,7 @@ import io.github.lengors.scoutdesk.domain.commands.models.Command;
 /**
  * Command for retrieving a batch of scraper specifications by their names.
  * <p>
- * Used to fetch multiple {@link ScraperSpecification} resources in a single
- * operation.
+ * Used to fetch multiple {@link ScraperSpecification} resources in a single operation.
  *
  * @author lengors
  */

@@ -6,8 +6,7 @@ import io.github.lengors.scoutdesk.domain.commands.models.Command;
 /**
  * Command for deleting a single scraper specification by name.
  * <p>
- * Used to trigger the removal of a specific {@link ScraperSpecification}
- * resource.
+ * Used to trigger the removal of a specific {@link ScraperSpecification} resource.
  *
  * @author lengors
  */

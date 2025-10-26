@@ -6,11 +6,9 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 import java.util.Collection;
 
 /**
- * Filter for querying batches of scraper specifications by reference batch and
- * status.
+ * Filter for querying batches of scraper specifications by reference batch and status.
  * <p>
- * Used to filter {@link ScraperOwnedSpecificationBatchFilter} results based on
- * multiple criteria.
+ * Used to filter {@link ScraperOwnedSpecificationBatchFilter} results based on multiple criteria.
  *
  * @param references The references of the specifications to filter by
  * @param status     The status of the specifications to filter by
@@ -22,8 +20,8 @@ public record ScraperOwnedSpecificationBatchByReferenceBatchAndStatusFilter(
 ) implements ScraperOwnedSpecificationBatchFilter {
 
   /**
-   * Constructor for creating a filter with a specific reference batch and with
-   * status defaulting to {@link ScraperOwnedSpecificationStatus#DELETED}.
+   * Constructor for creating a filter with a specific reference batch and with status defaulting to
+   * {@link ScraperOwnedSpecificationStatus#DELETED}.
    *
    * @param references The references of the specifications to filter by
    */

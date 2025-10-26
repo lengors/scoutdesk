@@ -5,8 +5,7 @@ import org.springframework.boot.docker.compose.service.connection.DockerComposeC
 import org.springframework.boot.docker.compose.service.connection.DockerComposeConnectionSource;
 
 /**
- * Factory for creating {@link WebscoutClientConnectionDetails} from Docker
- * Compose services.
+ * Factory for creating {@link WebscoutClientConnectionDetails} from Docker Compose services.
  * <p>
  * Resolves the Webscout service URL based on running container information.
  *
@@ -38,7 +37,7 @@ class WebscoutClientDockerComposeConnectionDetailsFactory
       final var port = runningService
         .ports()
         .get(CONTAINER_PORT);
-      this.url = String.format("http://%s:%d", host, port);
+      this.url = "http://%s:%d".formatted(host, port);
     }
 
     @Override

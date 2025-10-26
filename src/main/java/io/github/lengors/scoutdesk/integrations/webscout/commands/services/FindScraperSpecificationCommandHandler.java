@@ -7,15 +7,6 @@ import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.integrations.webscout.clients.WebscoutRestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.FindScraperSpecificationCommand;
 
-/**
- * Handles retrieval of a single scraper specification via the Webscout REST
- * client.
- * <p>
- * This service executes the {@link FindScraperSpecificationCommand} to fetch a
- * {@link ScraperSpecification} resource by name.
- *
- * @author lengors
- */
 @Service
 class FindScraperSpecificationCommandHandler
   implements CommandHandler<FindScraperSpecificationCommand, String, ScraperSpecification> {

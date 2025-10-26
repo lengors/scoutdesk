@@ -352,23 +352,23 @@ record ScraperOwnedStrategyRestControllerTest(
   }
 
   @Test
-  void givenInvalidStrategyNameWhenSaveStrategyThenUnprocessableEntity() throws Exception {
+  void givenInvalidStrategyNameWhenSaveStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies")
         .header("X-authentik-username", "tester-5")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"name\":\"test/strategy/0\",\"profiles\":[\"test-profile-0\",\"test-profile-1\"]}"))
-      .andExpect(status().isUnprocessableEntity());
+      .andExpect(status().isBadRequest());
   }
 
   @Test
-  void givenMissingProfileWhenSaveStrategyThenUnprocessableEntity() throws Exception {
+  void givenMissingProfileWhenSaveStrategyThenNotFound() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies")
         .header("X-authentik-username", "tester-5")
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"name\":\"test/strategy/0\",\"profiles\":[\"test-profile-a\"]}"))
-      .andExpect(status().isUnprocessableEntity());
+        .content("{\"name\":\"test-strategy-5\",\"profiles\":[\"test-profile-a\"]}"))
+      .andExpect(status().isNotFound());
   }
 
   @Test

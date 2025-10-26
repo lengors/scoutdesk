@@ -2,7 +2,6 @@ package io.github.lengors.scoutdesk.domain.persistence.exceptions.models;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -39,15 +38,6 @@ public abstract sealed class EntityException extends RuntimeException
     this.query = query;
   }
 
-  @Override
-  public final boolean equals(final @Nullable Object object) {
-    if (object == null || getClass() != object.getClass()) {
-      return false;
-    }
-    final var other = (EntityException) object;
-    return Objects.equals(runtimeType, other.runtimeType) && Objects.equals(query, other.query);
-  }
-
   /**
    * Returns the runtime type of the entity that caused the conflict.
    *
@@ -76,18 +66,5 @@ public abstract sealed class EntityException extends RuntimeException
    */
   public @Nullable Object getQuery() {
     return query;
-  }
-
-  @Override
-  public final int hashCode() {
-    return Objects.hash(runtimeType, query);
-  }
-
-  @Override
-  public final String toString() {
-    return "%s{runtimeType=%s, query=%s}".formatted(
-      getClass().getSimpleName(),
-      getRuntimeTypeName(),
-      Objects.requireNonNullElse(query, "null"));
   }
 }

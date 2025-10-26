@@ -10,14 +10,12 @@ import io.github.lengors.scoutdesk.domain.commands.services.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
 import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntitySaveException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.models.FindScraperOwnedProfileEntityBatchCommand;
-import io.github.lengors.scoutdesk.domain.scrapers.profiles.exceptions.models.ScraperOwnedProfileInvalidNameException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.commands.models.SaveScraperOwnedStrategyCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategy;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyReference;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories.ScraperOwnedStrategyRepository;
-import io.github.lengors.scoutdesk.domain.text.exceptions.models.InvalidCharacterException;
 
 @Service
 class SaveScraperOwnedStrategyCommandHandler
@@ -36,16 +34,6 @@ class SaveScraperOwnedStrategyCommandHandler
   @Override
   @Transactional
   public ScraperOwnedStrategy handle(final SaveScraperOwnedStrategyCommand command, final ScraperOwnedStrategy input) {
-    if (input
-      .name()
-      .contains("/")) {
-      try {
-        throw new InvalidCharacterException('/');
-      } catch (final InvalidCharacterException exception) {
-        throw new ScraperOwnedProfileInvalidNameException(input.name(), exception);
-      }
-    }
-
     final var reference = new ScraperOwnedStrategyReference(input.owner(), input.name());
     if (scraperOwnedStrategyRepository.existsById(reference)) {
       throw new EntitySaveException(ScraperOwnedStrategyReference.class, reference);

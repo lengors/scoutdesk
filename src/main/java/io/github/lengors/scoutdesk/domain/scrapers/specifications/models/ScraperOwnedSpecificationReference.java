@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.domain.scrapers.specifications.models;
 
 import java.io.Serializable;
 
+import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -34,7 +35,7 @@ public record ScraperOwnedSpecificationReference(
 
   @JsonProperty("name")
   @NotNull
-  String name
+  @Pattern(regexp = "^[^/\\s]+$")  String name
 ) implements Serializable {
 
   /**

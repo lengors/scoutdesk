@@ -3,6 +3,7 @@ package io.github.lengors.scoutdesk.api.exceptions.controllers;
 import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityDeleteException;
 import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntityFindException;
 import io.github.lengors.scoutdesk.domain.persistence.exceptions.models.EntitySaveException;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.exceptions.models.ScraperOwnedSpecificationStatusTransitionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientResponseException;
 
 import java.util.Objects;
 
@@ -52,5 +54,32 @@ class ExceptionHandlerRestControllerAdvice {
         entitySaveException.getRuntimeTypeName(),
         Objects.requireNonNullElse(entitySaveException.getQuery(), "null")
       ));
+  }
+
+  @ExceptionHandler
+  ErrorResponse handleRestClientResponseException(final RestClientResponseException restClientResponseException) {
+    LOG.error("Failed to connect to service", restClientResponseException);
+    return ErrorResponse.create(
+      restClientResponseException,
+      restClientResponseException.getStatusCode(),
+      restClientResponseException.getResponseBodyAsString()
+    );
+  }
+
+  @ExceptionHandler
+  ErrorResponse handleScraperOwnedSpecificationStatusTransitionException(
+    final ScraperOwnedSpecificationStatusTransitionException scraperOwnedSpecificationStatusTransitionException
+  ) {
+    LOG.error(
+      "Failed to transition scraper owned specification status",
+      scraperOwnedSpecificationStatusTransitionException);
+    return ErrorResponse.create(
+      scraperOwnedSpecificationStatusTransitionException,
+      HttpStatus.UNPROCESSABLE_ENTITY,
+      "Invalid status transition from %s to %s".formatted(
+        scraperOwnedSpecificationStatusTransitionException.getFrom(),
+        scraperOwnedSpecificationStatusTransitionException.getTo()
+      )
+    );
   }
 }

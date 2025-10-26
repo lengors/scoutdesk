@@ -17,7 +17,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecification;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
-import io.github.lengors.scoutdesk.domain.spring.core.services.RestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.FindScraperSpecificationBatchCommand;
 
 @Service
@@ -37,12 +36,13 @@ class FindScraperOwnedSpecificationBatchCommandHandler implements
     final ScraperOwnedSpecificationBatchFilter input
   ) {
     final var entities = commandService.executeCommand(new FindScraperOwnedSpecificationEntityBatchCommand(), input);
-    final var specifications = RestClient
-      .rethrowing(() -> commandService.executeCommand(new FindScraperSpecificationBatchCommand(), entities
+    final var specifications = commandService.executeCommand(
+      new FindScraperSpecificationBatchCommand(),
+      entities
         .stream()
         .map(ScraperOwnedSpecificationEntity::getReference)
         .map(ScraperOwnedSpecificationReference::fullyQualifiedName)
-        .toList()));
+        .toList());
     return entities
       .stream()
       .map(entity -> buildScraperOwnedSpecification(entity, specifications))

@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.api.scrapers.profiles.models;
 
 import java.util.Map;
 
+import jakarta.validation.constraints.NotBlank;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -30,7 +31,7 @@ public record ScraperPartialProfile(
 
   @JsonProperty("inputs")
   @NotNull
-  Map<@NotNull String, @NotNull String> inputs
+  Map<@NotNull String, @NotNull @NotBlank String> inputs
 ) implements ScraperNamelessProfile {
 
 }

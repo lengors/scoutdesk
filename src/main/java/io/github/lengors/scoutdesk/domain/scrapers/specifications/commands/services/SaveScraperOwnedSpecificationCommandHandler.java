@@ -12,7 +12,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
-import io.github.lengors.scoutdesk.domain.spring.core.services.RestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.SaveScraperSpecificationCommand;
 
 @Service
@@ -37,12 +36,12 @@ class SaveScraperOwnedSpecificationCommandHandler
   ) {
     final var reference = new ScraperOwnedSpecificationReference(command.owner(), input.getName());
     final var entity = new ScraperOwnedSpecificationEntity(reference);
-    final var scraperSpecification = RestClient.rethrowing(() -> commandService.executeCommand(
+    final var scraperSpecification = commandService.executeCommand(
       new SaveScraperSpecificationCommand(),
       new ScraperSpecification(
         reference.fullyQualifiedName(),
         input.getSettings(),
-        input.getHandlers())));
+        input.getHandlers()));
     return new ScraperOwnedSpecification(scraperOwnedSpecificationRepository.save(entity), scraperSpecification);
   }
 }

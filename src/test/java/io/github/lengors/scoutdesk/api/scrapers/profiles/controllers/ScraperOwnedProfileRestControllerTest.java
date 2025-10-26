@@ -359,7 +359,7 @@ record ScraperOwnedProfileRestControllerTest(
   }
 
   @Test
-  void givenInvalidProfileNameWhenSaveProfileThenUnprocessableEntity() throws Exception {
+  void givenInvalidProfileNameWhenSaveProfileThenBadRequest() throws Exception {
     @SuppressWarnings("LineLength") final var content =
       "{\"name\":\"test/profile-0\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-0\"},\"inputs\":{}}";
 
@@ -368,7 +368,7 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
-      .andExpect(status().isUnprocessableEntity());
+      .andExpect(status().isBadRequest());
   }
 
   @Test

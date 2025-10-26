@@ -13,7 +13,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.model
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
-import io.github.lengors.scoutdesk.domain.spring.core.services.RestClient;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.models.DeleteScraperSpecificationCommand;
 
 @Service
@@ -43,8 +42,7 @@ class DeleteScraperOwnedSpecificationEntityCommandHandler implements
         .getReference()
         .fullyQualifiedName();
       scraperOwnedSpecificationRepository.delete(input);
-      RestClient
-        .rethrowing(() -> commandService.executeCommand(new DeleteScraperSpecificationCommand(), fullyQualifiedName));
+      commandService.executeCommand(new DeleteScraperSpecificationCommand(), fullyQualifiedName);
     } else if (!Objects.equals(input.getStatus(), ScraperOwnedSpecificationStatus.DELETED)) {
       input.setStatus(ScraperOwnedSpecificationStatus.DELETED);
       scraperOwnedSpecificationRepository.save(input);

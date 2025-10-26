@@ -3,6 +3,8 @@ package io.github.lengors.scoutdesk.domain.scrapers.strategies.models;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -35,11 +37,12 @@ public record ScraperOwnedStrategy(
 
   @JsonProperty("name")
   @NotNull
+  @Pattern(regexp = "^[^/\\s]+$")
   String name,
 
   @JsonProperty("profiles")
   @NotNull
-  Set<@NotNull String> profiles
+  Set<@NotNull @NotBlank String> profiles
 )
   implements ScraperNamedStrategy, ScraperOwnedStrategyReferrer {
 

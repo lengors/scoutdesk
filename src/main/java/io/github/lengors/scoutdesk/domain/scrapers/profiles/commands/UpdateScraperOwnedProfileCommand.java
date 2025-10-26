@@ -9,7 +9,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories.ScraperOwnedProfileRepository;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.FindScraperOwnedSpecificationEntityCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferenceAndStatusNotFilter;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +31,7 @@ public record UpdateScraperOwnedProfileCommand() implements Command<ScraperOwned
 
     Handler(
       final ScraperOwnedProfileRepository scraperOwnedProfileRepository,
-      @Lazy final CommandService commandService
+      final CommandService commandService
     ) {
       this.scraperOwnedProfileRepository = scraperOwnedProfileRepository;
       this.commandService = commandService;

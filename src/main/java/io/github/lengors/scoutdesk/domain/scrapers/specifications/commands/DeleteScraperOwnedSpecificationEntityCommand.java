@@ -9,7 +9,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.DeleteScraperSpecificationCommand;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,7 @@ public record DeleteScraperOwnedSpecificationEntityCommand()
 
     Handler(
       final ScraperOwnedSpecificationRepository scraperOwnedSpecificationRepository,
-      @Lazy final CommandService commandService
+      final CommandService commandService
     ) {
       this.scraperOwnedSpecificationRepository = scraperOwnedSpecificationRepository;
       this.commandService = commandService;

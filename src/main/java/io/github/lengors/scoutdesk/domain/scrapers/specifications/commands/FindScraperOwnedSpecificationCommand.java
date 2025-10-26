@@ -6,7 +6,6 @@ import io.github.lengors.scoutdesk.domain.commands.CommandService;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecification;
 import io.github.lengors.scoutdesk.integrations.webscout.commands.FindScraperSpecificationCommand;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +24,7 @@ public record FindScraperOwnedSpecificationCommand()
     CommandHandler<FindScraperOwnedSpecificationCommand, ScraperOwnedSpecificationFilter, ScraperOwnedSpecification> {
     private final CommandService commandService;
 
-    Handler(@Lazy final CommandService commandService) {
+    Handler(final CommandService commandService) {
       this.commandService = commandService;
     }
 

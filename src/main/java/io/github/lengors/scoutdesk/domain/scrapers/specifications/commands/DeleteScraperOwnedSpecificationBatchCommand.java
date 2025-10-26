@@ -6,7 +6,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import io.github.lengors.scoutdesk.domain.commands.Command;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchFilter;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +23,7 @@ public record DeleteScraperOwnedSpecificationBatchCommand()
     CommandHandler<DeleteScraperOwnedSpecificationBatchCommand, ScraperOwnedSpecificationBatchFilter, @Nullable Void> {
     private final CommandService commandService;
 
-    Handler(@Lazy final CommandService commandService) {
+    Handler(final CommandService commandService) {
       this.commandService = commandService;
     }
 

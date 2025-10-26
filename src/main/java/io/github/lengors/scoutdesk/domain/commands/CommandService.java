@@ -1,12 +1,6 @@
 package io.github.lengors.scoutdesk.domain.commands;
 
-import io.github.lengors.scoutdesk.domain.resolvers.ResolutionService;
-import jakarta.validation.constraints.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StopWatch;
 
 /**
  * Service for executing commands in the application.
@@ -17,62 +11,31 @@ import org.springframework.util.StopWatch;
  */
 @Service
 public class CommandService {
-  private static final Logger LOG = LoggerFactory.getLogger(CommandService.class);
-
-  private final ResolutionService<@NotNull Command<?, ?>, @NotNull CommandHandler<?, ?, ?>> resolutionService;
+  private final CommandMetadataFactory commandMetadataFactory;
+  private final CommandExecutor commandExecutor;
 
   CommandService(
-    @Lazy final ResolutionService<@NotNull Command<?, ?>, @NotNull CommandHandler<?, ?, ?>> resolutionService
+    final CommandMetadataFactory commandMetadataFactory,
+    final CommandExecutor commandExecutor
   ) {
-    this.resolutionService = resolutionService;
+    this.commandMetadataFactory = commandMetadataFactory;
+    this.commandExecutor = commandExecutor;
   }
 
   /**
-   * Executes a command using the appropriate command handler.
+   * Executes a command with the specified input.
    *
-   * @param <C>     the command type
-   * @param <I>     the input type
-   * @param <O>     the output type
-   * @param command the command to execute
-   * @param input   the input for the command
-   * @return the output of the command
+   * @param <C>     the type of command being executed, which extends {@link Command}
+   * @param <I>     the type of input that the command accepts
+   * @param <O>     the type of output that the command produces
+   * @param command the command to be executed
+   * @param input   the input to be passed to the command
+   * @return the output of the command execution
    */
   public <C extends Command<I, O>, I, O> O executeCommand(final C command, final I input) {
-    LOG.trace("Resolving handler for {command={}}", command);
-    final var commandHandler = resolveCommandHandler(command);
-    LOG.debug("Resolved handler for {command={}}: {}", command, commandHandler);
-
-    final var stopWatch = new StopWatch();
-    stopWatch.start();
-    final var output = commandHandler.handle(command, input);
-    stopWatch.stop();
-
-    logResult(command, input, output, stopWatch);
-
-    return output;
-  }
-
-  @SuppressWarnings("unchecked")
-  private <C extends Command<I, O>, I, O> CommandHandler<C, I, O> resolveCommandHandler(final C command) {
-    return (CommandHandler<C, I, O>) resolutionService.resolve(command);
-  }
-
-  @SuppressWarnings("nullness")
-  private static <C extends Command<I, O>, I, O> void logResult(
-    final C command, final I input, final O output,
-    final StopWatch stopWatch
-  ) {
-    if (LOG.isTraceEnabled()) {
-      LOG.trace(
-        "Executed {command={}, input={}, output={}} in {} ms",
-        command,
-        input,
-        output,
-        stopWatch.getTotalTimeMillis());
-    } else if (LOG.isDebugEnabled()) {
-      LOG.debug("Executed {command={}, input={}} in {} ms", command, input, stopWatch.getTotalTimeMillis());
-    } else {
-      LOG.info("Executed {command={}} in {} ms", command, stopWatch.getTotalTimeMillis());
-    }
+    final var metadata = commandMetadataFactory.create(command, input);
+    final var request = new CommandRequest<>(command, input, metadata);
+    final var result = commandExecutor.execute(request);
+    return result.orElseThrow();
   }
 }

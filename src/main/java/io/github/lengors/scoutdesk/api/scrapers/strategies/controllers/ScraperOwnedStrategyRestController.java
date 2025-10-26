@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import jakarta.validation.constraints.NotBlank;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -44,7 +43,7 @@ import jakarta.validation.constraints.NotNull;
 class ScraperOwnedStrategyRestController {
   private final CommandService commandService;
 
-  ScraperOwnedStrategyRestController(final @NonNull CommandService commandService) {
+  ScraperOwnedStrategyRestController(final @NotNull CommandService commandService) {
     this.commandService = commandService;
   }
 

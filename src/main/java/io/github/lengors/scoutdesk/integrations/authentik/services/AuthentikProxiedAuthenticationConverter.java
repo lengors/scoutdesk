@@ -1,7 +1,6 @@
 package io.github.lengors.scoutdesk.integrations.authentik.services;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -64,7 +63,7 @@ class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationCo
     final var roles = Optional
       .ofNullable(userRoleProperties)
       .map(UserRoleProperties::mappings)
-      .orElseGet(Collections::emptyMap);
+      .orElseGet(Map::of);
     this.mappings = roles
       .entrySet()
       .stream()
@@ -97,7 +96,6 @@ class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationCo
     try {
       authentikUser = commandService.executeCommand(new FindAuthentikUserCommand(), usernameHeader);
     } catch (final NoSuchElementException exception) {
-      LOG.error("User {username={}} not found", usernameHeader, exception);
       return new AuthentikProxiedAnonymousPrincipal();
     }
 
@@ -115,7 +113,7 @@ class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationCo
       .flatMap(Collection::stream)
       .map(AuthentikGroup::name)
       .flatMap(header -> mappings
-        .getOrDefault(header, Collections.emptyList())
+        .getOrDefault(header, List.of())
         .stream())
       .toList();
 

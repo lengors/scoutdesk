@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 /**
  * Represents an anonymous principal in Authentik proxied authentication.
@@ -32,7 +32,7 @@ public record AuthentikProxiedAnonymousPrincipal() implements AuthentikProxiedAu
    */
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Collections.emptyList();
+    return List.of();
   }
 
   /**

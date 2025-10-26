@@ -12,7 +12,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.Scrape
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
-import io.github.lengors.scoutdesk.domain.text.services.FuzzyScorer;
+import io.github.lengors.scoutdesk.domain.text.FuzzyScorer;
 import org.apache.commons.lang3.tuple.Pair;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.stereotype.Service;

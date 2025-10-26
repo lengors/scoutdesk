@@ -2,7 +2,7 @@ package io.github.lengors.scoutdesk.api.scrapers.specifications.controllers;
 
 import java.util.List;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import jakarta.validation.constraints.NotNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -31,7 +31,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
 class SharedScraperOwnedSpecificationRestController {
   private final CommandService commandService;
 
-  SharedScraperOwnedSpecificationRestController(final @NonNull CommandService commandService) {
+  SharedScraperOwnedSpecificationRestController(final @NotNull CommandService commandService) {
     this.commandService = commandService;
   }
 

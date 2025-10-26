@@ -1,5 +1,6 @@
 package io.github.lengors.scoutdesk.integrations.authentik.properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.docker.compose.core.RunningService;
 import org.springframework.boot.docker.compose.service.connection.DockerComposeConnectionDetailsFactory;
 import org.springframework.boot.docker.compose.service.connection.DockerComposeConnectionSource;
@@ -34,7 +35,7 @@ class AuthentikClientDockerComposeConnectionDetailsFactory
       this.url = "http://%s:%d".formatted(host, port);
       this.serviceAccountToken = runningService
         .env()
-        .getOrDefault("AUTHENTIK_BOOTSTRAP_TOKEN", "");
+        .getOrDefault("AUTHENTIK_BOOTSTRAP_TOKEN", StringUtils.EMPTY);
     }
 
     @Override

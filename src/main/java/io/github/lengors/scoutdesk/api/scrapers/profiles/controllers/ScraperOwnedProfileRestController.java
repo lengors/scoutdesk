@@ -3,7 +3,6 @@ package io.github.lengors.scoutdesk.api.scrapers.profiles.controllers;
 import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -44,7 +43,7 @@ import jakarta.validation.constraints.NotNull;
 class ScraperOwnedProfileRestController {
   private final CommandService commandService;
 
-  ScraperOwnedProfileRestController(final @NonNull CommandService commandService) {
+  ScraperOwnedProfileRestController(final @NotNull CommandService commandService) {
     this.commandService = commandService;
   }
 

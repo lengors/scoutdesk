@@ -1,6 +1,5 @@
 package io.github.lengors.scoutdesk.domain.commands;
 
-import org.springframework.core.ResolvableType;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,11 +12,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface CommandHandler<C extends Command<I, O>, I, O> {
-
-  /**
-   * The resolvable type for the command handler.
-   */
-  ResolvableType RESOLVABLE_TYPE = ResolvableType.forClass(CommandHandler.class);
 
   /**
    * Handles the command with the given input.

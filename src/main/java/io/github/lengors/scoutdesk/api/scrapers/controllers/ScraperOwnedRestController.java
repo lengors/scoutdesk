@@ -1,6 +1,5 @@
 package io.github.lengors.scoutdesk.api.scrapers.controllers;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -29,7 +28,7 @@ import reactor.core.publisher.Flux;
 class ScraperOwnedRestController {
   private final CommandService commandService;
 
-  ScraperOwnedRestController(final @NonNull CommandService commandService) {
+  ScraperOwnedRestController(final @NotNull CommandService commandService) {
     this.commandService = commandService;
   }
 

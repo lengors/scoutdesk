@@ -1,7 +1,5 @@
 package io.github.lengors.scoutdesk.domain.commands;
 
-import org.springframework.stereotype.Service;
-
 /**
  * Interface for command handlers in the application.
  *
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Service;
  * @param <O> the output type
  * @author lengors
  */
-@Service
 public interface CommandHandler<C extends Command<I, O>, I, O> {
 
   /**

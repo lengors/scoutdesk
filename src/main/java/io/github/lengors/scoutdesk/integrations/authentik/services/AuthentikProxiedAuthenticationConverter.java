@@ -11,8 +11,7 @@ import java.util.stream.Collectors;
 import io.github.lengors.scoutdesk.domain.commands.CommandService;
 import io.github.lengors.scoutdesk.integrations.authentik.commands.FindAuthentikUserCommand;
 import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikGroup;
-import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAnonymousPrincipal;
-import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAuthenticatedPrincipal;
+import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAuthentication;
 import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikUser;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
@@ -86,17 +85,18 @@ class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationCo
    * {@link io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAuthentication} object
    */
   @Override
-  public Authentication convert(final HttpServletRequest request) {
+  @SuppressWarnings("nullness")
+  public @Nullable Authentication convert(final HttpServletRequest request) {
     final var usernameHeader = request.getHeader(AuthentikCustomHeaders.USERNAME);
     if (usernameHeader == null) {
-      return new AuthentikProxiedAnonymousPrincipal();
+      return null;
     }
 
     final AuthentikUser authentikUser;
     try {
       authentikUser = commandService.executeCommand(new FindAuthentikUserCommand(), usernameHeader);
     } catch (final NoSuchElementException exception) {
-      return new AuthentikProxiedAnonymousPrincipal();
+      return null;
     }
 
     if (!Objects.equals(authentikUser.username(), usernameHeader)) {
@@ -104,7 +104,7 @@ class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationCo
         "User {username={}} does not match requested header: {username={}} ",
         authentikUser.username(),
         usernameHeader);
-      return new AuthentikProxiedAnonymousPrincipal();
+      return null;
     }
 
     final var userRoles = Optional
@@ -117,7 +117,7 @@ class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationCo
         .stream())
       .toList();
 
-    return new AuthentikProxiedAuthenticatedPrincipal(
+    return new AuthentikProxiedAuthentication(
       authentikUser.username(),
       authentikUser.name(),
       userRoles,

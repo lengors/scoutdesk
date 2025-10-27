@@ -26,7 +26,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
  */
 @RestController
 @PreAuthorize("hasRole('USER')")
-@DefaultQualifier(value = Nullable.class, locations = {TypeUseLocation.PARAMETER})
+@DefaultQualifier(value = Nullable.class, locations = TypeUseLocation.PARAMETER)
 @RequestMapping({"/api/v1/shared/scrapers/specifications", "/api/shared/scrapers/specifications"})
 class SharedScraperOwnedSpecificationRestController {
   private final CommandService commandService;

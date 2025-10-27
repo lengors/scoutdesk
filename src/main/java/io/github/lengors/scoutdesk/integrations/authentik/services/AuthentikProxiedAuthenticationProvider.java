@@ -5,7 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
-import io.github.lengors.scoutdesk.integrations.authentik.exceptions.AuthentikProxiedAuthenticationException;
 import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikProxiedAuthentication;
 
 /**
@@ -27,9 +26,6 @@ class AuthentikProxiedAuthenticationProvider implements AuthenticationProvider {
    */
   @Override
   public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
-    if (!authentication.isAuthenticated()) {
-      throw new AuthentikProxiedAuthenticationException();
-    }
     return authentication;
   }
 

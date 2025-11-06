@@ -183,19 +183,22 @@ public interface TestSuite {
         "test-specification-1",
         "tester-x",
         "test-profile-x",
-        Map.of("description", "test-description-x", "brand_description", "test-brand-description-x")),
+        Map.of("description", "test-description-x", "brand_description", "test-brand-description-x", "email",
+          "test@test.com")),
       new ScraperOwnedProfileTestingEntity(
         "tester-1",
         "test-specification-1",
         "tester-x",
         "test-profile-y",
-        Map.of("description", "test-description-y", "brand_description", "test-brand-description-y")),
+        Map.of("description", "test-description-y", "brand_description", "test-brand-description-y", "email",
+          "test@test.com")),
       new ScraperOwnedProfileTestingEntity(
         "tester-1",
         "test-specification-1",
         "tester-x",
         "test-profile-z",
-        Map.of("description", "test-description-z", "brand_description", "test-brand-description-z")));
+        Map.of("description", "test-description-z", "brand_description", "test-brand-description-z", "email",
+          "test@test.com")));
   }
 
   /**

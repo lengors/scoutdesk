@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.models;
 
 import java.util.Map;
 
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.constraints.ScraperSpecificationCompliant;
 import jakarta.validation.constraints.NotBlank;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
@@ -17,6 +18,7 @@ import jakarta.validation.constraints.NotNull;
  *
  * @author lengors
  */
+@ScraperSpecificationCompliant
 @DefaultQualifier(Nullable.class)
 public interface ScraperNamelessProfile {
 

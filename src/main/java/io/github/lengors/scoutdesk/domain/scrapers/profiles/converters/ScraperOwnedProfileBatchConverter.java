@@ -1,4 +1,4 @@
-package io.github.lengors.scoutdesk.domain.scrapers.commands.converters;
+package io.github.lengors.scoutdesk.domain.scrapers.profiles.converters;
 
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileBatchReference;
 import jakarta.validation.constraints.NotNull;

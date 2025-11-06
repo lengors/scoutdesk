@@ -31,11 +31,12 @@ public class CommandService {
    * @param command the command to be executed
    * @param input   the input to be passed to the command
    * @return the output of the command execution
+   * @throws CommandException if the command execution fails
    */
   public <C extends Command<I, O>, I, O> O executeCommand(final C command, final I input) {
     final var metadata = commandMetadataFactory.create(command, input);
     final var request = new CommandRequest<>(command, input, metadata);
     final var result = commandExecutor.execute(request);
-    return result.orElseThrow();
+    return result.orElseThrow(cause -> new CommandException(request, cause));
   }
 }

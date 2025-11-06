@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.constraints;
 
 import io.github.lengors.protoscout.domain.scrapers.specifications.models.ScraperSpecification;
 import io.github.lengors.protoscout.domain.scrapers.specifications.models.ScraperSpecificationRequirementType;
+import io.github.lengors.scoutdesk.domain.commands.CommandException;
 import io.github.lengors.scoutdesk.domain.commands.CommandService;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperNamelessProfile;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.constraints.ScraperSpecificationCompliant;
@@ -50,11 +51,11 @@ public final class ScraperNamelessProfileSpecificationCompliantValidator
   ) {
     final ScraperSpecification scraperSpecification;
     try {
-      scraperSpecification = commandService.executeCommand(
+      scraperSpecification = CommandException.unwrap(() -> commandService.executeCommand(
         new FindScraperSpecificationCommand(),
         value
           .specification()
-          .fullyQualifiedName());
+          .fullyQualifiedName()));
     } catch (final RestClientResponseException exception) {
       return true;
     }

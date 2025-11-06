@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import io.github.lengors.scoutdesk.domain.collections.IterableConverters;
 import io.github.lengors.scoutdesk.domain.commands.Command;
 import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityFindException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityNotFoundException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchFilter;
@@ -16,7 +16,6 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories.ScraperOwnedProfileRepository;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Command to find a batch of scraper-owned profile entities.
@@ -38,7 +37,6 @@ public record FindScraperOwnedProfileEntityBatchCommand()
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<ScraperOwnedProfileEntity> handle(
       final FindScraperOwnedProfileEntityBatchCommand command,
       final ScraperOwnedProfileBatchFilter input
@@ -67,7 +65,7 @@ public record FindScraperOwnedProfileEntityBatchCommand()
         .map(ScraperOwnedProfileReference::name)
         .collect(Collectors.toUnmodifiableSet())
         .containsAll(expectedNames)) {
-        throw new EntityFindException(ScraperOwnedProfileEntity.class, Pair.of(referenceOwner, expectedNames));
+        throw new EntityNotFoundException(ScraperOwnedProfileEntity.class, Pair.of(referenceOwner, expectedNames));
       }
 
       return entities;

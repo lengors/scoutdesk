@@ -2,7 +2,7 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.commands;
 
 import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.CommandService;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityDeleteException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityConflictException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.events.ScraperOwnedProfileBatchDeletedEvent;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfile;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileEntity;
@@ -54,7 +54,7 @@ public record DeleteScraperOwnedProfileBatchCommand()
         .stream()
         .map(ScraperOwnedProfileEntity::getStrategies)
         .allMatch(Set::isEmpty)) {
-        throw new EntityDeleteException(ScraperOwnedProfileEntity.class, input);
+        throw new EntityConflictException(ScraperOwnedProfileEntity.class, input);
       }
       scraperOwnedProfileRepository.deleteAll(entities);
       applicationEventPublisher.publishEvent(new ScraperOwnedProfileBatchDeletedEvent(entities

@@ -183,7 +183,7 @@ record ScraperOwnedStrategyRestControllerTest(
         .header("X-authentik-username", "tester-2")
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-0\"]"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -362,13 +362,13 @@ record ScraperOwnedStrategyRestControllerTest(
   }
 
   @Test
-  void givenMissingProfileWhenSaveStrategyThenNotFound() throws Exception {
+  void givenMissingProfileWhenSaveStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies")
         .header("X-authentik-username", "tester-5")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"name\":\"test-strategy-5\",\"profiles\":[\"test-profile-a\"]}"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -428,13 +428,13 @@ record ScraperOwnedStrategyRestControllerTest(
   }
 
   @Test
-  void givenIncorrectOwnerWhenAddProfilesToStrategyThenNotFound() throws Exception {
+  void givenIncorrectOwnerWhenAddProfilesToStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies/test-strategy-0/profiles")
         .header("X-authentik-username", "tester-2")
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -503,13 +503,13 @@ record ScraperOwnedStrategyRestControllerTest(
   }
 
   @Test
-  void givenMissingStrategyOwnerWhenUpdateStrategyThenNotFound() throws Exception {
+  void givenMissingStrategyOwnerWhenUpdateStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/strategies/test-strategy-0")
         .header("X-authentik-username", "tester-2")
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest());
   }
 
   @Test

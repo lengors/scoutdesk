@@ -8,6 +8,6 @@ package io.github.lengors.scoutdesk.domain.scrapers.strategies.filters;
  *
  * @author lengors
  */
-public sealed interface ScraperOwnedStrategyFilter permits ScraperOwnedStrategyByReferenceFilter {
+public sealed interface ScraperOwnedStrategyFilter permits ScraperOwnedStrategyByReferrerFilter {
 
 }

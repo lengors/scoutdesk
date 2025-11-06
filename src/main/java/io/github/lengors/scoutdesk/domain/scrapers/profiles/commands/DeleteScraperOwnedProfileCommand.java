@@ -2,7 +2,7 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.commands;
 
 import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.CommandService;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityDeleteException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityConflictException;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.events.ScraperOwnedProfileDeletedEvent;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfile;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileEntity;
@@ -44,12 +44,14 @@ public record DeleteScraperOwnedProfileCommand() implements Command<ScraperOwned
     @Override
     @Transactional
     public @Nullable Void handle(
-      final DeleteScraperOwnedProfileCommand command, final ScraperOwnedProfileFilter input) {
+      final DeleteScraperOwnedProfileCommand command,
+      final ScraperOwnedProfileFilter input
+    ) {
       final var entity = commandService.executeCommand(new FindScraperOwnedProfileEntityCommand(), input);
       if (!entity
         .getStrategies()
         .isEmpty()) {
-        throw new EntityDeleteException(ScraperOwnedProfileEntity.class, input);
+        throw new EntityConflictException(ScraperOwnedProfileEntity.class, input);
       }
       scraperOwnedProfileRepository.delete(entity);
       applicationEventPublisher.publishEvent(new ScraperOwnedProfileDeletedEvent(new ScraperOwnedProfile(entity)));

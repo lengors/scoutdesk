@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.models;
 
 import java.util.Map;
 
+import io.github.lengors.scoutdesk.domain.persistence.constraints.RequireEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -41,13 +42,12 @@ public record ScraperOwnedProfile(
 
   @JsonProperty("specification")
   @NotNull
+  @RequireEntity
   ScraperOwnedSpecificationReference specification,
 
   @JsonProperty("inputs")
-  @NotNull
   Map<@NotNull String, @NotNull @NotBlank String> inputs
-)
-  implements ScraperNamedProfile, ScraperOwnedProfileReferrer {
+) implements ScraperNamedProfile, ScraperOwnedProfileReferrer {
 
   /**
    * Creates a new instance of the {@link ScraperOwnedProfile}.

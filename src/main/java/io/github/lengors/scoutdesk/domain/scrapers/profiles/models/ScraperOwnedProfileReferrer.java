@@ -1,5 +1,7 @@
 package io.github.lengors.scoutdesk.domain.scrapers.profiles.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.lengors.scoutdesk.domain.persistence.models.EntityReferrer;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -13,7 +15,7 @@ import jakarta.validation.constraints.NotNull;
  * @author lengors
  */
 @DefaultQualifier(Nullable.class)
-public interface ScraperOwnedProfileReferrer {
+public interface ScraperOwnedProfileReferrer extends EntityReferrer<@NotNull ScraperOwnedProfileEntity> {
 
   /**
    * Returns the owner of the profile.
@@ -30,4 +32,10 @@ public interface ScraperOwnedProfileReferrer {
    */
   @NotNull
   String name();
+
+  @Override
+  @JsonIgnore
+  default @NotNull String getTypeName() {
+    return "profile";
+  }
 }

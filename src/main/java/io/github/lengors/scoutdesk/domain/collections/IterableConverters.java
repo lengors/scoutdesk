@@ -3,6 +3,8 @@ package io.github.lengors.scoutdesk.domain.collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Utility class for converting iterables to other types.
@@ -16,6 +18,29 @@ public final class IterableConverters {
 
   private IterableConverters() {
     throw new UnsupportedOperationException("Utility class cannot be instantiated");
+  }
+
+  /**
+   * Converts an iterable to a stream.
+   *
+   * @param iterable The iterable to convert
+   * @param <T>      The type of elements in the iterable
+   * @return A stream containing the elements of the iterable
+   */
+  public static <T> Stream<T> stream(final Iterable<T> iterable) {
+    return stream(iterable, false);
+  }
+
+  /**
+   * Converts an iterable to a parallel stream.
+   *
+   * @param iterable The iterable to convert
+   * @param parallel Whether the stream should be parallel or not
+   * @param <T>      The type of elements in the iterable
+   * @return A parallel stream containing the elements of the iterable
+   */
+  public static <T> Stream<T> stream(final Iterable<T> iterable, final boolean parallel) {
+    return StreamSupport.stream(iterable.spliterator(), parallel);
   }
 
   /**

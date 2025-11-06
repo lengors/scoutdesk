@@ -9,7 +9,7 @@ import io.github.lengors.protoscout.domain.scrapers.specifications.models.Scrape
 import io.github.lengors.scoutdesk.domain.commands.Command;
 
 import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityFindException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityNotFoundException;
 import io.github.lengors.scoutdesk.integrations.webscout.clients.WebscoutRestClient;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +47,7 @@ public record FindScraperSpecificationBatchCommand()
         .distinct()
         .toList();
       if (!notFound.isEmpty()) {
-        throw new EntityFindException(ScraperSpecification.class, notFound);
+        throw new EntityNotFoundException(ScraperSpecification.class, notFound);
       }
       return specifications;
     }

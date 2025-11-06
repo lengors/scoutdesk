@@ -17,7 +17,6 @@ import io.github.lengors.scoutdesk.api.scrapers.models.ScraperOwnedRequest;
 import io.github.lengors.scoutdesk.domain.commands.CommandService;
 import io.github.lengors.scoutdesk.domain.scrapers.commands.ScraperOwnedCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.models.ScraperQuery;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import reactor.core.publisher.Flux;
 
@@ -35,7 +34,7 @@ class ScraperOwnedRestController {
   @PostMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
   Flux<ScraperResponse> scrap(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @RequestBody final @Valid @NotNull ScraperOwnedRequest scraperRequest
+    @RequestBody final @NotNull ScraperOwnedRequest scraperRequest
   ) {
     return commandService.executeCommand(
       new ScraperOwnedCommand(),

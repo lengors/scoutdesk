@@ -6,9 +6,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import io.github.lengors.scoutdesk.api.scrapers.specifications.services.ScraperOwnedSpecificationEntityFactory;
@@ -143,7 +143,7 @@ public interface TestSuite {
 
         // Instantiate the entity
         final var entity = new ScraperOwnedStrategyEntity(testingEntity.strategyReference());
-        entity.setProfiles(new HashSet<>(profileEntities));
+        entity.setProfiles(Set.copyOf(profileEntities));
         scraperOwnedStrategyRepository().save(entity);
       }
     });

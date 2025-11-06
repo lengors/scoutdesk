@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.domain.scrapers.specifications.models;
 
 import java.io.Serializable;
 
+import io.github.lengors.scoutdesk.domain.persistence.models.EntityReferrer;
 import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
@@ -35,8 +36,8 @@ public record ScraperOwnedSpecificationReference(
 
   @JsonProperty("name")
   @NotNull
-  @Pattern(regexp = "^[^/\\s]+$")  String name
-) implements Serializable {
+  @Pattern(regexp = "^[^/\\s]+$") String name
+) implements EntityReferrer<@NotNull ScraperOwnedSpecificationEntity>, Serializable {
 
   /**
    * Constructor for creating a scraper owned specification reference.
@@ -56,5 +57,11 @@ public record ScraperOwnedSpecificationReference(
   @JsonIgnore
   public @NotNull String fullyQualifiedName() {
     return "%s-%s".formatted(owner, name);
+  }
+
+  @Override
+  @JsonIgnore
+  public @NotNull String getTypeName() {
+    return "specification";
   }
 }

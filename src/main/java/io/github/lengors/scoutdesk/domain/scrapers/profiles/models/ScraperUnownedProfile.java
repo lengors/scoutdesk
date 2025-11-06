@@ -38,7 +38,6 @@ public record ScraperUnownedProfile(
   ScraperOwnedSpecificationReference specification,
 
   @JsonProperty("inputs")
-  @NotNull
   Map<@NotNull String, @NotNull @NotBlank String> inputs
 ) implements ScraperNamedProfile {
 

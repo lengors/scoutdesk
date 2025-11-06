@@ -9,15 +9,15 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @author lengors
  */
-public final class EntityDeleteException extends EntityException {
+public final class EntityConflictException extends EntityException {
 
   /**
-   * Constructs a new {@link EntityDeleteException} with the specified entity type and query.
+   * Constructs a new {@link EntityConflictException} with the specified entity type and query.
    *
    * @param runtimeType the class of the entity
    * @param query       the query used to search for the entity
    */
-  public EntityDeleteException(
+  public EntityConflictException(
     final @Nullable Class<?> runtimeType,
     final @Nullable Object query
   ) {

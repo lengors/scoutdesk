@@ -3,6 +3,8 @@ package io.github.lengors.scoutdesk.domain.scrapers.strategies.models;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import io.github.lengors.scoutdesk.domain.persistence.constraints.RequireEntity;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileBatchReference;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -41,7 +43,7 @@ public record ScraperOwnedStrategy(
   String name,
 
   @JsonProperty("profiles")
-  @NotNull
+  @RequireEntity(referrerType = ScraperOwnedProfileBatchReference.class)
   Set<@NotNull @NotBlank String> profiles
 )
   implements ScraperNamedStrategy, ScraperOwnedStrategyReferrer {

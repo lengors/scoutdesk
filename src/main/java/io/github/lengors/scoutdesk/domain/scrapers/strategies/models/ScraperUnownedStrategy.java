@@ -32,7 +32,6 @@ public record ScraperUnownedStrategy(
   String name,
 
   @JsonProperty("profiles")
-  @NotNull
   Set<@NotNull @NotBlank String> profiles
 ) implements ScraperNamedStrategy {
 

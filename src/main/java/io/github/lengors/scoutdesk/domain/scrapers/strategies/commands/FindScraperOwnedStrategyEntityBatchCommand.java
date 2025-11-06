@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import io.github.lengors.scoutdesk.domain.collections.IterableConverters;
 import io.github.lengors.scoutdesk.domain.commands.Command;
 import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
-import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityFindException;
+import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityNotFoundException;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyBatchByReferenceOwnerFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyBatchFilter;
@@ -103,7 +103,7 @@ public record FindScraperOwnedStrategyEntityBatchCommand(
         .map(ScraperOwnedStrategyReference::name)
         .collect(Collectors.toUnmodifiableSet())
         .containsAll(expectedNames)) {
-        throw new EntityFindException(ScraperOwnedStrategyEntity.class, Pair.of(referenceOwner, expectedNames));
+        throw new EntityNotFoundException(ScraperOwnedStrategyEntity.class, Pair.of(referenceOwner, expectedNames));
       }
 
       return entities;

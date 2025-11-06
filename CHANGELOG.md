@@ -1,3 +1,11 @@
+# [v1.0.0-dev.9](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.8...1.0.0-dev.9) (2025-11-06)
+
+## ✨ New Features
+- [`2b1e365`](https://github.com/lengors/scoutdesk/commit/2b1e365)  Add validation of requirements on profile 
+
+## 💥 Breaking Changes
+- [`aa41eac`](https://github.com/lengors/scoutdesk/commit/aa41eac)  Change validation to be performed through constraints
+
 # [v1.0.0-dev.8](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.7...1.0.0-dev.8) (2025-08-16)
 
 ## ✨ New Features

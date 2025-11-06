@@ -8,7 +8,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import io.github.lengors.scoutdesk.domain.persistence.converters.EntityConflictExceptionReportConverter;
+import io.github.lengors.scoutdesk.domain.persistence.converters.EntityNotFoundExceptionReportConverter;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileByReferrerFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileEntity;
 import org.awaitility.Awaitility;
+import org.checkerframework.checker.nullness.util.NullnessUtil;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +71,13 @@ record ScraperOwnedProfileRestControllerTest(
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-9")
         .header("X-authentik-username", "tester-9"))
-      .andExpect(status().isConflict());
+      .andExpect(status().isConflict())
+      .andExpect(content().string(
+        EntityConflictExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedProfileEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedProfileByReferrerFilter(new ScraperOwnedProfileReference("tester-9", "test-profile-9")))));
   }
 
   @Test
@@ -72,7 +85,13 @@ record ScraperOwnedProfileRestControllerTest(
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-0")
         .header("X-authentik-username", "tester-2"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedProfileEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedProfileByReferrerFilter(new ScraperOwnedProfileReference("tester-2", "test-profile-0")))));
   }
 
   @Test
@@ -80,7 +99,13 @@ record ScraperOwnedProfileRestControllerTest(
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-3")
         .header("X-authentik-username", "tester-0"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedProfileEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedProfileByReferrerFilter(new ScraperOwnedProfileReference("tester-0", "test-profile-3")))));
   }
 
   @Test
@@ -127,7 +152,13 @@ record ScraperOwnedProfileRestControllerTest(
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles")
         .header("X-authentik-username", "tester-9"))
-      .andExpect(status().isConflict());
+      .andExpect(status().isConflict())
+      .andExpect(content().string(
+        EntityConflictExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedProfileEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedProfileBatchByReferenceOwnerFilter("tester-9"))));
   }
 
   @Test
@@ -186,7 +217,13 @@ record ScraperOwnedProfileRestControllerTest(
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-0")
         .header("X-authentik-username", "tester-2"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedProfileEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedProfileByReferrerFilter(new ScraperOwnedProfileReference("tester-2", "test-profile-0")))));
   }
 
   @Test
@@ -194,7 +231,13 @@ record ScraperOwnedProfileRestControllerTest(
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-3")
         .header("X-authentik-username", "tester-0"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedProfileEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedProfileByReferrerFilter(new ScraperOwnedProfileReference("tester-0", "test-profile-3")))));
   }
 
   @Test
@@ -318,7 +361,10 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
-      .andExpect(status().isBadRequest());
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("specification"))
+      .andExpect(jsonPath("$[0].message").value("specification does not exist"));
   }
 
   @Test
@@ -329,7 +375,10 @@ record ScraperOwnedProfileRestControllerTest(
         .contentType(MediaType.APPLICATION_JSON)
         .content(
           "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"\"},\"inputs\":{}}"))
-      .andExpect(status().isBadRequest());
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("specification"))
+      .andExpect(jsonPath("$[0].message").value("specification does not exist"));
   }
 
   @Test
@@ -342,7 +391,10 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
-      .andExpect(status().isBadRequest());
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("specification"))
+      .andExpect(jsonPath("$[0].message").value("specification does not exist"));
   }
 
   @Test
@@ -355,7 +407,10 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
-      .andExpect(status().isConflict());
+      .andExpect(status().isConflict())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("name"))
+      .andExpect(jsonPath("$[0].message").value("profile already exists"));
   }
 
   @Test
@@ -368,7 +423,10 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
-      .andExpect(status().isBadRequest());
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("name"))
+      .andExpect(jsonPath("$[0].message").value(Matchers.startsWith("must match")));
   }
 
   @Test
@@ -447,7 +505,10 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-2")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("name"))
+      .andExpect(jsonPath("$[0].message").value("profile does not exist"));
   }
 
   @Test
@@ -460,7 +521,10 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("name"))
+      .andExpect(jsonPath("$[0].message").value("profile does not exist"));
   }
 
   @Test
@@ -470,7 +534,10 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"specification\":{\"owner\":\"tester-0\",\"name\":\"test-specification-1\"},\"inputs\":{}}"))
-      .andExpect(status().isBadRequest());
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("specification"))
+      .andExpect(jsonPath("$[0].message").value(Matchers.startsWith("specification does not exist")));
   }
 
   @Test
@@ -480,7 +547,10 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"specification\":{\"owner\":\"\",\"name\":\"test-specification-0\"},\"inputs\":{}}"))
-      .andExpect(status().isBadRequest());
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("specification"))
+      .andExpect(jsonPath("$[0].message").value(Matchers.startsWith("specification does not exist")));
   }
 
   @Test
@@ -490,7 +560,10 @@ record ScraperOwnedProfileRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"specification\":{\"owner\":\"tester-0\",\"name\":\"\"},\"inputs\":{}}"))
-      .andExpect(status().isBadRequest());
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("specification"))
+      .andExpect(jsonPath("$[0].message").value(Matchers.startsWith("specification does not exist")));
   }
 
   @Test

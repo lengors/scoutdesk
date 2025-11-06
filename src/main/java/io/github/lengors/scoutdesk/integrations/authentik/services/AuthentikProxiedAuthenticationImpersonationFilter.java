@@ -1,7 +1,7 @@
 package io.github.lengors.scoutdesk.integrations.authentik.services;
 
-import io.github.lengors.scoutdesk.domain.collections.services.IterableConverters;
-import io.github.lengors.scoutdesk.domain.collections.services.IteratorConverters;
+import io.github.lengors.scoutdesk.domain.collections.IterableConverters;
+import io.github.lengors.scoutdesk.domain.collections.IteratorConverters;
 import io.github.lengors.scoutdesk.domain.spring.security.services.ProxiedAuthenticationImpersonationFilter;
 import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikCustomHeaders;
 import jakarta.servlet.FilterChain;

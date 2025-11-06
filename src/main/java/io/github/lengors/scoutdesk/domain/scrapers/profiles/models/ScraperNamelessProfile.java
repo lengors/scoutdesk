@@ -2,6 +2,8 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.models;
 
 import java.util.Map;
 
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.constraints.ScraperSpecificationCompliant;
+import jakarta.validation.constraints.NotBlank;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -11,12 +13,12 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Represents a nameless scraper profile.
  * <p>
- * This interface defines the structure of a profile that does not have a
- * specific name associated with it. It includes a reference to the
- * specification and a map of input parameters.
+ * This interface defines the structure of a profile that does not have a specific name associated with it. It includes
+ * a reference to the specification and a map of input parameters.
  *
  * @author lengors
  */
+@ScraperSpecificationCompliant
 @DefaultQualifier(Nullable.class)
 public interface ScraperNamelessProfile {
 
@@ -33,6 +35,5 @@ public interface ScraperNamelessProfile {
    *
    * @return The input parameters for the profile.
    */
-  @NotNull
-  Map<@NotNull String, @NotNull String> inputs();
+  Map<@NotNull String, @NotNull @NotBlank String> inputs();
 }

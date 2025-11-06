@@ -1,7 +1,7 @@
 package io.github.lengors.scoutdesk.api.scrapers.controllers;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
@@ -58,12 +58,12 @@ record ScraperOwnedRestControllerTest(
               new ScraperResponseResultBrand("test-brand-description-x-test-term", null),
               new ScraperResponseResultPrice("0.5", "EUR"),
               null,
-              Collections.emptyList(),
+              List.of(),
               null,
               null,
               null,
               null,
-              Collections.emptyList()),
+              List.of()),
             new ScraperResponseResult(
               "https://example.com",
               "tester-1-test-specification-1",
@@ -71,12 +71,12 @@ record ScraperOwnedRestControllerTest(
               new ScraperResponseResultBrand("test-brand-description-y-test-term", null),
               new ScraperResponseResultPrice("0.5", "EUR"),
               null,
-              Collections.emptyList(),
+              List.of(),
               null,
               null,
               null,
               null,
-              Collections.emptyList()),
+              List.of()),
             new ScraperResponseResult(
               "https://example.com",
               "tester-1-test-specification-1",
@@ -84,12 +84,12 @@ record ScraperOwnedRestControllerTest(
               new ScraperResponseResultBrand("test-brand-description-z-test-term", null),
               new ScraperResponseResultPrice("0.5", "EUR"),
               null,
-              Collections.emptyList(),
+              List.of(),
               null,
               null,
               null,
               null,
-              Collections.emptyList()))));
+              List.of()))));
       });
   }
 

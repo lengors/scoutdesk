@@ -8,6 +8,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import io.github.lengors.scoutdesk.domain.persistence.converters.EntityNotFoundExceptionReportConverter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.converters.ScraperOwnedSpecificationStatusTransitionExceptionReportConverter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferenceAndStatusNotFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
+import org.checkerframework.checker.nullness.util.NullnessUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +75,14 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-1")
         .header("X-authentik-username", "tester-0"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-0", "test-specification-1")))));
   }
 
   @Test
@@ -78,7 +90,14 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-0")
         .header("X-authentik-username", "tester-2"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-2", "test-specification-0")))));
   }
 
   @Test
@@ -86,7 +105,14 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-3")
         .header("X-authentik-username", "tester-0"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-0", "test-specification-3")))));
   }
 
   @Test
@@ -188,7 +214,14 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-0")
         .header("X-authentik-username", "tester-2"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-2", "test-specification-0")))));
   }
 
   @Test
@@ -196,7 +229,14 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-3")
         .header("X-authentik-username", "tester-0"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-0", "test-specification-3")))));
   }
 
   @Test
@@ -204,7 +244,14 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-1")
         .header("X-authentik-username", "tester-0"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-0", "test-specification-1")))));
   }
 
   @Test
@@ -316,7 +363,10 @@ record ScraperOwnedSpecificationRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
-      .andExpect(status().isConflict());
+      .andExpect(status().isConflict())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("name"))
+      .andExpect(jsonPath("$[0].message").value("specification already exists"));
   }
 
   @Test
@@ -408,7 +458,10 @@ record ScraperOwnedSpecificationRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"activate\"}"))
-      .andExpect(status().isUnprocessableEntity());
+      .andExpect(status().isUnprocessableEntity())
+      .andExpect(content().string(
+        ScraperOwnedSpecificationStatusTransitionExceptionReportConverter.MESSAGE.formatted(
+          ScraperOwnedSpecificationStatus.ACTIVE, ScraperOwnedSpecificationStatus.ACTIVE)));
   }
 
   @Test
@@ -418,7 +471,10 @@ record ScraperOwnedSpecificationRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
-      .andExpect(status().isUnprocessableEntity());
+      .andExpect(status().isUnprocessableEntity())
+      .andExpect(content().string(
+        ScraperOwnedSpecificationStatusTransitionExceptionReportConverter.MESSAGE.formatted(
+          ScraperOwnedSpecificationStatus.ARCHIVED, ScraperOwnedSpecificationStatus.ARCHIVED)));
   }
 
   @Test
@@ -428,7 +484,14 @@ record ScraperOwnedSpecificationRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-0", "test-specification-1")))));
   }
 
   @Test
@@ -438,7 +501,14 @@ record ScraperOwnedSpecificationRestControllerTest(
         .header("X-authentik-username", "tester-2")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-2", "test-specification-0")))));
   }
 
   @Test
@@ -448,7 +518,14 @@ record ScraperOwnedSpecificationRestControllerTest(
         .header("X-authentik-username", "tester-1")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-1", "test-specification-2")))));
   }
 
   @Test

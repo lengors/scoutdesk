@@ -32,15 +32,38 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record AuthentikUser(
-  @JsonProperty("pk") @NotNull Integer id,
-  @JsonProperty("username") @NotNull String username,
-  @JsonProperty("name") @NotNull String name,
-  @JsonProperty("is_active") Boolean isActive,
-  @JsonProperty("groups_obj") List<@NotNull AuthentikGroup> groups,
-  @JsonProperty("email") String email,
-  @JsonProperty("avatar") @NotNull String avatar,
-  @JsonProperty("uid") @NotNull String uid,
-  @JsonProperty("uuid") @NotNull UUID uuid
+  @JsonProperty("pk")
+  @NotNull
+  Integer id,
+
+  @JsonProperty("username")
+  @NotNull
+  String username,
+
+  @JsonProperty("name")
+  @NotNull
+  String name,
+
+  @JsonProperty("is_active")
+  Boolean isActive,
+
+  @JsonProperty("groups_obj")
+  List<@NotNull AuthentikGroup> groups,
+
+  @JsonProperty("email")
+  String email,
+
+  @JsonProperty("avatar")
+  @NotNull
+  String avatar,
+
+  @JsonProperty("uid")
+  @NotNull
+  String uid,
+
+  @JsonProperty("uuid")
+  @NotNull
+  UUID uuid
 ) {
 
 }

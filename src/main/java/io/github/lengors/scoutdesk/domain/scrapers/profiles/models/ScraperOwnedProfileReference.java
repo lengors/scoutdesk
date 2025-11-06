@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.models;
 
 import java.io.Serializable;
 
+import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -27,8 +28,14 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedProfileReference(
-  @JsonProperty("owner") @NotNull String owner,
-  @JsonProperty("name") @NotNull String name
+  @JsonProperty("owner")
+  @NotNull
+  String owner,
+
+  @JsonProperty("name")
+  @NotNull
+  @Pattern(regexp = "^[^/\\s]+$")
+  String name
 ) implements ScraperOwnedProfileReferrer, Serializable {
 
   /**

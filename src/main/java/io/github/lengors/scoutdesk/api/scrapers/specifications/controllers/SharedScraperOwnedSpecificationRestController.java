@@ -2,7 +2,7 @@ package io.github.lengors.scoutdesk.api.scrapers.specifications.controllers;
 
 import java.util.List;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import jakarta.validation.constraints.NotNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -12,27 +12,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.FindScraperOwnedSpecificationBatchCommand;
+import io.github.lengors.scoutdesk.domain.commands.CommandService;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.FindScraperOwnedSpecificationBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecification;
 
 /**
  * Controller for accessing shared scraper specifications via the API.
  * <p>
- * Provides endpoints for users to query shared specifications with filtering
- * options.
+ * Provides endpoints for users to query shared specifications with filtering options.
  *
  * @author lengors
  */
 @RestController
 @PreAuthorize("hasRole('USER')")
-@DefaultQualifier(value = Nullable.class, locations = {TypeUseLocation.PARAMETER})
+@DefaultQualifier(value = Nullable.class, locations = TypeUseLocation.PARAMETER)
 @RequestMapping({"/api/v1/shared/scrapers/specifications", "/api/shared/scrapers/specifications"})
 class SharedScraperOwnedSpecificationRestController {
   private final CommandService commandService;
 
-  SharedScraperOwnedSpecificationRestController(final @NonNull CommandService commandService) {
+  SharedScraperOwnedSpecificationRestController(final @NotNull CommandService commandService) {
     this.commandService = commandService;
   }
 

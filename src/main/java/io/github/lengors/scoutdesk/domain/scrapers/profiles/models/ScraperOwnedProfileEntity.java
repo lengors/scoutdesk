@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.validation.constraints.NotBlank;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -30,8 +31,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Represents a scraper profile owned by a user.
  * <p>
- * This class contains the owner, name, specification reference, and input
- * parameters for the profile.
+ * This class contains the owner, name, specification reference, and input parameters for the profile.
  *
  * @author lengors
  */
@@ -53,7 +53,7 @@ public final class ScraperOwnedProfileEntity {
     @JoinColumn(name = "profile_name", referencedColumnName = "name")
   })
   @NotNull
-  private Map<@NotNull String, @NotNull String> inputs;
+  private Map<@NotNull String, @NotNull @NotBlank String> inputs;
 
   @ManyToOne
   @JoinColumn(name = "specification_owner", referencedColumnName = "owner")
@@ -75,7 +75,7 @@ public final class ScraperOwnedProfileEntity {
   @SuppressWarnings({"nullness"})
   public ScraperOwnedProfileEntity(
     final @NotNull ScraperOwnedProfileReference reference,
-    final @NotNull Map<@NotNull String, @NotNull String> inputs,
+    final @NotNull Map<@NotNull String, @NotNull @NotBlank String> inputs,
     final @NotNull ScraperOwnedSpecificationEntity specification
   ) {
     this(reference, inputs, specification, new HashSet<>());
@@ -85,7 +85,7 @@ public final class ScraperOwnedProfileEntity {
   @PersistenceCreator
   private ScraperOwnedProfileEntity(
     final @NotNull ScraperOwnedProfileReference reference,
-    final @NotNull Map<@NotNull String, @NotNull String> inputs,
+    final @NotNull Map<@NotNull String, @NotNull @NotBlank String> inputs,
     final @NotNull ScraperOwnedSpecificationEntity specification,
     final @NotNull Set<ScraperOwnedStrategyEntity> strategies
   ) {
@@ -130,7 +130,7 @@ public final class ScraperOwnedProfileEntity {
    *
    * @return The input parameters for the profile
    */
-  public @NotNull Map<@NotNull String, @NotNull String> getInputs() {
+  public Map<String, @NotBlank String> getInputs() {
     return Collections.unmodifiableMap(inputs);
   }
 
@@ -182,7 +182,7 @@ public final class ScraperOwnedProfileEntity {
    *
    * @param inputs The input parameters for the profile
    */
-  public void setInputs(final @NotNull Map<@NotNull String, @NotNull String> inputs) {
+  public void setInputs(final @NotNull Map<@NotNull String, @NotNull @NotBlank String> inputs) {
     this.inputs = new HashMap<>(inputs);
   }
 
@@ -203,8 +203,7 @@ public final class ScraperOwnedProfileEntity {
 
   @Override
   public String toString() {
-    return String.format(
-      "ScraperOwnedProfileEntity(reference=%s, inputs=%s, specification=%s)",
+    return "ScraperOwnedProfileEntity(reference=%s, inputs=%s, specification=%s)".formatted(
       reference,
       inputs,
       specification);

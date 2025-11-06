@@ -2,6 +2,8 @@ package io.github.lengors.scoutdesk.domain.scrapers.specifications.models;
 
 import java.io.Serializable;
 
+import io.github.lengors.scoutdesk.domain.persistence.models.EntityReferrer;
+import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -17,8 +19,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Reference to a scraper specification owned by a specific user.
  * <p>
- * Used as an identifier for {@link ScraperOwnedSpecificationEntity} and for
- * serialization.
+ * Used as an identifier for {@link ScraperOwnedSpecificationEntity} and for serialization.
  *
  * @param owner The owner of the specification
  * @param name  The name of the specification
@@ -29,9 +30,14 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedSpecificationReference(
-  @JsonProperty("owner") @NotNull String owner,
-  @JsonProperty("name") @NotNull String name
-) implements Serializable {
+  @JsonProperty("owner")
+  @NotNull
+  String owner,
+
+  @JsonProperty("name")
+  @NotNull
+  @Pattern(regexp = "^[^/\\s]+$") String name
+) implements EntityReferrer<@NotNull ScraperOwnedSpecificationEntity>, Serializable {
 
   /**
    * Constructor for creating a scraper owned specification reference.
@@ -50,6 +56,12 @@ public record ScraperOwnedSpecificationReference(
    */
   @JsonIgnore
   public @NotNull String fullyQualifiedName() {
-    return String.format("%s-%s", owner, name);
+    return "%s-%s".formatted(owner, name);
+  }
+
+  @Override
+  @JsonIgnore
+  public @NotNull String getTypeName() {
+    return "specification";
   }
 }

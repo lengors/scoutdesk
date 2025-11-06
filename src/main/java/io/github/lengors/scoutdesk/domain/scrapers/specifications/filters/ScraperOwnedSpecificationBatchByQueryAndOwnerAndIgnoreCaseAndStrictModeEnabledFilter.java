@@ -3,11 +3,9 @@ package io.github.lengors.scoutdesk.domain.scrapers.specifications.filters;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Filter for querying batches of scraper specifications by query, owner, case
- * sensitivity, and strict mode.
+ * Filter for querying batches of scraper specifications by query, owner, case sensitivity, and strict mode.
  * <p>
- * Used to filter {@link ScraperOwnedSpecificationBatchFilter} results based on
- * multiple criteria.
+ * Used to filter {@link ScraperOwnedSpecificationBatchFilter} results based on multiple criteria.
  *
  * @param query             The search query to filter specifications by
  * @param owner             The owner of the specifications to filter by

@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.api.scrapers.models;
 
 import java.util.Set;
 
+import jakarta.validation.constraints.NotBlank;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -22,8 +23,14 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedRequest(
-  @JsonProperty("strategies") @NotNull Set<@NotNull String> strategies,
-  @JsonProperty("search_term") @NotNull String searchTerm
+  @JsonProperty("strategies")
+  @NotNull
+  Set<@NotNull @NotBlank String> strategies,
+
+  @JsonProperty("search_term")
+  @NotNull
+  @NotBlank
+  String searchTerm
 ) {
 
 }

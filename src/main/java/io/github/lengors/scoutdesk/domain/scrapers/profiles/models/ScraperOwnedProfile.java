@@ -2,6 +2,9 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.models;
 
 import java.util.Map;
 
+import io.github.lengors.scoutdesk.domain.persistence.constraints.RequireEntity;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -16,8 +19,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Represents a scraper profile owned by a user.
  * <p>
- * This class contains the owner, name, specification reference, and input
- * parameters for the profile.
+ * This class contains the owner, name, specification reference, and input parameters for the profile.
  *
  * @param owner         The owner of the profile
  * @param name          The name of the profile
@@ -29,12 +31,23 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedProfile(
-  @JsonProperty("owner") @NotNull String owner,
-  @JsonProperty("name") @NotNull String name,
-  @JsonProperty("specification") @NotNull ScraperOwnedSpecificationReference specification,
-  @JsonProperty("inputs") @NotNull Map<@NotNull String, @NotNull String> inputs
-)
-  implements ScraperNamedProfile, ScraperOwnedProfileReferrer {
+  @JsonProperty("owner")
+  @NotNull
+  String owner,
+
+  @JsonProperty("name")
+  @NotNull
+  @Pattern(regexp = "^[^/\\s]+$")
+  String name,
+
+  @JsonProperty("specification")
+  @NotNull
+  @RequireEntity
+  ScraperOwnedSpecificationReference specification,
+
+  @JsonProperty("inputs")
+  Map<@NotNull String, @NotNull @NotBlank String> inputs
+) implements ScraperNamedProfile, ScraperOwnedProfileReferrer {
 
   /**
    * Creates a new instance of the {@link ScraperOwnedProfile}.

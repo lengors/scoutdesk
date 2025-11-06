@@ -2,7 +2,8 @@ package io.github.lengors.scoutdesk.api.scrapers.specifications.controllers;
 
 import java.util.List;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -22,37 +23,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.lengors.protoscout.domain.scrapers.specifications.models.ScraperSpecification;
 import io.github.lengors.scoutdesk.api.scrapers.specifications.models.ScraperOwnedSpecificationActionRequest;
-import io.github.lengors.scoutdesk.domain.commands.services.CommandService;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.DeleteScraperOwnedSpecificationBatchCommand;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.DeleteScraperOwnedSpecificationCommand;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.FindScraperOwnedSpecificationBatchCommand;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.FindScraperOwnedSpecificationCommand;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.SaveScraperOwnedSpecificationCommand;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.models.UpdateScraperOwnedSpecificationEntityStatusCommand;
+import io.github.lengors.scoutdesk.domain.commands.CommandService;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.DeleteScraperOwnedSpecificationBatchCommand;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.DeleteScraperOwnedSpecificationCommand;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.FindScraperOwnedSpecificationBatchCommand;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.FindScraperOwnedSpecificationCommand;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.SaveScraperOwnedSpecificationCommand;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.UpdateScraperOwnedSpecificationEntityStatusCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferenceAndStatusNotFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecification;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * Controller for managing owned scraper specifications via the API.
  * <p>
- * Provides endpoints for CRUD operations and status updates on user-owned
- * specifications.
+ * Provides endpoints for CRUD operations and status updates on user-owned specifications.
  *
  * @author lengors
  */
 @RestController
 @PreAuthorize("hasRole('DEVELOPER')")
-@DefaultQualifier(value = Nullable.class, locations = {TypeUseLocation.PARAMETER})
+@DefaultQualifier(value = Nullable.class, locations = TypeUseLocation.PARAMETER)
 @RequestMapping({"/api/v1/scrapers/specifications", "/api/scrapers/specifications"})
 class ScraperOwnedSpecificationRestController {
   private final CommandService commandService;
 
-  ScraperOwnedSpecificationRestController(final @NonNull CommandService commandService) {
+  ScraperOwnedSpecificationRestController(final @NotNull CommandService commandService) {
     this.commandService = commandService;
   }
 
@@ -60,7 +58,7 @@ class ScraperOwnedSpecificationRestController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void delete(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name
+    @PathVariable final @NotNull @NotBlank String name
   ) {
     commandService.executeCommand(
       new DeleteScraperOwnedSpecificationCommand(),
@@ -79,7 +77,7 @@ class ScraperOwnedSpecificationRestController {
   @GetMapping("/{name}")
   ScraperOwnedSpecification find(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name
+    @PathVariable final @NotNull @NotBlank String name
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedSpecificationCommand(),
@@ -100,7 +98,7 @@ class ScraperOwnedSpecificationRestController {
   @ResponseStatus(HttpStatus.CREATED)
   ScraperOwnedSpecification save(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @RequestBody final @Valid @NotNull ScraperSpecification scraperSpecification
+    @RequestBody final @NotNull ScraperSpecification scraperSpecification
   ) {
     return commandService.executeCommand(
       new SaveScraperOwnedSpecificationCommand(authenticatedPrincipal.getName()),
@@ -110,8 +108,8 @@ class ScraperOwnedSpecificationRestController {
   @PatchMapping("/{name}")
   void update(
     @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
-    @PathVariable final @Valid @NotNull String name,
-    @RequestBody final @Valid @NotNull ScraperOwnedSpecificationActionRequest request
+    @PathVariable final @NotNull @NotBlank String name,
+    @RequestBody final @NotNull ScraperOwnedSpecificationActionRequest request
   ) {
     commandService.executeCommand(
       new UpdateScraperOwnedSpecificationEntityStatusCommand(

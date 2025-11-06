@@ -1,5 +1,13 @@
 package io.github.lengors.scoutdesk.domain.scrapers.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.framework.qual.DefaultQualifier;
+
 import java.util.Set;
 
 /**
@@ -10,9 +18,21 @@ import java.util.Set;
  * @param searchTerm The term to search for during the scraping process.
  * @author lengors
  */
+@DefaultQualifier(Nullable.class)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperQuery(
+
+  @JsonProperty("owner")
+  @NotNull
   String owner,
-  Set<String> strategies,
+
+  @JsonProperty("strategies")
+  @NotNull
+  Set<@NotNull @NotBlank String> strategies,
+
+  @JsonProperty("search_term")
+  @NotNull
   String searchTerm
 ) {
 

@@ -3,6 +3,10 @@ package io.github.lengors.scoutdesk.domain.scrapers.strategies.models;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import io.github.lengors.scoutdesk.domain.persistence.constraints.RequireEntity;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileBatchReference;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -18,8 +22,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Represents a scraper strategy owned by a user.
  * <p>
- * This class contains the owner, name, and profiles associated with the
- * strategy.
+ * This class contains the owner, name, and profiles associated with the strategy.
  *
  * @param owner    The owner of the strategy
  * @param name     The name of the strategy
@@ -30,9 +33,18 @@ import jakarta.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedStrategy(
-  @JsonProperty("owner") @NotNull String owner,
-  @JsonProperty("name") @NotNull String name,
-  @JsonProperty("profiles") @NotNull Set<@NotNull String> profiles
+  @JsonProperty("owner")
+  @NotNull
+  String owner,
+
+  @JsonProperty("name")
+  @NotNull
+  @Pattern(regexp = "^[^/\\s]+$")
+  String name,
+
+  @JsonProperty("profiles")
+  @RequireEntity(referrerType = ScraperOwnedProfileBatchReference.class)
+  Set<@NotNull @NotBlank String> profiles
 )
   implements ScraperNamedStrategy, ScraperOwnedStrategyReferrer {
 

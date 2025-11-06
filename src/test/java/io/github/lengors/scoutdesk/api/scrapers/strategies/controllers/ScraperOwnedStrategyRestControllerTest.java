@@ -10,7 +10,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.stream.Collectors;
 
+import io.github.lengors.scoutdesk.domain.persistence.converters.EntityNotFoundExceptionReportConverter;
+import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyByReferrerFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyEntity;
 import org.awaitility.Awaitility;
+import org.checkerframework.checker.nullness.util.NullnessUtil;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -65,7 +69,13 @@ record ScraperOwnedStrategyRestControllerTest(
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies/test-strategy-0")
         .header("X-authentik-username", "tester-2"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedStrategyEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedStrategyByReferrerFilter(new ScraperOwnedStrategyReference("tester-2", "test-strategy-0")))));
   }
 
   @Test
@@ -73,7 +83,13 @@ record ScraperOwnedStrategyRestControllerTest(
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies/test-strategy-3")
         .header("X-authentik-username", "tester-5"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedStrategyEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedStrategyByReferrerFilter(new ScraperOwnedStrategyReference("tester-5", "test-strategy-3")))));
   }
 
   @Test
@@ -183,7 +199,11 @@ record ScraperOwnedStrategyRestControllerTest(
         .header("X-authentik-username", "tester-2")
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-0\"]"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(2))
+      .andExpect(jsonPath("$[*].property").value(Matchers.containsInAnyOrder("name", "profiles")))
+      .andExpect(jsonPath("$[?(@.property == 'name')].message").value("strategy does not exist"))
+      .andExpect(jsonPath("$[?(@.property == 'profiles')].message").value("one or more profiles do not exist"));
   }
 
   @Test
@@ -194,7 +214,10 @@ record ScraperOwnedStrategyRestControllerTest(
         .header("X-authentik-username", "tester-5")
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-0\"]"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("name"))
+      .andExpect(jsonPath("$[0].message").value("strategy does not exist"));
   }
 
   @Test
@@ -235,7 +258,13 @@ record ScraperOwnedStrategyRestControllerTest(
     mockMvc
       .perform(get("/api/v1/scrapers/strategies/test-strategy-0")
         .header("X-authentik-username", "tester-2"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedStrategyEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedStrategyByReferrerFilter(new ScraperOwnedStrategyReference("tester-2", "test-strategy-0")))));
   }
 
   @Test
@@ -243,7 +272,13 @@ record ScraperOwnedStrategyRestControllerTest(
     mockMvc
       .perform(get("/api/v1/scrapers/strategies/test-strategy-3")
         .header("X-authentik-username", "tester-5"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedStrategyEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedStrategyByReferrerFilter(new ScraperOwnedStrategyReference("tester-5", "test-strategy-3")))));
   }
 
   @Test
@@ -348,27 +383,36 @@ record ScraperOwnedStrategyRestControllerTest(
         .header("X-authentik-username", "tester-5")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"name\":\"test-strategy-0\",\"profiles\":[\"test-profile-0\",\"test-profile-1\"]}"))
-      .andExpect(status().isConflict());
+      .andExpect(status().isConflict())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("name"))
+      .andExpect(jsonPath("$[0].message").value("strategy already exists"));
   }
 
   @Test
-  void givenInvalidStrategyNameWhenSaveStrategyThenUnprocessableEntity() throws Exception {
+  void givenInvalidStrategyNameWhenSaveStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies")
         .header("X-authentik-username", "tester-5")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"name\":\"test/strategy/0\",\"profiles\":[\"test-profile-0\",\"test-profile-1\"]}"))
-      .andExpect(status().isUnprocessableEntity());
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("name"))
+      .andExpect(jsonPath("$[0].message").value(Matchers.startsWith("must match")));
   }
 
   @Test
-  void givenMissingProfileWhenSaveStrategyThenUnprocessableEntity() throws Exception {
+  void givenMissingProfileWhenSaveStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies")
         .header("X-authentik-username", "tester-5")
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"name\":\"test/strategy/0\",\"profiles\":[\"test-profile-a\"]}"))
-      .andExpect(status().isUnprocessableEntity());
+        .content("{\"name\":\"test-strategy-5\",\"profiles\":[\"test-profile-a\"]}"))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("profiles"))
+      .andExpect(jsonPath("$[0].message").value(Matchers.startsWith("one or more profiles do not exist")));
   }
 
   @Test
@@ -428,13 +472,17 @@ record ScraperOwnedStrategyRestControllerTest(
   }
 
   @Test
-  void givenIncorrectOwnerWhenAddProfilesToStrategyThenNotFound() throws Exception {
+  void givenIncorrectOwnerWhenAddProfilesToStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies/test-strategy-0/profiles")
         .header("X-authentik-username", "tester-2")
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(2))
+      .andExpect(jsonPath("$[*].property").value(Matchers.containsInAnyOrder("name", "profiles")))
+      .andExpect(jsonPath("$[?(@.property == 'name')].message").value("strategy does not exist"))
+      .andExpect(jsonPath("$[?(@.property == 'profiles')].message").value("one or more profiles do not exist"));
   }
 
   @Test
@@ -444,7 +492,10 @@ record ScraperOwnedStrategyRestControllerTest(
         .header("X-authentik-username", "tester-5")
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("name"))
+      .andExpect(jsonPath("$[0].message").value("strategy does not exist"));
   }
 
   @Test
@@ -503,13 +554,16 @@ record ScraperOwnedStrategyRestControllerTest(
   }
 
   @Test
-  void givenMissingStrategyOwnerWhenUpdateStrategyThenNotFound() throws Exception {
+  void givenMissingStrategyOwnerWhenUpdateStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/strategies/test-strategy-0")
         .header("X-authentik-username", "tester-2")
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$[*].property").value(Matchers.containsInAnyOrder("name", "profiles")))
+      .andExpect(jsonPath("$[?(@.property == 'name')].message").value("strategy does not exist"))
+      .andExpect(jsonPath("$[?(@.property == 'profiles')].message").value("one or more profiles do not exist"));
   }
 
   @Test
@@ -519,7 +573,10 @@ record ScraperOwnedStrategyRestControllerTest(
         .header("X-authentik-username", "tester-5")
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("name"))
+      .andExpect(jsonPath("$[0].message").value("strategy does not exist"));
   }
 
   @Test

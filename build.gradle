@@ -17,9 +17,11 @@ group = "io.github.lengors"
 String javaVersion = properties["javaVersion"] ?: "21"
 String wireMockTestcontainersVersion = properties["wireMockTestcontainersVersion"] ?: "1.0-alpha-15"
 String checkerframeworkVersion = properties["checkerframeworkVersion"] ?: "3.49.5"
+String commonsValidatorVersion = properties["commonsValidatorVersion"] ?: "1.9.0"
 String checkstyleToolVersion = properties["checkstyleToolVersion"] ?: "10.23.1"
 String commonsLang3Version = properties["commonsLang3Version"] ?: "3.17.0"
 String protoscoutVersion = properties["protoscoutVersion"] ?: "1.0.3"
+String caffeineVersion = properties["caffeineVersion"] ?: "3.2.2"
 
 java {
   toolchain {
@@ -45,6 +47,7 @@ compileJava {
 
 dependencies {
   implementation "org.springframework.boot:spring-boot-starter-actuator"
+  implementation "org.springframework.boot:spring-boot-starter-cache"
   implementation "org.springframework.boot:spring-boot-starter-data-jpa"
   implementation "org.springframework.boot:spring-boot-starter-security"
   implementation "org.springframework.boot:spring-boot-starter-validation"
@@ -53,7 +56,9 @@ dependencies {
   implementation "io.micrometer:micrometer-tracing-bridge-otel"
   implementation "io.micrometer:context-propagation"
   implementation "org.liquibase:liquibase-core"
+  implementation "com.github.ben-manes.caffeine:caffeine:$caffeineVersion"
   implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
+  implementation "commons-validator:commons-validator:$commonsValidatorVersion"
   implementation "io.github.lengors:protoscout:$protoscoutVersion"
   implementation "org.checkerframework:checker-util:$checkerframeworkVersion"
   compileOnly "org.springframework.boot:spring-boot-docker-compose"
@@ -121,9 +126,9 @@ jacocoTestReport {
 }
 
 sonar {
-    properties {
-        property("sonar.projectKey", "lengors_${project.name}")
-        property("sonar.organization", "lengors-github")
-        property("sonar.host.url", "https://sonarcloud.io")
-    }
+  properties {
+    property("sonar.projectKey", "lengors_${project.name}")
+    property("sonar.organization", "lengors-github")
+    property("sonar.host.url", "https://sonarcloud.io")
+  }
 }

@@ -3,8 +3,7 @@ package io.github.lengors.scoutdesk.integrations.authentik.models;
 /**
  * Utility class for Authentik custom headers.
  * <p>
- * This class defines constants for HTTP headers used in Authentik proxied
- * authentication.
+ * This class defines constants for HTTP headers used in Authentik proxied authentication.
  *
  * @author lengors
  */

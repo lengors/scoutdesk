@@ -6,9 +6,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import io.github.lengors.scoutdesk.api.scrapers.specifications.services.ScraperOwnedSpecificationEntityFactory;
@@ -143,7 +143,7 @@ public interface TestSuite {
 
         // Instantiate the entity
         final var entity = new ScraperOwnedStrategyEntity(testingEntity.strategyReference());
-        entity.setProfiles(new HashSet<>(profileEntities));
+        entity.setProfiles(Set.copyOf(profileEntities));
         scraperOwnedStrategyRepository().save(entity);
       }
     });
@@ -183,19 +183,22 @@ public interface TestSuite {
         "test-specification-1",
         "tester-x",
         "test-profile-x",
-        Map.of("description", "test-description-x", "brand_description", "test-brand-description-x")),
+        Map.of("description", "test-description-x", "brand_description", "test-brand-description-x", "email",
+          "test@test.com")),
       new ScraperOwnedProfileTestingEntity(
         "tester-1",
         "test-specification-1",
         "tester-x",
         "test-profile-y",
-        Map.of("description", "test-description-y", "brand_description", "test-brand-description-y")),
+        Map.of("description", "test-description-y", "brand_description", "test-brand-description-y", "email",
+          "test@test.com")),
       new ScraperOwnedProfileTestingEntity(
         "tester-1",
         "test-specification-1",
         "tester-x",
         "test-profile-z",
-        Map.of("description", "test-description-z", "brand_description", "test-brand-description-z")));
+        Map.of("description", "test-description-z", "brand_description", "test-brand-description-z", "email",
+          "test@test.com")));
   }
 
   /**

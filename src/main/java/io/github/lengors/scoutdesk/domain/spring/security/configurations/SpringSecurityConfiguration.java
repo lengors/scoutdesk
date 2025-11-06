@@ -1,11 +1,13 @@
 package io.github.lengors.scoutdesk.domain.spring.security.configurations;
 
+import io.github.lengors.scoutdesk.domain.spring.security.services.HttpStatusEntryPoint;
 import io.github.lengors.scoutdesk.domain.spring.security.services.ProxiedAuthenticationImpersonationFilterConfigurerAdapter;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import jakarta.validation.constraints.NotNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.Customizer;
@@ -43,8 +45,9 @@ class SpringSecurityConfiguration {
       .csrf(AbstractHttpConfigurer::disable)
       .logout(AbstractHttpConfigurer::disable)
       .httpBasic(AbstractHttpConfigurer::disable)
-      .anonymous(AbstractHttpConfigurer::disable)
       .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+      .exceptionHandling(configurer -> configurer.authenticationEntryPoint(new HttpStatusEntryPoint(
+        HttpStatus.UNAUTHORIZED)))
       .authorizeHttpRequests(configurer -> configurer
         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR)
         .permitAll()
@@ -53,12 +56,12 @@ class SpringSecurityConfiguration {
     if (impersonationAdapter != null) {
       outputSecurity = outputSecurity.with(
         impersonationAdapter,
-        Customizer.<@NonNull ProxiedAuthenticationImpersonationFilterConfigurerAdapter>withDefaults());
+        Customizer.<@NotNull ProxiedAuthenticationImpersonationFilterConfigurerAdapter>withDefaults());
     }
     if (adapter != null) {
       outputSecurity = outputSecurity.with(
         adapter,
-        Customizer.<@NonNull ProxiedAuthenticationFilterConfigurerAdapter>withDefaults());
+        Customizer.<@NotNull ProxiedAuthenticationFilterConfigurerAdapter>withDefaults());
     }
     return outputSecurity.build();
   }

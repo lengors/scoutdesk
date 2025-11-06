@@ -58,8 +58,7 @@ public class WebscoutContainer<T extends WebscoutContainer<T>> extends GenericCo
     final var postgreSQLHost = getNetworkHost(postgreSQLContainer);
     final var ducklingHost = getNetworkHost(ducklingContainer);
 
-    final var postgresUrl = String.format(
-      "postgresql://%s:%d/%s",
+    final var postgresUrl = "postgresql://%s:%d/%s".formatted(
       postgreSQLHost,
       PostgreSQLContainer.POSTGRESQL_PORT,
       postgreSQLContainer.getDatabaseName());
@@ -73,7 +72,7 @@ public class WebscoutContainer<T extends WebscoutContainer<T>> extends GenericCo
       addEnv("DATABASE_PASSWORD", postgresPassword);
     }
 
-    final var ducklingUrl = String.format("http://%s:%d", ducklingHost, DucklingContainer.DUCKLING_PORT);
+    final var ducklingUrl = "http://%s:%d".formatted(ducklingHost, DucklingContainer.DUCKLING_PORT);
     addEnv("DUCKLING_CLIENT_URL", ducklingUrl);
   }
 

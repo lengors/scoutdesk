@@ -25,8 +25,13 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record AuthentikPaginated<@NotNull T>(
-  @JsonProperty("pagination") @NotNull AuthentikPagination pagination,
-  @JsonProperty("results") @NotNull List<T> results
+  @JsonProperty("pagination")
+  @NotNull
+  AuthentikPagination pagination,
+
+  @JsonProperty("results")
+  @NotNull
+  List<T> results
 ) {
 
 }

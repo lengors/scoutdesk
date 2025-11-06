@@ -1,6 +1,6 @@
 package io.github.lengors.scoutdesk.integrations.authentik.configurations;
 
-import io.github.lengors.scoutdesk.domain.spring.core.conditions.models.ConditionalOnNonBlankProperty;
+import io.github.lengors.scoutdesk.domain.spring.core.conditions.ConditionalOnNonBlankProperty;
 import io.github.lengors.scoutdesk.integrations.authentik.services.AuthentikProxiedAuthenticationImpersonationFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

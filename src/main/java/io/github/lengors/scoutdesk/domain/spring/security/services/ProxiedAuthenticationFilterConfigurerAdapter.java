@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 /**
  * Configures the authentication filter for proxied authentication.
  * <p>
- * This adapter integrates the {@link ProxiedAuthenticationConverter} into the
- * Spring Security filter chain.
+ * This adapter integrates the {@link ProxiedAuthenticationConverter} into the Spring Security filter chain.
  *
  * @author lengors
  */

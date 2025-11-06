@@ -7,12 +7,11 @@ import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikCustom
 /**
  * Exception for missing or invalid Authentik proxied authentication headers.
  * <p>
- * This exception is thrown when the required authentication headers are not
- * present or invalid.
+ * This exception is thrown when the required authentication headers are not present or invalid.
  *
  * @author lengors
  */
-public class AuthentikProxiedAuthenticationException extends AuthenticationException {
+public final class AuthentikProxiedAuthenticationException extends AuthenticationException {
 
   /**
    * Constructs a new exception with the specified cause.
@@ -36,6 +35,6 @@ public class AuthentikProxiedAuthenticationException extends AuthenticationExcep
    * @return the exception message
    */
   private static String generateExceptionMessage() {
-    return String.format("Missing '%s' header", AuthentikCustomHeaders.USERNAME);
+    return "Missing '%s' header".formatted(AuthentikCustomHeaders.USERNAME);
   }
 }

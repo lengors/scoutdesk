@@ -1,8 +1,7 @@
 package io.github.lengors.scoutdesk.integrations.webscout.properties;
 
 /**
- * Implementation of {@link WebscoutClientConnectionDetails} using application
- * properties.
+ * Implementation of {@link WebscoutClientConnectionDetails} using application properties.
  * <p>
  * Provides the Webscout service URL from configuration.
  *
@@ -12,8 +11,7 @@ package io.github.lengors.scoutdesk.integrations.webscout.properties;
 public record WebscoutClientConnectionDetailsProperties(String url) implements WebscoutClientConnectionDetails {
 
   /**
-   * Constructor for creating a new instance of
-   * {@link WebscoutClientConnectionDetailsProperties} from
+   * Constructor for creating a new instance of {@link WebscoutClientConnectionDetailsProperties} from
    * {@link WebscoutClientProperties}.
    *
    * @param webscoutClientProperties The Webscout client properties

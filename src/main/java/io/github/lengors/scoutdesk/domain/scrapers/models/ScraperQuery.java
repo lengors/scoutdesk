@@ -15,6 +15,7 @@ import java.util.Set;
  *
  * @param owner      The owner of the scraper.
  * @param strategies The set of strategies to be used in the scraping process.
+ * @param profiles   The set of profiles to be used in the scraping process.
  * @param searchTerm The term to search for during the scraping process.
  * @author lengors
  */
@@ -28,8 +29,10 @@ public record ScraperQuery(
   String owner,
 
   @JsonProperty("strategies")
-  @NotNull
   Set<@NotNull @NotBlank String> strategies,
+
+  @JsonProperty("profiles")
+  Set<@NotNull @NotBlank String> profiles,
 
   @JsonProperty("search_term")
   @NotNull

@@ -8,6 +8,8 @@ import io.github.lengors.scoutdesk.domain.commands.Command;
 import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.CommandService;
 import io.github.lengors.scoutdesk.domain.scrapers.models.ScraperQuery;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.FindScraperOwnedProfileEntityBatchCommand;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.commands.FindScraperOwnedStrategyEntityBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter;
@@ -18,6 +20,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
+
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Command to scrape data using a query.
@@ -68,15 +74,25 @@ public record ScraperOwnedCommand() implements Command<ScraperQuery, Flux<Scrape
      * @return the result
      */
     protected Flux<ScraperResponse> handle(final @Valid ScraperQuery input) {
+
+      final var strategyNames = Objects.requireNonNullElseGet(input.strategies(), Set::<String>of);
       final var strategies = commandService.executeCommand(
         new FindScraperOwnedStrategyEntityBatchCommand(ScraperOwnedStrategyEntity.LazyRelationship.PROFILES),
-        new ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter(input.owner(), input.strategies()));
+        new ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter(input.owner(), strategyNames));
 
-      final var profiles = strategies
-        .stream()
-        .flatMap(strategy -> strategy
-          .getProfiles()
-          .stream())
+      final var profileNames = Objects.requireNonNullElseGet(input.profiles(), Set::<String>of);
+      final var profiles = commandService.executeCommand(
+        new FindScraperOwnedProfileEntityBatchCommand(),
+        new ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter(input.owner(), profileNames));
+
+      final var mergedProfiles = Stream
+        .concat(
+          profiles.stream(),
+          strategies
+            .stream()
+            .flatMap(strategy -> strategy
+              .getProfiles()
+              .stream()))
         .map(profile -> new ScraperProfile(
           profile
             .getSpecification()
@@ -85,7 +101,9 @@ public record ScraperOwnedCommand() implements Command<ScraperQuery, Flux<Scrape
           buildInputs(profile)))
         .toList();
 
-      return commandService.executeCommand(new ScraperCommand(), new ScraperRequest(input.searchTerm(), profiles));
+      return commandService.executeCommand(
+        new ScraperCommand(),
+        new ScraperRequest(input.searchTerm(), mergedProfiles));
     }
 
     private static ScraperInputs buildInputs(final ScraperOwnedProfileEntity profile) {

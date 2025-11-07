@@ -1,3 +1,8 @@
+# [v1.0.0-dev.10](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.9...1.0.0-dev.10) (2025-11-07)
+
+## ✨ New Features
+- [`32c7dfe`](https://github.com/lengors/scoutdesk/commit/32c7dfe)  Allow profiles to be used directly for scraping
+
 # [v1.0.0-dev.9](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.8...1.0.0-dev.9) (2025-11-06)
 
 ## ✨ New Features

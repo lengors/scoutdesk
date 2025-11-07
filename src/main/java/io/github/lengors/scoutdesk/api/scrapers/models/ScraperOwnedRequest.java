@@ -16,6 +16,7 @@ import jakarta.validation.constraints.NotNull;
  * Request to scrape a website with specific strategies and search term.
  *
  * @param strategies the set of strategies to use for scraping
+ * @param profiles   the set of profiles to use for scraping
  * @param searchTerm the search term to use for scraping
  * @author lengors
  */
@@ -24,8 +25,10 @@ import jakarta.validation.constraints.NotNull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ScraperOwnedRequest(
   @JsonProperty("strategies")
-  @NotNull
   Set<@NotNull @NotBlank String> strategies,
+
+  @JsonProperty("profiles")
+  Set<@NotNull @NotBlank String> profiles,
 
   @JsonProperty("search_term")
   @NotNull

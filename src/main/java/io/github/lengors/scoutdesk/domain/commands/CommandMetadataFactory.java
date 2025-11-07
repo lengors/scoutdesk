@@ -24,7 +24,7 @@ public interface CommandMetadataFactory {
    *
    * @param command the command to be executed
    * @param input   the input data for the command
-   * @param <C>     extends Command<I, O>
+   * @param <C>     the type of the command, which must implement the {@link Command} interface
    * @param <I>     the type of the input for the command
    * @param <O>     the type of the output for the command
    * @return a {@link CommandRequest} containing the command, input, and an empty metadata map

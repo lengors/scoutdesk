@@ -38,6 +38,10 @@ class ScraperOwnedRestController {
   ) {
     return commandService.executeCommand(
       new ScraperOwnedCommand(),
-      new ScraperQuery(authenticatedPrincipal.getName(), scraperRequest.strategies(), scraperRequest.searchTerm()));
+      new ScraperQuery(
+        authenticatedPrincipal.getName(),
+        scraperRequest.strategies(),
+        scraperRequest.profiles(),
+        scraperRequest.searchTerm()));
   }
 }

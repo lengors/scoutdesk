@@ -97,8 +97,7 @@ public interface TestSuite {
   default void setup() {
 
     // Load specification
-    final var specification = resourceUtils()
-      .loadResource("classpath:specifications/test.yml", ScraperSpecification.class);
+    final var specification = loadResource("classpath:specifications/test.yml", ScraperSpecification.class);
 
     // Populate the database with test data
     transaction(status -> {
@@ -249,6 +248,18 @@ public interface TestSuite {
       new ScraperOwnedStrategyTestingEntity("tester-9", "test-strategy-9", "test-profile-9"),
       new ScraperOwnedStrategyTestingEntity("tester-x", "test-strategy-x", "test-profile-x", "test-profile-y"),
       new ScraperOwnedStrategyTestingEntity("tester-x", "test-strategy-y", "test-profile-z"));
+  }
+
+  /**
+   * This method is used to load a resource from the classpath.
+   *
+   * @param resource The path to the resource
+   * @param type     The runtime type of the resource
+   * @param <T>      The compile type of the resource
+   * @return The loaded resource
+   */
+  default <T> T loadResource(final String resource, final Class<T> type) {
+    return resourceUtils().loadResource(resource, type);
   }
 
   /**

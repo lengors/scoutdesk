@@ -255,7 +255,7 @@ public interface TestSuite {
    *
    * @param resource The path to the resource
    * @param type     The runtime type of the resource
-   * @param <T>      The compile type of the resource
+   * @param <T>      The compile time type of the resource
    * @return The loaded resource
    */
   default <T> T loadResource(final String resource, final Class<T> type) {

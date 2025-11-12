@@ -32,7 +32,7 @@ public class ResourceUtils {
    *
    * @param path The path to the resource
    * @param type The runtime type of the resource
-   * @param <T>  The compile type of the resource
+   * @param <T>  The compile time type of the resource
    * @return The loaded resource
    */
   public <T> T loadResource(final String path, final Class<T> type) {

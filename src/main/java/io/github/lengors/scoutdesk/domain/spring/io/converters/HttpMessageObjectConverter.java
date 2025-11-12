@@ -91,7 +91,7 @@ class HttpMessageObjectConverter implements HttpMessageConverter<Object> {
     final var dataSourceDescriptor = new DataSourceDescriptor<>(contentType, inputMessage, HttpInputMessage::getBody);
     final var output = conversionService.convert(dataSourceDescriptor, type);
     if (output == null) {
-      throw new HttpMessageNotReadableException("Could not read MultipartFile", inputMessage);
+      throw new HttpMessageNotReadableException("Could not read request body", inputMessage);
     }
 
     return output;
@@ -103,6 +103,6 @@ class HttpMessageObjectConverter implements HttpMessageConverter<Object> {
     final @Nullable MediaType contentType,
     final @NotNull HttpOutputMessage outputMessage
   ) throws HttpMessageNotWritableException {
-    throw new UnsupportedOperationException("Writing Readable is not supported");
+    throw new UnsupportedOperationException("Writing is not supported");
   }
 }

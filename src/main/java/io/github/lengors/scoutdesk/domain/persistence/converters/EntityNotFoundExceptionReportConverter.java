@@ -46,7 +46,7 @@ public class EntityNotFoundExceptionReportConverter implements Converter<EntityN
   public static final String MESSAGE = "Entity {type=%s} not found for {query=%s}";
 
   EntityNotFoundExceptionReportConverter() {
-
+    // Empty constructor for protecting against unwanted instantiation
   }
 
   /**

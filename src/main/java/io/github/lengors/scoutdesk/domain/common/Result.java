@@ -117,7 +117,7 @@ public abstract sealed class Result<T, E extends Throwable> {
   }
 
   private Result() {
-
+    // Empty constructor for protecting against unwanted instantiation
   }
 
   @Override

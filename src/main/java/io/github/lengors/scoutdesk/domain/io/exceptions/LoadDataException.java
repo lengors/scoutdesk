@@ -30,7 +30,7 @@ public abstract sealed class LoadDataException extends RuntimeException
    *               origin.
    * @param cause  the underlying cause of the exception, or {@code null} if no specific cause is provided.
    */
-  public LoadDataException(
+  protected LoadDataException(
     final Object source,
     final @Nullable Throwable cause
   ) {
@@ -48,7 +48,7 @@ public abstract sealed class LoadDataException extends RuntimeException
    *                message is required.
    * @param cause   the underlying cause of the exception, or {@code null} if no specific cause is provided.
    */
-  public LoadDataException(
+  protected LoadDataException(
     final Object source,
     final @Nullable String message,
     final @Nullable Throwable cause

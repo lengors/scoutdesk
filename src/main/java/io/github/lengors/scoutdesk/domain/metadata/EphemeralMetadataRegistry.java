@@ -28,7 +28,7 @@ public class EphemeralMetadataRegistry<T extends @NotNull Object> implements Met
    * be garbage collected when they are no longer strongly referenced elsewhere.
    */
   public EphemeralMetadataRegistry() {
-
+    // Empty constructor for defining javadocs
   }
 
   /**

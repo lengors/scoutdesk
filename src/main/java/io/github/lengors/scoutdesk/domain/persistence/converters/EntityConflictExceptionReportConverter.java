@@ -46,7 +46,7 @@ public class EntityConflictExceptionReportConverter implements Converter<EntityC
     "Entity {type=%s} cannot be deleted because at least one of {query=%s} depends on it";
 
   EntityConflictExceptionReportConverter() {
-
+    // Empty constructor for protecting against unwanted instantiation
   }
 
   /**

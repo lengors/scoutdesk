@@ -35,7 +35,7 @@ public class MissingServletRequestPartExceptionConstraintErrorConverter
    * multipart request parts.
    */
   MissingServletRequestPartExceptionConstraintErrorConverter() {
-
+    // Empty constructor for protecting against unwanted instantiation
   }
 
   /**

@@ -29,7 +29,7 @@ public final class TypeComparator implements Comparator<Class<?>> {
   public static final TypeComparator INSTANCE = new TypeComparator();
 
   private TypeComparator() {
-
+    // Empty constructor for protecting against unwanted instantiation
   }
 
   @Override

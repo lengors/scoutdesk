@@ -1,3 +1,8 @@
+# [v1.0.0-dev.11](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.10...1.0.0-dev.11) (2025-11-13)
+
+## ✨ New Features
+- [`ef51301`](https://github.com/lengors/scoutdesk/commit/ef51301)  Add endpoint to upload specification via file
+
 # [v1.0.0-dev.10](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.9...1.0.0-dev.10) (2025-11-07)
 
 ## ✨ New Features

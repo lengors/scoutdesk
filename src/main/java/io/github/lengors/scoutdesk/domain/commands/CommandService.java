@@ -1,6 +1,10 @@
 package io.github.lengors.scoutdesk.domain.commands;
 
+import io.github.lengors.scoutdesk.domain.metadata.MetadataRegistry;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * Service for executing commands in the application.
@@ -11,14 +15,17 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CommandService {
+  private final MetadataRegistry<@NotNull Map<Object, Object>> commandAttributes;
   private final CommandMetadataFactory commandMetadataFactory;
   private final CommandExecutor commandExecutor;
 
   CommandService(
+    final MetadataRegistry<@NotNull Map<Object, Object>> commandAttributes,
     final CommandMetadataFactory commandMetadataFactory,
     final CommandExecutor commandExecutor
   ) {
     this.commandMetadataFactory = commandMetadataFactory;
+    this.commandAttributes = commandAttributes;
     this.commandExecutor = commandExecutor;
   }
 
@@ -35,7 +42,8 @@ public class CommandService {
    */
   public <C extends Command<I, O>, I, O> O executeCommand(final C command, final I input) {
     final var metadata = commandMetadataFactory.create(command, input);
-    final var request = new CommandRequest<>(command, input, metadata);
+    final var request = new CommandRequest<>(command, input);
+    commandAttributes.bind(request, metadata);
     final var result = commandExecutor.execute(request);
     return result.orElseThrow(cause -> new CommandException(request, cause));
   }

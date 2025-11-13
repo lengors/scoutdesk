@@ -1,7 +1,7 @@
 package io.github.lengors.scoutdesk.domain.commands;
 
-
 import io.github.lengors.scoutdesk.domain.common.Result;
+import io.github.lengors.scoutdesk.domain.metadata.MetadataRegistry;
 import io.github.lengors.scoutdesk.domain.resolvers.ResolutionService;
 import io.micrometer.tracing.SpanName;
 import jakarta.validation.constraints.NotNull;
@@ -12,17 +12,23 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 @Qualifier("standard")
 class StandardCommandExecutor implements CommandExecutor {
   private static final Logger LOG = LoggerFactory.getLogger(StandardCommandExecutor.class);
+  private static final String METADATA_KEY = "metadata";
 
   private final ResolutionService<@NotNull Command<?, ?>, @NotNull CommandHandler<?, ?, ?>> resolutionService;
+  private final MetadataRegistry<@NotNull Map<Object, Object>> commandAttributes;
 
   StandardCommandExecutor(
-    @Lazy final ResolutionService<@NotNull Command<?, ?>, @NotNull CommandHandler<?, ?, ?>> resolutionService
+    @Lazy final ResolutionService<@NotNull Command<?, ?>, @NotNull CommandHandler<?, ?, ?>> resolutionService,
+    final MetadataRegistry<@NotNull Map<Object, Object>> commandAttributes
   ) {
     this.resolutionService = resolutionService;
+    this.commandAttributes = commandAttributes;
   }
 
   @Override
@@ -32,10 +38,14 @@ class StandardCommandExecutor implements CommandExecutor {
   ) {
     final var command = commandRequest.command();
     final var input = commandRequest.input();
-    final var metadata = commandRequest.metadata();
+    final var metadata = commandAttributes
+      .stream(commandRequest)
+      .findAny()
+      .orElseGet(Map::of);
 
     final Result<O, ? extends RuntimeException> result;
-    MDC.put("metadata", metadata.toString());
+    final var stackedMetadata = MDC.get(METADATA_KEY);
+    MDC.put(METADATA_KEY, metadata.toString());
     try {
       LOG.trace("Resolving handler for {command={}}", command);
       final var commandHandler = resolve(command);
@@ -44,7 +54,11 @@ class StandardCommandExecutor implements CommandExecutor {
       result = execute(commandHandler, command, input);
       log(command, input, result);
     } finally {
-      MDC.remove("metadata");
+      if (stackedMetadata != null) {
+        MDC.put(METADATA_KEY, stackedMetadata);
+      } else {
+        MDC.remove(METADATA_KEY);
+      }
     }
 
     return result;

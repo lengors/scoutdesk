@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @ControllerAdvice(annotations = RestController.class)
 class ExceptionHandlerRestControllerAdvice {
   private final ConversionService conversionService;
@@ -18,21 +20,18 @@ class ExceptionHandlerRestControllerAdvice {
 
   @ExceptionHandler
   ResponseEntity<?> handleThrowable(final Throwable throwable) throws Throwable {
-    final var underlyingCause = throwable instanceof CommandException commandException
-      ? commandException.getUnderlyingCause()
-      : throwable;
-    final var errorReport = underlyingCause != null
-      ? conversionService.convert(underlyingCause, ErrorReport.class)
+    final var errorReport = conversionService.canConvert(throwable.getClass(), ErrorReport.class)
+      ? conversionService.convert(throwable, ErrorReport.class)
       : null;
-
     if (errorReport != null) {
       return buildResponseEntity(errorReport);
     }
 
-    final var rootCause = underlyingCause != null
-      ? underlyingCause
-      : throwable;
-
+    final var rootCause = Optional
+      .<Throwable>ofNullable(throwable instanceof CommandException commandException
+        ? commandException.getUnderlyingCause()
+        : null)
+      .orElse(throwable);
     if (rootCause instanceof ErrorReport rootErrorReport) {
       return buildResponseEntity(rootErrorReport);
     }

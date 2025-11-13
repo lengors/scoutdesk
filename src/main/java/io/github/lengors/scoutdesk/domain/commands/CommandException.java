@@ -14,6 +14,17 @@ import java.util.function.Supplier;
  * @author lengors
  */
 public final class CommandException extends RuntimeException {
+
+  /**
+   * A final and immutable variable that holds the {@link CommandRequest} associated with this exception.
+   * <p>
+   * This field captures the command request that caused the {@link CommandException} to be thrown. It provides critical
+   * context for understanding and handling the exception, such as which command was being executed and the input data
+   * provided at the time the exception occurred.
+   * <p>
+   * The {@code CommandRequest} encapsulates the command, its input, and its expected output types, making it an
+   * integral part of the exception's metadata.
+   */
   private final CommandRequest<?, ?, ?> commandRequest;
 
   /**

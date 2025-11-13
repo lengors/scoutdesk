@@ -45,7 +45,7 @@ public class ScraperOwnedSpecificationStatusTransitionExceptionReportConverter
   public static final String MESSAGE = "Invalid status transition from %s to %s";
 
   ScraperOwnedSpecificationStatusTransitionExceptionReportConverter() {
-
+    // Empty constructor for protecting against unwanted instantiation
   }
 
   /**

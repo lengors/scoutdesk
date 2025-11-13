@@ -5,12 +5,19 @@ io.github.lengors.scoutdesk.domain.collections
 io.github.lengors.scoutdesk.domain.commands
 io.github.lengors.scoutdesk.domain.common
 io.github.lengors.scoutdesk.domain.errors
+io.github.lengors.scoutdesk.domain.functional
+io.github.lengors.scoutdesk.domain.io.commands
+io.github.lengors.scoutdesk.domain.io.exceptions
+io.github.lengors.scoutdesk.domain.io.models
+io.github.lengors.scoutdesk.domain.io.services
+io.github.lengors.scoutdesk.domain.metadata
 io.github.lengors.scoutdesk.domain.persistence.constraints
 io.github.lengors.scoutdesk.domain.persistence.converters
 io.github.lengors.scoutdesk.domain.persistence.exceptions
 io.github.lengors.scoutdesk.domain.persistence.models
 io.github.lengors.scoutdesk.domain.persistence.services
 io.github.lengors.scoutdesk.domain.providers
+io.github.lengors.scoutdesk.domain.reflect
 io.github.lengors.scoutdesk.domain.resolvers
 io.github.lengors.scoutdesk.domain.resolvers.exceptions
 io.github.lengors.scoutdesk.domain.scrapers.commands
@@ -34,6 +41,7 @@ io.github.lengors.scoutdesk.domain.scrapers.strategies.models
 io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories
 io.github.lengors.scoutdesk.domain.spring.core.conditions
 io.github.lengors.scoutdesk.domain.spring.core.converters
+io.github.lengors.scoutdesk.domain.spring.core.models
 io.github.lengors.scoutdesk.domain.spring.core.resolvers
 io.github.lengors.scoutdesk.domain.spring.core.services
 io.github.lengors.scoutdesk.domain.spring.security.models

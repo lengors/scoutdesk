@@ -7,6 +7,7 @@ import io.github.lengors.scoutdesk.domain.spring.core.models.RequestQualifier;
 import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.util.NullnessUtil;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +36,11 @@ class LoadDataExceptionConstraintErrorConverter implements Converter<LoadDataExc
       return null;
     }
 
-    return new ConstraintError(property, message);
+    return new ConstraintError(
+      property,
+      message,
+      NullnessUtil.castNonNull(source
+        .getClass()
+        .getCanonicalName()));
   }
 }

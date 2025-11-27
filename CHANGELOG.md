@@ -1,3 +1,8 @@
+# [v1.0.0-dev.12](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.11...1.0.0-dev.12) (2025-11-27)
+
+## 🐛 Bug Fixes
+- [`4cda859`](https://github.com/lengors/scoutdesk/commit/4cda859)  Fix errors not being properly reported from the root data structure
+
 # [v1.0.0-dev.11](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.10...1.0.0-dev.11) (2025-11-13)
 
 ## ✨ New Features

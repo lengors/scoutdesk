@@ -15,6 +15,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.converters.Scr
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferenceAndStatusNotFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
 import io.github.lengors.scoutdesk.domain.spring.core.converters.MissingServletRequestPartExceptionConstraintErrorConverter;
+import jakarta.validation.constraints.NotNull;
 import org.checkerframework.checker.nullness.util.NullnessUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -671,6 +672,31 @@ record ScraperOwnedSpecificationRestControllerTest(
           return request;
         }))
       .andExpect(status().isUnprocessableEntity());
+  }
+
+  @Test
+  void givenInvalidSpecificationSettingsGatesWhenUploadSpecificationThenReturnUnprocessableEntity() throws Exception {
+    @SuppressWarnings("LineLength") final var content =
+      "name: test-specification-2\nsettings:\n  locale: en-GB\n  timezone: UTC\nhandlers: []\n";
+    final var file = new MockMultipartFile(
+      "specification",
+      "specification.yaml",
+      MediaType.APPLICATION_YAML_VALUE,
+      content.getBytes());
+
+    mockMvc
+      .perform(multipart("/api/v1/scrapers/specifications")
+        .file(file)
+        .header("X-authentik-username", "tester-1")
+        .with(request -> {
+          request.setMethod(HttpMethod.PUT.name());
+          return request;
+        }))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("specification.settings.defaults"))
+      .andExpect(jsonPath("$[0].message").value("must not be null"))
+      .andExpect(jsonPath("$[0].category").value(NotNull.class.getCanonicalName()));
   }
 
   @Test

@@ -8,6 +8,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ElementKind;
 import jakarta.validation.Path;
 import jakarta.validation.constraints.NotNull;
+import org.checkerframework.checker.nullness.util.NullnessUtil;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +36,18 @@ class ConstraintViolationErrorConverter implements Converter<ConstraintViolation
           .stream(
             Optional
               .ofNullable(source.getInvalidValue())
+              .or(() -> IterableConverters
+                .stream(source.getPropertyPath())
+                .filter(node -> ElementKind.PARAMETER.equals(node.getKind()) && node instanceof Path.ParameterNode)
+                .map(Path.ParameterNode.class::cast)
+                .findFirst()
+                .map(node -> {
+                  final var executableParameters = source.getExecutableParameters();
+                  final var parameterIndex = NullnessUtil
+                    .castNonNull(node)
+                    .getParameterIndex();
+                  return parameterIndex < executableParameters.length ? executableParameters[parameterIndex] : null;
+                }))
               .orElseGet(source::getLeafBean))
           .map(RequestQualifier::name),
         IterableConverters
@@ -42,6 +55,13 @@ class ConstraintViolationErrorConverter implements Converter<ConstraintViolation
           .filter(node -> !IGNORED_ELEMENT_KINDS.contains(node.getKind()))
           .map(Path.Node::toString))
       .collect(Collectors.joining("."));
-    return new ConstraintError(propertyPath, source.getMessage());
+    return new ConstraintError(
+      propertyPath,
+      source.getMessage(),
+      NullnessUtil.castNonNull(source
+        .getConstraintDescriptor()
+        .getAnnotation()
+        .annotationType()
+        .getCanonicalName()));
   }
 }

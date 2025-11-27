@@ -12,6 +12,7 @@ import org.checkerframework.framework.qual.DefaultQualifier;
  *
  * @param property the property that caused the error
  * @param message  the error message
+ * @param category the error category
  * @author lengors
  */
 @DefaultQualifier(Nullable.class)
@@ -24,6 +25,10 @@ public record ConstraintError(
 
   @JsonProperty("message")
   @NotNull
-  String message
+  String message,
+
+  @JsonProperty("category")
+  @NotNull
+  String category
 ) {
 }

@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.domain.spring.core.converters;
 
 import io.github.lengors.scoutdesk.domain.errors.ConstraintError;
 import jakarta.validation.constraints.NotNull;
+import org.checkerframework.checker.nullness.util.NullnessUtil;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
@@ -49,6 +50,11 @@ public class MissingServletRequestPartExceptionConstraintErrorConverter
    */
   @Override
   public ConstraintError convert(final @NotNull MissingServletRequestPartException source) {
-    return new ConstraintError(source.getRequestPartName(), MESSAGE.formatted(source.getRequestPartName()));
+    return new ConstraintError(
+      source.getRequestPartName(),
+      MESSAGE.formatted(source.getRequestPartName()),
+      NullnessUtil.castNonNull(source
+        .getClass()
+        .getCanonicalName()));
   }
 }

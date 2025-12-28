@@ -35,6 +35,7 @@ record ScraperOwnedRestControllerTest(
 ) implements TestSuite {
   @Test
   void shouldCorrectlyScrape() {
+    final var amount = 0.5;
     webTestClient
       .post()
       .uri("/api/v1/scrapers")
@@ -57,7 +58,7 @@ record ScraperOwnedRestControllerTest(
               "tester-1-test-specification-1",
               "TEST-DESCRIPTION-W-TEST-TERM",
               new ScraperResponseResultBrand("test-brand-description-w-test-term", null),
-              new ScraperResponseResultPrice("0.5", "EUR"),
+              new ScraperResponseResultPrice(amount, "EUR"),
               null,
               List.of(),
               null,
@@ -70,7 +71,7 @@ record ScraperOwnedRestControllerTest(
               "tester-1-test-specification-1",
               "TEST-DESCRIPTION-X-TEST-TERM",
               new ScraperResponseResultBrand("test-brand-description-x-test-term", null),
-              new ScraperResponseResultPrice("0.5", "EUR"),
+              new ScraperResponseResultPrice(amount, "EUR"),
               null,
               List.of(),
               null,
@@ -83,7 +84,7 @@ record ScraperOwnedRestControllerTest(
               "tester-1-test-specification-1",
               "TEST-DESCRIPTION-Y-TEST-TERM",
               new ScraperResponseResultBrand("test-brand-description-y-test-term", null),
-              new ScraperResponseResultPrice("0.5", "EUR"),
+              new ScraperResponseResultPrice(amount, "EUR"),
               null,
               List.of(),
               null,
@@ -96,7 +97,7 @@ record ScraperOwnedRestControllerTest(
               "tester-1-test-specification-1",
               "TEST-DESCRIPTION-Z-TEST-TERM",
               new ScraperResponseResultBrand("test-brand-description-z-test-term", null),
-              new ScraperResponseResultPrice("0.5", "EUR"),
+              new ScraperResponseResultPrice(amount, "EUR"),
               null,
               List.of(),
               null,

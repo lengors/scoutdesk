@@ -34,14 +34,18 @@ services:
       - webscout
     labels:
       org.springframework.boot.ignore: true
+    profiles:
+      - webscout
 
   duckling:
     image: "rasa/duckling"
     networks:
       - "webscout"
+    profiles:
+      - webscout
 
   webscout:
-    image: "ghcr.io/lengors/webscout:1.0.0-dev.9"
+    image: "ghcr.io/lengors/webscout:1.0.0-dev.11"
     ports:
       - "8080"
     environment:
@@ -51,6 +55,8 @@ services:
       - "DUCKLING_CLIENT_URL=http://duckling:8000"
     networks:
       - "webscout"
+    profiles:
+      - webscout
 
   postgres-authentik:
     image: docker.io/library/postgres:17-alpine

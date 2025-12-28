@@ -78,7 +78,7 @@ public class WebscoutTestContainerConfiguration {
     @Qualifier("webscout") final DucklingContainer<?> webscoutDucklingContainer,
     @Qualifier("webscout") final PostgreSQLContainer<?> webscoutPostgreSQLContainer
   ) {
-    return new WebscoutContainer<>("ghcr.io/lengors/webscout:1.0.0-dev.9")
+    return new WebscoutContainer<>("ghcr.io/lengors/webscout:1.0.0-dev.11")
       .withNetwork(webscoutNetwork)
       .dependsOn(webscoutDucklingContainer, webscoutPostgreSQLContainer);
   }

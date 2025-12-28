@@ -256,6 +256,65 @@ record ScraperOwnedProfileRestControllerTest(
   }
 
   @Test
+  void givenValidProfileAndUserWhenFindProfileRequirementsThenProfileRequirementsReturned() throws Exception {
+    mockMvc
+      .perform(get("/api/v1/scrapers/profiles/test-profile-0/requirements")
+        .header("X-authentik-username", "tester-0"))
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.length()").value("3"))
+      .andExpect(jsonPath("$[0].name").value("description"))
+      .andExpect(jsonPath("$[0].type").value("text"))
+      .andExpect(jsonPath("$[1].name").value("brand_description"))
+      .andExpect(jsonPath("$[1].type").value("text"))
+      .andExpect(jsonPath("$[2].name").value("email"))
+      .andExpect(jsonPath("$[2].type").value("email"));
+  }
+
+  @Test
+  void givenIncorrectOwnerWhenFindProfileRequirementsThenNoProfileRequirementsReturned() throws Exception {
+    mockMvc
+      .perform(get("/api/v1/scrapers/profiles/test-profile-0/requirements")
+        .header("X-authentik-username", "tester-2"))
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedProfileEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedProfileByReferrerFilter(new ScraperOwnedProfileReference("tester-2", "test-profile-0")))));
+  }
+
+  @Test
+  void givenIncorrectProfileNameWhenFindProfileRequirementsThenNoProfileRequirementsReturned() throws Exception {
+    mockMvc
+      .perform(get("/api/v1/scrapers/profiles/test-profile-3/requirements")
+        .header("X-authentik-username", "tester-0"))
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedProfileEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedProfileByReferrerFilter(new ScraperOwnedProfileReference("tester-0", "test-profile-3")))));
+  }
+
+  @Test
+  void givenNoAuthWhenFindProfileRequirementsThenUnauthorized() throws Exception {
+    mockMvc
+      .perform(get("/api/v1/scrapers/profiles/test-profile-0/requirements"))
+      .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  void givenForbiddenGroupWhenFindProfileRequirementsThenForbidden() throws Exception {
+    mockMvc
+      .perform(get("/api/v1/scrapers/profiles/test-profile-0/requirements")
+        .header("X-authentik-username", "other"))
+      .andExpect(status().isForbidden());
+  }
+
+  @Test
   void givenValidUserWhenFindAllProfilesThenProfilesReturned() throws Exception {
     final var expectedCount = 3;
     mockMvc

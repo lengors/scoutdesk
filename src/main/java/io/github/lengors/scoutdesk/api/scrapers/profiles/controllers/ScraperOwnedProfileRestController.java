@@ -2,6 +2,8 @@ package io.github.lengors.scoutdesk.api.scrapers.profiles.controllers;
 
 import java.util.List;
 
+import io.github.lengors.protoscout.domain.scrapers.specifications.models.ScraperSpecificationRequirement;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.FindScraperOwnedProfileRequirementBatchCommand;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -75,6 +77,17 @@ class ScraperOwnedProfileRestController {
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedProfileCommand(),
+      new ScraperOwnedProfileByReferrerFilter(
+        new ScraperOwnedProfileReference(authenticatedPrincipal.getName(), name)));
+  }
+
+  @GetMapping("/{name}/requirements")
+  List<ScraperSpecificationRequirement> findRequirements(
+    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    @PathVariable final @NotNull @NotBlank String name
+  ) {
+    return commandService.executeCommand(
+      new FindScraperOwnedProfileRequirementBatchCommand(),
       new ScraperOwnedProfileByReferrerFilter(
         new ScraperOwnedProfileReference(authenticatedPrincipal.getName(), name)));
   }

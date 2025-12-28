@@ -69,7 +69,8 @@ class DataSourceObjectConverter implements ConditionalGenericConverter {
 
     final var factoryType = Optional
       .ofNullable(dataSourceDescriptor.contentType())
-      .filter(MediaType.APPLICATION_JSON_VALUE::equals)
+      .map(MediaType::valueOf)
+      .filter(MediaType.APPLICATION_JSON::isCompatibleWith)
       .<Class<? extends JsonFactory>>map(_0 -> JsonFactory.class)
       .orElse(YAMLFactory.class);
 

@@ -6,7 +6,6 @@ import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityNotFoundE
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyByReferrerFilter;
-import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyReference;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories.ScraperOwnedStrategyRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,11 +34,8 @@ public record FindScraperOwnedStrategyEntityCommand()
       final ScraperOwnedStrategyFilter input
     ) {
       final var optionalEntity = switch (input) {
-        case ScraperOwnedStrategyByReferrerFilter(var referrer) -> scraperOwnedStrategyRepository.findById(
-          referrer instanceof ScraperOwnedStrategyReference reference
-            ? reference
-            : new ScraperOwnedStrategyReference(referrer)
-        );
+        case ScraperOwnedStrategyByReferrerFilter(var referrer) ->
+          scraperOwnedStrategyRepository.findById(referrer.asReference());
       };
 
       return optionalEntity

@@ -2,8 +2,10 @@ package io.github.lengors.scoutdesk.domain.scrapers.profiles.models;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.util.NullnessUtil;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -53,5 +55,11 @@ public record ScraperOwnedProfileReference(
    */
   public ScraperOwnedProfileReference(final @NotNull ScraperOwnedProfileReferrer referrer) {
     this(referrer.owner(), referrer.name());
+  }
+
+  @JsonIgnore
+  @Override
+  public @NotNull ScraperOwnedProfileReference asReference() {
+    return NullnessUtil.castNonNull(this);
   }
 }

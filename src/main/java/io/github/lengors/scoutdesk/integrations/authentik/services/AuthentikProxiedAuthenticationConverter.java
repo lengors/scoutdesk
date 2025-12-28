@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import io.github.lengors.scoutdesk.domain.commands.CommandException;
 import io.github.lengors.scoutdesk.domain.commands.CommandService;
 import io.github.lengors.scoutdesk.integrations.authentik.commands.FindAuthentikUserCommand;
 import io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikGroup;
@@ -94,8 +95,13 @@ class AuthentikProxiedAuthenticationConverter implements ProxiedAuthenticationCo
 
     final AuthentikUser authentikUser;
     try {
-      authentikUser = commandService.executeCommand(new FindAuthentikUserCommand(), usernameHeader);
+      authentikUser =
+        CommandException.unwrap(() -> commandService.executeCommand(new FindAuthentikUserCommand(), usernameHeader));
     } catch (final NoSuchElementException exception) {
+      return null;
+    }
+
+    if (authentikUser == null) {
       return null;
     }
 

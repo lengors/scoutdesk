@@ -13,7 +13,7 @@ import io.github.lengors.scoutdesk.domain.commands.CommandService;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.events.ScraperOwnedProfileBatchDeletedEvent;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfile;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.DeleteScraperOwnedSpecificationBatchCommand;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceBatchAndStatusFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferrerBatchAndStatusFilter;
 
 @Service
 class ScraperOwnedProfileBatchDeletedEventHandler {
@@ -35,6 +35,6 @@ class ScraperOwnedProfileBatchDeletedEventHandler {
 
     commandService.executeCommand(
       new DeleteScraperOwnedSpecificationBatchCommand(),
-      new ScraperOwnedSpecificationBatchByReferenceBatchAndStatusFilter(specifications));
+      new ScraperOwnedSpecificationBatchByReferrerBatchAndStatusFilter(specifications));
   }
 }

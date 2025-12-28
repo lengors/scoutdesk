@@ -10,7 +10,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 import io.github.lengors.scoutdesk.domain.commands.CommandService;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.events.ScraperOwnedProfileDeletedEvent;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.DeleteScraperOwnedSpecificationBatchCommand;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceAndStatusFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferrerAndStatusFilter;
 
 @Service
 class ScraperOwnedProfileDeletedEventHandler {
@@ -26,7 +26,7 @@ class ScraperOwnedProfileDeletedEventHandler {
   public void handle(final ScraperOwnedProfileDeletedEvent event) {
     commandService.executeCommand(
       new DeleteScraperOwnedSpecificationBatchCommand(),
-      new ScraperOwnedSpecificationBatchByReferenceAndStatusFilter(
+      new ScraperOwnedSpecificationBatchByReferrerAndStatusFilter(
         event
           .getSource()
           .specification()));

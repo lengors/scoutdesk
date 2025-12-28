@@ -13,7 +13,7 @@ package io.github.lengors.scoutdesk.domain.scrapers.specifications.filters;
 public sealed interface ScraperOwnedSpecificationBatchFilter
   permits ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter,
   ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter,
-  ScraperOwnedSpecificationBatchByReferenceBatchAndStatusFilter,
-  ScraperOwnedSpecificationBatchByReferenceAndStatusFilter {
+  ScraperOwnedSpecificationBatchByReferrerBatchAndStatusFilter,
+  ScraperOwnedSpecificationBatchByReferrerAndStatusFilter {
 
 }

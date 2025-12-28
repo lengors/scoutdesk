@@ -4,6 +4,8 @@ import io.github.lengors.protoscout.domain.scrapers.models.ScraperInputs;
 import io.github.lengors.protoscout.domain.scrapers.models.ScraperProfile;
 import io.github.lengors.protoscout.domain.scrapers.models.ScraperRequest;
 import io.github.lengors.protoscout.domain.scrapers.models.ScraperResponse;
+import io.github.lengors.protoscout.domain.scrapers.models.ScraperResponseError;
+import io.github.lengors.protoscout.domain.scrapers.models.ScraperResponseResult;
 import io.github.lengors.scoutdesk.domain.commands.Command;
 import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
 import io.github.lengors.scoutdesk.domain.commands.CommandService;
@@ -11,6 +13,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.models.ScraperQuery;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.FindScraperOwnedProfileEntityBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileEntity;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReferrer;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.commands.FindScraperOwnedStrategyEntityBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyEntity;
@@ -101,9 +104,33 @@ public record ScraperOwnedCommand() implements Command<ScraperQuery, Flux<Scrape
           buildInputs(profile)))
         .toList();
 
-      return commandService.executeCommand(
-        new ScraperCommand(),
-        new ScraperRequest(input.searchTerm(), mergedProfiles));
+      return commandService
+        .executeCommand(
+          new ScraperCommand(),
+          new ScraperRequest(input.searchTerm(), mergedProfiles))
+        .map(response -> switch (response) {
+          case ScraperResponseResult result -> new ScraperResponseResult(
+            result.getUrl(),
+            resolveSpecificationName(input.owner(), result.getSpecificationName()),
+            result.getDescription(),
+            result.getBrand(),
+            result.getPrice(),
+            result.getImage(),
+            result.getStocks(),
+            result.getGrip(),
+            result.getNoise(),
+            result.getDecibels(),
+            result.getConsumption(),
+            result.getDetails()
+          );
+
+          case ScraperResponseError error -> new ScraperResponseError(
+            error.getCode(),
+            resolveSpecificationName(input.owner(), error.getSpecificationName()),
+            error.getHandlerName(),
+            error.getMessage()
+          );
+        });
     }
 
     private static ScraperInputs buildInputs(final ScraperOwnedProfileEntity profile) {
@@ -112,6 +139,21 @@ public record ScraperOwnedCommand() implements Command<ScraperQuery, Flux<Scrape
         .getInputs()
         .forEach(inputs::setAdditionalProperty);
       return inputs;
+    }
+
+    private static String resolveSpecificationName(
+      final String owner,
+      final String fullyQualifiedSpecificationName
+    ) {
+      final var ownerPrefix = ScraperOwnedSpecificationReferrer.ownerPrefix(owner);
+      final var foundOwnedPrefix = fullyQualifiedSpecificationName.indexOf(ownerPrefix);
+      if (foundOwnedPrefix < 0) {
+        return fullyQualifiedSpecificationName;
+      }
+
+      return "%s%s".formatted(
+        fullyQualifiedSpecificationName.substring(0, foundOwnedPrefix),
+        fullyQualifiedSpecificationName.substring(foundOwnedPrefix + ownerPrefix.length()));
     }
   }
 }

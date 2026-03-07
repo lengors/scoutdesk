@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import io.github.lengors.scoutdesk.domain.io.exceptions.LoadDataFormatException;
 import io.github.lengors.scoutdesk.domain.persistence.converters.EntityNotFoundExceptionReportConverter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.converters.ScraperOwnedSpecificationStatusTransitionExceptionReportConverter;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferenceAndStatusNotFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferrerAndStatusNotFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
 import io.github.lengors.scoutdesk.domain.spring.core.converters.MissingServletRequestPartExceptionConstraintErrorConverter;
 import jakarta.validation.constraints.NotNull;
@@ -88,7 +88,7 @@ record ScraperOwnedSpecificationRestControllerTest(
           NullnessUtil
             .castNonNull(ScraperOwnedSpecificationEntity.class)
             .getSimpleName(),
-          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
             new ScraperOwnedSpecificationReference("tester-0", "test-specification-1")))));
   }
 
@@ -103,7 +103,7 @@ record ScraperOwnedSpecificationRestControllerTest(
           NullnessUtil
             .castNonNull(ScraperOwnedSpecificationEntity.class)
             .getSimpleName(),
-          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
             new ScraperOwnedSpecificationReference("tester-2", "test-specification-0")))));
   }
 
@@ -118,7 +118,7 @@ record ScraperOwnedSpecificationRestControllerTest(
           NullnessUtil
             .castNonNull(ScraperOwnedSpecificationEntity.class)
             .getSimpleName(),
-          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
             new ScraperOwnedSpecificationReference("tester-0", "test-specification-3")))));
   }
 
@@ -227,7 +227,7 @@ record ScraperOwnedSpecificationRestControllerTest(
           NullnessUtil
             .castNonNull(ScraperOwnedSpecificationEntity.class)
             .getSimpleName(),
-          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
             new ScraperOwnedSpecificationReference("tester-2", "test-specification-0")))));
   }
 
@@ -242,7 +242,7 @@ record ScraperOwnedSpecificationRestControllerTest(
           NullnessUtil
             .castNonNull(ScraperOwnedSpecificationEntity.class)
             .getSimpleName(),
-          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
             new ScraperOwnedSpecificationReference("tester-0", "test-specification-3")))));
   }
 
@@ -257,7 +257,7 @@ record ScraperOwnedSpecificationRestControllerTest(
           NullnessUtil
             .castNonNull(ScraperOwnedSpecificationEntity.class)
             .getSimpleName(),
-          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
             new ScraperOwnedSpecificationReference("tester-0", "test-specification-1")))));
   }
 
@@ -497,7 +497,7 @@ record ScraperOwnedSpecificationRestControllerTest(
           NullnessUtil
             .castNonNull(ScraperOwnedSpecificationEntity.class)
             .getSimpleName(),
-          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
             new ScraperOwnedSpecificationReference("tester-0", "test-specification-1")))));
   }
 
@@ -514,7 +514,7 @@ record ScraperOwnedSpecificationRestControllerTest(
           NullnessUtil
             .castNonNull(ScraperOwnedSpecificationEntity.class)
             .getSimpleName(),
-          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
             new ScraperOwnedSpecificationReference("tester-2", "test-specification-0")))));
   }
 
@@ -531,7 +531,7 @@ record ScraperOwnedSpecificationRestControllerTest(
           NullnessUtil
             .castNonNull(ScraperOwnedSpecificationEntity.class)
             .getSimpleName(),
-          new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
             new ScraperOwnedSpecificationReference("tester-1", "test-specification-2")))));
   }
 

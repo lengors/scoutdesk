@@ -9,6 +9,11 @@ spring:
     cache-names: commandExecutor
     caffeine:
       spec: expireAfterAccess=10m
+  docker:
+    compose:
+      profiles:
+        active:
+          - webscout
   threads:
     virtual:
       enabled: true

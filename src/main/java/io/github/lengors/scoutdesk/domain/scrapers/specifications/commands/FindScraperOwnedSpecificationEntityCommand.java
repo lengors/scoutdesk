@@ -5,7 +5,7 @@ import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
 import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityNotFoundException;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferenceAndStatusNotFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferrerAndStatusNotFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +36,8 @@ public record FindScraperOwnedSpecificationEntityCommand()
       final ScraperOwnedSpecificationFilter input
     ) {
       final var entity = switch (input) {
-        case ScraperOwnedSpecificationByReferenceAndStatusNotFilter(var reference, var status) ->
-          scraperOwnedSpecificationRepository.findByReferenceAndStatusNot(reference, status);
+        case ScraperOwnedSpecificationByReferrerAndStatusNotFilter(var referrer, var status) ->
+          scraperOwnedSpecificationRepository.findByReferenceAndStatusNot(referrer.asReference(), status);
       };
       return entity.orElseThrow(() -> new EntityNotFoundException(ScraperOwnedSpecificationEntity.class, input));
     }

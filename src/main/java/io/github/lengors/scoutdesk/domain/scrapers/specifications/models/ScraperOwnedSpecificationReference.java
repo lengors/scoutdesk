@@ -2,13 +2,13 @@ package io.github.lengors.scoutdesk.domain.scrapers.specifications.models;
 
 import java.io.Serializable;
 
-import io.github.lengors.scoutdesk.domain.persistence.models.EntityReferrer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Pattern;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.util.NullnessUtil;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,11 +36,12 @@ public record ScraperOwnedSpecificationReference(
 
   @JsonProperty("name")
   @NotNull
-  @Pattern(regexp = "^[^/\\s]+$") String name
-) implements EntityReferrer<@NotNull ScraperOwnedSpecificationEntity>, Serializable {
+  @Pattern(regexp = "^[^/\\s]+$")
+  String name
+) implements ScraperOwnedSpecificationReferrer, Serializable {
 
   /**
-   * Constructor for creating a scraper owned specification reference.
+   * Constructor for creating a scraper owned specification referrer.
    */
   @JsonCreator
   public ScraperOwnedSpecificationReference {
@@ -48,20 +49,17 @@ public record ScraperOwnedSpecificationReference(
   }
 
   /**
-   * Gets the qualified name of the specification reference.
-   * <p>
-   * Follows the format: {owner}-{name}.
+   * Constructs a new {@code ScraperOwnedSpecificationReference} using a {@link ScraperOwnedSpecificationReferrer}.
    *
-   * @return The fully qualified name of the specification reference
+   * @param referrer A non-null referrer object containing the owner and name of the scraper specification.
    */
-  @JsonIgnore
-  public @NotNull String fullyQualifiedName() {
-    return "%s-%s".formatted(owner, name);
+  public ScraperOwnedSpecificationReference(final @NotNull ScraperOwnedSpecificationReferrer referrer) {
+    this(referrer.owner(), referrer.name());
   }
 
-  @Override
   @JsonIgnore
-  public @NotNull String getTypeName() {
-    return "specification";
+  @Override
+  public @NotNull ScraperOwnedSpecificationReference asReference() {
+    return NullnessUtil.castNonNull(this);
   }
 }

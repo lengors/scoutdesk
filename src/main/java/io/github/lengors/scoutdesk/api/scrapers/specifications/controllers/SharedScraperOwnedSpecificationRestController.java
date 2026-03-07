@@ -2,6 +2,9 @@ package io.github.lengors.scoutdesk.api.scrapers.specifications.controllers;
 
 import java.util.List;
 
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.FindScraperOwnedSpecificationCommand;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferrerAndStatusNotFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
 import jakarta.validation.constraints.NotNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
@@ -35,7 +38,17 @@ class SharedScraperOwnedSpecificationRestController {
     this.commandService = commandService;
   }
 
-  @GetMapping
+  @GetMapping(params = "name")
+  ScraperOwnedSpecification find(
+    @RequestParam(name = "name") final @NotNull String name,
+    @RequestParam(name = "owner") final @NotNull String owner
+  ) {
+    return commandService.executeCommand(
+      new FindScraperOwnedSpecificationCommand(),
+      new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(new ScraperOwnedSpecificationReference(owner, name)));
+  }
+
+  @GetMapping(params = "!name")
   List<ScraperOwnedSpecification> findAll(
     @RequestParam(name = "query", required = false) final String query,
     @RequestParam(name = "owner", required = false) final String owner,

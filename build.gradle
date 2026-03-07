@@ -38,6 +38,7 @@ configurations {
 
 repositories {
   mavenCentral()
+  mavenLocal()
 }
 
 compileJava {

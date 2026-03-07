@@ -5,11 +5,12 @@ import java.util.List;
 import io.github.lengors.scoutdesk.domain.commands.Command;
 import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceAndStatusFilter;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceBatchAndStatusFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferrerAndStatusFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferrerBatchAndStatusFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReferrer;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.ScraperOwnedSpecificationRepository;
 import io.github.lengors.scoutdesk.domain.text.FuzzyScorer;
@@ -46,10 +47,15 @@ public record FindScraperOwnedSpecificationEntityBatchCommand()
       return switch (input) {
         case ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter(var referenceOwner, var status) ->
           scraperOwnedSpecificationRepository.findAllByReferenceOwnerAndStatusNot(referenceOwner, status);
-        case ScraperOwnedSpecificationBatchByReferenceBatchAndStatusFilter(var referenceBatch, var status) ->
-          scraperOwnedSpecificationRepository.findAllByReferenceInAndStatus(referenceBatch, status);
-        case ScraperOwnedSpecificationBatchByReferenceAndStatusFilter(var reference, var status) ->
-          scraperOwnedSpecificationRepository.findAllByReferenceAndStatus(reference, status);
+        case ScraperOwnedSpecificationBatchByReferrerBatchAndStatusFilter(var referrerBatch, var status) ->
+          scraperOwnedSpecificationRepository.findAllByReferenceInAndStatus(
+            referrerBatch
+              .stream()
+              .map(ScraperOwnedSpecificationReferrer::asReference)
+              .toList(),
+            status);
+        case ScraperOwnedSpecificationBatchByReferrerAndStatusFilter(var referrer, var status) ->
+          scraperOwnedSpecificationRepository.findAllByReferenceAndStatus(referrer.asReference(), status);
         case ScraperOwnedSpecificationBatchByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabledFilter(
           var query, var owner, var ignoreCase, var strictModeEnabled) ->
           findAllByQueryAndOwnerAndIgnoreCaseAndStrictModeEnabled(

@@ -33,6 +33,17 @@ public interface ScraperOwnedProfileReferrer extends EntityReferrer<@NotNull Scr
   @NotNull
   String name();
 
+  /**
+   * Converts the current object into a {@link ScraperOwnedProfileReference}.
+   * The reference contains the owner and name properties of the profile.
+   *
+   * @return A {@link ScraperOwnedProfileReference} representing the current object.
+   */
+  @JsonIgnore
+  default @NotNull ScraperOwnedProfileReference asReference() {
+    return new ScraperOwnedProfileReference(owner(), name());
+  }
+
   @Override
   @JsonIgnore
   default @NotNull String getTypeName() {

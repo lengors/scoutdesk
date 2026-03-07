@@ -6,7 +6,6 @@ import io.github.lengors.scoutdesk.domain.persistence.exceptions.EntityNotFoundE
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileEntity;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileByReferrerFilter;
-import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileReference;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories.ScraperOwnedProfileRepository;
 import org.springframework.stereotype.Service;
 
@@ -34,11 +33,8 @@ public record FindScraperOwnedProfileEntityCommand()
       final ScraperOwnedProfileFilter input
     ) {
       final var optionalEntity = switch (input) {
-        case ScraperOwnedProfileByReferrerFilter(var referrer) -> scraperOwnedProfileRepository.findById(
-          referrer instanceof ScraperOwnedProfileReference reference
-            ? reference
-            : new ScraperOwnedProfileReference(referrer)
-        );
+        case ScraperOwnedProfileByReferrerFilter(var referrer) ->
+          scraperOwnedProfileRepository.findById(referrer.asReference());
       };
 
       return optionalEntity.orElseThrow(() -> new EntityNotFoundException(ScraperOwnedProfileEntity.class, input));

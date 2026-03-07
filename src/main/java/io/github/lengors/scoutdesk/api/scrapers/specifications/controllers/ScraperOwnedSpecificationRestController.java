@@ -33,7 +33,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.FindS
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.SaveScraperOwnedSpecificationCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.commands.UpdateScraperOwnedSpecificationEntityStatusCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter;
-import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferenceAndStatusNotFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferrerAndStatusNotFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecification;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus;
@@ -64,7 +64,7 @@ class ScraperOwnedSpecificationRestController {
   ) {
     commandService.executeCommand(
       new DeleteScraperOwnedSpecificationCommand(),
-      new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+      new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
         new ScraperOwnedSpecificationReference(authenticatedPrincipal.getName(), name)));
   }
 
@@ -83,7 +83,7 @@ class ScraperOwnedSpecificationRestController {
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedSpecificationCommand(),
-      new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+      new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
         new ScraperOwnedSpecificationReference(authenticatedPrincipal.getName(), name)));
   }
 
@@ -120,7 +120,7 @@ class ScraperOwnedSpecificationRestController {
           case ARCHIVE -> ScraperOwnedSpecificationStatus.ARCHIVED;
         }
       ),
-      new ScraperOwnedSpecificationByReferenceAndStatusNotFilter(
+      new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
         new ScraperOwnedSpecificationReference(authenticatedPrincipal.getName(), name)));
   }
 

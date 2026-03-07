@@ -45,7 +45,7 @@ services:
       - webscout
 
   webscout:
-    image: "ghcr.io/lengors/webscout:1.0.0-dev.11"
+    image: "ghcr.io/lengors/webscout:1.0.0-dev.12"
     ports:
       - "8080"
     environment:

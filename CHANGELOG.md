@@ -1,3 +1,13 @@
+# [v1.0.0-dev.13](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.12...1.0.0-dev.13) (2026-03-07)
+
+## ✨ New Features
+- [`c6162b5`](https://github.com/lengors/scoutdesk/commit/c6162b5)  Add endpoint to fetch profile requirements 
+- [`722e5b1`](https://github.com/lengors/scoutdesk/commit/722e5b1)  Add endpoint to fetch single specification from specified developer 
+
+## 🐛 Bug Fixes
+- [`1333d50`](https://github.com/lengors/scoutdesk/commit/1333d50)  Make scraper command remove owner prefix from specification names 
+- [`abc21b2`](https://github.com/lengors/scoutdesk/commit/abc21b2)  Require authentication for API only
+
 # [v1.0.0-dev.12](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.11...1.0.0-dev.12) (2025-11-27)
 
 ## 🐛 Bug Fixes

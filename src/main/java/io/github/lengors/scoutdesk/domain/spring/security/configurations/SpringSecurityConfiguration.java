@@ -51,8 +51,10 @@ class SpringSecurityConfiguration {
       .authorizeHttpRequests(configurer -> configurer
         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR)
         .permitAll()
+        .requestMatchers("/api/**")
+        .authenticated()
         .anyRequest()
-        .authenticated());
+        .permitAll());
     if (impersonationAdapter != null) {
       outputSecurity = outputSecurity.with(
         impersonationAdapter,

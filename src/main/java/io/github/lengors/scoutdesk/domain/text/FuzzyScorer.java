@@ -5,8 +5,7 @@ import java.util.function.BiPredicate;
 /**
  * Utility class for calculating fuzzy scores between strings.
  * <p>
- * Provides a method to compute a similarity score with options for case
- * sensitivity and strict mode.
+ * Provides a method to compute a similarity score with options for case sensitivity and strict mode.
  *
  * @author lengors
  */

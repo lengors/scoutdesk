@@ -1,17 +1,24 @@
 package io.github.lengors.scoutdesk.api.scrapers.specifications.controllers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
 
+import io.github.lengors.scoutdesk.domain.persistence.converters.EntityNotFoundExceptionReportConverter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferrerAndStatusNotFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
 import org.apache.commons.lang3.tuple.Pair;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.util.NullnessUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.FieldSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -141,6 +148,77 @@ record SharedScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(get("/api/v1/shared/scrapers/specifications"))
       .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  void givenValidUserAndParamsWhenFindSpecificationThenReturnExpectedResults() throws Exception {
+    mockMvc
+      .perform(
+        get("/api/v1/shared/scrapers/specifications")
+          .param("name", "test-specification-0")
+          .param("owner", "tester-0")
+          .header("X-authentik-username", "tester-2"))
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.owner").value("tester-0"))
+      .andExpect(jsonPath("$.specification.name").value("test-specification-0"))
+      .andExpect(jsonPath("$.status").value("active"));
+  }
+
+  @Test
+  void givenIncorrectOwnerWhenFindSpecificationThenReturnNotFound() throws Exception {
+    mockMvc
+      .perform(
+        get("/api/v1/shared/scrapers/specifications")
+          .param("name", "test-specification-0")
+          .param("owner", "tester-2")
+          .header("X-authentik-username", "tester-1"))
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-2", "test-specification-0")))));
+  }
+
+  @Test
+  void givenIncorrectNameWhenFindSpecificationThenReturnNotFound() throws Exception {
+    mockMvc
+      .perform(
+        get("/api/v1/shared/scrapers/specifications")
+          .param("name", "test-specification-3")
+          .param("owner", "tester-0")
+          .header("X-authentik-username", "tester-2"))
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-0", "test-specification-3")))));
+  }
+
+  @Test
+  void givenNoAuthWhenFindSpecificationThenReturnExpectedResults() throws Exception {
+    mockMvc
+      .perform(
+        get("/api/v1/shared/scrapers/specifications")
+          .param("name", "test-specification-0")
+          .param("owner", "tester-0"))
+      .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  void givenUserWithForbiddenGroupWhenFindSpecificationThenReturnExpectedResults() throws Exception {
+    mockMvc
+      .perform(
+        get("/api/v1/shared/scrapers/specifications")
+          .param("name", "test-specification-0")
+          .param("owner", "tester-0")
+          .header("X-authentik-username", "other"))
+      .andExpect(status().isForbidden());
   }
 
   private record TestOption(

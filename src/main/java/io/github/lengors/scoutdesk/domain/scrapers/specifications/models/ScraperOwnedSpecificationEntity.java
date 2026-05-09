@@ -82,8 +82,8 @@ public final class ScraperOwnedSpecificationEntity {
    */
   public void addProfile(final @NotNull ScraperOwnedProfileEntity profile) {
     if (!equals(profile.getSpecification())) {
-      throw new IllegalArgumentException(String
-        .format("Cannot add profile %s because it is not associated with this specification %s.", profile, this));
+      throw new IllegalArgumentException(
+        "Cannot add profile %s because it is not associated with this specification %s.".formatted(profile, this));
     }
     profiles.add(profile);
   }

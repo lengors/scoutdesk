@@ -10,6 +10,6 @@ package io.github.lengors.scoutdesk.domain.scrapers.specifications.filters;
  *
  * @author lengors
  */
-public sealed interface ScraperOwnedSpecificationFilter permits ScraperOwnedSpecificationByReferenceAndStatusNotFilter {
+public sealed interface ScraperOwnedSpecificationFilter permits ScraperOwnedSpecificationByReferrerAndStatusNotFilter {
 
 }

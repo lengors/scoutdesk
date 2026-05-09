@@ -2,16 +2,28 @@ package io.github.lengors.scoutdesk.api.scrapers.specifications.controllers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import io.github.lengors.scoutdesk.domain.io.exceptions.LoadDataFormatException;
+import io.github.lengors.scoutdesk.domain.persistence.converters.EntityNotFoundExceptionReportConverter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.converters.ScraperOwnedSpecificationStatusTransitionExceptionReportConverter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.filters.ScraperOwnedSpecificationByReferrerAndStatusNotFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
+import io.github.lengors.scoutdesk.domain.spring.core.converters.MissingServletRequestPartExceptionConstraintErrorConverter;
+import jakarta.validation.constraints.NotNull;
+import org.checkerframework.checker.nullness.util.NullnessUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -70,7 +82,14 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-1")
         .header("X-authentik-username", "tester-0"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-0", "test-specification-1")))));
   }
 
   @Test
@@ -78,7 +97,14 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-0")
         .header("X-authentik-username", "tester-2"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-2", "test-specification-0")))));
   }
 
   @Test
@@ -86,7 +112,14 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-3")
         .header("X-authentik-username", "tester-0"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-0", "test-specification-3")))));
   }
 
   @Test
@@ -188,7 +221,14 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-0")
         .header("X-authentik-username", "tester-2"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-2", "test-specification-0")))));
   }
 
   @Test
@@ -196,7 +236,14 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-3")
         .header("X-authentik-username", "tester-0"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-0", "test-specification-3")))));
   }
 
   @Test
@@ -204,7 +251,14 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-1")
         .header("X-authentik-username", "tester-0"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-0", "test-specification-1")))));
   }
 
   @Test
@@ -316,7 +370,10 @@ record ScraperOwnedSpecificationRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
-      .andExpect(status().isConflict());
+      .andExpect(status().isConflict())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("name"))
+      .andExpect(jsonPath("$[0].message").value("specification already exists"));
   }
 
   @Test
@@ -408,7 +465,10 @@ record ScraperOwnedSpecificationRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"activate\"}"))
-      .andExpect(status().isUnprocessableEntity());
+      .andExpect(status().isUnprocessableEntity())
+      .andExpect(content().string(
+        ScraperOwnedSpecificationStatusTransitionExceptionReportConverter.MESSAGE.formatted(
+          ScraperOwnedSpecificationStatus.ACTIVE, ScraperOwnedSpecificationStatus.ACTIVE)));
   }
 
   @Test
@@ -418,7 +478,10 @@ record ScraperOwnedSpecificationRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
-      .andExpect(status().isUnprocessableEntity());
+      .andExpect(status().isUnprocessableEntity())
+      .andExpect(content().string(
+        ScraperOwnedSpecificationStatusTransitionExceptionReportConverter.MESSAGE.formatted(
+          ScraperOwnedSpecificationStatus.ARCHIVED, ScraperOwnedSpecificationStatus.ARCHIVED)));
   }
 
   @Test
@@ -428,7 +491,14 @@ record ScraperOwnedSpecificationRestControllerTest(
         .header("X-authentik-username", "tester-0")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-0", "test-specification-1")))));
   }
 
   @Test
@@ -438,7 +508,14 @@ record ScraperOwnedSpecificationRestControllerTest(
         .header("X-authentik-username", "tester-2")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-2", "test-specification-0")))));
   }
 
   @Test
@@ -448,7 +525,14 @@ record ScraperOwnedSpecificationRestControllerTest(
         .header("X-authentik-username", "tester-1")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
-      .andExpect(status().isNotFound());
+      .andExpect(status().isNotFound())
+      .andExpect(content().string(
+        EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
+          NullnessUtil
+            .castNonNull(ScraperOwnedSpecificationEntity.class)
+            .getSimpleName(),
+          new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
+            new ScraperOwnedSpecificationReference("tester-1", "test-specification-2")))));
   }
 
   @Test
@@ -468,5 +552,208 @@ record ScraperOwnedSpecificationRestControllerTest(
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isForbidden());
+  }
+
+  @Test
+  void givenValidUserAndValidSpecificationWhenUploadSpecificationThenSpecificationIsSaved() throws Exception {
+    @SuppressWarnings("LineLength") final var content =
+      "name: test-specification-2\nsettings:\n  defaults:\n    url:\n      location: http://test\n    gates: []\n  locale: en-GB\n  timezone: UTC\nhandlers: []\n";
+    final var file = new MockMultipartFile(
+      "specification",
+      "specification.yaml",
+      MediaType.APPLICATION_YAML_VALUE,
+      content.getBytes());
+
+    mockMvc
+      .perform(multipart("/api/v1/scrapers/specifications")
+        .file(file)
+        .header("X-authentik-username", "tester-1")
+        .with(request -> {
+          request.setMethod(HttpMethod.PUT.name());
+          return request;
+        }))
+      .andExpect(status().isCreated())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.owner").value("tester-1"))
+      .andExpect(jsonPath("$.specification.name").value("test-specification-2"))
+      .andExpect(jsonPath("$.specification.settings.defaults.url.location.jexl").value("'http://test'"))
+      .andExpect(jsonPath("$.specification.settings.defaults.gates").isArray())
+      .andExpect(jsonPath("$.specification.settings.defaults.gates").isEmpty())
+      .andExpect(jsonPath("$.specification.settings.locale.jexl").value("'en-GB'"))
+      .andExpect(jsonPath("$.specification.settings.timezone.jexl").value("'UTC'"))
+      .andExpect(jsonPath("$.specification.handlers").isArray())
+      .andExpect(jsonPath("$.specification.handlers").isEmpty())
+      .andExpect(jsonPath("$.status").value("active"));
+
+    transaction(status -> {
+      final var expectedCount = 3;
+      Assertions.assertEquals(expectedCount, scraperOwnedSpecificationRepository
+        .findAllByReferenceOwner("tester-1")
+        .size());
+      final var entity = scraperOwnedSpecificationRepository
+        .findById(new ScraperOwnedSpecificationReference("tester-1", "test-specification-2"));
+      Assertions.assertTrue(entity.isPresent());
+      entity.ifPresent(specificationEntity -> {
+        final var reference = specificationEntity.getReference();
+        Assertions.assertEquals("tester-1", reference.owner());
+        Assertions.assertEquals("test-specification-2", reference.name());
+        Assertions.assertEquals(ScraperOwnedSpecificationStatus.ACTIVE, specificationEntity.getStatus());
+        Assertions.assertTrue(specificationEntity
+          .getProfiles()
+          .isEmpty());
+      });
+    });
+  }
+
+  @Test
+  void givenExistingSpecificationReferenceWhenUploadSpecificationThenReturnConflict() throws Exception {
+    @SuppressWarnings("LineLength") final var content =
+      "name: test-specification-2\nsettings:\n  defaults:\n    url:\n      location: http://test\n    gates: []\n  locale: en-GB\n  timezone: UTC\nhandlers: []\n";
+    final var file = new MockMultipartFile(
+      "specification",
+      "specification.yaml",
+      MediaType.APPLICATION_YAML_VALUE,
+      content.getBytes());
+
+    mockMvc
+      .perform(multipart("/api/v1/scrapers/specifications")
+        .file(file)
+        .header("X-authentik-username", "tester-0")
+        .with(request -> {
+          request.setMethod(HttpMethod.PUT.name());
+          return request;
+        }))
+      .andExpect(status().isConflict())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("specification.name"))
+      .andExpect(jsonPath("$[0].message").value("specification already exists"));
+  }
+
+  @Test
+  void givenInvalidSpecificationFormatWhenUploadSpecificationThenReturnUnprocessableEntity() throws Exception {
+    @SuppressWarnings("LineLength") final var content =
+      "name: test-specification-2\nsettings:\n  defaults:\n    url:\n      location: http://test\n    gates: {]\n  locale: en-GB\n  timezone: UTC\nhandlers: []\n";
+    final var file = new MockMultipartFile(
+      "specification",
+      "specification.yaml",
+      MediaType.APPLICATION_YAML_VALUE,
+      content.getBytes());
+
+    mockMvc
+      .perform(multipart("/api/v1/scrapers/specifications")
+        .file(file)
+        .header("X-authentik-username", "tester-1")
+        .with(request -> {
+          request.setMethod(HttpMethod.PUT.name());
+          return request;
+        }))
+      .andExpect(status().isUnprocessableEntity())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("specification"))
+      .andExpect(jsonPath("$[0].message").value(LoadDataFormatException.MESSAGE));
+  }
+
+  @Test
+  void givenInvalidSpecificationNameWhenUploadSpecificationThenReturnUnprocessableEntity() throws Exception {
+    @SuppressWarnings("LineLength") final var content =
+      "name: test/specification/2\nsettings:\n  defaults:\n    url:\n      location: http://test\n    gates: []\n  locale: en-GB\n  timezone: UTC\nhandlers: []\n";
+    final var file = new MockMultipartFile(
+      "specification",
+      "specification.yaml",
+      MediaType.APPLICATION_YAML_VALUE,
+      content.getBytes());
+
+    mockMvc
+      .perform(multipart("/api/v1/scrapers/specifications")
+        .file(file)
+        .header("X-authentik-username", "tester-0")
+        .with(request -> {
+          request.setMethod(HttpMethod.PUT.name());
+          return request;
+        }))
+      .andExpect(status().isUnprocessableEntity());
+  }
+
+  @Test
+  void givenInvalidSpecificationSettingsGatesWhenUploadSpecificationThenReturnUnprocessableEntity() throws Exception {
+    @SuppressWarnings("LineLength") final var content =
+      "name: test-specification-2\nsettings:\n  locale: en-GB\n  timezone: UTC\nhandlers: []\n";
+    final var file = new MockMultipartFile(
+      "specification",
+      "specification.yaml",
+      MediaType.APPLICATION_YAML_VALUE,
+      content.getBytes());
+
+    mockMvc
+      .perform(multipart("/api/v1/scrapers/specifications")
+        .file(file)
+        .header("X-authentik-username", "tester-1")
+        .with(request -> {
+          request.setMethod(HttpMethod.PUT.name());
+          return request;
+        }))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("specification.settings.defaults"))
+      .andExpect(jsonPath("$[0].message").value("must not be null"))
+      .andExpect(jsonPath("$[0].category").value(NotNull.class.getCanonicalName()));
+  }
+
+  @Test
+  void givenNoAuthWhenUploadSpecificationThenReturnUnauthorized() throws Exception {
+    @SuppressWarnings("LineLength") final var content =
+      "name: test-specification-2\nsettings:\n  defaults:\n    url:\n      location: http://test\n    gates: []\n  locale: en-GB\n  timezone: UTC\nhandlers: []\n";
+    final var file = new MockMultipartFile(
+      "specification",
+      "specification.yaml",
+      MediaType.APPLICATION_YAML_VALUE,
+      content.getBytes());
+
+    mockMvc
+      .perform(multipart("/api/v1/scrapers/specifications")
+        .file(file)
+        .with(request -> {
+          request.setMethod(HttpMethod.PUT.name());
+          return request;
+        }))
+      .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  void givenUserWithForbiddenGroupWhenUploadSpecificationThenReturnForbidden() throws Exception {
+    @SuppressWarnings("LineLength") final var content =
+      "name: test-specification-2\nsettings:\n  defaults:\n    url:\n      location: http://test\n    gates: []\n  locale: en-GB\n  timezone: UTC\nhandlers: []\n";
+    final var file = new MockMultipartFile(
+      "specification",
+      "specification.yaml",
+      MediaType.APPLICATION_YAML_VALUE,
+      content.getBytes());
+
+    mockMvc
+      .perform(multipart("/api/v1/scrapers/specifications")
+        .file(file)
+        .header("X-authentik-username", "tester-9")
+        .with(request -> {
+          request.setMethod(HttpMethod.PUT.name());
+          return request;
+        }))
+      .andExpect(status().isForbidden());
+  }
+
+  @Test
+  void givenMissingSpecificationFieldRequestWhenUploadSpecificationThenReturnBadRequest() throws Exception {
+    mockMvc
+      .perform(multipart("/api/v1/scrapers/specifications")
+        .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
+        .header("X-authentik-username", "tester-1")
+        .with(request -> {
+          request.setMethod(HttpMethod.PUT.name());
+          return request;
+        }))
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.length()").value(1))
+      .andExpect(jsonPath("$[0].property").value("specification"))
+      .andExpect(jsonPath("$[0].message").value(
+        MissingServletRequestPartExceptionConstraintErrorConverter.MESSAGE.formatted("specification")));
   }
 }

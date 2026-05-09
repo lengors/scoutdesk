@@ -1,7 +1,7 @@
 package io.github.lengors.scoutdesk.api.scrapers.controllers;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
@@ -35,11 +35,13 @@ record ScraperOwnedRestControllerTest(
 ) implements TestSuite {
   @Test
   void shouldCorrectlyScrape() {
+    final var amount = 0.5;
     webTestClient
       .post()
       .uri("/api/v1/scrapers")
       .header("X-authentik-username", "tester-x")
-      .bodyValue(new ScraperOwnedRequest(Set.of("test-strategy-x", "test-strategy-y"), "test-term"))
+      .bodyValue(
+        new ScraperOwnedRequest(Set.of("test-strategy-x", "test-strategy-y"), Set.of("test-profile-w"), "test-term"))
       .exchange()
       .expectStatus()
       .isOk()
@@ -47,49 +49,62 @@ record ScraperOwnedRestControllerTest(
       .contentType(MediaType.TEXT_EVENT_STREAM)
       .expectBodyList(ScraperResponse.class)
       .value(response -> {
-        final var expectedCount = 3;
+        final var expectedCount = 4;
         Assertions.assertEquals(expectedCount, response.size());
         Assertions.assertTrue(response.containsAll(
           Arrays.asList(
             new ScraperResponseResult(
               "https://example.com",
               "tester-1-test-specification-1",
+              "TEST-DESCRIPTION-W-TEST-TERM",
+              new ScraperResponseResultBrand("test-brand-description-w-test-term", null),
+              new ScraperResponseResultPrice(amount, "EUR"),
+              null,
+              List.of(),
+              null,
+              null,
+              null,
+              null,
+              List.of()),
+            new ScraperResponseResult(
+              "https://example.com",
+              "tester-1-test-specification-1",
               "TEST-DESCRIPTION-X-TEST-TERM",
               new ScraperResponseResultBrand("test-brand-description-x-test-term", null),
-              new ScraperResponseResultPrice("0.5", "EUR"),
+              new ScraperResponseResultPrice(amount, "EUR"),
               null,
-              Collections.emptyList(),
-              null,
-              null,
+              List.of(),
               null,
               null,
-              Collections.emptyList()),
+              null,
+              null,
+              List.of()),
             new ScraperResponseResult(
               "https://example.com",
               "tester-1-test-specification-1",
               "TEST-DESCRIPTION-Y-TEST-TERM",
               new ScraperResponseResultBrand("test-brand-description-y-test-term", null),
-              new ScraperResponseResultPrice("0.5", "EUR"),
+              new ScraperResponseResultPrice(amount, "EUR"),
               null,
-              Collections.emptyList(),
-              null,
-              null,
+              List.of(),
               null,
               null,
-              Collections.emptyList()),
+              null,
+              null,
+              List.of()),
             new ScraperResponseResult(
               "https://example.com",
               "tester-1-test-specification-1",
               "TEST-DESCRIPTION-Z-TEST-TERM",
               new ScraperResponseResultBrand("test-brand-description-z-test-term", null),
-              new ScraperResponseResultPrice("0.5", "EUR"),
+              new ScraperResponseResultPrice(amount, "EUR"),
               null,
-              Collections.emptyList(),
-              null,
-              null,
+              List.of(),
               null,
               null,
-              Collections.emptyList()))));
+              null,
+              null,
+              List.of()))));
       });
   }
 
@@ -99,7 +114,7 @@ record ScraperOwnedRestControllerTest(
       .post()
       .uri("/api/v1/scrapers")
       .header("X-authentik-username", "tester-x")
-      .bodyValue(new ScraperOwnedRequest(Set.of("test-strategy-a"), "test-term"))
+      .bodyValue(new ScraperOwnedRequest(Set.of("test-strategy-a"), Set.of(), "test-term"))
       .exchange()
       .expectStatus()
       .isNotFound();
@@ -110,7 +125,7 @@ record ScraperOwnedRestControllerTest(
     webTestClient
       .post()
       .uri("/api/v1/scrapers")
-      .bodyValue(new ScraperOwnedRequest(Set.of("test-strategy-x", "test-strategy-y"), "test-term"))
+      .bodyValue(new ScraperOwnedRequest(Set.of("test-strategy-x", "test-strategy-y"), Set.of(), "test-term"))
       .exchange()
       .expectStatus()
       .isUnauthorized();
@@ -122,7 +137,7 @@ record ScraperOwnedRestControllerTest(
       .post()
       .uri("/api/v1/scrapers")
       .header("X-authentik-username", "other")
-      .bodyValue(new ScraperOwnedRequest(Set.of("test-strategy-x", "test-strategy-y"), "test-term"))
+      .bodyValue(new ScraperOwnedRequest(Set.of("test-strategy-x", "test-strategy-y"), Set.of(), "test-term"))
       .exchange()
       .expectStatus()
       .isForbidden();

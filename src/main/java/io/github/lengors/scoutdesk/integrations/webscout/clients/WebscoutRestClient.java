@@ -89,7 +89,7 @@ public class WebscoutRestClient {
         .delete()
         .uri(uriBuilder -> uriBuilder
           .path(BASE_PATH)
-          .queryParam("name", names)
+          .queryParam("names", names)
           .build())
         .retrieve()
         .body(TYPE_REFERENCE_LIST))

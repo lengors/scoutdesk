@@ -6,9 +6,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import io.github.lengors.scoutdesk.api.scrapers.specifications.services.ScraperOwnedSpecificationEntityFactory;
@@ -97,8 +97,7 @@ public interface TestSuite {
   default void setup() {
 
     // Load specification
-    final var specification = resourceUtils()
-      .loadResource("classpath:specifications/test.yml", ScraperSpecification.class);
+    final var specification = loadResource("classpath:specifications/test.yml", ScraperSpecification.class);
 
     // Populate the database with test data
     transaction(status -> {
@@ -143,7 +142,7 @@ public interface TestSuite {
 
         // Instantiate the entity
         final var entity = new ScraperOwnedStrategyEntity(testingEntity.strategyReference());
-        entity.setProfiles(new HashSet<>(profileEntities));
+        entity.setProfiles(Set.copyOf(profileEntities));
         scraperOwnedStrategyRepository().save(entity);
       }
     });
@@ -179,6 +178,13 @@ public interface TestSuite {
       new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-5", "test-profile-1"),
       new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-5", "test-profile-2"),
       new ScraperOwnedProfileTestingEntity("tester-1", "test-specification-1", "tester-9", "test-profile-9"),
+      new ScraperOwnedProfileTestingEntity(
+        "tester-1",
+        "test-specification-1",
+        "tester-x",
+        "test-profile-w",
+        Map.of("description", "test-description-w", "brand_description", "test-brand-description-w", "email",
+          "test@test.com")),
       new ScraperOwnedProfileTestingEntity(
         "tester-1",
         "test-specification-1",
@@ -243,6 +249,18 @@ public interface TestSuite {
       new ScraperOwnedStrategyTestingEntity("tester-9", "test-strategy-9", "test-profile-9"),
       new ScraperOwnedStrategyTestingEntity("tester-x", "test-strategy-x", "test-profile-x", "test-profile-y"),
       new ScraperOwnedStrategyTestingEntity("tester-x", "test-strategy-y", "test-profile-z"));
+  }
+
+  /**
+   * This method is used to load a resource from the classpath.
+   *
+   * @param resource The path to the resource
+   * @param type     The runtime type of the resource
+   * @param <T>      The compile time type of the resource
+   * @return The loaded resource
+   */
+  default <T> T loadResource(final String resource, final Class<T> type) {
+    return resourceUtils().loadResource(resource, type);
   }
 
   /**

@@ -36,11 +36,7 @@ public class AuthentikRestClient {
     final AuthentikClientConnectionDetails authentikClientConnectionDetails,
     final RestClient.Builder restClientBuilder
   ) {
-    LOG.info(
-      "Setting {} up: {url={}, serviceAccountToken={}}",
-      getClass().getSimpleName(),
-      authentikClientConnectionDetails.url(),
-      authentikClientConnectionDetails.serviceAccountToken());
+    LOG.info("Setting {} up: {url={}}", getClass().getSimpleName(), authentikClientConnectionDetails.url());
     this.restClient = restClientBuilder
       .baseUrl(authentikClientConnectionDetails.url())
       .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)

@@ -1,3 +1,8 @@
+# [v1.0.0-dev.14](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.13...1.0.0-dev.14) (2026-05-10)
+
+## 🐛 Bug Fixes
+- [`f57f496`](https://github.com/lengors/scoutdesk/commit/f57f496)  Remove logging of authentik client service token
+
 # [v1.0.0-dev.13](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.12...1.0.0-dev.13) (2026-03-07)
 
 ## ✨ New Features

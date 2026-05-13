@@ -1,0 +1,42 @@
+const branch = process.env.GITHUB_REF_NAME;
+
+const isPreview =
+    branch.startsWith("feat/") ||
+    branch.startsWith("bug/");
+
+module.exports = {
+    branches: [
+        "main",
+        {name: "beta", prerelease: true},
+        {name: "alpha", prerelease: true},
+        {name: "dev", prerelease: true},
+        {name: "feat/**", prerelease: "preview"},
+        {name: "bug/**", prerelease: "preview"},
+    ],
+
+    plugins: isPreview
+        ? [
+            "semantic-release-gitmoji",
+            ["@semantic-release/changelog", {
+                changelogFile: "CHANGELOG.md",
+            }],
+            ["@semantic-release/exec", {
+              prepareCmd: "./gradlew setVersion -PnewVersion=${nextRelease.version}",
+            }],
+            "@semantic-release/github",
+        ]
+        : [
+            "semantic-release-gitmoji",
+            ["@semantic-release/changelog", {
+                changelogFile: "CHANGELOG.md",
+            }],
+            ["@semantic-release/exec", {
+              prepareCmd: "./gradlew setVersion -PnewVersion=${nextRelease.version}",
+            }],
+            "@semantic-release/github",
+            ["@semantic-release/git", {
+                assets: ["CHANGELOG.md", "gradle.properties"],
+                message: "🔖 Update `gradle.properties` to `${nextRelease.version}` [skip release]\n\n${nextRelease.notes}",
+            }],
+        ],
+};

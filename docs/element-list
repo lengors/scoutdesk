@@ -1,3 +1,4 @@
+io.github.lengors.scoutdesk.api.auth.exceptions
 io.github.lengors.scoutdesk.api.scrapers.models
 io.github.lengors.scoutdesk.api.scrapers.profiles.models
 io.github.lengors.scoutdesk.api.scrapers.specifications.models

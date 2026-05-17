@@ -1,3 +1,7 @@
 ---
 authentik:
   impersonated-user: ${AUTHENTIK_IMPERSONATED_USER:scoutdesk-developer}
+
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD:test}

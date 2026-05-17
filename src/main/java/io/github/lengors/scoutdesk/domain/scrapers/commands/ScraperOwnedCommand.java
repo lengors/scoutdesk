@@ -137,7 +137,7 @@ public record ScraperOwnedCommand() implements Command<ScraperQuery, Flux<Scrape
       final var inputs = new ScraperInputs();
       profile
         .getInputs()
-        .forEach(inputs::setAdditionalProperty);
+        .forEach((name, input) -> inputs.setAdditionalProperty(name, input.value()));
       return inputs;
     }
 

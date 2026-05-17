@@ -4,6 +4,7 @@ import io.github.lengors.scoutdesk.domain.commands.Command;
 import io.github.lengors.scoutdesk.domain.commands.CommandHandler;
 import io.github.lengors.scoutdesk.domain.persistence.constraints.RequireEntity;
 import io.github.lengors.scoutdesk.domain.persistence.services.EntityService;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperInput;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfile;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.repositories.ScraperOwnedProfileRepository;
 import jakarta.validation.Valid;
@@ -14,6 +15,8 @@ import org.springframework.validation.annotation.Validated;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Command for updating a scraper owned profile.
@@ -80,7 +83,16 @@ public record UpdateScraperOwnedProfileCommand() implements Command<ScraperOwned
         entity.setSpecification(specification);
       }
 
-      entity.setInputs(Objects.requireNonNullElseGet(input.inputs(), Map::of));
+      entity.setInputs(Objects
+        .requireNonNullElseGet(input.inputs(), Map::<String, String>of)
+        .entrySet()
+        .stream()
+        .collect(Collectors.toUnmodifiableMap(
+          Map.Entry::getKey,
+          Function
+            .<Map.Entry<String, String>>identity()
+            .andThen(Map.Entry::getValue)
+            .andThen(ScraperInput::new))));
       final var updatedEntity = scraperOwnedProfileRepository.save(entity);
       return new ScraperOwnedProfile(updatedEntity);
     }

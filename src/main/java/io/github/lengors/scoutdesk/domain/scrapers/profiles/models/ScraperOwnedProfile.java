@@ -1,6 +1,8 @@
 package io.github.lengors.scoutdesk.domain.scrapers.profiles.models;
 
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import io.github.lengors.scoutdesk.domain.persistence.constraints.RequireEntity;
 import jakarta.validation.constraints.NotBlank;
@@ -73,6 +75,15 @@ public record ScraperOwnedProfile(
       entity
         .getSpecification()
         .getReference(),
-      entity.getInputs());
+      entity
+        .getInputs()
+        .entrySet()
+        .stream()
+        .collect(Collectors.toUnmodifiableMap(
+          Map.Entry::getKey,
+          Function
+            .<Map.@NotNull Entry<@NotNull String, @NotNull ScraperInput>>identity()
+            .andThen(Map.Entry::getValue)
+            .andThen(ScraperInput::value))));
   }
 }

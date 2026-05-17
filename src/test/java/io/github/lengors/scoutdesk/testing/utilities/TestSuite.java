@@ -5,13 +5,15 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import io.github.lengors.scoutdesk.api.scrapers.specifications.services.ScraperOwnedSpecificationEntityFactory;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperInput;
 import io.github.lengors.scoutdesk.testing.authentik.configurations.AuthentikClientConnectionDetailsConfiguration;
 import io.github.lengors.scoutdesk.testing.wiremock.configurations.WireMockTestContainerConfiguration;
 import org.junit.jupiter.api.AfterEach;
@@ -126,7 +128,16 @@ public interface TestSuite {
         // Instantiate the entity
         scraperOwnedProfileRepository().save(new ScraperOwnedProfileEntity(
           testingEntity.profileReference(),
-          new HashMap<>(testingEntity.inputs()),
+          testingEntity
+            .inputs()
+            .entrySet()
+            .stream()
+            .collect(Collectors.toMap(
+              Map.Entry::getKey,
+              Function
+                .<Map.Entry<String, String>>identity()
+                .andThen(Map.Entry::getValue)
+                .andThen(ScraperInput::new))),
           specificationEntity));
       }
 

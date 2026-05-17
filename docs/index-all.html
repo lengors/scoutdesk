@@ -381,9 +381,21 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Converts a <code>MissingServletRequestPartException</code> into a <a href="io/github/lengors/scoutdesk/domain/errors/ConstraintError.html" title="class in io.github.lengors.scoutdesk.domain.errors"><code>ConstraintError</code></a>.</div>
 </dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/crypto/converters/CryptoStringAttributeConverter.html#convertToDatabaseColumn(java.lang.String)" class="member-name-link">convertToDatabaseColumn(String)</a> - Method in class io.github.lengors.scoutdesk.domain.crypto.converters.<a href="io/github/lengors/scoutdesk/domain/crypto/converters/CryptoStringAttributeConverter.html" title="class in io.github.lengors.scoutdesk.domain.crypto.converters">CryptoStringAttributeConverter</a></dt>
+<dd>
+<div class="block">Converts the given attribute value to its encrypted form before persisting it in the database.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/crypto/converters/CryptoStringAttributeConverter.html#convertToEntityAttribute(java.lang.String)" class="member-name-link">convertToEntityAttribute(String)</a> - Method in class io.github.lengors.scoutdesk.domain.crypto.converters.<a href="io/github/lengors/scoutdesk/domain/crypto/converters/CryptoStringAttributeConverter.html" title="class in io.github.lengors.scoutdesk.domain.crypto.converters">CryptoStringAttributeConverter</a></dt>
+<dd>
+<div class="block">Converts the encrypted data from the database column to its original form when retrieving it from the database.</div>
+</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/commands/CommandMetadataFactory.html#create(C,I)" class="member-name-link">create(C, I)</a> - Method in interface io.github.lengors.scoutdesk.domain.commands.<a href="io/github/lengors/scoutdesk/domain/commands/CommandMetadataFactory.html" title="interface in io.github.lengors.scoutdesk.domain.commands">CommandMetadataFactory</a></dt>
 <dd>
 <div class="block">Creates the command metadata for the given command and input.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/crypto/converters/CryptoStringAttributeConverter.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.crypto.converters">CryptoStringAttributeConverter</a> - Class in <a href="io/github/lengors/scoutdesk/domain/crypto/converters/package-summary.html">io.github.lengors.scoutdesk.domain.crypto.converters</a></dt>
+<dd>
+<div class="block">Converter for encrypting and decrypting String-based attributes in JPA entities.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:D">D</h2>
@@ -685,6 +697,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/filters/ScraperOwnedProfileByReferrerFilter.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/filters/ScraperOwnedProfileByReferrerFilter.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.filters">ScraperOwnedProfileByReferrerFilter</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperInput.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.domain.scrapers.profiles.models.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperInput.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.models">ScraperInput</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -1217,10 +1233,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the query used to search for the entity that caused the conflict.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/api/auth/exceptions/InvalidRedirectException.html#getRedirect()" class="member-name-link">getRedirect()</a> - Method in exception class io.github.lengors.scoutdesk.api.auth.exceptions.<a href="io/github/lengors/scoutdesk/api/auth/exceptions/InvalidRedirectException.html" title="class in io.github.lengors.scoutdesk.api.auth.exceptions">InvalidRedirectException</a></dt>
-<dd>
-<div class="block">Gets the URL or target associated with the unauthorized redirect.</div>
-</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperOwnedProfileEntity.html#getReference()" class="member-name-link">getReference()</a> - Method in class io.github.lengors.scoutdesk.domain.scrapers.profiles.models.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperOwnedProfileEntity.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.models">ScraperOwnedProfileEntity</a></dt>
 <dd>
 <div class="block">Returns the reference to the profile.</div>
@@ -1459,6 +1471,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/filters/ScraperOwnedProfileByReferrerFilter.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/filters/ScraperOwnedProfileByReferrerFilter.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.filters">ScraperOwnedProfileByReferrerFilter</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperInput.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.domain.scrapers.profiles.models.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperInput.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.models">ScraperInput</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
@@ -1751,16 +1767,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Singleton instance of the <a href="io/github/lengors/scoutdesk/domain/reflect/TypeComparator.html" title="class in io.github.lengors.scoutdesk.domain.reflect"><code>TypeComparator</code></a> class.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/api/auth/exceptions/InvalidRedirectException.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.api.auth.exceptions">InvalidRedirectException</a> - Exception Class in <a href="io/github/lengors/scoutdesk/api/auth/exceptions/package-summary.html">io.github.lengors.scoutdesk.api.auth.exceptions</a></dt>
-<dd>
-<div class="block">Exception for unauthorized redirect.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/api/auth/exceptions/InvalidRedirectException.html#%3Cinit%3E(java.lang.String)" class="member-name-link">InvalidRedirectException(String)</a> - Constructor for exception class io.github.lengors.scoutdesk.api.auth.exceptions.<a href="io/github/lengors/scoutdesk/api/auth/exceptions/InvalidRedirectException.html" title="class in io.github.lengors.scoutdesk.api.auth.exceptions">InvalidRedirectException</a></dt>
-<dd>
-<div class="block">Constructs a new exception indicating an unauthorized redirect attempt.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/api/auth/exceptions/package-summary.html">io.github.lengors.scoutdesk.api.auth.exceptions</a> - package io.github.lengors.scoutdesk.api.auth.exceptions</dt>
-<dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/api/scrapers/models/package-summary.html">io.github.lengors.scoutdesk.api.scrapers.models</a> - package io.github.lengors.scoutdesk.api.scrapers.models</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/api/scrapers/profiles/models/package-summary.html">io.github.lengors.scoutdesk.api.scrapers.profiles.models</a> - package io.github.lengors.scoutdesk.api.scrapers.profiles.models</dt>
@@ -1772,6 +1778,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/lengors/scoutdesk/domain/commands/package-summary.html">io.github.lengors.scoutdesk.domain.commands</a> - package io.github.lengors.scoutdesk.domain.commands</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/common/package-summary.html">io.github.lengors.scoutdesk.domain.common</a> - package io.github.lengors.scoutdesk.domain.common</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/crypto/converters/package-summary.html">io.github.lengors.scoutdesk.domain.crypto.converters</a> - package io.github.lengors.scoutdesk.domain.crypto.converters</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/errors/package-summary.html">io.github.lengors.scoutdesk.domain.errors</a> - package io.github.lengors.scoutdesk.domain.errors</dt>
 <dd>&nbsp;</dd>
@@ -2530,6 +2538,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates an instance of a <code>ScraperCommand</code> record class.</div>
 </dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperInput.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.models">ScraperInput</a> - Record Class in <a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/package-summary.html">io.github.lengors.scoutdesk.domain.scrapers.profiles.models</a></dt>
+<dd>
+<div class="block">Represents an input used by the scraper.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperInput.html#%3Cinit%3E(java.lang.String)" class="member-name-link">ScraperInput(String)</a> - Constructor for record class io.github.lengors.scoutdesk.domain.scrapers.profiles.models.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperInput.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.models">ScraperInput</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>ScraperInput</code> record class.</div>
+</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperNamedProfile.html" class="type-name-link" title="interface in io.github.lengors.scoutdesk.domain.scrapers.profiles.models">ScraperNamedProfile</a> - Interface in <a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/package-summary.html">io.github.lengors.scoutdesk.domain.scrapers.profiles.models</a></dt>
 <dd>
 <div class="block">Represents a named scraper profile.</div>
@@ -2630,7 +2646,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Empty constructor for JPA.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperOwnedProfileEntity.html#%3Cinit%3E(io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileReference,java.util.Map,io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity)" class="member-name-link">ScraperOwnedProfileEntity(ScraperOwnedProfileReference, Map&lt;String, String&gt;, ScraperOwnedSpecificationEntity)</a> - Constructor for class io.github.lengors.scoutdesk.domain.scrapers.profiles.models.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperOwnedProfileEntity.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.models">ScraperOwnedProfileEntity</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperOwnedProfileEntity.html#%3Cinit%3E(io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileReference,java.util.Map,io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity)" class="member-name-link">ScraperOwnedProfileEntity(ScraperOwnedProfileReference, Map&lt;String, ScraperInput&gt;, ScraperOwnedSpecificationEntity)</a> - Constructor for class io.github.lengors.scoutdesk.domain.scrapers.profiles.models.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperOwnedProfileEntity.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.models">ScraperOwnedProfileEntity</a></dt>
 <dd>
 <div class="block">Creates a new instance of the <a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperOwnedProfileEntity.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.models"><code>ScraperOwnedProfileEntity</code></a>.</div>
 </dd>
@@ -2955,7 +2971,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Unsupported operation for setting authentication status.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperOwnedProfileEntity.html#setInputs(java.util.Map)" class="member-name-link">setInputs(Map&lt;String, String&gt;)</a> - Method in class io.github.lengors.scoutdesk.domain.scrapers.profiles.models.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperOwnedProfileEntity.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.models">ScraperOwnedProfileEntity</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperOwnedProfileEntity.html#setInputs(java.util.Map)" class="member-name-link">setInputs(Map&lt;String, ScraperInput&gt;)</a> - Method in class io.github.lengors.scoutdesk.domain.scrapers.profiles.models.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperOwnedProfileEntity.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.models">ScraperOwnedProfileEntity</a></dt>
 <dd>
 <div class="block">Sets the input parameters for the profile.</div>
 </dd>
@@ -3197,6 +3213,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/filters/ScraperOwnedProfileByReferrerFilter.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/filters/ScraperOwnedProfileByReferrerFilter.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.filters">ScraperOwnedProfileByReferrerFilter</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperInput.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.domain.scrapers.profiles.models.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperInput.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.models">ScraperInput</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
@@ -3607,6 +3627,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/lengors/scoutdesk/domain/persistence/constraints/RequireEntity.html#value()" class="member-name-link">value()</a> - Element in annotation interface io.github.lengors.scoutdesk.domain.persistence.constraints.<a href="io/github/lengors/scoutdesk/domain/persistence/constraints/RequireEntity.html" title="annotation interface in io.github.lengors.scoutdesk.domain.persistence.constraints">RequireEntity</a></dt>
 <dd>
 <div class="block">If true, the annotated entity must be absent (i.e., not exist).</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperInput.html#value()" class="member-name-link">value()</a> - Method in record class io.github.lengors.scoutdesk.domain.scrapers.profiles.models.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperInput.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.models">ScraperInput</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/scrapers/profiles/models/ScraperInput.html#param-value"><code>value</code></a> record component.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/core/conditions/ConditionalOnNonBlankProperty.html#value()" class="member-name-link">value()</a> - Element in annotation interface io.github.lengors.scoutdesk.domain.spring.core.conditions.<a href="io/github/lengors/scoutdesk/domain/spring/core/conditions/ConditionalOnNonBlankProperty.html" title="annotation interface in io.github.lengors.scoutdesk.domain.spring.core.conditions">ConditionalOnNonBlankProperty</a></dt>
 <dd>

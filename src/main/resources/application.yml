@@ -78,6 +78,10 @@ authentik:
     url: ${AUTHENTIK_CLIENT_URL:http://localhost:9000}
     service-account-token: ${AUTHENTIK_SERVICE_ACCOUNT_TOKEN:}
 
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD:}
+
 webscout:
   client:
     url: ${WEBSCOUT_CLIENT_URL:http://localhost:8080}

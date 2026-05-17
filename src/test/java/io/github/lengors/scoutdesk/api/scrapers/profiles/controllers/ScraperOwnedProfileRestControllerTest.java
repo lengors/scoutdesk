@@ -12,6 +12,7 @@ import io.github.lengors.scoutdesk.domain.persistence.converters.EntityConflictE
 import io.github.lengors.scoutdesk.domain.persistence.converters.EntityNotFoundExceptionReportConverter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileByReferrerFilter;
+import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperInput;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileEntity;
 import org.awaitility.Awaitility;
 import org.checkerframework.checker.nullness.util.NullnessUtil;
@@ -31,6 +32,8 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.repositories.Scrap
 import io.github.lengors.scoutdesk.integrations.webscout.clients.WebscoutRestClient;
 import io.github.lengors.scoutdesk.testing.utilities.ResourceUtils;
 import io.github.lengors.scoutdesk.testing.utilities.TestSuite;
+
+import java.util.Optional;
 
 @TestSuite.Defaults
 record ScraperOwnedProfileRestControllerTest(
@@ -406,15 +409,24 @@ record ScraperOwnedProfileRestControllerTest(
       Assertions.assertEquals("test-profile-3", reference.name());
       Assertions.assertEquals("tester-0", specification.owner());
       Assertions.assertEquals("test-specification-0", specification.name());
-      Assertions.assertEquals("test", scraperOwnedProfileEntity
-        .getInputs()
-        .get("description"));
-      Assertions.assertEquals("test", scraperOwnedProfileEntity
-        .getInputs()
-        .get("brand_description"));
-      Assertions.assertEquals("test@test.com", scraperOwnedProfileEntity
-        .getInputs()
-        .get("email"));
+      Assertions.assertEquals("test", Optional
+        .ofNullable(scraperOwnedProfileEntity
+          .getInputs()
+          .get("description"))
+        .map(ScraperInput::value)
+        .orElse(null));
+      Assertions.assertEquals("test", Optional
+        .ofNullable(scraperOwnedProfileEntity
+          .getInputs()
+          .get("brand_description"))
+        .map(ScraperInput::value)
+        .orElse(null));
+      Assertions.assertEquals("test@test.com", Optional
+        .ofNullable(scraperOwnedProfileEntity
+          .getInputs()
+          .get("email"))
+        .map(ScraperInput::value)
+        .orElse(null));
     });
   }
 
@@ -590,15 +602,24 @@ record ScraperOwnedProfileRestControllerTest(
       Assertions.assertEquals("test-profile-2", reference.name());
       Assertions.assertEquals("tester-1", specification.owner());
       Assertions.assertEquals("test-specification-0", specification.name());
-      Assertions.assertEquals("test", scraperOwnedProfileEntity
-        .getInputs()
-        .get("description"));
-      Assertions.assertEquals("test", scraperOwnedProfileEntity
-        .getInputs()
-        .get("brand_description"));
-      Assertions.assertEquals("test@test.com", scraperOwnedProfileEntity
-        .getInputs()
-        .get("email"));
+      Assertions.assertEquals("test", Optional
+        .ofNullable(scraperOwnedProfileEntity
+          .getInputs()
+          .get("description"))
+        .map(ScraperInput::value)
+        .orElse(null));
+      Assertions.assertEquals("test", Optional
+        .ofNullable(scraperOwnedProfileEntity
+          .getInputs()
+          .get("brand_description"))
+        .map(ScraperInput::value)
+        .orElse(null));
+      Assertions.assertEquals("test@test.com", Optional
+        .ofNullable(scraperOwnedProfileEntity
+          .getInputs()
+          .get("email"))
+        .map(ScraperInput::value)
+        .orElse(null));
     });
   }
 

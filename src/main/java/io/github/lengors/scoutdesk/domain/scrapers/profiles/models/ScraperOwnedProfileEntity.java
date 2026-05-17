@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.validation.constraints.NotBlank;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
@@ -53,7 +52,7 @@ public final class ScraperOwnedProfileEntity {
     @JoinColumn(name = "profile_name", referencedColumnName = "name")
   })
   @NotNull
-  private Map<@NotNull String, @NotNull @NotBlank String> inputs;
+  private Map<@NotNull String, @NotNull ScraperInput> inputs;
 
   @ManyToOne
   @JoinColumn(name = "specification_owner", referencedColumnName = "owner")
@@ -75,7 +74,7 @@ public final class ScraperOwnedProfileEntity {
   @SuppressWarnings({"nullness"})
   public ScraperOwnedProfileEntity(
     final @NotNull ScraperOwnedProfileReference reference,
-    final @NotNull Map<@NotNull String, @NotNull @NotBlank String> inputs,
+    final @NotNull Map<@NotNull String, @NotNull ScraperInput> inputs,
     final @NotNull ScraperOwnedSpecificationEntity specification
   ) {
     this(reference, inputs, specification, new HashSet<>());
@@ -85,7 +84,7 @@ public final class ScraperOwnedProfileEntity {
   @PersistenceCreator
   private ScraperOwnedProfileEntity(
     final @NotNull ScraperOwnedProfileReference reference,
-    final @NotNull Map<@NotNull String, @NotNull @NotBlank String> inputs,
+    final @NotNull Map<@NotNull String, @NotNull ScraperInput> inputs,
     final @NotNull ScraperOwnedSpecificationEntity specification,
     final @NotNull Set<ScraperOwnedStrategyEntity> strategies
   ) {
@@ -130,7 +129,7 @@ public final class ScraperOwnedProfileEntity {
    *
    * @return The input parameters for the profile
    */
-  public Map<String, @NotBlank String> getInputs() {
+  public Map<String, ScraperInput> getInputs() {
     return Collections.unmodifiableMap(inputs);
   }
 
@@ -182,7 +181,7 @@ public final class ScraperOwnedProfileEntity {
    *
    * @param inputs The input parameters for the profile
    */
-  public void setInputs(final @NotNull Map<@NotNull String, @NotNull @NotBlank String> inputs) {
+  public void setInputs(final @NotNull Map<@NotNull String, @NotNull ScraperInput> inputs) {
     this.inputs = new HashMap<>(inputs);
   }
 

@@ -70,7 +70,6 @@ public abstract class AbstractUserConverter<T extends Authentication> implements
       .map(it -> objectMapper.convertValue(it, UserRole.class))
       .toList();
 
-    final var tokenAttributes = getAttributes(source);
     final var name = getAttribute(source, userMappingProperties.name()).orElse(null);
     final var email = getAttribute(source, userMappingProperties.email()).orElse(null);
     final var avatar = getAttribute(source, userMappingProperties.avatar()).orElse(null);

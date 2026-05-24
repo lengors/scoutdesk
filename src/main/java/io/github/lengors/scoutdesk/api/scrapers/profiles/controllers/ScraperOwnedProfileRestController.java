@@ -38,7 +38,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedP
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperUnownedProfile;
 
 @RestController
-@PreAuthorize("hasRole('USER')")
+@PreAuthorize("hasRole(T(io.github.lengors.scoutdesk.domain.spring.security.models.UserRoleNames).USER_ALIAS)")
 @DefaultQualifier(value = Nullable.class, locations = TypeUseLocation.PARAMETER)
 @RequestMapping({"/api/v1/scrapers/profiles", "/api/scrapers/profiles"})
 class ScraperOwnedProfileRestController {

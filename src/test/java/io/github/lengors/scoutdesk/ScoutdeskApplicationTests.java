@@ -1,7 +1,5 @@
 package io.github.lengors.scoutdesk;
 
-import io.github.lengors.scoutdesk.testing.authentik.configurations.AuthentikClientConnectionDetailsConfiguration;
-import io.github.lengors.scoutdesk.testing.wiremock.configurations.WireMockTestContainerConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 
@@ -23,10 +21,8 @@ class ScoutdeskApplicationTests {
     SpringApplication
       .from(ScoutdeskApplication::main)
       .with(
-        AuthentikClientConnectionDetailsConfiguration.class,
         PostgresTestContainerConfiguration.class,
-        WebscoutTestContainerConfiguration.class,
-        WireMockTestContainerConfiguration.class)
+        WebscoutTestContainerConfiguration.class)
       .run();
   }
 }

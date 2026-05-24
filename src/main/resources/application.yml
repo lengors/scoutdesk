@@ -32,14 +32,16 @@ spring:
     hibernate:
       ddl-auto: validate
   security:
-    role:
-      mappings:
-        admin:
-          - "Scoutdesk Admins"
-        developer:
-          - "Scoutdesk Developers"
-        user:
-          - "Scoutdesk Users"
+    oauth2:
+      resourceserver:
+        jwt:
+          authority-prefix: "ROLE_"
+          authorities-claim-name: "roles"
+    proxy:
+      header:
+        prefix: "x-authentik-"
+        authorities: "roles"
+      authority-prefix: "ROLE_"
   http:
     codecs:
       max-in-memory-size: ${HTTP_CODECS_MAX_IN_MEMORY_SIZE:16MB}
@@ -71,12 +73,6 @@ management:
         include:
           - health
           - prometheus
-
-authentik:
-  impersonated-user: ${AUTHENTIK_IMPERSONATED_USER:}
-  client:
-    url: ${AUTHENTIK_CLIENT_URL:http://localhost:9000}
-    service-account-token: ${AUTHENTIK_SERVICE_ACCOUNT_TOKEN:}
 
 jasypt:
   encryptor:

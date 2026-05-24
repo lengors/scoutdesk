@@ -50,7 +50,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenValidSpecificationAndOwnerWhenDeleteSpecificationThenSpecificationIsDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-2")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isNoContent());
 
     transaction(status -> Assertions.assertFalse(scraperOwnedSpecificationRepository
@@ -61,7 +61,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenSpecificationUsedByProfileWhenDeleteSpecificationThenStatusIsDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isNoContent());
 
     transaction(status -> {
@@ -81,7 +81,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenAlreadyDeletedSpecificationWhenDeleteSpecificationThenReturnNotFound() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-1")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -96,7 +96,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenIncorrectOwnerWhenDeleteSpecificationThenReturnNotFound() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -111,7 +111,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenIncorrectNameWhenDeleteSpecificationThenReturnNotFound() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-3")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -133,7 +133,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenUserWithForbiddenGroupWhenDeleteSpecificationThenReturnForbidden() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-9"))
+        .with(proxyUser("tester-9")))
       .andExpect(status().isForbidden());
   }
 
@@ -141,7 +141,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenValidUserWhenDeleteAllSpecificationsThenCorrectSpecificationsRemain() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isNoContent());
 
     transaction(status -> {
@@ -172,7 +172,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenUserWithNoOwnedSpecificationsWhenDeleteAllSpecificationsThenNoChange() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isNoContent());
 
     transaction(status -> {
@@ -200,7 +200,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenUserWithForbiddenGroupWhenDeleteAllSpecificationsThenReturnForbidden() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-9"))
+        .with(proxyUser("tester-9")))
       .andExpect(status().isForbidden());
   }
 
@@ -208,7 +208,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenValidUserAndExistingSpecificationWhenFindSpecificationThenReturnSpecification() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.owner").value("tester-0"))
@@ -220,7 +220,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenIncorrectOwnerWhenFindSpecificationThenReturnNotFound() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -235,7 +235,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenIncorrectNameWhenFindSpecificationThenReturnNotFound() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-3")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -250,7 +250,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenDeletedSpecificationWhenFindSpecificationThenReturnNotFound() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-1")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -272,7 +272,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenUserWithForbiddenGroupWhenFindSpecificationThenReturnForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-9"))
+        .with(proxyUser("tester-9")))
       .andExpect(status().isForbidden());
   }
 
@@ -280,7 +280,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenValidUserWhenFindAllSpecificationsThenReturnSpecifications() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.length()").value(2))
@@ -296,7 +296,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenUserWithNoOwnedSpecificationsWhenFindAllSpecificationsThenReturnEmpty() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.length()").value(0));
@@ -313,7 +313,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenUserWithForbiddenGroupWhenFindAllSpecificationsThenReturnForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-9"))
+        .with(proxyUser("tester-9")))
       .andExpect(status().isForbidden());
   }
 
@@ -324,7 +324,7 @@ record ScraperOwnedSpecificationRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-1")
+        .with(proxyUser("tester-1"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isCreated())
@@ -367,7 +367,7 @@ record ScraperOwnedSpecificationRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isConflict())
@@ -383,7 +383,7 @@ record ScraperOwnedSpecificationRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isUnprocessableEntity());
@@ -408,7 +408,7 @@ record ScraperOwnedSpecificationRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/specifications")
-        .header("X-authentik-username", "tester-9")
+        .with(proxyUser("tester-9"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isForbidden());
@@ -418,7 +418,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenValidUserAndSpecificationWhenUpdateStatusToActiveThenStatusIsActive() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-2")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"activate\"}"))
       .andExpect(status().isOk());
@@ -440,7 +440,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenValidUserAndSpecificationWhenUpdateStatusToArchivedThenStatusIsArchived() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isOk());
@@ -462,7 +462,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenInvalidStatusTransitionWhenUpdateStatusToActiveThenReturnUnprocessableEntity() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"activate\"}"))
       .andExpect(status().isUnprocessableEntity())
@@ -475,7 +475,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenInvalidStatusTransitionWhenUpdateStatusToArchivedThenReturnUnprocessableEntity() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-2")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isUnprocessableEntity())
@@ -488,7 +488,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenDeletedSpecificationWhenUpdateStatusThenReturnNotFound() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-1")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isNotFound())
@@ -505,7 +505,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenMissingSpecificationOwnerWhenUpdateStatusThenReturnNotFound() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-2")
+        .with(proxyUser("tester-2"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isNotFound())
@@ -522,7 +522,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenMissingSpecificationNameWhenUpdateStatusThenReturnNotFound() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-2")
-        .header("X-authentik-username", "tester-1")
+        .with(proxyUser("tester-1"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isNotFound())
@@ -548,7 +548,7 @@ record ScraperOwnedSpecificationRestControllerTest(
   void givenUserWithForbiddenGroupWhenUpdateStatusThenReturnForbidden() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/specifications/test-specification-0")
-        .header("X-authentik-username", "tester-9")
+        .with(proxyUser("tester-9"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"action\":\"archive\"}"))
       .andExpect(status().isForbidden());
@@ -567,7 +567,7 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(multipart("/api/v1/scrapers/specifications")
         .file(file)
-        .header("X-authentik-username", "tester-1")
+        .with(proxyUser("tester-1"))
         .with(request -> {
           request.setMethod(HttpMethod.PUT.name());
           return request;
@@ -618,7 +618,7 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(multipart("/api/v1/scrapers/specifications")
         .file(file)
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .with(request -> {
           request.setMethod(HttpMethod.PUT.name());
           return request;
@@ -642,7 +642,7 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(multipart("/api/v1/scrapers/specifications")
         .file(file)
-        .header("X-authentik-username", "tester-1")
+        .with(proxyUser("tester-1"))
         .with(request -> {
           request.setMethod(HttpMethod.PUT.name());
           return request;
@@ -666,7 +666,7 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(multipart("/api/v1/scrapers/specifications")
         .file(file)
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .with(request -> {
           request.setMethod(HttpMethod.PUT.name());
           return request;
@@ -687,7 +687,7 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(multipart("/api/v1/scrapers/specifications")
         .file(file)
-        .header("X-authentik-username", "tester-1")
+        .with(proxyUser("tester-1"))
         .with(request -> {
           request.setMethod(HttpMethod.PUT.name());
           return request;
@@ -732,7 +732,7 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(multipart("/api/v1/scrapers/specifications")
         .file(file)
-        .header("X-authentik-username", "tester-9")
+        .with(proxyUser("tester-9"))
         .with(request -> {
           request.setMethod(HttpMethod.PUT.name());
           return request;
@@ -745,7 +745,7 @@ record ScraperOwnedSpecificationRestControllerTest(
     mockMvc
       .perform(multipart("/api/v1/scrapers/specifications")
         .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
-        .header("X-authentik-username", "tester-1")
+        .with(proxyUser("tester-1"))
         .with(request -> {
           request.setMethod(HttpMethod.PUT.name());
           return request;

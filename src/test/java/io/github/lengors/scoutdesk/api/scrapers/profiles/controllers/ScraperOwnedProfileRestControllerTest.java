@@ -49,7 +49,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenValidProfileAndUserWhenDeleteProfileThenProfileIsDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isNoContent());
 
     Awaitility
@@ -73,7 +73,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenProfileUsedInStrategyWhenDeleteProfileThenNoProfileDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-9")
-        .header("X-authentik-username", "tester-9"))
+        .with(proxyUser("tester-9")))
       .andExpect(status().isConflict())
       .andExpect(content().string(
         EntityConflictExceptionReportConverter.MESSAGE.formatted(
@@ -87,7 +87,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenIncorrectOwnerWhenDeleteProfileThenNoProfileDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -101,7 +101,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenIncorrectProfileNameWhenDeleteProfileThenNoProfileDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-3")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -122,7 +122,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenForbiddenGroupWhenDeleteProfileThenForbidden() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "other"))
+        .with(proxyUser("other")))
       .andExpect(status().isForbidden());
   }
 
@@ -130,7 +130,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenValidUserWhenDeleteAllProfilesThenProfilesDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isNoContent());
 
     Awaitility
@@ -154,7 +154,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenProfilesUsedInStrategyWhenDeleteAllProfilesThenNoProfilesDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-9"))
+        .with(proxyUser("tester-9")))
       .andExpect(status().isConflict())
       .andExpect(content().string(
         EntityConflictExceptionReportConverter.MESSAGE.formatted(
@@ -168,7 +168,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenNoProfilesWhenDeleteAllProfilesThenNoProfilesDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isNoContent());
 
     Awaitility
@@ -196,7 +196,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenForbiddenGroupWhenDeleteAllProfilesThenForbidden() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "other"))
+        .with(proxyUser("other")))
       .andExpect(status().isForbidden());
   }
 
@@ -204,7 +204,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenValidProfileAndUserWhenFindProfileThenProfileReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.owner").value("tester-0"))
@@ -219,7 +219,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenIncorrectOwnerWhenFindProfileThenNoProfileReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -233,7 +233,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenIncorrectProfileNameWhenFindProfileThenNoProfileReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-3")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -254,7 +254,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenForbiddenGroupWhenFindProfileThenForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "other"))
+        .with(proxyUser("other")))
       .andExpect(status().isForbidden());
   }
 
@@ -262,7 +262,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenValidProfileAndUserWhenFindProfileRequirementsThenProfileRequirementsReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-0/requirements")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.length()").value("3"))
@@ -278,7 +278,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenIncorrectOwnerWhenFindProfileRequirementsThenNoProfileRequirementsReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-0/requirements")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -292,7 +292,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenIncorrectProfileNameWhenFindProfileRequirementsThenNoProfileRequirementsReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-3/requirements")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -313,7 +313,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenForbiddenGroupWhenFindProfileRequirementsThenForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles/test-profile-0/requirements")
-        .header("X-authentik-username", "other"))
+        .with(proxyUser("other")))
       .andExpect(status().isForbidden());
   }
 
@@ -322,7 +322,7 @@ record ScraperOwnedProfileRestControllerTest(
     final var expectedCount = 3;
     mockMvc
       .perform(get("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.length()").value(expectedCount))
@@ -350,7 +350,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenNoProfilesWhenFindAllProfilesThenNoProfilesReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.length()").value(0));
@@ -367,7 +367,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenForbiddenGroupWhenFindAllProfilesThenForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "other"))
+        .with(proxyUser("other")))
       .andExpect(status().isForbidden());
   }
 
@@ -378,7 +378,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isCreated())
@@ -437,7 +437,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isBadRequest())
@@ -453,7 +453,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isBadRequest())
@@ -469,7 +469,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isBadRequest())
@@ -482,7 +482,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenMissingSpecificationNameWhenSaveProfileThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(
           "{\"name\":\"test-profile-3\",\"specification\":{\"owner\":\"tester-0\",\"name\":\"\"},\"inputs\":{}}"))
@@ -499,7 +499,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isBadRequest())
@@ -515,7 +515,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isConflict())
@@ -531,7 +531,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isBadRequest())
@@ -559,7 +559,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/profiles")
-        .header("X-authentik-username", "other")
+        .with(proxyUser("other"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isForbidden());
@@ -572,7 +572,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isOk())
@@ -630,7 +630,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isBadRequest())
@@ -646,7 +646,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isBadRequest())
@@ -662,7 +662,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-0")
-        .header("X-authentik-username", "tester-2")
+        .with(proxyUser("tester-2"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isNotFound())
@@ -678,7 +678,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-3")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isNotFound())
@@ -694,7 +694,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isBadRequest())
@@ -707,7 +707,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenMissingSpecificationOwnerWhenUpdateProfileThenBadRequest() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"specification\":{\"owner\":\"\",\"name\":\"test-specification-0\"},\"inputs\":{}}"))
       .andExpect(status().isBadRequest())
@@ -720,7 +720,7 @@ record ScraperOwnedProfileRestControllerTest(
   void givenMissingSpecificationNameWhenUpdateProfileThenBadRequest() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
-        .header("X-authentik-username", "tester-0")
+        .with(proxyUser("tester-0"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"specification\":{\"owner\":\"tester-0\",\"name\":\"\"},\"inputs\":{}}"))
       .andExpect(status().isBadRequest())
@@ -748,7 +748,7 @@ record ScraperOwnedProfileRestControllerTest(
 
     mockMvc
       .perform(patch("/api/v1/scrapers/profiles/test-profile-2")
-        .header("X-authentik-username", "other")
+        .with(proxyUser("other"))
         .contentType(MediaType.APPLICATION_JSON)
         .content(content))
       .andExpect(status().isForbidden());

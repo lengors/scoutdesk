@@ -28,7 +28,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
  * @author lengors
  */
 @RestController
-@PreAuthorize("hasRole('USER')")
+@PreAuthorize("hasRole(T(io.github.lengors.scoutdesk.domain.spring.security.models.UserRoleNames).USER_ALIAS)")
 @DefaultQualifier(value = Nullable.class, locations = TypeUseLocation.PARAMETER)
 @RequestMapping({"/api/v1/shared/scrapers/specifications", "/api/shared/scrapers/specifications"})
 class SharedScraperOwnedSpecificationRestController {

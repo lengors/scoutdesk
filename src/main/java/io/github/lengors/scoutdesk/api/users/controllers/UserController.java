@@ -8,14 +8,13 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.AuthenticatedPrincipal;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@PreAuthorize("hasRole('USER')")
+@PreAuthorize("hasRole(T(io.github.lengors.scoutdesk.domain.spring.security.models.UserRoleNames).USER_ALIAS)")
 @DefaultQualifier(value = Nullable.class, locations = TypeUseLocation.PARAMETER)
 @RequestMapping({"/api/v1/users", "/api/users"})
 class UserController {
@@ -26,8 +25,8 @@ class UserController {
   }
 
   @GetMapping("/me")
-  User findUser(@AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal) {
+  User findUser(final @NotNull Authentication authentication) {
     return NullnessUtil.castNonNull(
-      conversionService.convert(authenticatedPrincipal, NullnessUtil.castNonNull(User.class)));
+      conversionService.convert(authentication, NullnessUtil.castNonNull(User.class)));
   }
 }

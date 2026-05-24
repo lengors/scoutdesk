@@ -36,7 +36,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwne
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.models.ScraperOwnedStrategyReference;
 
 @RestController
-@PreAuthorize("hasRole('USER')")
+@PreAuthorize("hasRole(T(io.github.lengors.scoutdesk.domain.spring.security.models.UserRoleNames).USER_ALIAS)")
 @DefaultQualifier(value = Nullable.class, locations = TypeUseLocation.PARAMETER)
 @RequestMapping({"/api/v1/scrapers/strategies", "/api/scrapers/strategies"})
 class ScraperOwnedStrategyRestController {

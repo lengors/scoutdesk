@@ -29,7 +29,6 @@ public record User(
   String username,
 
   @JsonProperty("name")
-  @NotNull
   String name,
 
   @JsonProperty("roles")
@@ -40,7 +39,7 @@ public record User(
   String email,
 
   @JsonProperty("avatar")
-  @NotNull String avatar
+  String avatar
 ) {
 
 }

@@ -41,7 +41,7 @@ public class WebscoutTestContainerConfiguration {
   @Bean
   @SuppressWarnings("resource")
   DucklingContainer<?> webscoutDucklingContainer(@Qualifier("webscout") final Network webscoutNetwork) {
-    return new DucklingContainer<>("rasa/duckling")
+    return new DucklingContainer<>("rasa/duckling:0.2.0.2")
       .withNetworkAliases("webscout-duckling")
       .withNetwork(webscoutNetwork);
   }

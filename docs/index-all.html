@@ -64,6 +64,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Constructs a new converter for the given root bean class.</div>
 </dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/converters/AbstractUserConverter.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.converters">AbstractUserConverter&lt;T&gt;</a> - Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/converters/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.converters</a></dt>
+<dd>
+<div class="block">Abstract base class for converting authentication objects into <a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models"><code>User</code></a> instances.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/converters/AbstractUserConverter.html#%3Cinit%3E(com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">AbstractUserConverter(ObjectMapper)</a> - Constructor for class io.github.lengors.scoutdesk.domain.spring.security.converters.<a href="io/github/lengors/scoutdesk/domain/spring/security/converters/AbstractUserConverter.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.converters">AbstractUserConverter</a></dt>
+<dd>
+<div class="block">Constructs an instance of AbstractUserConverter with the specified ObjectMapper.</div>
+</dd>
 <dt><a href="io/github/lengors/scoutdesk/api/scrapers/specifications/models/ScraperOwnedSpecificationActionRequest.html#action()" class="member-name-link">action()</a> - Method in record class io.github.lengors.scoutdesk.api.scrapers.specifications.models.<a href="io/github/lengors/scoutdesk/api/scrapers/specifications/models/ScraperOwnedSpecificationActionRequest.html" title="class in io.github.lengors.scoutdesk.api.scrapers.specifications.models">ScraperOwnedSpecificationActionRequest</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/api/scrapers/specifications/models/ScraperOwnedSpecificationActionRequest.html#param-action"><code>action</code></a> record component.</div>
@@ -99,6 +107,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/UserRoleNames.html#ADMIN_ALIAS" class="member-name-link">ADMIN_ALIAS</a> - Static variable in class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/UserRoleNames.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">UserRoleNames</a></dt>
 <dd>
 <div class="block">Role alias for administrators.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/UserRoleNames.html#ADMIN_ALIASES" class="member-name-link">ADMIN_ALIASES</a> - Static variable in class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/UserRoleNames.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">UserRoleNames</a></dt>
+<dd>
+<div class="block">Array of user role aliases.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/core/models/AnnotatedRequestQualifier.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.core.models">AnnotatedRequestQualifier</a> - Record Class in <a href="io/github/lengors/scoutdesk/domain/spring/core/models/package-summary.html">io.github.lengors.scoutdesk.domain.spring.core.models</a></dt>
 <dd>
@@ -139,106 +151,41 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Converts the current instance into a <a href="io/github/lengors/scoutdesk/domain/scrapers/strategies/models/ScraperOwnedStrategyReference.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.strategies.models"><code>ScraperOwnedStrategyReference</code></a>.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetails.html" class="type-name-link" title="interface in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientConnectionDetails</a> - Interface in <a href="io/github/lengors/scoutdesk/integrations/authentik/properties/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.properties</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#attributes()" class="member-name-link">attributes()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
 <dd>
-<div class="block">Represents the connection details for the Authentik client.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#param-attributes"><code>attributes</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientConnectionDetailsProperties</a> - Record Class in <a href="io/github/lengors/scoutdesk/integrations/authentik/properties/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.properties</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#authorities()" class="member-name-link">authorities()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
 <dd>
-<div class="block">Implementation of <a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetails.html" title="interface in io.github.lengors.scoutdesk.integrations.authentik.properties"><code>AuthentikClientConnectionDetails</code></a> that holds the connection details for the Authentik client
- based on properties.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#param-authorities"><code>authorities</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">AuthentikClientConnectionDetailsProperties(String, String)</a> - Constructor for record class io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientConnectionDetailsProperties</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html#authorities()" class="member-name-link">authorities()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationHeaderProperties</a></dt>
 <dd>
-<div class="block">Creates an instance of a <code>AuthentikClientConnectionDetailsProperties</code> record class.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html#param-authorities"><code>authorities</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientProperties</a> - Record Class in <a href="io/github/lengors/scoutdesk/integrations/authentik/properties/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.properties</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html#authoritiesDelimiter()" class="member-name-link">authoritiesDelimiter()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationHeaderProperties</a></dt>
 <dd>
-<div class="block">Properties for configuring the Authentik client.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html#param-authoritiesDelimiter"><code>authoritiesDelimiter</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html#%3Cinit%3E(java.lang.String,java.lang.String)" class="member-name-link">AuthentikClientProperties(String, String)</a> - Constructor for record class io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientProperties</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html#authorityPrefix()" class="member-name-link">authorityPrefix()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationProperties</a></dt>
 <dd>
-<div class="block">Default constructor for AuthentikClientProperties.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikCustomHeaders.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikCustomHeaders</a> - Class in <a href="io/github/lengors/scoutdesk/integrations/authentik/models/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.models</a></dt>
-<dd>
-<div class="block">Utility class for Authentik custom headers.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikGroup</a> - Record Class in <a href="io/github/lengors/scoutdesk/integrations/authentik/models/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.models</a></dt>
-<dd>
-<div class="block">Represents an Authentik group.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html#%3Cinit%3E(java.lang.Integer,java.lang.String,java.util.UUID)" class="member-name-link">AuthentikGroup(Integer, String, UUID)</a> - Constructor for record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikGroup</a></dt>
-<dd>
-<div class="block">Creates an instance of a <code>AuthentikGroup</code> record class.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPaginated&lt;T&gt;</a> - Record Class in <a href="io/github/lengors/scoutdesk/integrations/authentik/models/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.models</a></dt>
-<dd>
-<div class="block">Represents a paginated response from Authentik.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html#%3Cinit%3E(io.github.lengors.scoutdesk.integrations.authentik.models.AuthentikPagination,java.util.List)" class="member-name-link">AuthentikPaginated(AuthentikPagination, List&lt;T&gt;)</a> - Constructor for record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPaginated</a></dt>
-<dd>
-<div class="block">Creates an instance of a <code>AuthentikPaginated</code> record class.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPagination.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPagination</a> - Record Class in <a href="io/github/lengors/scoutdesk/integrations/authentik/models/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.models</a></dt>
-<dd>
-<div class="block">Represents pagination information for Authentik API responses.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPagination.html#%3Cinit%3E(java.lang.Integer)" class="member-name-link">AuthentikPagination(Integer)</a> - Constructor for record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPagination.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPagination</a></dt>
-<dd>
-<div class="block">Creates an instance of a <code>AuthentikPagination</code> record class.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a> - Record Class in <a href="io/github/lengors/scoutdesk/integrations/authentik/models/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.models</a></dt>
-<dd>
-<div class="block">Represents an authentication object for Authentik proxied authentication.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#%3Cinit%3E(java.lang.String,java.lang.String,java.util.Collection,java.lang.String,java.lang.String)" class="member-name-link">AuthentikProxiedAuthentication(String, String, Collection&lt;UserRole&gt;, String, String)</a> - Constructor for record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
-<dd>
-<div class="block">Creates an instance of a <code>AuthentikProxiedAuthentication</code> record class.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/exceptions/AuthentikProxiedAuthenticationException.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.integrations.authentik.exceptions">AuthentikProxiedAuthenticationException</a> - Exception Class in <a href="io/github/lengors/scoutdesk/integrations/authentik/exceptions/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.exceptions</a></dt>
-<dd>
-<div class="block">Exception for missing or invalid Authentik proxied authentication headers.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/exceptions/AuthentikProxiedAuthenticationException.html#%3Cinit%3E()" class="member-name-link">AuthentikProxiedAuthenticationException()</a> - Constructor for exception class io.github.lengors.scoutdesk.integrations.authentik.exceptions.<a href="io/github/lengors/scoutdesk/integrations/authentik/exceptions/AuthentikProxiedAuthenticationException.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.exceptions">AuthentikProxiedAuthenticationException</a></dt>
-<dd>
-<div class="block">Constructs a new exception with a default message.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/exceptions/AuthentikProxiedAuthenticationException.html#%3Cinit%3E(java.lang.Throwable)" class="member-name-link">AuthentikProxiedAuthenticationException(Throwable)</a> - Constructor for exception class io.github.lengors.scoutdesk.integrations.authentik.exceptions.<a href="io/github/lengors/scoutdesk/integrations/authentik/exceptions/AuthentikProxiedAuthenticationException.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.exceptions">AuthentikProxiedAuthenticationException</a></dt>
-<dd>
-<div class="block">Constructs a new exception with the specified cause.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/services/AuthentikProxiedAuthenticationImpersonationFilter.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.integrations.authentik.services">AuthentikProxiedAuthenticationImpersonationFilter</a> - Class in <a href="io/github/lengors/scoutdesk/integrations/authentik/services/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.services</a></dt>
-<dd>
-<div class="block">A filter that impersonates a user by overriding the "X-Authentik-Username" header.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/services/AuthentikProxiedAuthenticationImpersonationFilter.html#%3Cinit%3E(java.lang.String)" class="member-name-link">AuthentikProxiedAuthenticationImpersonationFilter(String)</a> - Constructor for class io.github.lengors.scoutdesk.integrations.authentik.services.<a href="io/github/lengors/scoutdesk/integrations/authentik/services/AuthentikProxiedAuthenticationImpersonationFilter.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.services">AuthentikProxiedAuthenticationImpersonationFilter</a></dt>
-<dd>
-<div class="block">Constructs a new <a href="io/github/lengors/scoutdesk/integrations/authentik/services/AuthentikProxiedAuthenticationImpersonationFilter.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.services"><code>AuthentikProxiedAuthenticationImpersonationFilter</code></a> with the specified impersonated user.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/clients/AuthentikRestClient.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.integrations.authentik.clients">AuthentikRestClient</a> - Class in <a href="io/github/lengors/scoutdesk/integrations/authentik/clients/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.clients</a></dt>
-<dd>
-<div class="block">Client for interacting with Authentik's REST API.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a> - Record Class in <a href="io/github/lengors/scoutdesk/integrations/authentik/models/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.models</a></dt>
-<dd>
-<div class="block">Represents an Authentik user.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#%3Cinit%3E(java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.util.List,java.lang.String,java.lang.String,java.lang.String,java.util.UUID)" class="member-name-link">AuthentikUser(Integer, String, String, Boolean, List&lt;AuthentikGroup&gt;, String, String, String, UUID)</a> - Constructor for record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
-<dd>
-<div class="block">Creates an instance of a <code>AuthentikUser</code> record class.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html#param-authorityPrefix"><code>authorityPrefix</code></a> record component.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html#avatar()" class="member-name-link">avatar()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">User</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/models/User.html#param-avatar"><code>avatar</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#avatar()" class="member-name-link">avatar()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html#avatar()" class="member-name-link">avatar()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">OAuth2ResourceServerUserMappingProperties</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#param-avatar"><code>avatar</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html#param-avatar"><code>avatar</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#avatar()" class="member-name-link">avatar()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html#avatar()" class="member-name-link">avatar()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationUserMappingProperties</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#param-avatar"><code>avatar</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html#param-avatar"><code>avatar</code></a> record component.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserMappingProperties.html#avatar()" class="member-name-link">avatar()</a> - Method in interface io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserMappingProperties.html" title="interface in io.github.lengors.scoutdesk.domain.spring.security.properties">UserMappingProperties</a></dt>
+<dd>
+<div class="block">Returns a list of strings that represent the mapping for the specified user attribute.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:B">B</h2>
@@ -341,8 +288,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Configures the authentication filter for proxied authentication.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationImpersonationFilterConfigurerAdapter.html#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)" class="member-name-link">configure(HttpSecurity)</a> - Method in class io.github.lengors.scoutdesk.domain.spring.security.services.<a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationImpersonationFilterConfigurerAdapter.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.services">ProxiedAuthenticationImpersonationFilterConfigurerAdapter</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/errors/ConstraintError.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.errors">ConstraintError</a> - Record Class in <a href="io/github/lengors/scoutdesk/domain/errors/package-summary.html">io.github.lengors.scoutdesk.domain.errors</a></dt>
 <dd>
 <div class="block">Represents an error related to a constraint violation.</div>
@@ -381,6 +326,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Converts a <code>MissingServletRequestPartException</code> into a <a href="io/github/lengors/scoutdesk/domain/errors/ConstraintError.html" title="class in io.github.lengors.scoutdesk.domain.errors"><code>ConstraintError</code></a>.</div>
 </dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/converters/AbstractUserConverter.html#convert(T)" class="member-name-link">convert(T)</a> - Method in class io.github.lengors.scoutdesk.domain.spring.security.converters.<a href="io/github/lengors/scoutdesk/domain/spring/security/converters/AbstractUserConverter.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.converters">AbstractUserConverter</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/crypto/converters/CryptoStringAttributeConverter.html#convertToDatabaseColumn(java.lang.String)" class="member-name-link">convertToDatabaseColumn(String)</a> - Method in class io.github.lengors.scoutdesk.domain.crypto.converters.<a href="io/github/lengors/scoutdesk/domain/crypto/converters/CryptoStringAttributeConverter.html" title="class in io.github.lengors.scoutdesk.domain.crypto.converters">CryptoStringAttributeConverter</a></dt>
 <dd>
 <div class="block">Converts the given attribute value to its encrypted form before persisting it in the database.</div>
@@ -532,8 +479,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Role alias for developers.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/services/AuthentikProxiedAuthenticationImpersonationFilter.html#doFilterInternal(jakarta.servlet.http.HttpServletRequest,jakarta.servlet.http.HttpServletResponse,jakarta.servlet.FilterChain)" class="member-name-link">doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)</a> - Method in class io.github.lengors.scoutdesk.integrations.authentik.services.<a href="io/github/lengors/scoutdesk/integrations/authentik/services/AuthentikProxiedAuthenticationImpersonationFilter.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.services">AuthentikProxiedAuthenticationImpersonationFilter</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/UserRoleNames.html#DEVELOPER_ALIASES" class="member-name-link">DEVELOPER_ALIASES</a> - Static variable in class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/UserRoleNames.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">UserRoleNames</a></dt>
+<dd>
+<div class="block">Array of user role aliases.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:E">E</h2>
 <dl class="index">
@@ -541,13 +490,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/models/User.html#param-email"><code>email</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#email()" class="member-name-link">email()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html#email()" class="member-name-link">email()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">OAuth2ResourceServerUserMappingProperties</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#param-email"><code>email</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html#param-email"><code>email</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#email()" class="member-name-link">email()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html#email()" class="member-name-link">email()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationUserMappingProperties</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#param-email"><code>email</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html#param-email"><code>email</code></a> record component.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserMappingProperties.html#email()" class="member-name-link">email()</a> - Method in interface io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserMappingProperties.html" title="interface in io.github.lengors.scoutdesk.domain.spring.security.properties">UserMappingProperties</a></dt>
+<dd>
+<div class="block">Returns a list of strings that represent the mapping for the specified user attribute.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/scrapers/specifications/models/ScraperSpecificationRequirementBatch.html#EMPTY" class="member-name-link">EMPTY</a> - Static variable in record class io.github.lengors.scoutdesk.domain.scrapers.specifications.models.<a href="io/github/lengors/scoutdesk/domain/scrapers/specifications/models/ScraperSpecificationRequirementBatch.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.specifications.models">ScraperSpecificationRequirementBatch</a></dt>
 <dd>
@@ -862,43 +815,27 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">User</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">UserRoleProperties</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">OAuth2ResourceServerUserMappingProperties</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/commands/FindAuthentikUserCommand.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.commands.<a href="io/github/lengors/scoutdesk/integrations/authentik/commands/FindAuthentikUserCommand.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.commands">FindAuthentikUserCommand</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationHeaderProperties</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikGroup</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationProperties</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPaginated</a></dt>
-<dd>
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPagination.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPagination.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPagination</a></dt>
-<dd>
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
-<dd>
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
-<dd>
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientConnectionDetailsProperties</a></dt>
-<dd>
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientProperties</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationUserMappingProperties</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -1000,14 +937,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/lengors/scoutdesk/domain/scrapers/specifications/repositories/ScraperOwnedSpecificationRepository.html#findAllByStatusNot(io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus)" class="member-name-link">findAllByStatusNot(ScraperOwnedSpecificationStatus)</a> - Method in interface io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.<a href="io/github/lengors/scoutdesk/domain/scrapers/specifications/repositories/ScraperOwnedSpecificationRepository.html" title="interface in io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories">ScraperOwnedSpecificationRepository</a></dt>
 <dd>
 <div class="block">Finds all scraper specifications by their status.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/commands/FindAuthentikUserCommand.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.integrations.authentik.commands">FindAuthentikUserCommand</a> - Record Class in <a href="io/github/lengors/scoutdesk/integrations/authentik/commands/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.commands</a></dt>
-<dd>
-<div class="block">Command to find an Authentik user.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/commands/FindAuthentikUserCommand.html#%3Cinit%3E()" class="member-name-link">FindAuthentikUserCommand()</a> - Constructor for record class io.github.lengors.scoutdesk.integrations.authentik.commands.<a href="io/github/lengors/scoutdesk/integrations/authentik/commands/FindAuthentikUserCommand.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.commands">FindAuthentikUserCommand</a></dt>
-<dd>
-<div class="block">Creates an instance of a <code>FindAuthentikUserCommand</code> record class.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/scrapers/specifications/repositories/ScraperOwnedSpecificationRepository.html#findByReferenceAndStatusNot(io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference,io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationStatus)" class="member-name-link">findByReferenceAndStatusNot(ScraperOwnedSpecificationReference, ScraperOwnedSpecificationStatus)</a> - Method in interface io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories.<a href="io/github/lengors/scoutdesk/domain/scrapers/specifications/repositories/ScraperOwnedSpecificationRepository.html" title="interface in io.github.lengors.scoutdesk.domain.scrapers.specifications.repositories">ScraperOwnedSpecificationRepository</a></dt>
 <dd>
@@ -1141,10 +1070,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates an instance of a <code>FindScraperSpecificationCommand</code> record class.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/clients/AuthentikRestClient.html#findUser(java.lang.String)" class="member-name-link">findUser(String)</a> - Method in class io.github.lengors.scoutdesk.integrations.authentik.clients.<a href="io/github/lengors/scoutdesk/integrations/authentik/clients/AuthentikRestClient.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.clients">AuthentikRestClient</a></dt>
-<dd>
-<div class="block">Finds a user by their username in Authentik.</div>
-</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/core/services/ResolvableTypes.html#flat(org.springframework.core.ResolvableType)" class="member-name-link">flat(ResolvableType)</a> - Static method in class io.github.lengors.scoutdesk.domain.spring.core.services.<a href="io/github/lengors/scoutdesk/domain/spring/core/services/ResolvableTypes.html" title="class in io.github.lengors.scoutdesk.domain.spring.core.services">ResolvableTypes</a></dt>
 <dd>
 <div class="block">Flattens the type hierarchy of a <code>ResolvableType</code> into a stream.</div>
@@ -1177,9 +1102,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Retrieves the metadata associated with the specified target object, if present.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#getAuthorities()" class="member-name-link">getAuthorities()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/converters/AbstractUserConverter.html#getAttributes(T)" class="member-name-link">getAttributes(T)</a> - Method in class io.github.lengors.scoutdesk.domain.spring.security.converters.<a href="io/github/lengors/scoutdesk/domain/spring/security/converters/AbstractUserConverter.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.converters">AbstractUserConverter</a></dt>
+<dd>
+<div class="block">Get the attributes from the authentication source.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#getAuthorities()" class="member-name-link">getAuthorities()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
 <dd>
 <div class="block">Retrieves the authorities granted to the user.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/converters/AbstractUserConverter.html#getAuthorityPrefix()" class="member-name-link">getAuthorityPrefix()</a> - Method in class io.github.lengors.scoutdesk.domain.spring.security.converters.<a href="io/github/lengors/scoutdesk/domain/spring/security/converters/AbstractUserConverter.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.converters">AbstractUserConverter</a></dt>
+<dd>
+<div class="block">Get the authority prefix.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/commands/CommandException.html#getCause()" class="member-name-link">getCause()</a> - Method in exception class io.github.lengors.scoutdesk.domain.commands.<a href="io/github/lengors/scoutdesk/domain/commands/CommandException.html" title="class in io.github.lengors.scoutdesk.domain.commands">CommandException</a></dt>
 <dd>
@@ -1189,11 +1122,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Gets the command request that caused this exception.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#getCredentials()" class="member-name-link">getCredentials()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#getCredentials()" class="member-name-link">getCredentials()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
 <dd>
 <div class="block">Retrieves the credentials of the authentication object.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#getDetails()" class="member-name-link">getDetails()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#getDetails()" class="member-name-link">getDetails()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
 <dd>
 <div class="block">Retrieves additional details about the authentication.</div>
 </dd>
@@ -1209,7 +1142,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the input parameters for the profile.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#getName()" class="member-name-link">getName()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#getName()" class="member-name-link">getName()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
 <dd>
 <div class="block">Retrieves the name of the authenticated user.</div>
 </dd>
@@ -1217,7 +1150,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Unwraps nested CommandExceptions to retrieve the deepest underlying CommandException.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#getPrincipal()" class="member-name-link">getPrincipal()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#getPrincipal()" class="member-name-link">getPrincipal()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
 <dd>
 <div class="block">Retrieves the principal of the authentication.</div>
 </dd>
@@ -1305,6 +1238,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a unique identifier provided by the implementing class.</div>
 </dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/converters/AbstractUserConverter.html#getUserMappingProperties()" class="member-name-link">getUserMappingProperties()</a> - Method in class io.github.lengors.scoutdesk.domain.spring.security.converters.<a href="io/github/lengors/scoutdesk/domain/spring/security/converters/AbstractUserConverter.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.converters">AbstractUserConverter</a></dt>
+<dd>
+<div class="block">Get the user mapping properties.</div>
+</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/persistence/constraints/RequireEntity.html#groups()" class="member-name-link">groups()</a> - Element in annotation interface io.github.lengors.scoutdesk.domain.persistence.constraints.<a href="io/github/lengors/scoutdesk/domain/persistence/constraints/RequireEntity.html" title="annotation interface in io.github.lengors.scoutdesk.domain.persistence.constraints">RequireEntity</a></dt>
 <dd>
 <div class="block">Allows the specification of validation groups, to which this constraint belongs.</div>
@@ -1312,18 +1249,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/lengors/scoutdesk/domain/scrapers/specifications/constraints/ScraperSpecificationCompliant.html#groups()" class="member-name-link">groups()</a> - Element in annotation interface io.github.lengors.scoutdesk.domain.scrapers.specifications.constraints.<a href="io/github/lengors/scoutdesk/domain/scrapers/specifications/constraints/ScraperSpecificationCompliant.html" title="annotation interface in io.github.lengors.scoutdesk.domain.scrapers.specifications.constraints">ScraperSpecificationCompliant</a></dt>
 <dd>
 <div class="block">Allows the specification of validation groups, to which this constraint belongs.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#groups()" class="member-name-link">groups()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#param-groups"><code>groups</code></a> record component.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#groups()" class="member-name-link">groups()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#param-groups"><code>groups</code></a> record component.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikCustomHeaders.html#GROUPS" class="member-name-link">GROUPS</a> - Static variable in class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikCustomHeaders.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikCustomHeaders</a></dt>
-<dd>
-<div class="block">Header for the groups or roles of the authenticated user.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:H">H</h2>
@@ -1636,43 +1561,27 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">User</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">UserRoleProperties</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">OAuth2ResourceServerUserMappingProperties</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/commands/FindAuthentikUserCommand.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.commands.<a href="io/github/lengors/scoutdesk/integrations/authentik/commands/FindAuthentikUserCommand.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.commands">FindAuthentikUserCommand</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationHeaderProperties</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikGroup</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationProperties</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPaginated</a></dt>
-<dd>
-<div class="block">Returns a hash code value for this object.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPagination.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPagination.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPagination</a></dt>
-<dd>
-<div class="block">Returns a hash code value for this object.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
-<dd>
-<div class="block">Returns a hash code value for this object.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
-<dd>
-<div class="block">Returns a hash code value for this object.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientConnectionDetailsProperties</a></dt>
-<dd>
-<div class="block">Returns a hash code value for this object.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientProperties</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationUserMappingProperties</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
@@ -1708,6 +1617,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html#header()" class="member-name-link">header()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationProperties</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html#param-header"><code>header</code></a> record component.</div>
+</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/services/HttpStatusEntryPoint.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.services">HttpStatusEntryPoint</a> - Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/services/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.services</a></dt>
 <dd>
 <div class="block">An authentication entry point that sends a specified HTTP status code when authentication is required.</div>
@@ -1719,14 +1632,6 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:I">I</h2>
 <dl class="index">
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html#id()" class="member-name-link">id()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikGroup</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html#param-id"><code>id</code></a> record component.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#id()" class="member-name-link">id()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#param-id"><code>id</code></a> record component.</div>
-</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/common/Result.html#ifFailed(java.util.function.Consumer)" class="member-name-link">ifFailed(Consumer&lt;? super E&gt;)</a> - Method in class io.github.lengors.scoutdesk.domain.common.<a href="io/github/lengors/scoutdesk/domain/common/Result.html" title="class in io.github.lengors.scoutdesk.domain.common">Result</a></dt>
 <dd>
 <div class="block">Executes the given action if this result is a failure, passing the error to the action.</div>
@@ -1861,6 +1766,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/core/services/package-summary.html">io.github.lengors.scoutdesk.domain.spring.core.services</a> - package io.github.lengors.scoutdesk.domain.spring.core.services</dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/conditions/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.conditions</a> - package io.github.lengors.scoutdesk.domain.spring.security.conditions</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/converters/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.converters</a> - package io.github.lengors.scoutdesk.domain.spring.security.converters</dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.models</a> - package io.github.lengors.scoutdesk.domain.spring.security.models</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.properties</a> - package io.github.lengors.scoutdesk.domain.spring.security.properties</dt>
@@ -1869,29 +1778,13 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/text/package-summary.html">io.github.lengors.scoutdesk.domain.text</a> - package io.github.lengors.scoutdesk.domain.text</dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/clients/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.clients</a> - package io.github.lengors.scoutdesk.integrations.authentik.clients</dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/commands/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.commands</a> - package io.github.lengors.scoutdesk.integrations.authentik.commands</dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/exceptions/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.exceptions</a> - package io.github.lengors.scoutdesk.integrations.authentik.exceptions</dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.models</a> - package io.github.lengors.scoutdesk.integrations.authentik.models</dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.properties</a> - package io.github.lengors.scoutdesk.integrations.authentik.properties</dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/services/package-summary.html">io.github.lengors.scoutdesk.integrations.authentik.services</a> - package io.github.lengors.scoutdesk.integrations.authentik.services</dt>
-<dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/integrations/webscout/clients/package-summary.html">io.github.lengors.scoutdesk.integrations.webscout.clients</a> - package io.github.lengors.scoutdesk.integrations.webscout.clients</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/integrations/webscout/commands/package-summary.html">io.github.lengors.scoutdesk.integrations.webscout.commands</a> - package io.github.lengors.scoutdesk.integrations.webscout.commands</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/lengors/scoutdesk/integrations/webscout/properties/package-summary.html">io.github.lengors.scoutdesk.integrations.webscout.properties</a> - package io.github.lengors.scoutdesk.integrations.webscout.properties</dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#isActive()" class="member-name-link">isActive()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#param-isActive"><code>isActive</code></a> record component.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#isAuthenticated()" class="member-name-link">isAuthenticated()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#isAuthenticated()" class="member-name-link">isAuthenticated()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
 <dd>
 <div class="block">Checks if the user is authenticated.</div>
 </dd>
@@ -1995,10 +1888,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/lengors/scoutdesk/domain/common/Result.html#map(java.util.function.Function)" class="member-name-link">map(Function&lt;T, U&gt;)</a> - Method in class io.github.lengors.scoutdesk.domain.common.<a href="io/github/lengors/scoutdesk/domain/common/Result.html" title="class in io.github.lengors.scoutdesk.domain.common">Result</a></dt>
 <dd>
 <div class="block">Maps the value of this result to a new result using the given mapping function if this result is a success.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html#mappings()" class="member-name-link">mappings()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">UserRoleProperties</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html#param-mappings"><code>mappings</code></a> record component.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/core/conditions/NonBlankPropertyCondition.html#matches(org.springframework.context.annotation.ConditionContext,org.springframework.core.type.AnnotatedTypeMetadata)" class="member-name-link">matches(ConditionContext, AnnotatedTypeMetadata)</a> - Method in class io.github.lengors.scoutdesk.domain.spring.core.conditions.<a href="io/github/lengors/scoutdesk/domain/spring/core/conditions/NonBlankPropertyCondition.html" title="class in io.github.lengors.scoutdesk.domain.spring.core.conditions">NonBlankPropertyCondition</a></dt>
 <dd>&nbsp;</dd>
@@ -2120,17 +2009,17 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/models/User.html#param-name"><code>name</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html#name()" class="member-name-link">name()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikGroup</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html#name()" class="member-name-link">name()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">OAuth2ResourceServerUserMappingProperties</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html#param-name"><code>name</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html#param-name"><code>name</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#name()" class="member-name-link">name()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html#name()" class="member-name-link">name()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationUserMappingProperties</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#param-name"><code>name</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html#param-name"><code>name</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#name()" class="member-name-link">name()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserMappingProperties.html#name()" class="member-name-link">name()</a> - Method in interface io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserMappingProperties.html" title="interface in io.github.lengors.scoutdesk.domain.spring.security.properties">UserMappingProperties</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#param-name"><code>name</code></a> record component.</div>
+<div class="block">Returns a list of strings that represent the mapping for the specified user attribute.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/filters/ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter.html#names()" class="member-name-link">names()</a> - Method in record class io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.<a href="io/github/lengors/scoutdesk/domain/scrapers/profiles/filters/ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter.html" title="class in io.github.lengors.scoutdesk.domain.scrapers.profiles.filters">ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter</a></dt>
 <dd>
@@ -2144,10 +2033,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/scrapers/strategies/filters/ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter.html#param-names"><code>names</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPagination.html#next()" class="member-name-link">next()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPagination.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPagination</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPagination.html#param-next"><code>next</code></a> record component.</div>
-</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/core/conditions/NonBlankPropertyCondition.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.core.conditions">NonBlankPropertyCondition</a> - Class in <a href="io/github/lengors/scoutdesk/domain/spring/core/conditions/package-summary.html">io.github.lengors.scoutdesk.domain.spring.core.conditions</a></dt>
 <dd>
 <div class="block">A condition that checks if a specific property is defined and not blank.</div>
@@ -2159,6 +2044,22 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:O">O</h2>
 <dl class="index">
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/conditions/OAuth2ResourceServerPropertiesCondition.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.conditions">OAuth2ResourceServerPropertiesCondition</a> - Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/conditions/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.conditions</a></dt>
+<dd>
+<div class="block">Condition for OAuth2 resource server properties.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/conditions/OAuth2ResourceServerPropertiesCondition.html#%3Cinit%3E()" class="member-name-link">OAuth2ResourceServerPropertiesCondition()</a> - Constructor for class io.github.lengors.scoutdesk.domain.spring.security.conditions.<a href="io/github/lengors/scoutdesk/domain/spring/security/conditions/OAuth2ResourceServerPropertiesCondition.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.conditions">OAuth2ResourceServerPropertiesCondition</a></dt>
+<dd>
+<div class="block">Constructor for OAuth2ResourceServerPropertiesCondition.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">OAuth2ResourceServerUserMappingProperties</a> - Record Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/properties/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.properties</a></dt>
+<dd>
+<div class="block">Configuration properties for mapping user-related attributes in an OAuth2 Resource Server context.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html#%3Cinit%3E(java.util.List,java.util.List,java.util.List,java.util.List)" class="member-name-link">OAuth2ResourceServerUserMappingProperties(List&lt;String&gt;, List&lt;String&gt;, List&lt;String&gt;, List&lt;String&gt;)</a> - Constructor for record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">OAuth2ResourceServerUserMappingProperties</a></dt>
+<dd>
+<div class="block">Constructor for creating a new instance of <a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties"><code>OAuth2ResourceServerUserMappingProperties</code></a>.</div>
+</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/io/services/ObjectMapperFactoryPrioritySpecification.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.io.services">ObjectMapperFactoryPrioritySpecification</a> - Class in <a href="io/github/lengors/scoutdesk/domain/io/services/package-summary.html">io.github.lengors.scoutdesk.domain.io.services</a></dt>
 <dd>
 <div class="block">A comparator implementation that determines the order of <code>ObjectMapper</code> instances based on the priority of
@@ -2270,10 +2171,6 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:P">P</h2>
 <dl class="index">
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html#pagination()" class="member-name-link">pagination()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPaginated</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html#param-pagination"><code>pagination</code></a> record component.</div>
-</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/persistence/constraints/RequireEntity.html#payload()" class="member-name-link">payload()</a> - Element in annotation interface io.github.lengors.scoutdesk.domain.persistence.constraints.<a href="io/github/lengors/scoutdesk/domain/persistence/constraints/RequireEntity.html" title="annotation interface in io.github.lengors.scoutdesk.domain.persistence.constraints">RequireEntity</a></dt>
 <dd>
 <div class="block">Payload for clients of the Bean Validation API to specify additional information about the validation failure.</div>
@@ -2281,6 +2178,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/lengors/scoutdesk/domain/scrapers/specifications/constraints/ScraperSpecificationCompliant.html#payload()" class="member-name-link">payload()</a> - Element in annotation interface io.github.lengors.scoutdesk.domain.scrapers.specifications.constraints.<a href="io/github/lengors/scoutdesk/domain/scrapers/specifications/constraints/ScraperSpecificationCompliant.html" title="annotation interface in io.github.lengors.scoutdesk.domain.scrapers.specifications.constraints">ScraperSpecificationCompliant</a></dt>
 <dd>
 <div class="block">Can be used by clients of the Bean Validation API to assign custom payload objects to a constraint.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html#prefix()" class="member-name-link">prefix()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationHeaderProperties</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html#param-prefix"><code>prefix</code></a> record component.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html#PREFIX" class="member-name-link">PREFIX</a> - Static variable in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationProperties</a></dt>
+<dd>
+<div class="block">The prefix for proxied authentication configuration properties.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/api/scrapers/models/ScraperOwnedRequest.html#profiles()" class="member-name-link">profiles()</a> - Method in record class io.github.lengors.scoutdesk.api.scrapers.models.<a href="io/github/lengors/scoutdesk/api/scrapers/models/ScraperOwnedRequest.html" title="class in io.github.lengors.scoutdesk.api.scrapers.models">ScraperOwnedRequest</a></dt>
 <dd>
@@ -2314,26 +2219,33 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">The property path to which the validation error should be attached.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationConverter.html" class="type-name-link" title="interface in io.github.lengors.scoutdesk.domain.spring.security.services">ProxiedAuthenticationConverter</a> - Interface in <a href="io/github/lengors/scoutdesk/domain/spring/security/services/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.services</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a> - Record Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/models/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.models</a></dt>
 <dd>
-<div class="block">Interface for converting HTTP requests into authentication objects.</div>
+<div class="block">Represents an authentication object for proxied authentication.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#%3Cinit%3E(java.lang.String,java.util.Collection,java.util.Map)" class="member-name-link">ProxiedAuthentication(String, Collection&lt;String&gt;, Map&lt;String, Object&gt;)</a> - Constructor for record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>ProxiedAuthentication</code> record class.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationFilterConfigurerAdapter.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.services">ProxiedAuthenticationFilterConfigurerAdapter</a> - Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/services/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.services</a></dt>
 <dd>
 <div class="block">Configures the authentication filter for proxied authentication.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationImpersonationFilter.html" class="type-name-link" title="interface in io.github.lengors.scoutdesk.domain.spring.security.services">ProxiedAuthenticationImpersonationFilter</a> - Interface in <a href="io/github/lengors/scoutdesk/domain/spring/security/services/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.services</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationHeaderProperties</a> - Record Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/properties/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.properties</a></dt>
 <dd>
-<div class="block">Interface for a filter that handles impersonation in proxied authentication scenarios.</div>
+<div class="block">Configuration properties representing the structure and behavior of HTTP headers used for proxied authentication.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationImpersonationFilterConfigurerAdapter.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.services">ProxiedAuthenticationImpersonationFilterConfigurerAdapter</a> - Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/services/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.services</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html#%3Cinit%3E(java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">ProxiedAuthenticationHeaderProperties(String, String, String, String)</a> - Constructor for record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationHeaderProperties</a></dt>
 <dd>
-<div class="block">Configures the <a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationImpersonationFilter.html" title="interface in io.github.lengors.scoutdesk.domain.spring.security.services"><code>ProxiedAuthenticationImpersonationFilter</code></a> to be added before the <code>AuthenticationFilter</code>
- in the security filter chain.</div>
+<div class="block">Constructor for creating a new instance of <a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties"><code>ProxiedAuthenticationHeaderProperties</code></a>.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationImpersonationFilterConfigurerAdapter.html#%3Cinit%3E(io.github.lengors.scoutdesk.domain.spring.security.services.ProxiedAuthenticationImpersonationFilter)" class="member-name-link">ProxiedAuthenticationImpersonationFilterConfigurerAdapter(ProxiedAuthenticationImpersonationFilter)</a> - Constructor for class io.github.lengors.scoutdesk.domain.spring.security.services.<a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationImpersonationFilterConfigurerAdapter.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.services">ProxiedAuthenticationImpersonationFilterConfigurerAdapter</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationProperties</a> - Record Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/properties/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.properties</a></dt>
 <dd>
-<div class="block">Creates a new instance of <a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationImpersonationFilterConfigurerAdapter.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.services"><code>ProxiedAuthenticationImpersonationFilterConfigurerAdapter</code></a>.</div>
+<div class="block">Configuration properties for defining behavior and attributes related to proxied authentication.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html#%3Cinit%3E(io.github.lengors.scoutdesk.domain.spring.security.properties.ProxiedAuthenticationHeaderProperties,java.lang.String)" class="member-name-link">ProxiedAuthenticationProperties(ProxiedAuthenticationHeaderProperties, String)</a> - Constructor for record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationProperties</a></dt>
+<dd>
+<div class="block">Constructor for creating a new instance of <a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties"><code>ProxiedAuthenticationProperties</code></a>.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationSuccessHandler.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.services">ProxiedAuthenticationSuccessHandler</a> - Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/services/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.services</a></dt>
 <dd>
@@ -2342,6 +2254,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationSuccessHandler.html#%3Cinit%3E()" class="member-name-link">ProxiedAuthenticationSuccessHandler()</a> - Constructor for class io.github.lengors.scoutdesk.domain.spring.security.services.<a href="io/github/lengors/scoutdesk/domain/spring/security/services/ProxiedAuthenticationSuccessHandler.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.services">ProxiedAuthenticationSuccessHandler</a></dt>
 <dd>
 <div class="block">Default constructor.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationUserMappingProperties</a> - Record Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/properties/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.properties</a></dt>
+<dd>
+<div class="block">Configuration properties for mapping user attributes in a proxied authentication context.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html#%3Cinit%3E(java.util.List,java.util.List,java.util.List,java.util.List)" class="member-name-link">ProxiedAuthenticationUserMappingProperties(List&lt;String&gt;, List&lt;String&gt;, List&lt;String&gt;, List&lt;String&gt;)</a> - Constructor for record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationUserMappingProperties</a></dt>
+<dd>
+<div class="block">Constructor for creating a new instance of <a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties"><code>ProxiedAuthenticationUserMappingProperties</code></a>.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:Q">Q</h2>
@@ -2466,10 +2386,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/lengors/scoutdesk/domain/common/Result.Success.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.common">Result.Success&lt;T,<wbr>E&gt;</a> - Class in <a href="io/github/lengors/scoutdesk/domain/common/package-summary.html">io.github.lengors.scoutdesk.domain.common</a></dt>
 <dd>
 <div class="block">Represents a successful result containing a value of type <code>T</code>.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html#results()" class="member-name-link">results()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPaginated</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html#param-results"><code>results</code></a> record component.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html#roles()" class="member-name-link">roles()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">User</a></dt>
 <dd>
@@ -2955,19 +2871,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/scrapers/models/ScraperQuery.html#param-searchTerm"><code>searchTerm</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetails.html#serviceAccountToken()" class="member-name-link">serviceAccountToken()</a> - Method in interface io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetails.html" title="interface in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientConnectionDetails</a></dt>
-<dd>
-<div class="block">Returns the service account token used for authentication with the Authentik service.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html#serviceAccountToken()" class="member-name-link">serviceAccountToken()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientConnectionDetailsProperties</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html#param-serviceAccountToken"><code>serviceAccountToken</code></a> record component.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html#serviceAccountToken()" class="member-name-link">serviceAccountToken()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientProperties</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html#param-serviceAccountToken"><code>serviceAccountToken</code></a> record component.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#setAuthenticated(boolean)" class="member-name-link">setAuthenticated(boolean)</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#setAuthenticated(boolean)" class="member-name-link">setAuthenticated(boolean)</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
 <dd>
 <div class="block">Unsupported operation for setting authentication status.</div>
 </dd>
@@ -3378,43 +3282,27 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">User</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">UserRoleProperties</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">OAuth2ResourceServerUserMappingProperties</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/commands/FindAuthentikUserCommand.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.commands.<a href="io/github/lengors/scoutdesk/integrations/authentik/commands/FindAuthentikUserCommand.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.commands">FindAuthentikUserCommand</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationHeaderProperties</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikGroup</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationProperties</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPaginated.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPaginated</a></dt>
-<dd>
-<div class="block">Returns a string representation of this record class.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPagination.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikPagination.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikPagination</a></dt>
-<dd>
-<div class="block">Returns a string representation of this record class.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
-<dd>
-<div class="block">Returns a string representation of this record class.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
-<dd>
-<div class="block">Returns a string representation of this record class.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientConnectionDetailsProperties</a></dt>
-<dd>
-<div class="block">Returns a string representation of this record class.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientProperties</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html#toString()" class="member-name-link">toString()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationUserMappingProperties</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
@@ -3473,14 +3361,6 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:U">U</h2>
 <dl class="index">
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#uid()" class="member-name-link">uid()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#param-uid"><code>uid</code></a> record component.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikCustomHeaders.html#UID" class="member-name-link">UID</a> - Static variable in class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikCustomHeaders.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikCustomHeaders</a></dt>
-<dd>
-<div class="block">Header for the unique identifier of the authenticated user.</div>
-</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/metadata/EphemeralMetadataRegistry.html#unbind(java.lang.Object)" class="member-name-link">unbind(Object)</a> - Method in class io.github.lengors.scoutdesk.domain.metadata.<a href="io/github/lengors/scoutdesk/domain/metadata/EphemeralMetadataRegistry.html" title="class in io.github.lengors.scoutdesk.domain.metadata">EphemeralMetadataRegistry</a></dt>
 <dd>
 <div class="block">Unbinds and removes the metadata associated with the given target object, if any exists.</div>
@@ -3537,18 +3417,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Enum representing the possible operations for updating a scraper-owned strategy.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetails.html#url()" class="member-name-link">url()</a> - Method in interface io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetails.html" title="interface in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientConnectionDetails</a></dt>
-<dd>
-<div class="block">Returns the URL of the Authentik service.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html#url()" class="member-name-link">url()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientConnectionDetailsProperties</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientConnectionDetailsProperties.html#param-url"><code>url</code></a> record component.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html#url()" class="member-name-link">url()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.properties.<a href="io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.properties">AuthentikClientProperties</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/properties/AuthentikClientProperties.html#param-url"><code>url</code></a> record component.</div>
-</dd>
 <dt><a href="io/github/lengors/scoutdesk/integrations/webscout/properties/WebscoutClientConnectionDetails.html#url()" class="member-name-link">url()</a> - Method in interface io.github.lengors.scoutdesk.integrations.webscout.properties.<a href="io/github/lengors/scoutdesk/integrations/webscout/properties/WebscoutClientConnectionDetails.html" title="interface in io.github.lengors.scoutdesk.integrations.webscout.properties">WebscoutClientConnectionDetails</a></dt>
 <dd>
 <div class="block">Returns the base URL for the Webscout service.</div>
@@ -3581,21 +3449,37 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Role name for regular users.</div>
 </dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/UserRoleNames.html#USER_ALIASES" class="member-name-link">USER_ALIASES</a> - Static variable in class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/UserRoleNames.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">UserRoleNames</a></dt>
+<dd>
+<div class="block">Array of user role aliases.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserMappingProperties.html" class="type-name-link" title="interface in io.github.lengors.scoutdesk.domain.spring.security.properties">UserMappingProperties</a> - Interface in <a href="io/github/lengors/scoutdesk/domain/spring/security/properties/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.properties</a></dt>
+<dd>
+<div class="block">Represents a contract for defining mappings of user attributes such as username, name, email, and avatar.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#username()" class="member-name-link">username()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">ProxiedAuthentication</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/models/ProxiedAuthentication.html#param-username"><code>username</code></a> record component.</div>
+</dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html#username()" class="member-name-link">username()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.models.<a href="io/github/lengors/scoutdesk/domain/spring/security/models/User.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">User</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/models/User.html#param-username"><code>username</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#username()" class="member-name-link">username()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikProxiedAuthentication</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html#username()" class="member-name-link">username()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">OAuth2ResourceServerUserMappingProperties</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikProxiedAuthentication.html#param-username"><code>username</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/OAuth2ResourceServerUserMappingProperties.html#param-username"><code>username</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#username()" class="member-name-link">username()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html#username()" class="member-name-link">username()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationHeaderProperties</a></dt>
 <dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#param-username"><code>username</code></a> record component.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationHeaderProperties.html#param-username"><code>username</code></a> record component.</div>
 </dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikCustomHeaders.html#USERNAME" class="member-name-link">USERNAME</a> - Static variable in class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikCustomHeaders.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikCustomHeaders</a></dt>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html#username()" class="member-name-link">username()</a> - Method in record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">ProxiedAuthenticationUserMappingProperties</a></dt>
 <dd>
-<div class="block">Header for the username of the authenticated user.</div>
+<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/domain/spring/security/properties/ProxiedAuthenticationUserMappingProperties.html#param-username"><code>username</code></a> record component.</div>
+</dd>
+<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserMappingProperties.html#username()" class="member-name-link">username()</a> - Method in interface io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserMappingProperties.html" title="interface in io.github.lengors.scoutdesk.domain.spring.security.properties">UserMappingProperties</a></dt>
+<dd>
+<div class="block">Returns a list of strings that represent the mapping for the specified user attribute.</div>
 </dd>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/UserRole.html" class="type-name-link" title="enum class in io.github.lengors.scoutdesk.domain.spring.security.models">UserRole</a> - Enum Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/models/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.models</a></dt>
 <dd>
@@ -3604,22 +3488,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/lengors/scoutdesk/domain/spring/security/models/UserRoleNames.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.models">UserRoleNames</a> - Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/models/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.models</a></dt>
 <dd>
 <div class="block">Utility class for user role names.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html" class="type-name-link" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">UserRoleProperties</a> - Record Class in <a href="io/github/lengors/scoutdesk/domain/spring/security/properties/package-summary.html">io.github.lengors.scoutdesk.domain.spring.security.properties</a></dt>
-<dd>
-<div class="block">Configuration properties for user roles in Spring Security.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html#%3Cinit%3E(java.util.Map)" class="member-name-link">UserRoleProperties(Map&lt;UserRole, List&lt;String&gt;&gt;)</a> - Constructor for record class io.github.lengors.scoutdesk.domain.spring.security.properties.<a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties">UserRoleProperties</a></dt>
-<dd>
-<div class="block">Constructs a new instance of <a href="io/github/lengors/scoutdesk/domain/spring/security/properties/UserRoleProperties.html" title="class in io.github.lengors.scoutdesk.domain.spring.security.properties"><code>UserRoleProperties</code></a>.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html#uuid()" class="member-name-link">uuid()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikGroup</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikGroup.html#param-uuid"><code>uuid</code></a> record component.</div>
-</dd>
-<dt><a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#uuid()" class="member-name-link">uuid()</a> - Method in record class io.github.lengors.scoutdesk.integrations.authentik.models.<a href="io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html" title="class in io.github.lengors.scoutdesk.integrations.authentik.models">AuthentikUser</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./io/github/lengors/scoutdesk/integrations/authentik/models/AuthentikUser.html#param-uuid"><code>uuid</code></a> record component.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:V">V</h2>

@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User information model. This record is used to encapsulate user details such as username, name, roles, email, and
@@ -42,4 +44,15 @@ public record User(
   String avatar
 ) {
 
+  /**
+   * A predefined constant representing an anonymous user. This user has an empty username, no name, no roles, no email,
+   * and no avatar. It is used as a placeholder or default value to represent the absence of a specific user.
+   */
+  public static final @NotNull User ANONYMOUS = new User(
+    StringUtils.EMPTY,
+    null,
+    List.of(),
+    null,
+    null
+  );
 }

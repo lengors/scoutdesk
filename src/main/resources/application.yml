@@ -31,6 +31,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  jackson:
+    deserialization:
+      read-unknown-enum-values-using-default-value: true
   security:
     oauth2:
       resourceserver:

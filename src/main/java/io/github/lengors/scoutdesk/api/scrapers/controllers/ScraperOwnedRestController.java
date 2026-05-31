@@ -1,12 +1,11 @@
 package io.github.lengors.scoutdesk.api.scrapers.controllers;
 
+import io.github.lengors.scoutdesk.domain.spring.security.models.User;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.AuthenticatedPrincipal;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,13 +32,13 @@ class ScraperOwnedRestController {
 
   @PostMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
   Flux<ScraperResponse> scrap(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    final @NotNull User user,
     @RequestBody final @NotNull ScraperOwnedRequest scraperRequest
   ) {
     return commandService.executeCommand(
       new ScraperOwnedCommand(),
       new ScraperQuery(
-        authenticatedPrincipal.getName(),
+        user.username(),
         scraperRequest.strategies(),
         scraperRequest.profiles(),
         scraperRequest.searchTerm()));

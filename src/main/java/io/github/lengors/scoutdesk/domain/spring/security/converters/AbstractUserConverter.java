@@ -6,6 +6,7 @@ import io.github.lengors.scoutdesk.domain.spring.security.models.UserRole;
 import io.github.lengors.scoutdesk.domain.spring.security.properties.UserMappingProperties;
 import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -59,7 +60,7 @@ public abstract class AbstractUserConverter<T extends Authentication> implements
   protected abstract UserMappingProperties getUserMappingProperties();
 
   @Override
-  public final User convert(final @NotNull T source) {
+  public final @Nullable User convert(final @NotNull T source) {
     final var userMappingProperties = getUserMappingProperties();
     final var username = getAttribute(source, userMappingProperties.username()).orElseGet(source::getName);
     final var roles = source
@@ -68,24 +69,15 @@ public abstract class AbstractUserConverter<T extends Authentication> implements
       .map(GrantedAuthority::getAuthority)
       .map(it -> it.substring(getAuthorityPrefix().length()))
       .map(it -> objectMapper.convertValue(it, UserRole.class))
+      .map(Optional::ofNullable)
+      .flatMap(Optional::stream)
       .toList();
 
     final var name = getAttribute(source, userMappingProperties.name()).orElse(null);
     final var email = getAttribute(source, userMappingProperties.email()).orElse(null);
     final var avatar = getAttribute(source, userMappingProperties.avatar()).orElse(null);
 
-    return new User(
-      username,
-      name,
-      roles
-        .stream()
-        .map(Optional::ofNullable)
-        .flatMap(Optional::stream)
-        .map(it -> objectMapper.convertValue(it, UserRole.class))
-        .toList(),
-      email,
-      avatar
-    );
+    return new User(username, name, roles, email, avatar);
   }
 
   private Optional<String> getAttribute(final T source, final List<String> keys) {

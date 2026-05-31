@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.github.lengors.protoscout.domain.scrapers.specifications.models.ScraperSpecificationRequirement;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.FindScraperOwnedProfileRequirementBatchCommand;
+import io.github.lengors.scoutdesk.domain.spring.security.models.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -11,8 +12,6 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 import org.checkerframework.framework.qual.TypeUseLocation;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.AuthenticatedPrincipal;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -51,66 +50,66 @@ class ScraperOwnedProfileRestController {
   @DeleteMapping("/{name}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void delete(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    final @NotNull User user,
     @PathVariable final @NotNull @NotBlank String name
   ) {
     commandService.executeCommand(
       new DeleteScraperOwnedProfileCommand(),
       new ScraperOwnedProfileByReferrerFilter(
-        new ScraperOwnedProfileReference(authenticatedPrincipal.getName(), name)));
+        new ScraperOwnedProfileReference(user.username(), name)));
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void deleteAll(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal
+    final @NotNull User user
   ) {
     commandService.executeCommand(
       new DeleteScraperOwnedProfileBatchCommand(),
-      new ScraperOwnedProfileBatchByReferenceOwnerFilter(authenticatedPrincipal.getName()));
+      new ScraperOwnedProfileBatchByReferenceOwnerFilter(user.username()));
   }
 
   @GetMapping("/{name}")
   ScraperOwnedProfile find(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    final @NotNull User user,
     @PathVariable final @NotNull @NotBlank String name
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedProfileCommand(),
       new ScraperOwnedProfileByReferrerFilter(
-        new ScraperOwnedProfileReference(authenticatedPrincipal.getName(), name)));
+        new ScraperOwnedProfileReference(user.username(), name)));
   }
 
   @GetMapping("/{name}/requirements")
   List<ScraperSpecificationRequirement> findRequirements(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    final @NotNull User user,
     @PathVariable final @NotNull @NotBlank String name
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedProfileRequirementBatchCommand(),
       new ScraperOwnedProfileByReferrerFilter(
-        new ScraperOwnedProfileReference(authenticatedPrincipal.getName(), name)));
+        new ScraperOwnedProfileReference(user.username(), name)));
   }
 
   @GetMapping
   List<ScraperOwnedProfile> findAll(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal
+    final @NotNull User user
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedProfileBatchCommand(),
-      new ScraperOwnedProfileBatchByReferenceOwnerFilter(authenticatedPrincipal.getName()));
+      new ScraperOwnedProfileBatchByReferenceOwnerFilter(user.username()));
   }
 
   @PutMapping
   @ResponseStatus(HttpStatus.CREATED)
   ScraperOwnedProfile save(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    final @NotNull User user,
     @RequestBody final @NotNull ScraperUnownedProfile scraperUnownedProfile
   ) {
     return commandService.executeCommand(
       new SaveScraperOwnedProfileCommand(),
       new ScraperOwnedProfile(
-        authenticatedPrincipal.getName(),
+        user.username(),
         scraperUnownedProfile.name(),
         scraperUnownedProfile.specification(),
         scraperUnownedProfile.inputs()));
@@ -118,14 +117,14 @@ class ScraperOwnedProfileRestController {
 
   @PatchMapping("/{name}")
   ScraperOwnedProfile update(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    final @NotNull User user,
     @PathVariable final @NotNull @NotBlank String name,
     @RequestBody final @NotNull ScraperPartialProfile partialProfile
   ) {
     return commandService.executeCommand(
       new UpdateScraperOwnedProfileCommand(),
       new ScraperOwnedProfile(
-        authenticatedPrincipal.getName(),
+        user.username(),
         name,
         partialProfile.specification(),
         partialProfile.inputs()));

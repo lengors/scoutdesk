@@ -39,7 +39,7 @@ record ScraperOwnedRestControllerTest(
     webTestClient
       .post()
       .uri("/api/v1/scrapers")
-      .header("X-authentik-username", "tester-x")
+      .headers(webProxyUser("tester-x"))
       .bodyValue(
         new ScraperOwnedRequest(Set.of("test-strategy-x", "test-strategy-y"), Set.of("test-profile-w"), "test-term"))
       .exchange()
@@ -113,7 +113,7 @@ record ScraperOwnedRestControllerTest(
     webTestClient
       .post()
       .uri("/api/v1/scrapers")
-      .header("X-authentik-username", "tester-x")
+      .headers(webProxyUser("tester-x"))
       .bodyValue(new ScraperOwnedRequest(Set.of("test-strategy-a"), Set.of(), "test-term"))
       .exchange()
       .expectStatus()
@@ -136,7 +136,7 @@ record ScraperOwnedRestControllerTest(
     webTestClient
       .post()
       .uri("/api/v1/scrapers")
-      .header("X-authentik-username", "other")
+      .headers(webProxyUser("other"))
       .bodyValue(new ScraperOwnedRequest(Set.of("test-strategy-x", "test-strategy-y"), Set.of(), "test-term"))
       .exchange()
       .expectStatus()

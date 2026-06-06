@@ -1,6 +1,7 @@
 package io.github.lengors.scoutdesk.domain.spring.security.models;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -31,5 +32,11 @@ public enum UserRole {
    */
   @JsonAlias(UserRoleNames.USER_ALIAS)
   @JsonProperty(UserRoleNames.USER)
-  USER
+  USER,
+
+  /**
+   * Default role for unknown roles.
+   */
+  @JsonEnumDefaultValue
+  UNKNOWN;
 }

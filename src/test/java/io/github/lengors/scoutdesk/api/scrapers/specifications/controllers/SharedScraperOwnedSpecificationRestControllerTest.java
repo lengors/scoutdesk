@@ -127,7 +127,7 @@ record SharedScraperOwnedSpecificationRestControllerTest(
     }
     var mockMvcResultActions = mockMvc
       .perform(request
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isOk());
     for (final var expectedResult : testOption.expectedResults()) {
       mockMvcResultActions = mockMvcResultActions
@@ -139,7 +139,7 @@ record SharedScraperOwnedSpecificationRestControllerTest(
   void givenUserWithForbiddenGroupWhenFindSpecificationsThenReturnForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/shared/scrapers/specifications")
-        .header("X-authentik-username", "other"))
+        .with(proxyUser("other")))
       .andExpect(status().isForbidden());
   }
 
@@ -157,7 +157,7 @@ record SharedScraperOwnedSpecificationRestControllerTest(
         get("/api/v1/shared/scrapers/specifications")
           .param("name", "test-specification-0")
           .param("owner", "tester-0")
-          .header("X-authentik-username", "tester-2"))
+          .with(proxyUser("tester-2")))
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.owner").value("tester-0"))
       .andExpect(jsonPath("$.specification.name").value("test-specification-0"))
@@ -171,7 +171,7 @@ record SharedScraperOwnedSpecificationRestControllerTest(
         get("/api/v1/shared/scrapers/specifications")
           .param("name", "test-specification-0")
           .param("owner", "tester-2")
-          .header("X-authentik-username", "tester-1"))
+          .with(proxyUser("tester-1")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -189,7 +189,7 @@ record SharedScraperOwnedSpecificationRestControllerTest(
         get("/api/v1/shared/scrapers/specifications")
           .param("name", "test-specification-3")
           .param("owner", "tester-0")
-          .header("X-authentik-username", "tester-2"))
+          .with(proxyUser("tester-2")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -217,7 +217,7 @@ record SharedScraperOwnedSpecificationRestControllerTest(
         get("/api/v1/shared/scrapers/specifications")
           .param("name", "test-specification-0")
           .param("owner", "tester-0")
-          .header("X-authentik-username", "other"))
+          .with(proxyUser("other")))
       .andExpect(status().isForbidden());
   }
 

@@ -47,7 +47,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenValidOwnerAndStrategyNameWhenDeleteStrategyThenStrategyIsDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies/test-strategy-0")
-        .header("X-authentik-username", "tester-5"))
+        .with(proxyUser("tester-5")))
       .andExpect(status().isNoContent());
 
     Awaitility
@@ -68,7 +68,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenIncorrectOwnerWhenDeleteStrategyThenNoStrategyIsDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies/test-strategy-0")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -82,7 +82,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenIncorrectStrategyNameWhenDeleteStrategyThenNoStrategyIsDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies/test-strategy-3")
-        .header("X-authentik-username", "tester-5"))
+        .with(proxyUser("tester-5")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -103,7 +103,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenForbiddenGroupWhenDeleteStrategyThenForbidden() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies/test-strategy-0")
-        .header("X-authentik-username", "other"))
+        .with(proxyUser("other")))
       .andExpect(status().isForbidden());
   }
 
@@ -111,7 +111,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenValidOwnerWhenDeleteAllStrategiesThenStrategiesAreDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies")
-        .header("X-authentik-username", "tester-5"))
+        .with(proxyUser("tester-5")))
       .andExpect(status().isNoContent());
 
     Awaitility
@@ -132,7 +132,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenIncorrectOwnerWhenDeleteAllStrategiesThenNoStrategiesAreDeleted() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isNoContent());
 
     Awaitility
@@ -160,7 +160,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenForbiddenGroupWhenDeleteAllStrategiesThenForbidden() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies")
-        .header("X-authentik-username", "other"))
+        .with(proxyUser("other")))
       .andExpect(status().isForbidden());
   }
 
@@ -169,7 +169,7 @@ record ScraperOwnedStrategyRestControllerTest(
     throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies/test-strategy-0/profiles")
-        .header("X-authentik-username", "tester-5")
+        .with(proxyUser("tester-5"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-0\"]"))
       .andExpect(status().isNoContent());
@@ -196,7 +196,7 @@ record ScraperOwnedStrategyRestControllerTest(
     throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies/test-strategy-0/profiles")
-        .header("X-authentik-username", "tester-2")
+        .with(proxyUser("tester-2"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-0\"]"))
       .andExpect(status().isBadRequest())
@@ -211,7 +211,7 @@ record ScraperOwnedStrategyRestControllerTest(
     throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies/test-strategy-3/profiles")
-        .header("X-authentik-username", "tester-5")
+        .with(proxyUser("tester-5"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-0\"]"))
       .andExpect(status().isNotFound())
@@ -233,7 +233,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenForbiddenGroupWhenDeleteProfilesFromStrategyThenForbidden() throws Exception {
     mockMvc
       .perform(delete("/api/v1/scrapers/strategies/test-strategy-0/profiles")
-        .header("X-authentik-username", "other")
+        .with(proxyUser("other"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-0\"]"))
       .andExpect(status().isForbidden());
@@ -243,7 +243,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenValidOwnerAndStrategyNameWhenFindStrategyThenStrategyIsReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/strategies/test-strategy-0")
-        .header("X-authentik-username", "tester-5"))
+        .with(proxyUser("tester-5")))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.owner").value("tester-5"))
@@ -257,7 +257,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenIncorrectOwnerWhenFindStrategyThenNoStrategyIsReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/strategies/test-strategy-0")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -271,7 +271,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenIncorrectStrategyNameWhenFindStrategyThenNoStrategyIsReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/strategies/test-strategy-3")
-        .header("X-authentik-username", "tester-5"))
+        .with(proxyUser("tester-5")))
       .andExpect(status().isNotFound())
       .andExpect(content().string(
         EntityNotFoundExceptionReportConverter.MESSAGE.formatted(
@@ -292,7 +292,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenForbiddenGroupWhenFindStrategyThenForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/strategies/test-strategy-0")
-        .header("X-authentik-username", "other"))
+        .with(proxyUser("other")))
       .andExpect(status().isForbidden());
   }
 
@@ -300,7 +300,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenValidOwnerWhenFindStrategiesThenStrategiesAreReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/strategies")
-        .header("X-authentik-username", "tester-5"))
+        .with(proxyUser("tester-5")))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.length()").value(2))
@@ -320,7 +320,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenIncorrectOwnerWhenFindStrategiesThenNoStrategiesAreReturned() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/strategies")
-        .header("X-authentik-username", "tester-2"))
+        .with(proxyUser("tester-2")))
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$.length()").value(0));
@@ -337,7 +337,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenForbiddenGroupWhenFindStrategiesThenForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/scrapers/strategies")
-        .header("X-authentik-username", "other"))
+        .with(proxyUser("other")))
       .andExpect(status().isForbidden());
   }
 
@@ -345,7 +345,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenValidOwnerAndNewStrategyWhenSaveStrategyThenStrategyIsSaved() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies")
-        .header("X-authentik-username", "tester-5")
+        .with(proxyUser("tester-5"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"name\":\"test-strategy-3\",\"profiles\":[\"test-profile-0\",\"test-profile-1\"]}"))
       .andExpect(status().isCreated())
@@ -380,7 +380,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenExistingStrategyReferenceWhenSaveStrategyThenConflict() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies")
-        .header("X-authentik-username", "tester-5")
+        .with(proxyUser("tester-5"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"name\":\"test-strategy-0\",\"profiles\":[\"test-profile-0\",\"test-profile-1\"]}"))
       .andExpect(status().isConflict())
@@ -393,7 +393,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenInvalidStrategyNameWhenSaveStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies")
-        .header("X-authentik-username", "tester-5")
+        .with(proxyUser("tester-5"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"name\":\"test/strategy/0\",\"profiles\":[\"test-profile-0\",\"test-profile-1\"]}"))
       .andExpect(status().isBadRequest())
@@ -406,7 +406,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenMissingProfileWhenSaveStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies")
-        .header("X-authentik-username", "tester-5")
+        .with(proxyUser("tester-5"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"name\":\"test-strategy-5\",\"profiles\":[\"test-profile-a\"]}"))
       .andExpect(status().isBadRequest())
@@ -428,7 +428,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenForbiddenGroupWhenSaveStrategyThenForbidden() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies")
-        .header("X-authentik-username", "other")
+        .with(proxyUser("other"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"name\":\"test-strategy-3\",\"profiles\":[\"test-profile-0\",\"test-profile-1\"]}"))
       .andExpect(status().isForbidden());
@@ -441,7 +441,7 @@ record ScraperOwnedStrategyRestControllerTest(
 
     mockMvc
       .perform(put("/api/v1/scrapers/strategies/test-strategy-0/profiles")
-        .header("X-authentik-username", "tester-5")
+        .with(proxyUser("tester-5"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
       .andExpect(status().isCreated())
@@ -475,7 +475,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenIncorrectOwnerWhenAddProfilesToStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies/test-strategy-0/profiles")
-        .header("X-authentik-username", "tester-2")
+        .with(proxyUser("tester-2"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
       .andExpect(status().isBadRequest())
@@ -489,7 +489,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenIncorrectStrategyNameWhenAddProfilesToStrategyThenNotFound() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies/test-strategy-3/profiles")
-        .header("X-authentik-username", "tester-5")
+        .with(proxyUser("tester-5"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
       .andExpect(status().isNotFound())
@@ -511,7 +511,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenForbiddenGroupWhenAddProfilesToStrategyThenForbidden() throws Exception {
     mockMvc
       .perform(put("/api/v1/scrapers/strategies/test-strategy-0/profiles")
-        .header("X-authentik-username", "other")
+        .with(proxyUser("other"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
       .andExpect(status().isForbidden());
@@ -521,7 +521,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenValidOwnerAndStrategyWhenUpdateStrategyThenProfilesAreUpdated() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/strategies/test-strategy-0")
-        .header("X-authentik-username", "tester-5")
+        .with(proxyUser("tester-5"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
       .andExpect(status().isOk())
@@ -557,7 +557,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenMissingStrategyOwnerWhenUpdateStrategyThenBadRequest() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/strategies/test-strategy-0")
-        .header("X-authentik-username", "tester-2")
+        .with(proxyUser("tester-2"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
       .andExpect(status().isBadRequest())
@@ -570,7 +570,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenMissingStrategyNameWhenUpdateStrategyThenNotFound() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/strategies/test-strategy-3")
-        .header("X-authentik-username", "tester-5")
+        .with(proxyUser("tester-5"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
       .andExpect(status().isNotFound())
@@ -592,7 +592,7 @@ record ScraperOwnedStrategyRestControllerTest(
   void givenForbiddenGroupWhenUpdateStrategyThenForbidden() throws Exception {
     mockMvc
       .perform(patch("/api/v1/scrapers/strategies/test-strategy-0")
-        .header("X-authentik-username", "other")
+        .with(proxyUser("other"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("[\"test-profile-2\"]"))
       .andExpect(status().isForbidden());

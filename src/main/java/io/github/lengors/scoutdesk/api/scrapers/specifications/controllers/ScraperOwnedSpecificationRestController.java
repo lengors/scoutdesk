@@ -2,6 +2,7 @@ package io.github.lengors.scoutdesk.api.scrapers.specifications.controllers;
 
 import java.util.List;
 
+import io.github.lengors.scoutdesk.domain.spring.security.models.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -10,8 +11,6 @@ import org.checkerframework.framework.qual.TypeUseLocation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.AuthenticatedPrincipal;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -46,7 +45,7 @@ import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.Scraper
  * @author lengors
  */
 @RestController
-@PreAuthorize("hasRole('DEVELOPER')")
+@PreAuthorize("hasRole(T(io.github.lengors.scoutdesk.domain.spring.security.models.UserRoleNames).DEVELOPER_ALIAS)")
 @DefaultQualifier(value = Nullable.class, locations = TypeUseLocation.PARAMETER)
 @RequestMapping({"/api/v1/scrapers/specifications", "/api/scrapers/specifications"})
 class ScraperOwnedSpecificationRestController {
@@ -59,57 +58,57 @@ class ScraperOwnedSpecificationRestController {
   @DeleteMapping("/{name}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void delete(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    final @NotNull User user,
     @PathVariable final @NotNull @NotBlank String name
   ) {
     commandService.executeCommand(
       new DeleteScraperOwnedSpecificationCommand(),
       new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
-        new ScraperOwnedSpecificationReference(authenticatedPrincipal.getName(), name)));
+        new ScraperOwnedSpecificationReference(user.username(), name)));
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  void delete(@AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal) {
+  void delete(final @NotNull User user) {
     commandService.executeCommand(
       new DeleteScraperOwnedSpecificationBatchCommand(),
-      new ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter(authenticatedPrincipal.getName()));
+      new ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter(user.username()));
   }
 
   @GetMapping("/{name}")
   ScraperOwnedSpecification find(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    final @NotNull User user,
     @PathVariable final @NotNull @NotBlank String name
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedSpecificationCommand(),
       new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
-        new ScraperOwnedSpecificationReference(authenticatedPrincipal.getName(), name)));
+        new ScraperOwnedSpecificationReference(user.username(), name)));
   }
 
   @GetMapping
   List<ScraperOwnedSpecification> findAll(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal
+    final @NotNull User user
   ) {
     return commandService.executeCommand(
       new FindScraperOwnedSpecificationBatchCommand(),
-      new ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter(authenticatedPrincipal.getName()));
+      new ScraperOwnedSpecificationBatchByReferenceOwnerAndStatusNotFilter(user.username()));
   }
 
   @PutMapping
   @ResponseStatus(HttpStatus.CREATED)
   ScraperOwnedSpecification save(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    final @NotNull User user,
     @RequestBody final @NotNull ScraperSpecification scraperSpecification
   ) {
     return commandService.executeCommand(
-      new SaveScraperOwnedSpecificationCommand(authenticatedPrincipal.getName()),
+      new SaveScraperOwnedSpecificationCommand(user.username()),
       scraperSpecification);
   }
 
   @PatchMapping("/{name}")
   void update(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    final @NotNull User user,
     @PathVariable final @NotNull @NotBlank String name,
     @RequestBody final @NotNull ScraperOwnedSpecificationActionRequest request
   ) {
@@ -121,15 +120,15 @@ class ScraperOwnedSpecificationRestController {
         }
       ),
       new ScraperOwnedSpecificationByReferrerAndStatusNotFilter(
-        new ScraperOwnedSpecificationReference(authenticatedPrincipal.getName(), name)));
+        new ScraperOwnedSpecificationReference(user.username(), name)));
   }
 
   @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
   ScraperOwnedSpecification upload(
-    @AuthenticationPrincipal final @NotNull AuthenticatedPrincipal authenticatedPrincipal,
+    final @NotNull User user,
     @RequestPart(name = "specification") final @NotNull ScraperSpecification scraperSpecification
   ) {
-    return save(authenticatedPrincipal, scraperSpecification);
+    return save(user, scraperSpecification);
   }
 }

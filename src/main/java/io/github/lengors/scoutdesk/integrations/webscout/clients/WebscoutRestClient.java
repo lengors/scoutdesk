@@ -42,6 +42,7 @@ public class WebscoutRestClient {
   ) {
     LOG.info("Setting {} up: {}", getClass().getSimpleName(), webscoutClientConnectionDetails.url());
     this.restClient = restClientBuilder
+      .clone()
       .baseUrl(webscoutClientConnectionDetails.url())
       .build();
   }

@@ -1,8 +1,7 @@
 package io.github.lengors.scoutdesk.domain.spring.security.configurations;
 
 import io.github.lengors.scoutdesk.domain.spring.security.services.HttpStatusEntryPoint;
-import io.github.lengors.scoutdesk.domain.spring.security.services.ProxiedAuthenticationImpersonationFilterConfigurerAdapter;
-import jakarta.validation.constraints.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,17 +10,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 
 import io.github.lengors.scoutdesk.domain.spring.security.models.UserRoleNames;
-import io.github.lengors.scoutdesk.domain.spring.security.services.ProxiedAuthenticationFilterConfigurerAdapter;
 
 import jakarta.servlet.DispatcherType;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Security configuration for the application.
@@ -37,9 +41,8 @@ class SpringSecurityConfiguration {
   @Bean
   SecurityFilterChain filterChain(
     final HttpSecurity httpSecurity,
-    @Autowired(required = false) final @Nullable ProxiedAuthenticationFilterConfigurerAdapter adapter,
-    @Autowired(required = false)
-    final @Nullable ProxiedAuthenticationImpersonationFilterConfigurerAdapter impersonationAdapter
+    final List<SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>> configurerAdapters,
+    @Autowired(required = false) final @Nullable JwtDecoder jwtDecoder
   ) throws Exception {
     var outputSecurity = httpSecurity
       .csrf(AbstractHttpConfigurer::disable)
@@ -55,15 +58,17 @@ class SpringSecurityConfiguration {
         .authenticated()
         .anyRequest()
         .permitAll());
-    if (impersonationAdapter != null) {
-      outputSecurity = outputSecurity.with(
-        impersonationAdapter,
-        Customizer.<@NotNull ProxiedAuthenticationImpersonationFilterConfigurerAdapter>withDefaults());
+    if (jwtDecoder != null) {
+      outputSecurity = outputSecurity.oauth2ResourceServer(configurer -> configurer.jwt(Customizer.withDefaults()));
     }
-    if (adapter != null) {
-      outputSecurity = outputSecurity.with(
-        adapter,
-        Customizer.<@NotNull ProxiedAuthenticationFilterConfigurerAdapter>withDefaults());
+    for (final var configurerAdapter : configurerAdapters
+      .stream()
+      .map(Optional::ofNullable)
+      .flatMap(Optional::stream)
+      .toList()
+    ) {
+      outputSecurity = outputSecurity.with(configurerAdapter,
+        Customizer.<@NonNull SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>>withDefaults());
     }
     return outputSecurity.build();
   }

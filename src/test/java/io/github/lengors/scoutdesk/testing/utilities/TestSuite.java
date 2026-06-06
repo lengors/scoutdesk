@@ -14,14 +14,15 @@ import java.util.stream.Collectors;
 
 import io.github.lengors.scoutdesk.api.scrapers.specifications.services.ScraperOwnedSpecificationEntityFactory;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperInput;
-import io.github.lengors.scoutdesk.testing.authentik.configurations.AuthentikClientConnectionDetailsConfiguration;
-import io.github.lengors.scoutdesk.testing.wiremock.configurations.WireMockTestContainerConfiguration;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -57,6 +58,19 @@ import io.github.lengors.scoutdesk.testing.webscout.configurations.WebscoutTestC
  * @author lengors
  */
 public interface TestSuite {
+  /**
+   * This map contains the usernames and their corresponding roles and proper names.
+   */
+  Map<String, Pair<String, String>> USERS = Map.of(
+    "tester-0", Pair.of("DEVELOPER", "Tester 0"),
+    "tester-1", Pair.of("DEVELOPER", "Tester 1"),
+    "tester-2", Pair.of("DEVELOPER", "Tester 2"),
+    "tester-5", Pair.of("USER", "Tester 5"),
+    "tester-9", Pair.of("USER", "Tester 9"),
+    "tester-x", Pair.of("USER", "Tester X"),
+    "other", Pair.of("OTHER", "Other")
+  );
+
 
   /**
    * This annotation is used to configure the test class with the default settings.
@@ -65,10 +79,8 @@ public interface TestSuite {
   @Retention(RetentionPolicy.RUNTIME)
   @Inherited
   @Import({
-    AuthentikClientConnectionDetailsConfiguration.class,
     PostgresTestContainerConfiguration.class,
-    WebscoutTestContainerConfiguration.class,
-    WireMockTestContainerConfiguration.class
+    WebscoutTestContainerConfiguration.class
   })
   @SpringBootTest
   @ActiveProfiles("test")
@@ -271,6 +283,48 @@ public interface TestSuite {
    */
   default <T> T loadResource(final String resource, final Class<T> type) {
     return resourceUtils().loadResource(resource, type);
+  }
+
+  /**
+   * This method is used to proxy the specified username.
+   *
+   * @param username the username to proxy
+   * @return a {@link RequestPostProcessor} that adds the authentication headers to the request
+   */
+  default RequestPostProcessor proxyUser(final String username) {
+    final var user = USERS.get(username);
+    return user == null
+      ? it -> it
+      : request -> {
+        final var userRole = user.getLeft();
+        final var userProperName = user.getRight();
+        request.addHeader("X-authentik-username", username);
+        request.addHeader("X-authentik-name", userProperName);
+        request.addHeader("X-authentik-roles", userRole);
+        request.addHeader("X-authentik-email", "%s@example.com".formatted(username));
+        request.addHeader("X-authentik-avatar", "https://example.com/avatar.png");
+        return request;
+      };
+  }
+
+  /**
+   * This method is used to get the {@link HttpHeaders} instance for the specified username.
+   *
+   * @param username the username for which to retrieve the headers
+   * @return a {@link Consumer} that adds the authentication headers to the provided {@link HttpHeaders}
+   */
+  default Consumer<HttpHeaders> webProxyUser(final String username) {
+    final var user = USERS.get(username);
+    return user == null ? ignored -> {
+    } : headers -> {
+      final var userRole = user.getLeft();
+      final var userProperName = user.getRight();
+      headers.add("X-authentik-username", username);
+      headers.add("X-authentik-name", userProperName);
+      headers.add("X-authentik-roles", userRole);
+      headers.add("X-authentik-email", "%s@example.com".formatted(username));
+      headers.add("X-authentik-avatar", "https://example.com/avatar.png");
+    };
   }
 
   /**

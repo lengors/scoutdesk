@@ -1,3 +1,1 @@
-io.github.lengors.scoutdesk.integrations.authentik.configurations.AuthentikClientConnectionDetailsConfiguration
-io.github.lengors.scoutdesk.integrations.authentik.configurations.AuthentikProxiedAuthenticationImpersonationFilterConfiguration
 io.github.lengors.scoutdesk.integrations.webscout.configurations.WebscoutClientConnectionDetailsConfiguration

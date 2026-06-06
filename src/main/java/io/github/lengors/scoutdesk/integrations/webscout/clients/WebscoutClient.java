@@ -30,6 +30,7 @@ public class WebscoutClient {
   ) {
     LOG.info("Setting {} up: {}", getClass().getSimpleName(), webscoutClientConnectionDetails.url());
     this.webClient = webClientBuilder
+      .clone()
       .baseUrl(webscoutClientConnectionDetails.url())
       .build();
   }

@@ -29,7 +29,7 @@ record UserControllerTest(
   void givenValidDeveloperWhenFindUserThenUserIsFound() throws Exception {
     mockMvc
       .perform(get("/api/v1/users/me")
-        .header("X-authentik-username", "tester-0"))
+        .with(proxyUser("tester-0")))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.username").value("tester-0"))
       .andExpect(jsonPath("$.name").value("Tester 0"))
@@ -43,13 +43,13 @@ record UserControllerTest(
   void givenValidUserWhenFindUserThenUserIsFound() throws Exception {
     mockMvc
       .perform(get("/api/v1/users/me")
-        .header("X-authentik-username", "tester-9"))
+        .with(proxyUser("tester-9")))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.username").value("tester-9"))
       .andExpect(jsonPath("$.name").value("Tester 9"))
       .andExpect(jsonPath("$.roles.length()").value("1"))
       .andExpect(jsonPath("$.roles[0]").value("user"))
-      .andExpect(jsonPath("$.email").doesNotExist())
+      .andExpect(jsonPath("$.email").value("tester-9@example.com"))
       .andExpect(jsonPath("$.avatar").value("https://example.com/avatar.png"));
   }
 
@@ -64,7 +64,7 @@ record UserControllerTest(
   void givenInvalidUserWhenFindUserThenReturnForbidden() throws Exception {
     mockMvc
       .perform(get("/api/v1/users/me")
-        .header("X-authentik-username", "other"))
+        .with(proxyUser("other")))
       .andExpect(status().isForbidden());
   }
 }

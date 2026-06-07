@@ -55,7 +55,7 @@ record ScraperOwnedRestControllerTest(
           Arrays.asList(
             new ScraperResponseResult(
               "https://example.com",
-              "tester-1-test-specification-1",
+              "test-specification-1",
               "TEST-DESCRIPTION-W-TEST-TERM",
               new ScraperResponseResultBrand("test-brand-description-w-test-term", null),
               new ScraperResponseResultPrice(amount, "EUR"),
@@ -68,7 +68,7 @@ record ScraperOwnedRestControllerTest(
               List.of()),
             new ScraperResponseResult(
               "https://example.com",
-              "tester-1-test-specification-1",
+              "test-specification-1",
               "TEST-DESCRIPTION-X-TEST-TERM",
               new ScraperResponseResultBrand("test-brand-description-x-test-term", null),
               new ScraperResponseResultPrice(amount, "EUR"),
@@ -81,7 +81,7 @@ record ScraperOwnedRestControllerTest(
               List.of()),
             new ScraperResponseResult(
               "https://example.com",
-              "tester-1-test-specification-1",
+              "test-specification-1",
               "TEST-DESCRIPTION-Y-TEST-TERM",
               new ScraperResponseResultBrand("test-brand-description-y-test-term", null),
               new ScraperResponseResultPrice(amount, "EUR"),
@@ -94,7 +94,7 @@ record ScraperOwnedRestControllerTest(
               List.of()),
             new ScraperResponseResult(
               "https://example.com",
-              "tester-1-test-specification-1",
+              "test-specification-1",
               "TEST-DESCRIPTION-Z-TEST-TERM",
               new ScraperResponseResultBrand("test-brand-description-z-test-term", null),
               new ScraperResponseResultPrice(amount, "EUR"),

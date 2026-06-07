@@ -13,6 +13,8 @@ import io.github.lengors.scoutdesk.domain.scrapers.models.ScraperQuery;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.commands.FindScraperOwnedProfileEntityBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.filters.ScraperOwnedProfileBatchByReferenceOwnerAndReferenceNameBatchFilter;
 import io.github.lengors.scoutdesk.domain.scrapers.profiles.models.ScraperOwnedProfileEntity;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationEntity;
+import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReference;
 import io.github.lengors.scoutdesk.domain.scrapers.specifications.models.ScraperOwnedSpecificationReferrer;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.commands.FindScraperOwnedStrategyEntityBatchCommand;
 import io.github.lengors.scoutdesk.domain.scrapers.strategies.filters.ScraperOwnedStrategyBatchByReferenceOwnerAndReferenceNameBatchFilter;
@@ -24,8 +26,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -96,6 +100,19 @@ public record ScraperOwnedCommand() implements Command<ScraperQuery, Flux<Scrape
             .flatMap(strategy -> strategy
               .getProfiles()
               .stream()))
+        .toList();
+
+      final var specifications = mergedProfiles
+        .stream()
+        .map(ScraperOwnedProfileEntity::getSpecification)
+        .map(ScraperOwnedSpecificationEntity::getReference)
+        .distinct()
+        .collect(Collectors.toUnmodifiableMap(
+          ScraperOwnedSpecificationReference::fullyQualifiedName,
+          ScraperOwnedSpecificationReference::owner));
+
+      final var scrapingProfiles = mergedProfiles
+        .stream()
         .map(profile -> new ScraperProfile(
           profile
             .getSpecification()
@@ -107,11 +124,11 @@ public record ScraperOwnedCommand() implements Command<ScraperQuery, Flux<Scrape
       return commandService
         .executeCommand(
           new ScraperCommand(),
-          new ScraperRequest(input.searchTerm(), mergedProfiles))
+          new ScraperRequest(input.searchTerm(), scrapingProfiles))
         .map(response -> switch (response) {
           case ScraperResponseResult result -> new ScraperResponseResult(
             result.getUrl(),
-            resolveSpecificationName(input.owner(), result.getSpecificationName()),
+            resolveSpecificationName(specifications, result.getSpecificationName()),
             result.getDescription(),
             result.getBrand(),
             result.getPrice(),
@@ -126,7 +143,7 @@ public record ScraperOwnedCommand() implements Command<ScraperQuery, Flux<Scrape
 
           case ScraperResponseError error -> new ScraperResponseError(
             error.getCode(),
-            resolveSpecificationName(input.owner(), error.getSpecificationName()),
+            resolveSpecificationName(specifications, error.getSpecificationName()),
             error.getHandlerName(),
             error.getMessage()
           );
@@ -142,10 +159,15 @@ public record ScraperOwnedCommand() implements Command<ScraperQuery, Flux<Scrape
     }
 
     private static String resolveSpecificationName(
-      final String owner,
+      final Map<String, String> specifications,
       final String fullyQualifiedSpecificationName
     ) {
-      final var ownerPrefix = ScraperOwnedSpecificationReferrer.ownerPrefix(owner);
+      final var specification = specifications.get(fullyQualifiedSpecificationName);
+      if (specification == null) {
+        return fullyQualifiedSpecificationName;
+      }
+
+      final var ownerPrefix = ScraperOwnedSpecificationReferrer.ownerPrefix(specification);
       final var foundOwnedPrefix = fullyQualifiedSpecificationName.indexOf(ownerPrefix);
       if (foundOwnedPrefix < 0) {
         return fullyQualifiedSpecificationName;

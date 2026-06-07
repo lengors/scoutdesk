@@ -1,3 +1,13 @@
+# [v1.0.0-dev.15](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.14...1.0.0-dev.15) (2026-06-07)
+
+## ✨ New Features
+- [`5473e48`](https://github.com/lengors/scoutdesk/commit/5473e48)  Make profile&#x27;s inputs encrypted using Jasypt 
+- [`fc7c308`](https://github.com/lengors/scoutdesk/commit/fc7c308)  Add OAuth2 support 
+
+## 🐛 Bug Fixes
+- [`79fccc8`](https://github.com/lengors/scoutdesk/commit/79fccc8)  Change authentication principal type 
+- [`220eddd`](https://github.com/lengors/scoutdesk/commit/220eddd)  Fix connection reset by removing connection pools
+
 # [v1.0.0-dev.2](https://github.com/lengors/scoutdesk/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2026-06-06)
 
 ## ✨ New Features

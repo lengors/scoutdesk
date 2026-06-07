@@ -1,3 +1,8 @@
+# [v1.0.1-dev.1](https://github.com/lengors/scoutdesk/compare/1.0.0...1.0.1-dev.1) (2026-06-07)
+
+## 🐛 Bug Fixes
+- [`5bccd5e`](https://github.com/lengors/scoutdesk/commit/5bccd5e)  Fix scraping results names
+
 # v1.0.0 (2026-06-07)
 
 ## ✨ New Features

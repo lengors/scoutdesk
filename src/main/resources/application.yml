@@ -1,0 +1,86 @@
+---
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: scoutdesk
+  cache:
+    cache-names: commandExecutor
+    caffeine:
+      spec: expireAfterAccess=10m
+  docker:
+    compose:
+      profiles:
+        active:
+          - webscout
+  threads:
+    virtual:
+      enabled: true
+  reactor:
+    context-propagation: auto
+  liquibase:
+    change-log: classpath:/db/db.changelog-master.yml
+    url: jdbc:${DATABASE_URL:postgresql://localhost:5432/scoutdesk}
+    user: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:}
+  datasource:
+    url: jdbc:${DATABASE_URL:postgresql://localhost:5432/scoutdesk}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  jackson:
+    deserialization:
+      read-unknown-enum-values-using-default-value: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          authority-prefix: "ROLE_"
+          authorities-claim-name: "roles"
+    proxy:
+      header:
+        prefix: "x-authentik-"
+        authorities: "roles"
+      authority-prefix: "ROLE_"
+  http:
+    codecs:
+      max-in-memory-size: ${HTTP_CODECS_MAX_IN_MEMORY_SIZE:16MB}
+
+management:
+  otlp:
+    metrics:
+      export:
+        enabled: false
+    tracing:
+      endpoint: ${MANAGEMENT_OTLP_TRACING_ENDPOINT:http://localhost:4318/v1/traces}
+      export:
+        enabled: ${MANAGEMENT_OTLP_TRACING_EXPORT_ENABLED:false}
+  tracing:
+    sampling:
+      probability: ${MANAGEMENT_TRACING_SAMPLING_PROBABILITY:0.0}
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD:}
+
+webscout:
+  client:
+    url: ${WEBSCOUT_CLIENT_URL:http://localhost:8080}

@@ -1,0 +1,8 @@
+---
+logging:
+  level:
+    io.github.lengors.scoutdesk: TRACE
+
+jasypt:
+  encryptor:
+    password: test

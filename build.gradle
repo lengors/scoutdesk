@@ -5,32 +5,89 @@ plugins {
   id "jacoco"
   id "checkstyle"
   id "org.sonarqube"
-	id 'org.checkerframework'
+  id "org.checkerframework"
+  id "org.springframework.boot"
+  id "io.spring.dependency-management"
 }
 
-apply plugin: 'org.checkerframework'
+apply plugin: "org.checkerframework"
 
 group = "io.github.lengors"
 
 String javaVersion = properties["javaVersion"] ?: "21"
+String commonsCollections4Version = properties["commonsCollections4Version"] ?: "4.5.0"
+String checkerframeworkVersion = properties["checkerframeworkVersion"] ?: "3.49.5"
+String commonsValidatorVersion = properties["commonsValidatorVersion"] ?: "1.10.1"
+String checkstyleToolVersion = properties["checkstyleToolVersion"] ?: "10.23.1"
+String commonsLang3Version = properties["commonsLang3Version"] ?: "3.17.0"
+String protoscoutVersion = properties["protoscoutVersion"] ?: "1.0.3"
+String caffeineVersion = properties["caffeineVersion"] ?: "3.2.2"
+String jasyptVersion = properties["jasyptversion"] ?: "3.0.5"
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(javaVersion)
-	}
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(javaVersion)
+  }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
 }
 
 repositories {
-	mavenCentral()
+  mavenCentral()
+  mavenLocal()
+}
+
+compileJava {
+  options.compilerArgs += [
+    "-AignoreInvalidAnnotationLocations"
+  ]
 }
 
 dependencies {
+  implementation "org.springframework.boot:spring-boot-starter-actuator"
+  implementation "org.springframework.boot:spring-boot-starter-cache"
+  implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+  implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+  implementation "org.springframework.boot:spring-boot-starter-security"
+  implementation "org.springframework.boot:spring-boot-starter-validation"
+  implementation "org.springframework.boot:spring-boot-starter-web"
+  implementation "org.springframework.boot:spring-boot-starter-webflux"
+  implementation "io.micrometer:micrometer-tracing-bridge-otel"
+  implementation "io.micrometer:context-propagation"
+  implementation "org.liquibase:liquibase-core"
+  implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
+  implementation "com.github.ben-manes.caffeine:caffeine:$caffeineVersion"
+  implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
+  implementation "org.apache.commons:commons-collections4:$commonsCollections4Version"
+  implementation "commons-validator:commons-validator:$commonsValidatorVersion"
+  implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:$jasyptVersion"
+  implementation "io.github.lengors:protoscout:$protoscoutVersion"
+  implementation "org.checkerframework:checker-util:$checkerframeworkVersion"
+  compileOnly "org.springframework.boot:spring-boot-docker-compose"
+  compileOnly "org.checkerframework:checker-qual:$checkerframeworkVersion"
+  developmentOnly "org.springframework.boot:spring-boot-devtools"
+  developmentOnly "org.springframework.boot:spring-boot-docker-compose"
+  runtimeOnly "io.micrometer:micrometer-registry-prometheus"
+  runtimeOnly "io.opentelemetry:opentelemetry-exporter-otlp"
+  runtimeOnly "org.postgresql:postgresql"
+  annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+  testImplementation "org.springframework.boot:spring-boot-starter-test"
+  testImplementation "org.springframework.boot:spring-boot-testcontainers"
+  testImplementation "org.springframework.security:spring-security-test"
+
+  // NOTE: Temporary addition to support recent version of docker -
+  //  Should be removed once Spring bumps testcontainers to a newer version
+  testImplementation "org.testcontainers:testcontainers:2.0.2"
+  testImplementation "org.testcontainers:junit-jupiter"
+  testImplementation "org.testcontainers:postgresql"
+  testImplementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
+  testCompileOnly "org.checkerframework:checker-qual:$checkerframeworkVersion"
+  testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+  checkerFramework "org.checkerframework:checker:$checkerframeworkVersion"
 }
 
 test {
@@ -59,10 +116,14 @@ tasks.register("setVersion") {
   }
 }
 
+checkstyle {
+  toolVersion = checkstyleToolVersion
+}
+
 checkerFramework {
-	checkers = [
-		'org.checkerframework.checker.nullness.NullnessChecker',
-	]
+  checkers = [
+    "org.checkerframework.checker.nullness.NullnessChecker",
+  ]
 }
 
 jacocoTestReport {
@@ -74,9 +135,9 @@ jacocoTestReport {
 }
 
 sonar {
-    properties {
-        property("sonar.projectKey", "lengors_${project.name}")
-        property("sonar.organization", "lengors-github")
-        property("sonar.host.url", "https://sonarcloud.io")
-    }
+  properties {
+    property("sonar.projectKey", "lengors_${project.name}")
+    property("sonar.organization", "lengors-github")
+    property("sonar.host.url", "https://sonarcloud.io")
+  }
 }

@@ -1,3 +1,34 @@
+# v1.0.0-alpha.1 (2026-06-07)
+
+## ✨ New Features
+- [`e75d51e`](https://github.com/lengors/scoutdesk/commit/e75d51e)  Implement Spring Security with Authentik integration and role management 
+- [`001fada`](https://github.com/lengors/scoutdesk/commit/001fada)  Add support for user owned scraper specification management 
+- [`c04eb30`](https://github.com/lengors/scoutdesk/commit/c04eb30)  Add support for user owned scraper profile management 
+- [`3422641`](https://github.com/lengors/scoutdesk/commit/3422641)  Add support for user owned scraper strategies management 
+- [`b291fd8`](https://github.com/lengors/scoutdesk/commit/b291fd8)  Add support for scraping with strategies 
+- [`842f0fa`](https://github.com/lengors/scoutdesk/commit/842f0fa)  Add observation capabilities 
+- [`3c74e05`](https://github.com/lengors/scoutdesk/commit/3c74e05)  Add support for querying for authenticated user information 
+- [`2b1e365`](https://github.com/lengors/scoutdesk/commit/2b1e365)  Add validation of requirements on profile 
+- [`32c7dfe`](https://github.com/lengors/scoutdesk/commit/32c7dfe)  Allow profiles to be used directly for scraping 
+- [`ef51301`](https://github.com/lengors/scoutdesk/commit/ef51301)  Add endpoint to upload specification via file 
+- [`c6162b5`](https://github.com/lengors/scoutdesk/commit/c6162b5)  Add endpoint to fetch profile requirements 
+- [`722e5b1`](https://github.com/lengors/scoutdesk/commit/722e5b1)  Add endpoint to fetch single specification from specified developer 
+- [`5473e48`](https://github.com/lengors/scoutdesk/commit/5473e48)  Make profile&#x27;s inputs encrypted using Jasypt 
+- [`fc7c308`](https://github.com/lengors/scoutdesk/commit/fc7c308)  Add OAuth2 support 
+
+## 🐛 Bug Fixes
+- [`c325770`](https://github.com/lengors/scoutdesk/commit/c325770)  Fix database username&#x27;s environment variable name 
+- [`6705529`](https://github.com/lengors/scoutdesk/commit/6705529) ⬆️ Bump protoscout reference 
+- [`4cda859`](https://github.com/lengors/scoutdesk/commit/4cda859)  Fix errors not being properly reported from the root data structure 
+- [`1333d50`](https://github.com/lengors/scoutdesk/commit/1333d50)  Make scraper command remove owner prefix from specification names 
+- [`abc21b2`](https://github.com/lengors/scoutdesk/commit/abc21b2)  Require authentication for API only 
+- [`f57f496`](https://github.com/lengors/scoutdesk/commit/f57f496)  Remove logging of authentik client service token 
+- [`79fccc8`](https://github.com/lengors/scoutdesk/commit/79fccc8)  Change authentication principal type 
+- [`220eddd`](https://github.com/lengors/scoutdesk/commit/220eddd)  Fix connection reset by removing connection pools 
+
+## 💥 Breaking Changes
+- [`aa41eac`](https://github.com/lengors/scoutdesk/commit/aa41eac)  Change validation to be performed through constraints
+
 # [v1.0.0-dev.15](https://github.com/lengors/scoutdesk/compare/1.0.0-dev.14...1.0.0-dev.15) (2026-06-07)
 
 ## ✨ New Features
